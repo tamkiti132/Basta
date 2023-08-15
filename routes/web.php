@@ -17,7 +17,6 @@ use App\Http\Controllers\UserShowController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoList;
 
-
 // use App\Http\Controllers\MemoController;
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +122,8 @@ Route::middleware(['auth', 'check_suspension'])
                             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
                         Route::post('/report/group', 'storeGroupTypeReport')->name('storeGroupTypeReport');
                     });
+
+
 
                 // Route::get('/memo_create', function () {
                 //     return view('group/memo_create');
