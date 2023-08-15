@@ -1,0 +1,35 @@
+{
+  "hash": "98ff0845",
+  "browserHash": "64632048",
+  "optimized": {
+    "alpinejs": {
+      "src": "../../node_modules/alpinejs/dist/module.esm.js",
+      "file": "alpinejs.js",
+      "fileHash": "f01ba319",
+      "needsInterop": false
+    },
+    "@alpinejs/focus": {
+      "src": "../../node_modules/@alpinejs/focus/dist/module.esm.js",
+      "file": "@alpinejs_focus.js",
+      "fileHash": "870ca6b2",
+      "needsInterop": false
+    },
+    "lodash": {
+      "src": "../../node_modules/lodash/lodash.js",
+      "file": "lodash.js",
+      "fileHash": "e06fff3d",
+      "needsInterop": true
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "9012c65c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-RSJERJUL": {
+      "file": "chunk-RSJERJUL.js"
+    }
+  }
+}

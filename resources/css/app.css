@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.required {
+  @apply ml-2 text-red-700;
+}
+
+.material-symbols-rounded {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40
+}
+
+/* Alpine.jsが完全に読み込まれる前の短い時間に、
+x-cloak属性が付いている要素が表示されてしまう問題を解決するための記述 */
+[x-cloak] {
+  display: none;
+}
