@@ -41,7 +41,8 @@
                         <button
                             onclick="window.location.href = '/group/top/' + document.getElementById('group-select').value"
                             class="w-full h-full text-left bg-transparent border-none cursor-pointer">
-                            {{ $user_groups->firstWhere('id', session('group_id'))->name }}
+                            {{ $user_groups->firstWhere('id', session('group_id'))->name ?? $user_groups->first()->name
+                            }}
                         </button>
                     </div>
                     <div class="absolute top-0 right-0 w-10 h-full overflow-hidden">
