@@ -63,12 +63,12 @@
                       {{-- 『いいね』 『あとでよむ』 --}}
                       <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3 text-sm">
                         <div class="w-20">
-                          <i class="inline sm:text-lg fa-regular fa-heart"></i>
-                          <span class="ml-1">3</span>
+                          @livewire('good-button', ['memo' => $memo_data],
+                          key('good-button-'.microtime(true)))
                         </div>
                         <div class="w-20">
-                          <i class="inline sm:text-lg fa-regular fa-file"></i>
-                          <span class="ml-2">2</span>
+                          @livewire('later-read-button', ['memo' => $memo_data],
+                          key('later-read-button-'.microtime(true)))
                         </div>
                       </div>
                       {{-- タグ --}}
