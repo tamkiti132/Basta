@@ -60,7 +60,6 @@ class MemberController extends Controller
 
         $user_data = User::find($id);
 
-        // $memo_data = Memo::with('web_type_feature')->find($id);
         $web_memos_data = Memo::with('labels')
             ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')
             ->join('users', 'memos.user_id', '=', 'users.id')
@@ -113,8 +112,6 @@ class MemberController extends Controller
         $exists = Group::where('id', session()->get('group_id'))->whereHas('user', function ($query) use ($id) {
             $query->where('id', $id);
         })->exists();
-
-        // dd($exists);
 
         if (!$exists) {
             session()->flash('quit', 'このユーザーはグループを退会済みです。');
