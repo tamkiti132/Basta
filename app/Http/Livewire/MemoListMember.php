@@ -29,9 +29,9 @@ class MemoListMember extends Component
     ];
 
 
-    public function mount($user_id)
+    public function mount($id)
     {
-        $this->user_id = $user_id;
+        $this->user_id = $id;
         $this->group_id = session()->get('group_id');
     }
 

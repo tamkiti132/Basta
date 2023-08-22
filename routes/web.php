@@ -192,7 +192,7 @@ Route::middleware(['auth', 'check_suspension'])
                     ->group(function () {
                         // Route::get('/', 'index')->name('index');
                         Route::post('/', 'store')->name('store');
-                        Route::get('/{user_id}', MemoListMember::class)->name('show')
+                        Route::get('/{id}', MemoListMember::class)->name('show')
                             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
                         Route::post('/{id}/destroyMemo', 'destroyMemo')->name('destroyMemo');
                         // Route::get('/{id}', 'show')->name('show');
