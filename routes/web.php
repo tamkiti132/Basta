@@ -17,6 +17,7 @@ use App\Http\Controllers\UserShowController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoList;
 use App\Http\Livewire\MemoListMember;
+use App\Http\Livewire\MemoListMypage;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -84,8 +85,8 @@ Route::middleware(['auth', 'check_suspension'])
             ->controller(MypageController::class)
             ->name('mypage.')
             ->group(function () {
-                // Route::get('/{id}', 'show')->name('show');
-                Route::get('/{user_id}/{group_id?}', 'show')->name('show');
+                Route::get('/{user_id}/{group_id?}', MemoListMypage::class)->name('show');
+                // Route::get('/{user_id}/{group_id?}', 'show')->name('show');
             });
 
         Route::get('creditcard', function () {
