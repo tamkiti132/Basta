@@ -7,10 +7,19 @@
 
   <div class="py-12">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+      <div class="h-16">
+
+        <div x-data="{ showMessage: false, message: '' }"
+          @flash-message.window="showMessage = true; message = $event.detail.message; setTimeout(() => showMessage = false, 4000);">
+          <div x-show="showMessage" x-cloak
+            class="w-1/2 p-2 mx-auto font-bold text-center text-white bg-blue-300 rounded-2xl">
+            <span x-text="message"></span>
+          </div>
+        </div>
+      </div>
+
       <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
-        {{-- @php
-        dd($memo_data);
-        @endphp --}}
         @if ($memo_data->type == 0)
         {{-- Webタイプの　場合 --}}
         <section class="text-gray-600 body-font">
@@ -74,7 +83,7 @@
                   <div class="mt-10 text-center">
                     <button
                       class="px-10 py-3 text-base font-bold text-white bg-indigo-400 border-0 sm:px-24 sm:text-lg rounded-2xl focus:outline-none hover:bg-indigo-500"
-                      type="">メモ更新</button>
+                      onclick="window.livewire.emit('saveLabels')" type="button">メモ更新</button>
                   </div>
 
 
@@ -162,7 +171,7 @@
                   <div class="mt-10 text-center">
                     <button
                       class="px-10 py-3 text-base font-bold text-white bg-indigo-400 border-0 sm:px-24 sm:text-lg rounded-2xl focus:outline-none hover:bg-indigo-500"
-                      type="">メモ更新</button>
+                      onclick="window.livewire.emit('saveLabels')" type="button">メモ更新</button>
                   </div>
 
 

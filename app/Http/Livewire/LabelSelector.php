@@ -13,6 +13,8 @@ class LabelSelector extends Component
     public $checked = [];
     public $memoId;
 
+    protected $listeners = ['saveLabels' => 'saveLabels'];
+
 
     public function mount($memoId)
     {
@@ -38,19 +40,26 @@ class LabelSelector extends Component
     //TODO:ここで、非同期でラベルをメモに紐付けしてしまっているので、『メモ更新ボタン』 を押した時にメモに紐付けするように変更する。
     public function updatedChecked($checked, $labelId)
     {
-        $memo = Memo::find($this->memoId);
-        $label = Label::find($labelId);
+        // 選択状態を一時保存
+        $this->checked[$labelId] = $checked;
 
-        if ($checked) {
-            // チェックボックスがチェックされた場合、メモとラベルを紐付ける
-            $memo->labels()->attach($label);
-        } else {
-            // チェックボックスがチェックされていない場合、メモとラベルの紐付けを解除する
-            $memo->labels()->detach($label);
-        }
-
-        $this->emit('labelSelected');
+        // イベントを発火してラベルリストを更新
+        $this->emit('labelSelected', $this->checked);
     }
+
+    public function saveLabels()
+    {
+        $memo = Memo::find($this->memoId);
+
+        // チェックされているラベルだけを取得
+        $checkedLabels = array_filter($this->checked);
+
+        // ラベルの紐付けを更新
+        $memo->labels()->sync(array_keys($checkedLabels));
+
+        $this->dispatchBrowserEvent('flash-message', ['message' => '更新しました']);
+    }
+
 
     public function render()
     {
