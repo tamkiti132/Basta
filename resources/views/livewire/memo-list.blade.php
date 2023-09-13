@@ -443,7 +443,7 @@
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
                                                     class="px-10 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
+                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
@@ -457,10 +457,9 @@
                                                     <div class="hidden text-right xl:block">
                                                         <i class="text-3xl fas fa-book-open"></i>
                                                     </div>
-                                                    {{-- <img src="/images/本の画像（青）.png"> --}}
                                                     @if($memo_data['book_photo_path'])
                                                     <img
-                                                        src="{{ asset('storage/book-image/'. $memo_data['book_photo_path']) }}" />
+                                                        src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
                                                     @endif
                                                 </div>
                                             </div>

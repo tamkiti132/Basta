@@ -13,7 +13,10 @@ class LabelSelector extends Component
     public $checked = [];
     public $memoId;
 
-    protected $listeners = ['saveLabels' => 'saveLabels'];
+    protected $listeners = [
+        'saveLabels',
+        'updated' => 'saveLabels'
+    ];
 
 
     public function mount($memoId)
@@ -37,7 +40,6 @@ class LabelSelector extends Component
         // dd($this->labels);
     }
 
-    //TODO:ここで、非同期でラベルをメモに紐付けしてしまっているので、『メモ更新ボタン』 を押した時にメモに紐付けするように変更する。
     public function updatedChecked($checked, $labelId)
     {
         // 選択状態を一時保存
@@ -49,6 +51,8 @@ class LabelSelector extends Component
 
     public function saveLabels()
     {
+
+        // dd('ddd');
         $memo = Memo::find($this->memoId);
 
         // チェックされているラベルだけを取得

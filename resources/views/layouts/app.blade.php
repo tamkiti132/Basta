@@ -38,7 +38,7 @@
                                             modal_select_next_manager: false,
                                             modal_nobody_submanager: false,
                                             modal_confirm_delete_group: false,
-                                            modal_label_select: false,
+                                            {{-- modal_label_select: false, --}}
                                             form_web: true,
                                             form_book: false,
                                             member: true,
