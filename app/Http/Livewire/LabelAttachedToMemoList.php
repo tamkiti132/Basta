@@ -11,7 +11,7 @@ class LabelAttachedToMemoList extends Component
     public $labels;
     public $memoId;
 
-    protected $listeners = ['labelSelected' => 'loadLabels'];
+    protected $listeners = ['labelSelected' => 'loadLabels', 'labelSelected' => 'loadTempLabels'];
 
 
     public function mount($memoId)
@@ -26,6 +26,13 @@ class LabelAttachedToMemoList extends Component
         $this->labels = $memo->labels;
 
         // dd($this->labels);
+    }
+
+    public function loadTempLabels($checked)
+    {
+        $checkedLabels = array_filter($checked);
+        $this->labels = Label::whereIn('id', array_keys($checkedLabels))->get();
+        // dd($checked, $this->labels);
     }
 
     public function render()

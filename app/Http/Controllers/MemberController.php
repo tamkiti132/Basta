@@ -118,6 +118,7 @@ class MemberController extends Controller
         }
 
         // dd($user_data, $all_memos_data, $count_all_memos_data, $labels_data);
+        dd($all_memos_data_paginated);
 
         return view('group/member', compact('user_data', 'count_all_memos_data', 'all_memos_data_paginated', 'labels_data'));
     }

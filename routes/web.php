@@ -15,6 +15,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\UserTopController;
 use App\Http\Controllers\UserShowController;
 use App\Http\Controllers\MailSendController;
+use App\Http\Livewire\MemoEdit;
 use App\Http\Livewire\MemoList;
 use App\Http\Livewire\MemoListMember;
 use App\Http\Livewire\MemoListMypage;
@@ -148,7 +149,8 @@ Route::middleware(['auth', 'check_suspension'])
                     ->group(function () {
                         // Route::get('/', 'create')->name('create');
                         // Route::post('/', 'store')->name('store');
-                        Route::get('/{id}/edit', 'edit')->name('edit');
+                        // Route::get('/{id}/edit', 'edit')->name('edit');
+                        Route::get('/{id}/edit/{type}', MemoEdit::class)->name('edit');
                         Route::post('/{id}', 'update')->name('update');
                     });
 

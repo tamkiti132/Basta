@@ -286,7 +286,7 @@
                           {{-- <img src="/images/本の画像（青）.png"> --}}
                           @if(!(empty($memo_data->book_type_feature->book_photo_path)))
                           <img
-                            src="{{ asset('storage/book-image/'. $memo_data->book_type_feature->book_photo_path) }}" />
+                            src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                           @endif
                         </div>
                       </div>
