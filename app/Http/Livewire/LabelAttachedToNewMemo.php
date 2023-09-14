@@ -3,16 +3,23 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\Label;
 
 class LabelAttachedToNewMemo extends Component
 {
-    public $checked = [];
+    public $labels;
+    public $memoId;
 
-    protected $listeners = ['labelAdded' => 'loadLabels'];
+    protected $listeners = [
+        'labelSelected' => 'loadTempLabels'
+    ];
 
-    public function loadLabels($checked)
+
+
+    public function loadTempLabels($checked)
     {
-        $this->checked = $checked;
+        $checkedLabels = array_filter($checked);
+        $this->labels = Label::whereIn('id', array_keys($checkedLabels))->get();
     }
 
     public function render()

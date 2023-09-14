@@ -26,7 +26,6 @@
                     <div class="container px-5 mx-auto">
                         <div class="flex flex-wrap justify-center -m-4">
                             <form class="p-4" wire:submit.prevent="update">
-
                                 <div
                                     class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
                                     <div class="grid xl:grid-cols-7">
@@ -113,7 +112,6 @@
                     <div class="container px-5 mx-auto">
                         <div class="flex flex-wrap justify-center -m-4">
                             <form class="p-4" wire:submit.prevent="update">
-                                @csrf
                                 <div
                                     class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
                                     <div class="grid xl:grid-cols-7">

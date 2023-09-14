@@ -4,12 +4,18 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Label;
+use App\Models\Memo;
 
 class LabelAdder extends Component
 {
     public $labels;
     public $checked = [];
-    public $labelsData = [];
+
+    protected $listeners = [
+        'saveLabels',
+        'memoCreated' => 'saveLabels'
+    ];
+
 
     public function mount()
     {
@@ -21,18 +27,31 @@ class LabelAdder extends Component
         $this->labels = Label::where('group_id', session()->get('group_id'))->get();
     }
 
-    public function updateChecked($labelId, $labelName)
+    public function updatedChecked($checked, $labelId)
     {
-        if (!isset($this->checked[$labelId])) {
-            // このラベルが初めてチェックされた場合、IDと名前を保存する
-            $this->checked[$labelId] = ['id' => $labelId, 'name' => $labelName];
-        } else {
-            // このラベルのチェックが外された場合、配列から削除する
-            unset($this->checked[$labelId]);
+        // 選択状態を一時保存
+        $this->checked[$labelId] = $checked;
+
+        // イベントを発火してラベルリストを更新
+        $this->emit('labelSelected', $this->checked);
+    }
+
+    public function saveLabels($memoId)
+    {
+        // dd('ddd');
+        if ($this->checked) {
+            $memo = Memo::find($memoId);
+
+            // チェックされているラベルだけを取得
+            $checkedLabels = array_filter($this->checked);
+
+            // メモにラベルを紐付ける
+            $memo->labels()->sync(array_keys($checkedLabels));
         }
 
-        $this->emit('labelAdded', $this->checked);
+        $this->redirectRoute('group.index', ['group_id' => session()->get('group_id')]);
     }
+
 
     public function render()
     {
