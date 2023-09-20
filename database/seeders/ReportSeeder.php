@@ -20,7 +20,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 2,
                 'type' => 0,
-                'reason' => 0,
+                'reason' => 1,
                 'detail' => 'このユーザーは、◯◯◯の法律に違反した行為をさまざまなグループ内で行なっています。',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
@@ -28,7 +28,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 3,
                 'type' => 1,
-                'reason' => 1,
+                'reason' => 2,
                 'detail' => '手順１の、〜〜〜という記載が、〜〜〜という理由でよくないと思います。',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
@@ -36,7 +36,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 3,
                 'type' => 2,
-                'reason' => 2,
+                'reason' => 3,
                 'detail' => 'このコメントに記載してあるURLがフィッシングサイトにつながります!',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
@@ -44,7 +44,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 2,
                 'type' => 3,
-                'reason' => 3,
+                'reason' => 4,
                 'detail' => 'これは詳細文ですこれは詳細文ですこれは詳細文です',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
@@ -52,7 +52,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 2,
                 'type' => 0,
-                'reason' => 3,
+                'reason' => 4,
                 'detail' => 'bbbbbbbbb',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
@@ -60,7 +60,7 @@ class ReportSeeder extends Seeder
             [
                 'contribute_user_id' => 3,
                 'type' => 1,
-                'reason' => 2,
+                'reason' => 3,
                 'detail' => 'user2のメモに対するレポートです6',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),

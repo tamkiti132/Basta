@@ -20,6 +20,7 @@ use App\Http\Livewire\MemoEdit;
 use App\Http\Livewire\MemoList;
 use App\Http\Livewire\MemoListMember;
 use App\Http\Livewire\MemoListMypage;
+use App\Http\Livewire\UserShow;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -243,15 +244,9 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
                 Route::prefix('user_show')
-                    ->controller(UserShowController::class)
-                    ->name('user_show.')
                     ->group(function () {
-                        Route::get('/', 'index')->name('index');
-                        // Route::post('/', 'store')->name('store');
-                        Route::get('/{id}', 'show')->name('show');
-                        // Route::get('/{id}/edit', 'edit')->name('edit');
-                        // Route::post('/{id}', 'update')->name('update');
-                        Route::post('/{id}/destroy', 'destroy')->name('destroy');
+                        Route::get('/{user_id}/{group_id?}', UserShow::class)->name('user_show')
+                            ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
                     });
 
                 Route::get('/group', function () {
