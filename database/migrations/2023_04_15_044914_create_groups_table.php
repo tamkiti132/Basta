@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('introduction', 512);
             $table->boolean('isJoinFreeEnabled')->default(0);
             $table->boolean('isTipEnabled')->default(0);
+            $table->boolean('suspension_state')->default(0);
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });
