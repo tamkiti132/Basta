@@ -21,18 +21,21 @@ class GroupSeeder extends Seeder
                 'introduction' => '主にLaravelについての情報を共有します!!',
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
+                'suspension_state' => 0,
             ],
             [
                 'name' => 'はなこの料理教室',
                 'introduction' => '日々の料理について学んだことをシェアしたいです!!',
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
+                'suspension_state' => 0,
             ],
             [
                 'name' => '二郎の仲間たち',
                 'introduction' => 'なんでも自由に書いてくださいー',
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
+                'suspension_state' => 1,
             ],
         ]);
     }

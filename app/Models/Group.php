@@ -35,9 +35,19 @@ class Group extends Model
             ->where('role', 10);
     }
 
+    public function memos()
+    {
+        return $this->hasMany(Memo::class);
+    }
+
     public function label()
     {
         return $this->HasMany(Label::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasManyThrough(Comment::class, Memo::class);
     }
 
 

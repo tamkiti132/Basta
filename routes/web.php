@@ -21,6 +21,7 @@ use App\Http\Livewire\MemoList;
 use App\Http\Livewire\MemoListMember;
 use App\Http\Livewire\MemoListMypage;
 use App\Http\Livewire\UserShow;
+use App\Http\Livewire\GroupTopAdmin;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -249,9 +250,13 @@ Route::middleware(['auth', 'check_suspension'])
                             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
                     });
 
-                Route::get('/group', function () {
-                    return view('admin/group_top');
-                })->name('admin/group');
+                //TODO:このファイルのwithoutMiddlewareを外すのを忘れていたので、外して、かつそれが問題ないかテストして検討する
+                Route::prefix('group_top')
+                    ->group(function () {
+                        Route::get('/', GroupTopAdmin::class)->name('group_top');
+                    });
+
+
                 Route::get('/group/show', function () {
                     return view('admin/group_show');
                 })->name('admin/group_show');
