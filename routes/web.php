@@ -22,6 +22,7 @@ use App\Http\Livewire\MemoListMember;
 use App\Http\Livewire\MemoListMypage;
 use App\Http\Livewire\UserShow;
 use App\Http\Livewire\GroupTopAdmin;
+use App\Http\Livewire\GroupShowAdmin;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -257,9 +258,12 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
 
-                Route::get('/group/show', function () {
-                    return view('admin/group_show');
-                })->name('admin/group_show');
+                Route::prefix('group_show')
+                    ->group(function () {
+                        Route::get('/{group_id}', GroupShowAdmin::class)->name('group_show');
+                    });
+
+
                 Route::get('/admin/user/show', function () {
                     return view('admin/admin_user_show');
                 })->name('admin/admin/user/show');

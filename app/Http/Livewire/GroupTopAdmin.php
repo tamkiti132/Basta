@@ -101,7 +101,7 @@ class GroupTopAdmin extends Component
 
 
 
-        $perPage = 1;
+        $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('groups_page');
         $items = $groups_data->slice(($currentPage - 1) * $perPage, $perPage);

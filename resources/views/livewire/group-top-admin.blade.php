@@ -57,21 +57,26 @@
                                                 <div class="flex items-start content-center">
                                                     {{-- photo --}}
                                                     @if($group_data->group_photo_path)
-                                                    <div
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
                                                         class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
                                                         <img class="object-fill rounded-full h-14 w-14"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
-                                                    </div>
+                                                    </button>
                                                     @else
-                                                    <div
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
                                                         class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
-                                                    </div>
+                                                    </button>
                                                     @endif
                                                     {{-- end_photo --}}
-                                                    <h1
-                                                        class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
-                                                        {{ $group_data->name }}
-                                                    </h1>
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' ">
+                                                        <h1
+                                                            class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                            {{ $group_data->name }}
+                                                        </h1>
+                                                    </button>
                                                 </div>
                                                 <div class="mt-2 leading-none y-4 ">
                                                     <div
@@ -167,21 +172,26 @@
                                                 <div class="flex items-start content-center">
                                                     {{-- photo --}}
                                                     @if($group_data->group_photo_path)
-                                                    <div
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
                                                         class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
                                                         <img class="object-fill rounded-full h-14 w-14"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
-                                                    </div>
+                                                    </button>
                                                     @else
-                                                    <div
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
                                                         class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
-                                                    </div>
+                                                    </button>
                                                     @endif
                                                     {{-- end_photo --}}
-                                                    <h1
-                                                        class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
-                                                        {{ $group_data->name }}
-                                                    </h1>
+                                                    <button type="button"
+                                                        onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' ">
+                                                        <h1
+                                                            class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                            {{ $group_data->name }}
+                                                        </h1>
+                                                    </button>
                                                 </div>
                                                 <div class="mt-2 leading-none y-4 ">
                                                     <div
