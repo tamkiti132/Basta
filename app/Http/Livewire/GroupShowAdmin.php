@@ -1,0 +1,271 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Comment_type_report_link;
+use Livewire\Component;
+use Livewire\WithPagination;
+use App\Models\User;
+use App\Models\Group;
+use App\Models\Memo_type_report_link;
+use App\Models\Report;
+use App\Models\User_type_report_link;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class GroupShowAdmin extends Component
+{
+    use WithPagination;
+
+    public $user_id;
+    public $group_id;
+    public $group_data;
+    public $report_reason;
+    public $user_block_state;
+    public $show_web = true;
+    public $show_book = true;
+    public $search = '';
+
+    // 各タブの表示状態を管理するプロパティ
+    public $show_group_reports = true;
+    public $show_members = false;
+    public $show_users = false;
+    public $show_users_pagination = false;
+    public $show_suspension_users = false;
+    public $show_suspension_users_pagination = false;
+
+
+
+    public function mount($group_id)
+    {
+        $this->group_id = $group_id;
+
+        $this->group_data = Group::where('id', $group_id)
+            ->with(['userRoles' => function ($query) {
+                $query->wherePivot('role', 10);
+            }])
+            ->first();
+    }
+
+
+    public function showMember()
+    {
+        $this->show_group_reports = false;
+        $this->show_members = true;
+
+        if ($this->show_users) {
+            $this->show_users_pagination = true;
+        }
+
+        if ($this->show_suspension_users) {
+            $this->show_suspension_users_pagination = true;
+        }
+    }
+
+
+    public function setReportReason($report_reason)
+    {
+        $this->report_reason = $report_reason;
+    }
+
+    public function setUserBlockState($user_block_state)
+    {
+        $this->user_block_state = $user_block_state;
+    }
+
+
+    public function executeSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function deleteGroup()
+    {
+        Group::find($this->group_id)->delete();
+
+        return to_route('admin.group_top');
+    }
+
+    public function suspendGroup()
+    {
+        $group_data = Group::find($this->group_id);
+
+        $group_data->suspension_state = 1;
+        $group_data->save();
+
+        $this->emit('suspendedGroup');
+    }
+
+    public function liftSuspendGroup()
+    {
+        $group_data = Group::find($this->group_id);
+
+        $group_data->suspension_state = 0;
+        $group_data->save();
+
+        $this->emit('liftSuspendedGroup');
+    }
+
+
+    public function deleteUser($userId)
+    {
+        User::find($userId)->delete();
+    }
+
+    public function suspendUser($userId)
+    {
+        $user_data = User::find($userId);
+
+        $user_data->suspension_state = 1;
+        $user_data->save();
+
+        $this->emit('suspendedGroup');
+    }
+
+    public function liftSuspendUser($userId)
+    {
+        $user_data = User::find($userId);
+
+        $user_data->suspension_state = 0;
+        $user_data->save();
+
+        $this->emit('liftSuspendedGroup');
+    }
+
+
+
+    public function render()
+    {
+        //グループ通報情報
+        $group_reports_data = Report::whereIn('id', function ($query) {
+            $query->select('report_id')
+                ->from('group_type_report_links')
+                ->where('group_id', $this->group_id);
+        })
+            ->with('contribute_user')
+            ->where(function ($query) {
+                $query->whereHas('contribute_user', function ($subQuery) {
+                    $subQuery->where('nickname', 'like', '%' . $this->search . '%')
+                        ->orWhere('username', 'like', '%' . $this->search . '%');
+                })
+                    ->orWhere('reports.detail', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->report_reason, function ($query) {
+                $query->where('reason', $this->report_reason);
+            })
+
+            ->get();
+
+
+
+        //ユーザー
+        $users_data = User::where('suspension_state', 0)
+            ->whereHas('group', function ($query) {
+                $query->where('id', $this->group_id);
+            })
+            ->with(['groupRoles' => function ($query) {
+                $query->where('group_id', $this->group_id)
+                    ->select(['role']);
+            }])
+            ->where(function ($query) {
+                $query->where('users.nickname', 'like', '%' . $this->search . '%')
+                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->user_block_state == 1, function ($query) {
+                $query->whereDoesntHave('blockedGroup', function ($query) {
+                    $query->where('groups.id', $this->group_id);
+                });
+            })
+            ->when($this->user_block_state == 2, function ($query) {
+                $query->whereHas('blockedGroup', function ($query) {
+                    $query->where('groups.id', $this->group_id);
+                });
+            })
+            ->get()
+            ->each(function ($user) {
+                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+
+                $memoIds = $user->memo()->pluck('id');
+                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+
+                $commentIds = $user->comment()->pluck('id');
+                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+            });
+
+
+        //利用停止中ユーザー
+        $suspension_users_data = User::where('suspension_state', 1)
+            ->whereHas('group', function ($query) {
+                $query->where('id', $this->group_id);
+            })
+            ->with(['groupRoles' => function ($query) {
+                $query->where('group_id', $this->group_id)
+                    ->select(['role']);
+            }])
+            ->where(function ($query) {
+                $query->where('users.nickname', 'like', '%' . $this->search . '%')
+                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->user_block_state == 1, function ($query) {
+                $query->whereDoesntHave('blockedGroup', function ($query) {
+                    $query->where('groups.id', $this->group_id);
+                });
+            })
+            ->when($this->user_block_state == 2, function ($query) {
+                $query->whereHas('blockedGroup', function ($query) {
+                    $query->where('groups.id', $this->group_id);
+                });
+            })
+            ->get()
+            ->each(function ($user) {
+                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+
+                $memoIds = $user->memo()->pluck('id');
+                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+
+                $commentIds = $user->comment()->pluck('id');
+                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+            });
+
+
+
+
+        $user_groups = Group::whereHas('user', function ($query) {
+            $query->where('users.id', $this->user_id);
+        })->get();
+
+
+
+
+        $perPage = 20;
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('group_reports_page');
+        $items = $group_reports_data->slice(($currentPage - 1) * $perPage, $perPage);
+        $group_reports_data_paginated = new LengthAwarePaginator($items, count($group_reports_data), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'group_reports_page'
+        ]);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('user_dataes_page');
+        $items = $users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $users_data_paginated = new LengthAwarePaginator($items, count($users_data), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'user_dataes_page'
+        ]);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('suspension_user_dataes_page');
+        $items = $suspension_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $suspension_users_data_paginated = new LengthAwarePaginator($items, count($suspension_users_data), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'suspension_user_dataes_page'
+        ]);
+
+
+
+        return view('livewire.group-show-admin', compact(
+            'users_data_paginated',
+            'suspension_users_data_paginated',
+            'user_groups',
+            'group_reports_data_paginated',
+        ));
+    }
+}
