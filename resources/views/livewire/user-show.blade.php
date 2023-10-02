@@ -206,13 +206,13 @@
                                             </div>
                                             {{-- 右側 --}}
                                             <div class="mt-5 text-sm sm:text-base sm:mt-0 sm:text-right sm:col-span-4">
-                                                @if ($user_report_data->reason == 0)
+                                                @if ($user_report_data->reason == 1)
                                                 <p>法律違反</p>
-                                                @elseif ($user_report_data->reason == 1)
-                                                <p>不適切なコンテンツ</p>
                                                 @elseif ($user_report_data->reason == 2)
-                                                <p>フィッシング or スパム</p>
+                                                <p>不適切なコンテンツ</p>
                                                 @elseif ($user_report_data->reason == 3)
+                                                <p>フィッシング or スパム</p>
+                                                @elseif ($user_report_data->reason == 4)
                                                 <p>その他</p>
                                                 @endif
                                             </div>
