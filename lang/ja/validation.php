@@ -175,6 +175,8 @@ return [
         'comment' => 'コメント',
         'labelName' => 'ラベル名',
         'newName' => 'ラベル名',
+        'reason' => '通報理由',
+        'detail' => '問題がある点の詳細',
     ],
 
 ];

@@ -194,7 +194,7 @@
                                         <div class="grid grid-cols-12 mt-4">
                                             <div class="col-span-11 text-xs sm:text-base">
                                                 <p>
-                                                    {{ $group_report_data->detail }}
+                                                    {!! nl2br(e($group_report_data->detail)) !!}
                                                 </p>
                                             </div>
                                         </div>

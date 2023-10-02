@@ -30,8 +30,7 @@
 
 <!-- TODO:各ブレードファイルに分割する -->
 
-<body class="font-sans antialiased" x-data="{modal_report_group: false,
-                                            modal_report_user: false,
+<body class="font-sans antialiased" x-data="{modal_report_user: false,
                                             modal_report_memo: false,
                                             modal_report_comment: false,
                                             modal_label_edit: false,
