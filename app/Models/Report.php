@@ -59,4 +59,9 @@ class Report extends Model
     {
         return $this->belongsToMany(Memo::class, 'memo_type_report_links');
     }
+
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class, 'comment_type_report_links');
+    }
 }
