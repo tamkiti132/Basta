@@ -54,4 +54,9 @@ class Report extends Model
     {
         return $this->belongsToMany(User::class, 'user_type_report_links');
     }
+
+    public function memos()
+    {
+        return $this->belongsToMany(Memo::class, 'memo_type_report_links');
+    }
 }
