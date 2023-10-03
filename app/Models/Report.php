@@ -49,4 +49,9 @@ class Report extends Model
     {
         return $this->belongsToMany(Group::class, 'group_type_report_links');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_type_report_links');
+    }
 }
