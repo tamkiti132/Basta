@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        <div class="grid grid-cols-2">
+        <div class="grid items-center grid-cols-2">
             {{-- 左側 --}}
             <div class="flex">
                 {{-- <div class="object-cover w-8 h-8 mr-3 bg-blue-200 rounded-full sm:w-10 sm:h-10"></div> --}}
@@ -28,7 +28,7 @@
             {{-- 右側 --}}
             <div class="flex items-center justify-end gap-5 sm:gap-20">
                 <div>
-                    <x-dropdown align="right" width="100">
+                    <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="flex text-sm transition border-2 border-transparent focus:outline-none">
                                 <p class="font-semibold leading-tight text-gray-800 sm:text-xl">投げ銭する</p>
@@ -61,7 +61,8 @@
                         <!-- モーダルの中身 -->
                         <x-slot name="content">
                             <div class="flex flex-col px-4 text-gray-800">
-                                <button x-on:click="modal_report_user = true"
+
+                                <button onclick="Livewire.emit('showModalReportUser')"
                                     class="block w-full p-2 text-left hover:bg-slate-100">
                                     ユーザーを通報
                                 </button>
@@ -77,52 +78,17 @@
                                     <button type="submit" class="block w-full p-2 text-left hover:bg-slate-100"
                                         onclick="return confirm('本当に利用停止にしますか？');">ユーザーを利用停止</button>
                                 </form>
+
                             </div>
                         </x-slot>
                     </x-dropdown>
                 </div>
 
-                {{-- ユーザー通報モーダル --}}
-                <div x-cloak x-show="modal_report_user"
-                    class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-                    <div x-on:click.away="modal_report_user = false"
-                        class="flex flex-col w-full h-auto max-w-md px-3 py-2 bg-white rounded-xl">
-                        <div class="pb-2 mb-4 font-bold text-center border-b border-black">
-                            <p>問題点を教えてください</p>
-                        </div>
-
-                        <form action="{{ route('group.member.storeUserTypeReport') }}" method="POST"
-                            class="flex flex-col gap-2 p-2">
-                            @csrf
-                            <input type="hidden" name="user_id" value="{{ $user_data->id }}">
-                            <div>
-                                <input type="radio" name="reason" value="0" class="mr-3"><span>法律違反</span>
-                            </div>
-                            <div>
-                                <input type="radio" name="reason" value="1" class="mr-3"><span>不適切なコンテンツ</span>
-                            </div>
-                            <div>
-                                <input type="radio" name="reason" value="2" class="mr-3"><span>フィッシング or スパム</span>
-                            </div>
-                            <div>
-                                <input type="radio" name="reason" value="3" class="mr-3"><span>その他</span>
-                            </div>
-
-                            <label for="detail">問題がある点の詳細</label>
-                            <textarea name="detail" id="detail" cols="30" rows="5" class="rounded-xl"></textarea>
-
-                            <div class="flex justify-end gap-4 pt-2">
-                                <button class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100" type="button"
-                                    x-on:click="modal_report_user=false">キャンセル</button>
-                                <button type="submit"
-                                    class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">通報</button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
 
             </div>
+
+            {{-- ユーザー通報モーダル --}}
+            @livewire('report-user', ['user_id' => $user_data['id']])
         </div>
     </x-slot>
 

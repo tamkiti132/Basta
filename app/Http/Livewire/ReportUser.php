@@ -6,10 +6,10 @@ use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 
-class ReportGroup extends Component
+class ReportUser extends Component
 {
-    public $showModalReportGroup = false;
-    public $group_id;
+    public $showModalReportUser = false;
+    public $user_id;
     public $reason;
     public $detail;
 
@@ -22,26 +22,26 @@ class ReportGroup extends Component
 
 
     protected $listeners = [
-        'showModalReportGroup',
-        'closeModalReportGroup'
+        'showModalReportUser',
+        'closeModalReportUser'
     ];
 
 
-    public function mount()
+    public function mount($user_id)
     {
-        $this->group_id = session()->get('group_id');
+        $this->user_id = $user_id;
     }
 
 
 
-    public function showModalReportGroup()
+    public function showModalReportUser()
     {
-        $this->showModalReportGroup = true;
+        $this->showModalReportUser = true;
     }
 
-    public function closeModalReportGroup()
+    public function closeModalReportUser()
     {
-        $this->showModalReportGroup = false;
+        $this->showModalReportUser = false;
         $this->reason = '';
         $this->detail = '';
         $this->resetErrorBag();
@@ -55,19 +55,19 @@ class ReportGroup extends Component
         //レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
-            'type' => 4,
+            'type' => 1,
             'reason' => $this->reason,
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとgroupsテーブルの紐付けをする
-        $report->groups()->sync([$this->group_id]);
+        //reportsテーブルとusersテーブルの紐付けをする
+        $report->users()->sync([$this->user_id]);
 
         $this->reset(['reason', 'detail']);
     }
 
     public function render()
     {
-        return view('livewire.report-group');
+        return view('livewire.report-user');
     }
 }
