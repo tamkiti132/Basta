@@ -6,10 +6,10 @@ use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 
-class ReportMemo extends Component
+class ReportComment extends Component
 {
-    public $showModalReportMemo = false;
-    public $memo_id;
+    public $showModalReportComment = false;
+    public $comment_id;
     public $reason;
     public $detail;
 
@@ -22,26 +22,26 @@ class ReportMemo extends Component
 
 
     protected $listeners = [
-        'showModalReportMemo',
-        'closeModalReportMemo'
+        'showModalReportComment',
+        'closeModalReportComment'
     ];
 
 
-    public function mount($memo_id)
+    public function mount($comment_id)
     {
-        $this->memo_id = $memo_id;
+        $this->comment_id = $comment_id;
     }
 
 
 
-    public function showModalReportMemo()
+    public function showModalReportComment()
     {
-        $this->showModalReportMemo = true;
+        $this->showModalReportComment = true;
     }
 
-    public function closeModalReportMemo()
+    public function closeModalReportComment()
     {
-        $this->showModalReportMemo = false;
+        $this->showModalReportComment = false;
         $this->reason = '';
         $this->detail = '';
         $this->resetErrorBag();
@@ -55,19 +55,19 @@ class ReportMemo extends Component
         //レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
-            'type' => 2,
+            'type' => 3,
             'reason' => $this->reason,
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとmemosテーブルの紐付けをする
-        $report->memos()->sync([$this->memo_id]);
+        //reportsテーブルとcommentsテーブルの紐付けをする
+        $report->comments()->sync([$this->comment_id]);
 
         $this->reset(['reason', 'detail']);
     }
 
     public function render()
     {
-        return view('livewire.report-memo');
+        return view('livewire.report-comment');
     }
 }
