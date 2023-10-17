@@ -64,22 +64,24 @@
         </main>
 
         <!-- フッター -->
-        <footer class="mt-10 bg-white shadow sm:mt-20">
-            {{-- （運営トップ or　運営） 以外のユーザー --}}
-            <div class="px-4 py-10 mx-auto text-right sm:px-6 lg:px-8">
+        <footer class="px-4 py-10 mx-auto mt-10 bg-white shadow sm:mt-20 sm:px-6 lg:px-8">
+            @can('admin-top')
+            {{-- 運営トップ --}}
+            <div class="flex flex-wrap gap-3 font-bold sm:flex-nowrap sm:gap-0 sm:justify-between sm:text-lg">
+                <div class="w-full sm:w-auto">
+                    <a href="{{ route('admin.admin_user_top') }}">運営ユーザー一覧</a>
+                </div>
+                <div class="w-full sm:w-auto">
+                    <a href="{{-- route('admin.admin_user_top') --}}">運営権限ユーザー新規登録</a>
+                </div>
+            </div>
+            @elsecan('admin-lower')
+            {{-- 運営ユーザー以外 --}}
+            <div class="text-right">
                 <a class="font-bold sm:text-lg" href="{{ route('request') }}">リクエストを送信</a>
             </div>
+            @endcan
 
-            {{-- 運営トップ or　運営 --}}
-            {{-- <div
-                class="flex flex-wrap gap-3 px-4 py-10 mx-auto font-bold sm:flex-nowrap sm:gap-0 sm:justify-between sm:text-lg sm:px-6 lg:px-8">
-                <div class="w-full sm:w-auto">
-                    <a href="{{ route('admin/admin/user/show') }}">運営ユーザー一覧</a>
-                </div>
-                <div class="w-full sm:w-auto">
-                    <a href="">運営権限ユーザー新規登録</a>
-                </div>
-            </div> --}}
         </footer>
     </div>
 

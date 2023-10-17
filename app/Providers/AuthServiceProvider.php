@@ -25,12 +25,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('adminTop', function ($user) {
-            return $user->role === 3;
+        Gate::define('admin-top', function ($user) {
+            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
+            return $role == 3;
         });
+
+        Gate::define('admin', function ($user) {
+            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
+            return $role == 5;
+        });
+
         Gate::define('admin-higher', function ($user) {
-            return $user->role >= 3 && $user->role <= 5;
+            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
+            return $role >= 3 && $role <= 5;
         });
+
         Gate::define('manager', function ($user, $group_data) {
             $role = $user->groupRoles()->where('group_id', $group_data->id)->where('group_id', $group_data->id)->first()->pivot->role;
             return $role === 10;
@@ -47,6 +56,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('notManager', function ($user, $group_data) {
             $role = $user->groupRoles()->where('group_id', $group_data->id)->first()->pivot->role;
             return $role !== 10;
+        });
+        Gate::define('admin-lower', function ($user) {
+            $role = $user->roles->first()->role;
+            return $role > 5;
         });
     }
 }
