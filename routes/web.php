@@ -23,6 +23,7 @@ use App\Http\Livewire\MemoListMypage;
 use App\Http\Livewire\UserShow;
 use App\Http\Livewire\GroupTopAdmin;
 use App\Http\Livewire\GroupShowAdmin;
+use App\Http\Livewire\AdminUserTop;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -264,9 +265,10 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
 
-                Route::get('/admin/user/show', function () {
-                    return view('admin/admin_user_show');
-                })->name('admin/admin/user/show');
+                Route::prefix('admin_user_top')
+                    ->group(function () {
+                        Route::get('/', AdminUserTop::class)->name('admin_user_top');
+                    });
             });
     });
 
