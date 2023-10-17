@@ -41,6 +41,31 @@ class RoleSeeder extends Seeder
                 'group_id' => '1',
                 'role' => '50',
             ],
+            [
+                'user_id' => '4',
+                'group_id' => null,
+                'role' => '3',
+            ],
+            [
+                'user_id' => '5',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '6',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '7',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '8',
+                'group_id' => null,
+                'role' => '5',
+            ],
         ]);
     }
 }

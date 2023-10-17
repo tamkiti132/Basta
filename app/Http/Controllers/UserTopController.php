@@ -23,6 +23,9 @@ class UserTopController extends Controller
 
         // 利用停止されていないユーザー情報一覧取得
         $all_not_suspended_users_data = User::where('suspension_state', 0)
+            ->whereDoesntHave('roles', function ($query) {
+                $query->whereNull('group_id');
+            })
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
@@ -41,6 +44,9 @@ class UserTopController extends Controller
 
         // 利用停止中のユーザー情報一覧取得
         $all_suspended_users_data = User::where('suspension_state', 1)
+            ->whereDoesntHave('roles', function ($query) {
+                $query->whereNull('group_id');
+            })
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();

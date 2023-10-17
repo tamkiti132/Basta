@@ -154,7 +154,7 @@
                       <div class="flex items-center sm:col-span-3">
                         @if($user_data->profile_photo_path)
                         <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                          onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
+                          onclick="location.href='{{ route('admin.user_show.show', ['id' => $user_data->id]) }}' ">
                           <img class="object-fill w-10 h-10 rounded-full"
                             src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                         </button>
