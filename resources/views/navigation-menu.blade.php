@@ -5,6 +5,17 @@
             {{-- 左側 --}}
             <div class="col-span-1 sm:flex">
                 <!-- Logo -->
+                @can('admin-higher')
+                {{-- 運営者の場合 --}}
+                <div class="flex items-center shrink-0">
+                    <a href="{{ route('admin.user_top.index') }}">
+                        <div class="w-20 p-2">
+                            <x-application-mark class="block w-auto h-9" />
+                        </div>
+                    </a>
+                </div>
+                @else
+                {{-- 運営者以外の場合 --}}
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('index') }}">
                         <div class="w-20 p-2">
@@ -12,6 +23,7 @@
                         </div>
                     </a>
                 </div>
+                @endcan
 
                 <!-- Navigation Links -->
                 {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -23,29 +35,27 @@
 
             {{-- 右側 --}}
             <div class="flex items-center justify-end col-span-5 gap-3 sm:gap-10 md:col-span-2">
-                {{-- グループ選択 （スマホ画面以外で表示） --}}
 
-                {{-- <select name="group"
-                    class="w-1/3 pl-0 text-xs bg-transparent border-none form-control sm:text-base"
-                    onchange="window.location.href = '/group/top/' + this.value">
-                    @foreach($user_groups as $group)
-                    <option value="{{ $group->id }}" {{ (session('group_id')==$group->id) ? 'selected' : '' }}>
-                        {{ $group->name }}
-                    </option>
-                    @endforeach
-                </select> --}}
+                @can('admin-higher')
+                <div class="flex justify-end gap-20">
+                    <div class="text-xs sm:text-base">
+                        <a href="{{ route('admin.user_top.index') }}">ユーザー一覧</a>
+                    </div>
+                    <div class="text-xs sm:text-base">
+                        <a href="{{ route('admin.group_top') }}">グループ一覧</a>
+                    </div>
+                </div>
 
+                @else
                 <div class="relative w-1/2 lg:w-1/3">
                     <div
                         class="overflow-hidden text-xs truncate bg-transparent border-none w-28 sm:w-40 sm:text-base whitespace-nowrap">
-                        @if ($user_groups && !$user_groups->isEmpty())
                         <button
                             onclick="window.location.href = '/group/top/' + document.getElementById('group-select').value"
                             class="w-full h-full text-left bg-transparent border-none cursor-pointer">
                             {{ $user_groups->firstWhere('id', session('group_id'))->name ?? $user_groups->first()->name
                             }}
                         </button>
-                        @endif
                     </div>
                     <div class="absolute top-0 right-0 w-10 h-full overflow-hidden">
                         <select id="group-select" name="group"
@@ -64,71 +74,11 @@
                 <div class="text-xs sm:text-base">
                     <a href="{{ route('mypage.show', ['user_id' => Auth::id()]) }}">マイページ</a>
                 </div>
+                @endcan
 
-                {{-- ユーザー一覧 --}}
-                {{-- <div>
-                    <a class="font-bold" href="{{ route('admin/user') }}">ユーザー一覧</a>
-                </div> --}}
-
-                {{-- グループ一覧 --}}
-                {{-- <div>
-                    <a class="font-bold" href="{{ route('admin/group') }}">グループ一覧</a>
-                </div> --}}
 
                 {{-- アカウント管理 --}}
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
-                    <!-- Teams Dropdown -->
-                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="relative ml-3">
-                        <x-dropdown align="right" width="60">
-                            <x-slot name="trigger">
-                                <span class="inline-flex rounded-md">
-                                    <button type="button"
-                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
-                                        {{ Auth::user()->currentTeam->name }}
-
-                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                        </svg>
-                                    </button>
-                                </span>
-                            </x-slot>
-
-                            <x-slot name="content">
-                                <div class="w-60">
-                                    <!-- Team Management -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
-                                        {{ __('Manage Team') }}
-                                    </div>
-
-                                    <!-- Team Settings -->
-                                    <x-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
-                                        {{ __('Team Settings') }}
-                                    </x-dropdown-link>
-
-                                    @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                                    <x-dropdown-link href="{{ route('teams.create') }}">
-                                        {{ __('Create New Team') }}
-                                    </x-dropdown-link>
-                                    @endcan
-
-                                    <div class="border-t border-gray-200"></div>
-
-                                    <!-- Team Switcher -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
-                                        {{ __('Switch Teams') }}
-                                    </div>
-
-                                    @foreach (Auth::user()->allTeams() as $team)
-                                    <x-switchable-team :team="$team" />
-                                    @endforeach
-                                </div>
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
-                    @endif
 
                     <!-- Settings Dropdown -->
                     <div class="relative ml-3">
@@ -252,37 +202,8 @@
                     </x-responsive-nav-link>
                 </form>
 
-                <!-- Team Management -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                 <div class="border-t border-gray-200"></div>
 
-                <div class="block px-4 py-2 text-xs text-gray-400">
-                    {{ __('Manage Team') }}
-                </div>
-
-                <!-- Team Settings -->
-                <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}"
-                    :active="request()->routeIs('teams.show')">
-                    {{ __('Team Settings') }}
-                </x-responsive-nav-link>
-
-                @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                    {{ __('Create New Team') }}
-                </x-responsive-nav-link>
-                @endcan
-
-                <div class="border-t border-gray-200"></div>
-
-                <!-- Team Switcher -->
-                <div class="block px-4 py-2 text-xs text-gray-400">
-                    {{ __('Switch Teams') }}
-                </div>
-
-                @foreach (Auth::user()->allTeams() as $team)
-                <x-switchable-team :team="$team" component="responsive-nav-link" />
-                @endforeach
-                @endif
             </div>
         </div>
     </div>
