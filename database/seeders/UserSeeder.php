@@ -68,6 +68,12 @@ class UserSeeder extends Seeder
                 'nickname' => 'うんえい悪子',
                 'suspension_state' => 1,
             ],
+            [
+                'email' => 'test333@test.com',
+                'password' => Hash::make('password333'),
+                'nickname' => 'テスト333',
+                'suspension_state' => 0,
+            ],
         ];
 
         foreach ($users as $user) {

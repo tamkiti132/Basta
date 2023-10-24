@@ -66,6 +66,9 @@ class Kernel extends HttpKernel
 
         //利用停止中かどうかを判定する
         'check_suspension' => \App\Http\Middleware\CheckSuspensionState::class,
+
+        // ユーザーがログインしていないか、admin-top権限を持っている場合にアクセスを許可
+        'allow-register-page-access' => \App\Http\Middleware\AllowRegisterPageAccess::class,
     ];
 
     protected $middlewarePriority = [

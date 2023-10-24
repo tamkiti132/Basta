@@ -1,4 +1,9 @@
 <x-guest-layout>
+
+    @can('admin-top')
+    <p class="fixed text-3xl font-bold text-gray-700 border-b-4 border-gray-700 right-32 top-20">運営</p>
+    @endcan
+
     <x-authentication-card>
         <x-slot name="logo">
             <div class="w-40">
@@ -6,16 +11,13 @@
             </div>
         </x-slot>
 
+
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="@can('admin-top'){{ route('registerAdmin') }}
+                    @else {{ route('register') }}
+                    @endcan">
             @csrf
-
-            {{-- <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')" required
-                    autofocus autocomplete="name" />
-            </div> --}}
 
             <div class="mt-4">
                 <x-label for="nickname" value="ニックネーム" />
@@ -63,10 +65,12 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
+                @if (!Auth::check())
                 <a class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
+                @endif
 
                 <x-button class="ml-4">
                     {{ __('Register') }}
