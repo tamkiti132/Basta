@@ -36,14 +36,7 @@
 
                         <!-- モーダルの中身 -->
                         <x-slot name="content">
-                            <div class="flex flex-col text-gray-800" x-data="{ isSuspended: false }" x-init="
-                                    Livewire.on('userSuspended', () => {
-                                        isSuspended = true;
-                                    });
-                                    Livewire.on('userLiftSuspended', () => {
-                                        isSuspended = false;
-                                    });
-                                ">
+                            <div class="flex flex-col text-gray-800" x-data="{ isSuspended: @entangle('isSuspended') }">
 
 
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"

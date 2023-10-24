@@ -30,6 +30,8 @@ class UserShow extends Component
     public $show_memos = false;
     public $show_comments = false;
 
+    public $isSuspended;
+
 
     protected $listeners = [
         'setGroupId',
@@ -124,6 +126,8 @@ class UserShow extends Component
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
+
+        $this->isSuspended = $user_data->suspension_state;
 
 
 
