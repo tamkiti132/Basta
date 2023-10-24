@@ -41,9 +41,24 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manager', function ($user, $group_data) {
-            $role = $user->groupRoles()->where('group_id', $group_data->id)->where('group_id', $group_data->id)->first()->pivot->role;
-            return $role === 10;
+            // ユーザーのグループ内での権限が存在することを確認            
+            // $user->groupRoles()->where('group_id', $group_data->id)->first()->pivot->role
+            // と1行で書いてしまうと、
+            // $user->groupRoles()->where('group_id', $group_data->id)->first()
+            // がnullであった場合、そのnullのオブジェクトに対してpivotプロパティをアクセスしようとしてエラーが起きてしまう。
+            $group_role = $user->groupRoles()->where('group_id', $group_data->id)->first();
+
+            // group_roleがnullでないことを確認
+            if ($group_role) {
+                //グループに所属しているユーザーはここでさらにその権限が何かをチェックされる
+                $role = $group_role->pivot->role;
+                return $role === 10;
+            } else {
+                // グループに所属していないユーザー、運営権限のユーザーはこの条件に当たる
+                return false;
+            }
         });
+
         Gate::define('subManager-to-manager', function ($user) {
             return $user->role >= 10 && $user->role <= 50;
         });

@@ -38,13 +38,8 @@
                     <button class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100" type="button"
                         x-on:click="$wire.closeModal">キャンセル</button>
 
-                    @can('manager', $group_data)
                     <button type="submit"
                         class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">退会</button>
-                    @else
-                    <button type="submit"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">退会</button>
-                    @endcan
                 </div>
             </div>
 
