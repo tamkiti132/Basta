@@ -33,17 +33,12 @@ class GroupShowAdmin extends Component
     public $show_suspension_users = false;
     public $show_suspension_users_pagination = false;
 
+    public $isSuspended;
 
 
     public function mount($group_id)
     {
         $this->group_id = $group_id;
-
-        $this->group_data = Group::where('id', $group_id)
-            ->with(['userRoles' => function ($query) {
-                $query->wherePivot('role', 10);
-            }])
-            ->first();
     }
 
 
@@ -135,6 +130,16 @@ class GroupShowAdmin extends Component
 
     public function render()
     {
+        $this->group_data = Group::where('id', $this->group_id)
+            ->with(['userRoles' => function ($query) {
+                $query->wherePivot('role', 10);
+            }])
+            ->first();
+
+
+        $this->isSuspended = $this->group_data->suspension_state;
+
+
         //グループ通報情報
         $group_reports_data = Report::whereIn('id', function ($query) {
             $query->select('report_id')
