@@ -72,7 +72,7 @@
                     <a href="{{ route('admin.admin_user_top') }}">運営ユーザー一覧</a>
                 </div>
                 <div class="w-full sm:w-auto">
-                    <a href="{{-- route('admin.admin_user_top') --}}">運営権限ユーザー新規登録</a>
+                    <a href="{{ route('register') }}">運営権限ユーザー新規登録</a>
                 </div>
             </div>
             @elsecan('admin-lower')
