@@ -92,7 +92,12 @@ class MemoListMypage extends Component
         $later_read_web_memos_data = collect([]);
         $later_read_book_memos_data = collect([]);
 
-        // $search = $request->search;
+
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
 
 
         if ($this->group_id) {
@@ -109,9 +114,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -141,9 +150,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -166,9 +179,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -202,9 +219,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -224,9 +245,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -257,9 +282,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -272,18 +301,18 @@ class MemoListMypage extends Component
                     ->join('users', 'memos.user_id', '=', 'users.id')
                     ->select('memos.*', 'web_type_features.url', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
                     ->where('users.id', $this->user_id)
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
-                    })
                     ->when($this->selected_labels, function ($query) { // 選択されたラベルがある場合のみフィルタリング
                         $query->whereHas('labels', function ($query) {
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -312,9 +341,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -336,9 +369,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -371,9 +408,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -392,9 +433,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }
@@ -424,9 +469,13 @@ class MemoListMypage extends Component
                             $query->whereIn('id', $this->selected_labels);
                         });
                     })
-                    ->where(function ($query) {
-                        $query->where('memos.title', 'like', '%' . $this->search . '%')
-                            ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $query->where(function ($query) use ($keyword) {
+                                $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                    ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            });
+                        }
                     })
                     ->get();
             }

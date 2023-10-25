@@ -72,6 +72,13 @@ class GroupTopAdmin extends Component
         })->get();
 
 
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
+
+
         //グループ
         $groups_data = Group::select('id', 'name', 'introduction', 'group_photo_path')
             ->where('suspension_state', 0)
@@ -79,9 +86,13 @@ class GroupTopAdmin extends Component
                 $query->wherePivot('role', 10);
             }])
             ->withCount(['reports', 'user', 'memos', 'comments'])
-            ->where(function ($query) {
-                $query->where('groups.name', 'like', '%' . $this->search . '%')
-                    ->orWhere('groups.introduction', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('groups.name', 'like', '%' . $keyword . '%')
+                            ->orWhere('groups.introduction', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->get();
 
@@ -93,9 +104,13 @@ class GroupTopAdmin extends Component
                 $query->wherePivot('role', 10);
             }])
             ->withCount(['reports', 'user', 'memos', 'comments'])
-            ->where(function ($query) {
-                $query->where('groups.name', 'like', '%' . $this->search . '%')
-                    ->orWhere('groups.introduction', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('groups.name', 'like', '%' . $keyword . '%')
+                            ->orWhere('groups.introduction', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->get();
 

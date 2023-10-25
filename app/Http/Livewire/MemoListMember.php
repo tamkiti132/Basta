@@ -60,6 +60,13 @@ class MemoListMember extends Component
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
 
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
+
+
         if (in_array('web', $this->selected_web_book_labels)) {
             $web_memos_data = Memo::with('labels')
                 ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')
@@ -73,9 +80,13 @@ class MemoListMember extends Component
                         $query->whereIn('id', $this->selected_labels);
                     });
                 })
-                ->where(function ($query) {
-                    $query->where('memos.title', 'like', '%' . $this->search . '%')
-                        ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                ->where(function ($query) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                        });
+                    }
                 })
                 ->get();
         }
@@ -106,9 +117,13 @@ class MemoListMember extends Component
                         $query->whereIn('id', $this->selected_labels);
                     });
                 })
-                ->where(function ($query) {
-                    $query->where('memos.title', 'like', '%' . $this->search . '%')
-                        ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                ->where(function ($query) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                        });
+                    }
                 })
                 ->get();
         }

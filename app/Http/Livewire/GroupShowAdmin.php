@@ -140,6 +140,13 @@ class GroupShowAdmin extends Component
         $this->isSuspended = $this->group_data->suspension_state;
 
 
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
+
+
         //グループ通報情報
         $group_reports_data = Report::whereIn('id', function ($query) {
             $query->select('report_id')
@@ -147,12 +154,16 @@ class GroupShowAdmin extends Component
                 ->where('group_id', $this->group_id);
         })
             ->with('contribute_user')
-            ->where(function ($query) {
-                $query->whereHas('contribute_user', function ($subQuery) {
-                    $subQuery->where('nickname', 'like', '%' . $this->search . '%')
-                        ->orWhere('username', 'like', '%' . $this->search . '%');
-                })
-                    ->orWhere('reports.detail', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->whereHas('contribute_user', function ($subQuery) use ($keyword) {
+                            $subQuery->where('nickname', 'like', '%' . $keyword . '%')
+                                ->orWhere('username', 'like', '%' . $keyword . '%');
+                        })
+                            ->orWhere('reports.detail', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->when($this->report_reason, function ($query) {
                 $query->where('reason', $this->report_reason);
@@ -171,9 +182,13 @@ class GroupShowAdmin extends Component
                 $query->where('group_id', $this->group_id)
                     ->select(['role']);
             }])
-            ->where(function ($query) {
-                $query->where('users.nickname', 'like', '%' . $this->search . '%')
-                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
+                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->when($this->user_block_state == 1, function ($query) {
                 $query->whereDoesntHave('blockedGroup', function ($query) {
@@ -206,9 +221,13 @@ class GroupShowAdmin extends Component
                 $query->where('group_id', $this->group_id)
                     ->select(['role']);
             }])
-            ->where(function ($query) {
-                $query->where('users.nickname', 'like', '%' . $this->search . '%')
-                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
+                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->when($this->user_block_state == 1, function ($query) {
                 $query->whereDoesntHave('blockedGroup', function ($query) {
