@@ -130,6 +130,13 @@ class UserShow extends Component
         $this->isSuspended = $user_data->suspension_state;
 
 
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
+
+
 
         //ユーザー通報情報
         $all_user_reports_data = Report::whereIn('id', function ($query) {
@@ -138,11 +145,15 @@ class UserShow extends Component
                 ->where('user_id', $this->user_id);
         })
             ->with(['contribute_user'])
-            ->where(function ($query) {
-                $query->whereHas('contribute_user', function ($subQuery) {
-                    $subQuery->where('nickname', 'like', '%' . $this->search . '%');
-                })
-                    ->orWhere('reports.detail', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->whereHas('contribute_user', function ($subQuery) use ($keyword) {
+                            $subQuery->where('nickname', 'like', '%' . $keyword . '%');
+                        })
+                            ->orWhere('reports.detail', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->when($this->report_reason, function ($query) {
                 $query->where('reason', $this->report_reason);
@@ -160,9 +171,13 @@ class UserShow extends Component
                 ->select('memos.*', 'web_type_features.url', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
                 ->withCount('reports')
                 ->where('users.id', $this->user_id)
-                ->where(function ($query) {
-                    $query->where('memos.title', 'like', '%' . $this->search . '%')
-                        ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                ->where(function ($query) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                        });
+                    }
                 })
                 ->when($this->group_id, function ($query) {
                     $query->where('group_id', $this->group_id);
@@ -188,9 +203,13 @@ class UserShow extends Component
                 ->select('memos.*', 'book_type_features.book_photo_path', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
                 ->withCount('reports')
                 ->where('users.id', $this->user_id)
-                ->where(function ($query) {
-                    $query->where('memos.title', 'like', '%' . $this->search . '%')
-                        ->orWhere('memos.shortMemo', 'like', '%' . $this->search . '%');
+                ->where(function ($query) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $query->where(function ($query) use ($keyword) {
+                            $query->where('memos.title', 'like', '%' . $keyword . '%')
+                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                        });
+                    }
                 })
                 ->where(function ($query) {
                     $query->whereNotNull('book_type_features.memo_id')
@@ -218,8 +237,12 @@ class UserShow extends Component
         $comments_data = Comment::where('user_id', $this->user_id)
             ->with('memo:id,group_id')
             ->withCount('reports')
-            ->where(function ($query) {
-                $query->where('comments.comment', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('comments.comment', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->when($this->group_id, function ($query) {
                 $query->whereHas('memo', function ($query) {

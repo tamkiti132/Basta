@@ -18,6 +18,12 @@ class GroupJoinController extends Controller
     {
         $search = $request->search;
 
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
+
         // $all_groups_data = Group::all();
         $all_groups_data = Group::whereDoesntHave('user', function ($query) {
             $query->where('group_user.user_id', Auth::id());
@@ -25,7 +31,15 @@ class GroupJoinController extends Controller
             $query->where('roles.role', 10);
         }])
             ->withCount('user')
-            ->search($search)->paginate(20);
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($subQuery) use ($keyword) {
+                        $subQuery->where('name', 'like', '%' . $keyword . '%')
+                            ->orWhere('introduction', 'like', '%' . $keyword . '%');
+                    });
+                }
+            })
+            ->paginate(20);
 
         // dd($all_groups_data);
 

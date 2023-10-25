@@ -72,15 +72,24 @@ class AdminUserTop extends Component
 
     public function render()
     {
+        // 全角スペースを半角スペースに変換
+        $search = str_replace("　", " ", $this->search);
+
+        // 半角スペースで検索ワードを分解
+        $keywords = explode(' ', $search);
 
         //ユーザー
         $this->all_not_suspended_users_data = User::where('suspension_state', 0)
             ->whereHas('roles', function ($query) {
                 $query->where('role', '=', 5);
             })
-            ->where(function ($query) {
-                $query->where('users.nickname', 'like', '%' . $this->search . '%')
-                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
+                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->get();
 
@@ -90,9 +99,13 @@ class AdminUserTop extends Component
             ->whereHas('roles', function ($query) {
                 $query->where('role', '=', 5);
             })
-            ->where(function ($query) {
-                $query->where('users.nickname', 'like', '%' . $this->search . '%')
-                    ->orWhere('users.username', 'like', '%' . $this->search . '%');
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->where(function ($query) use ($keyword) {
+                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
+                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                    });
+                }
             })
             ->get();
 
