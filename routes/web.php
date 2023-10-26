@@ -24,6 +24,8 @@ use App\Http\Livewire\UserShow;
 use App\Http\Livewire\GroupTopAdmin;
 use App\Http\Livewire\GroupShowAdmin;
 use App\Http\Livewire\AdminUserTop;
+use App\Http\Livewire\Index;
+use App\Http\Livewire\GroupJoin;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -53,17 +55,15 @@ Route::middleware(['auth', 'check_suspension'])
         });
 
 
-        Route::controller(IndexController::class)
-            ->group(function () {
-                Route::get('/', 'index')->name('index')
-                    ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-                Route::get('index', 'index')->name('index')
-                    ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-                // Route::get('/', 'create')->name('create');
-                // Route::post('/', 'store')->name('store');
-            });
+        // Route::controller(IndexController::class)
+        //     ->group(function () {
+        //         Route::get('/', 'index')->name('index')
+        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+        //         Route::get('index', 'index')->name('index')
+        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+        //     });
 
-        // Route::get('/', IndexController::class, 'index');
+        Route::get('/', Index::class)->name('index');
 
         Route::prefix('group_create')
             ->controller(GroupCreateController::class)
@@ -73,14 +73,20 @@ Route::middleware(['auth', 'check_suspension'])
                 Route::post('/', 'store')->name('store');
             });
 
+        // Route::prefix('group_join')
+        //     ->controller(GroupJoinController::class)
+        //     ->name('group_join.')
+        //     ->group(function () {
+        //         Route::get('/', 'index')->name('index')
+        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+        //         Route::get('/{group_id}', 'joinGroup')->name('joinGroup')
+        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+        //     });
+
         Route::prefix('group_join')
-            ->controller(GroupJoinController::class)
             ->name('group_join.')
             ->group(function () {
-                Route::get('/', 'index')->name('index')
-                    ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-                Route::get('/{group_id}', 'joinGroup')->name('joinGroup')
-                    ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+                Route::get('/', GroupJoin::class)->name('index');
             });
 
         // Route::get('group_join', [GroupJoinController::class, 'index'])->name('group_join');

@@ -26,18 +26,36 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('admin-top', function ($user) {
-            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
-            return $role == 3;
+            $group_role = $user->roles->first();
+
+            if ($group_role) {
+                $role = $group_role->role;
+                return $role == 3;
+            } else {
+                return false;
+            }
         });
 
         Gate::define('admin', function ($user) {
-            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
-            return $role == 5;
+            $group_role = $user->roles->first();
+
+            if ($group_role) {
+                $role = $group_role->role;
+                return $role == 5;
+            } else {
+                return false;
+            }
         });
 
         Gate::define('admin-higher', function ($user) {
-            $role = $user->roles->first()->role; // これは一例です。実際のリレーションに応じて適切に書き換えてください。
-            return $role >= 3 && $role <= 5;
+            $group_role = $user->roles->first();
+
+            if ($group_role) {
+                $role = $group_role->role;
+                return $role >= 3 && $role <= 5;
+            } else {
+                return false;
+            }
         });
 
         Gate::define('manager', function ($user, $group_data) {
@@ -73,8 +91,14 @@ class AuthServiceProvider extends ServiceProvider
             return $role !== 10;
         });
         Gate::define('admin-lower', function ($user) {
-            $role = $user->roles->first()->role;
-            return $role > 5;
+            $group_role = $user->roles->first();
+
+            if ($group_role) {
+                $role = $group_role->role;
+                return $role > 5;
+            } else {
+                return false;
+            }
         });
     }
 }
