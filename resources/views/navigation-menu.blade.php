@@ -48,6 +48,7 @@
 
                 @else
                 <div class="relative w-1/2 lg:w-1/3">
+                    @if ($user_groups->first())
                     <div
                         class="overflow-hidden text-xs truncate bg-transparent border-none w-28 sm:w-40 sm:text-base whitespace-nowrap">
                         <button
@@ -68,6 +69,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @endif
                 </div>
 
                 {{-- マイページのリンク --}}
