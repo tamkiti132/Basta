@@ -130,8 +130,6 @@
                           </div>
                           {{-- 右側 --}}
                           <div class="grid grid-cols-5">
-                            {{-- <div class="col-span-2">
-                            </div> --}}
                             <div class="col-span-5">
                               <div class="max-w-xs m-auto">
                                 <img src="/images/本の画像（青）.png">
@@ -178,18 +176,6 @@
       class="flex flex-col w-full h-auto max-w-xs px-3 py-2 bg-white rounded-xl">
 
       @livewire('label-adder')
-
-      {{-- <form action="" method="POST" class="flex flex-col gap-2 p-2 text-xs sm:text-base">
-        <div>
-          <input type="checkbox" name="reason" value="0" class="mr-3"><span>プログラミング</span>
-        </div>
-        <div>
-          <input type="checkbox" name="reason" value="1" class="mr-3"><span>設計</span>
-        </div>
-        <div>
-          <input type="checkbox" name="reason" value="2" class="mr-3"><span>Laravel</span>
-        </div>
-      </form> --}}
 
     </div>
   </div>

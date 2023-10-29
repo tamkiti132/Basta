@@ -3,7 +3,6 @@
     showModal: @entangle('showModal'),
     showNextManagerModal: @entangle('showNextManagerModal'),
 }">
-    {{-- @if ($showModal) --}}
     <div x-cloak x-show="showModal"
         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
         <form wire:submit.prevent="quitGroup" x-on:click.away="$wire.closeModal"
@@ -45,33 +44,7 @@
 
         </form>
     </div>
-    {{-- @endif --}}
 
-    {{-- <div x-data="{ 
-            open: @entangle('text1'),
-            open2: @entangle('text2')
-        }" @click.away="open = false; open2 = false">
-        <button x-on:click="$wire.textSwitch1()">Switch Text</button>
-        <div x-show="open">
-            <p class="p-10">aaaa</p>
-        </div>
-
-        <button x-on:click="$wire.textSwitch2()">Switch Text</button>
-        <div x-show="open2">
-            <p class="p-10">bbbb</p>
-        </div>
-    </div> --}}
-
-    {{-- <button x-on:click="$wire.textSwitch2"></button>
-    <div x-show="wire.text2">
-        <p class="p-10">aaaa</p>
-    </div> --}}
-
-
-    {{-- @if ($showNextManagerModal)
-
-    <p class="p-24" x-show="$wire.showNextManagerModal">fffff</p>
-    @endif --}}
     {{-- 次の管理者選択モーダル --}}
 
     <div x-cloak x-show="showNextManagerModal"
@@ -95,44 +68,8 @@
                     次の管理者を選択してください</p>
             </div>
 
-            {{-- <form wire:submit.prevent="quitGroup" class="flex flex-col p-2">
-                @foreach ($group_data->userRoles as $user_data)
 
-                <button type="button" class="items-center py-2 text-xs sm:grid sm:grid-cols-7 hover:bg-slate-100">
-
-                    <div class="flex items-center sm:col-span-1">
-                        @if($user_data->profile_photo_path)
-                        <div class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
-                            <img class="object-fill w-10 h-10 rounded-full"
-                                src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
-                        </div>
-                        @else
-                        <div class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></div>
-                        @endif
-                    </div>
-                    <div class="col-span-3 text-left">
-                        <p>{{ $user_data->nickname }}</p>
-                    </div>
-
-                    <div class="ml-16 text-left sm:mt-0 sm:ml-0 sm:col-span-3">
-                        <p class="text-gray-500">
-                            {{ $user_data->username }}
-                        </p>
-                    </div>
-                </button>
-                @endforeach
-
-                <div class="flex justify-end gap-4 pt-2">
-                    <button class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
-                        x-on:click="$wire.closeModal">キャンセル</button>
-                    <button type="button"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">退会</button>
-                </div>
-            </form> --}}
             <form wire:submit.prevent="quitGroupForManager" class="flex flex-col p-2">
-                {{-- @php
-                dd($group_data);
-                @endphp --}}
                 <select class="w-full p-2 mb-4 border border-gray-300 rounded" name="users" wire:model.defer="user_id">
                     @foreach ($group_data->userRoles as $user_data)
                     <option value="{{ $user_data->id }}">

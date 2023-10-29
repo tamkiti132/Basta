@@ -235,9 +235,6 @@
 
                       {{-- ボタン --}}
                       <div class="mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
-                        {{-- <button
-                          class="px-10 py-3 font-bold text-white bg-indigo-400 border-0 sm:text-lg rounded-2xl focus:outline-none hover:bg-indigo-500"
-                          onclick="window.open('{{ $memo_data->web_type_feature->url }}') ">リンクを開く</button> --}}
                       </div>
                     </div>
                     {{-- 右側 --}}
@@ -247,7 +244,6 @@
                           <div class="hidden text-right xl:block">
                             <i class="text-3xl fas fa-book-open"></i>
                           </div>
-                          {{-- <img src="/images/本の画像（青）.png"> --}}
                           @if(!(empty($memo_data->book_type_feature->book_photo_path)))
                           <img
                             src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
@@ -310,13 +306,7 @@
 
         <h2 class="px-5 text-lg font-bold">コメント</h2>
         {{-- コメントセクション --}}
-        {{-- @php
-        dd($comments_data);
-        @endphp --}}
         @foreach ($comments_data as $comment_data)
-        {{-- @php
-        dd($comment_data);
-        @endphp --}}
         <section class="text-gray-600 body-font">
           <div class="container px-5 mx-auto">
             <div class="-m-4">

@@ -34,9 +34,6 @@
                   </div>
                   {{-- メンバー を選択した 場合 --}}
                   @foreach ($all_not_blocked_users_data as $user_data)
-                  {{-- @php
-                  dump($user_data);
-                  @endphp --}}
                   {{-- １人分のまとまり --}}
                   <div class="grid gap-10 sm:gap-7" x-cloak x-show="member">
                     <div class="items-center sm:grid sm:grid-cols-7">
@@ -127,9 +124,6 @@
                         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
                         <form :action="actionUrl" method="POST" x-on:click.away="modal_leave_group = false"
                           class="flex flex-col justify-center w-full h-auto max-w-sm px-3 py-2 bg-white rounded-xl">
-                          {{-- @php
-                          dump($user_data);
-                          @endphp --}}
                           @csrf
 
                           <div class="flex flex-col items-center pb-2 mb-6">
@@ -164,9 +158,6 @@
                             </div>
                           </div>
 
-                          {{-- @php
-                          dump(currentUserId);
-                          @endphp --}}
                         </form>
                       </div>
 
@@ -268,9 +259,6 @@
                         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
                         <form :action="actionUrl" method="POST" x-on:click.away="modal_leave_group = false"
                           class="flex flex-col justify-center w-full h-auto max-w-sm px-3 py-2 bg-white rounded-xl">
-                          {{-- @php
-                          dump($user_data);
-                          @endphp --}}
                           @csrf
 
                           <div class="flex flex-col items-center pb-2 mb-6">
@@ -305,9 +293,6 @@
                             </div>
                           </div>
 
-                          {{-- @php
-                          dump(currentUserId);
-                          @endphp --}}
                         </form>
                       </div>
 

@@ -51,7 +51,7 @@
                                                 @enderror
                                                 <label for="url" class="block text-sm">URL<span
                                                         class="required">*</span></label>
-                                                <input id="url" type="text" {{-- name="url" --}}
+                                                <input id="url" type="text"
                                                     wire:model.defer="memo_data.web_type_feature.url"
                                                     class="w-full text-sm rounded-lg sm:w-3/4 sm:text-base">
                                             </div>
@@ -83,8 +83,6 @@
                                         </div>
                                     </div>
                                     <div class="mt-10">
-                                        {{--
-                                        <x-validation-error name="additionalMemo" /> --}}
                                         @error('memo_data.additionalMemo')
                                         <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
                                         @enderror

@@ -49,6 +49,14 @@ class MemoList extends Component
         $this->resetPage();
     }
 
+    public function deleteGroup($group_id)
+    {
+        $group_data = Group::find($group_id);
+        $group_data->delete();
+
+        return to_route('index');
+    }
+
     public function render()
     {
         $group_data = Group::find($this->group_id);

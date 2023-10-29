@@ -44,12 +44,8 @@
                                     退会
                                 </button>
 
-                                <form method="POST"
-                                    action="{{ route('group.destroy', ['id' => session()->get('group_id') ]) }}">
-                                    @csrf
-                                    <button type="submit" class="block w-full p-2 text-left hover:bg-slate-100"
-                                        onclick="return confirm('本当に削除しますか？');">グループを削除</button>
-                                </form>
+                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                    onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', {{ $group_data->id }}) }">グループを削除</button>
 
                                 <button class="block w-full p-2 text-left hover:bg-slate-100">グループを利用停止</button>
 
@@ -64,7 +60,6 @@
 
             {{-- 退会確認モーダル --}}
             @livewire('quit-group-form')
-            {{-- @livewire('counter') --}}
 
             {{-- 次の管理者選択モーダル --}}
 
@@ -103,22 +98,6 @@
         </div>
     </x-slot>
 
-    {{-- <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <form method="get" action="{{ route('group.index', ['group_id' => $group_data['id']]) }}" class="text-left">
-            <input type="text" name="search" placeholder="タイトルかメモ概要のワードで検索" class="rounded-xl" size="50">
-            <button class="px-3 py-2 font-bold">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div> --}}
-    {{-- <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <form wire:submit.prevent.defer>
-            <input type="text" wire:model="search" placeholder="タイトルかメモ概要のワードで検索" class="rounded-xl" size="50">
-            <button class="px-3 py-2 font-bold" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div> --}}
     <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <form wire:submit.prevent="executeSearch">
             <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索" class="rounded-xl" size="50">
@@ -178,13 +157,7 @@
                 <x-flash-message status="suspension" />
                 <x-flash-message status="error" />
 
-                {{-- @php
-                dump($all_memos_data_paginated);
-                @endphp --}}
                 @foreach ($all_memos_data_paginated as $memo_data)
-                {{-- @php
-                dump($memo_data->labels);
-                @endphp --}}
                 @if ($memo_data['type'] == 0 )
                 {{-- Webタイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
@@ -245,18 +218,12 @@
                                             {{-- 『いいね』 『あとでよむ』 --}}
                                             <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3 text-sm">
                                                 <div class="w-20">
-                                                    {{-- <i
-                                                        class="inline text-pink-300 sm:text-lg fa-solid fa-regular fa-heart"></i>
-                                                    --}}
                                                     @livewire('good-button', ['memo' => $memo_data],
                                                     key('good-button-'.microtime(true)))
-                                                    {{-- <span class="ml-1">3</span> --}}
                                                 </div>
                                                 <div class="w-20">
-                                                    {{-- <i class="inline sm:text-lg fa-solid fa-file"></i> --}}
                                                     @livewire('later-read-button', ['memo' => $memo_data],
                                                     key('later-read-button-'.microtime(true)))
-                                                    {{-- <span class="ml-2">2</span> --}}
                                                 </div>
                                             </div>
                                             {{-- タグ --}}

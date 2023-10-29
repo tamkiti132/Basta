@@ -52,6 +52,24 @@ class MemoListMember extends Component
         $this->resetPage();
     }
 
+    public function deleteUser()
+    {
+        $user_data = User::find($this->user_id);
+        $user_data->delete();
+
+        return to_route('admin.user_top.index');
+    }
+
+    public function suspendUser()
+    {
+        $user_data = User::find($this->user_id);
+
+        $user_data->suspension_state = 1;
+        $user_data->save();
+
+        return to_route('admin.user_top.index');
+    }
+
     public function render()
     {
         $group_data = Group::find($this->group_id);

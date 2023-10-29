@@ -77,15 +77,6 @@
             </form>
         </div>
 
-        {{-- <select wire:change="setGroupId($event.target.value)" class="max-w-xs rounded-xl">
-            <option value="">グループで絞り込み</option>
-            @foreach($user_groups as $group)
-            <option value="{{ $group->id }}" {{ $group_id==$group->id ? 'selected' : '' }}>
-                {{ $group->name }}
-            </option>
-            @endforeach
-        </select> --}}
-
         <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
@@ -394,14 +385,11 @@
                                             </div>
                                             {{-- 右側 --}}
                                             <div class="grid grid-cols-5">
-                                                {{-- <div class="col-span-2">
-                                                </div> --}}
                                                 <div class="col-span-5">
                                                     <div class="max-w-xs m-auto">
                                                         <div class="hidden text-right xl:block">
                                                             <i class="text-3xl fas fa-book-open"></i>
                                                         </div>
-                                                        {{-- <img src="/images/本の画像（青）.png"> --}}
                                                         @if($memo_data['book_photo_path'])
                                                         <img
                                                             src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />

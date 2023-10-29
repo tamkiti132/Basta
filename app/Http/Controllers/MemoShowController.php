@@ -49,7 +49,6 @@ class MemoShowController extends Controller
                 );
             })->exists();
 
-        // dd($request);
 
         if ($isBlocked) {
             session()->flash('error', 'ブロックされているため、この機能は利用できません。');
@@ -86,7 +85,7 @@ class MemoShowController extends Controller
         if ($request->type === "web") {
             $memo_data = Memo::with(['web_type_feature', 'user' => function ($query) {
                 $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
-            }, 'labels'])  // Add this to load labels related to the memo
+            }, 'labels'])
                 ->find($id);
         } else {
             $memo_data = Memo::with(['book_type_feature', 'user' => function ($query) {
@@ -95,7 +94,6 @@ class MemoShowController extends Controller
                 ->find($id);
         }
 
-        // dd($memo_data);
 
         // コメント情報取得
         $comments_data = Comment::with(['user' => function ($query) {
@@ -105,7 +103,6 @@ class MemoShowController extends Controller
             ->get();
 
 
-        // dd($memo_data, $comments_data);
 
         return view('group/memo_show', compact('memo_data', 'comments_data'));
     }
@@ -142,7 +139,6 @@ class MemoShowController extends Controller
      */
     public function destroyMemo(Request $request, $id)
     {
-        // dd($request);
 
         $memo_data = Memo::find($id);
         $memo_data->delete();
@@ -159,8 +155,6 @@ class MemoShowController extends Controller
      */
     public function destroyComment(Request $request, $id)
     {
-        // dd($request);
-
         $comment_data = Comment::find($id);
         $comment_data->delete();
 
@@ -174,8 +168,6 @@ class MemoShowController extends Controller
      */
     public function storeMemoTypeReport(Request $request)
     {
-        // dd($request);
-
         $report_data = [
             'user_id' => Auth::id(),
             'type' => 1,
@@ -201,8 +193,6 @@ class MemoShowController extends Controller
      */
     public function storeCommentTypeReport(Request $request)
     {
-        // dd($request);
-
         $report_data = [
             'user_id' => Auth::id(),
             'type' => 2,

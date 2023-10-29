@@ -63,7 +63,6 @@ class GroupEditController extends Controller
         session()->put('group_id', $group_id);
 
         $group_data = Group::find($group_id);
-        // dd($group_data);
 
         return view('group.group_edit', compact('group_data'));
     }
@@ -79,13 +78,10 @@ class GroupEditController extends Controller
     {
         $group_data = Group::find($id);
 
-        // dd($group_data, $request);
-
         $group_data->name = $request->group_name;
         $group_data->introduction = $request->introduction;
 
         if ($request->group_image) {
-            // dd($request->book_image);
             $group_image = $request->file('group_image');
 
             $group_image_data = $group_image->store('public/group-image/');
