@@ -85,11 +85,11 @@ class UserShow extends Component
 
     public function deleteUser()
     {
-        $user_data = User::find($this->user_id);
+        // $user_data = User::find($this->user_id);
 
-        $user_data->delete();
+        // $user_data->delete();
 
-        return to_route('admin.user_top.index');
+        // return to_route('admin.user_top.index');
     }
 
     public function suspend()

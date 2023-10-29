@@ -37,8 +37,6 @@ class GroupCreateController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        // dd($request);
-
         if ($request->group_image) {
             $group_image = $request->file('group_image');
             $group_photo_path = $group_image->store('public/group-image/');
@@ -54,8 +52,6 @@ class GroupCreateController extends Controller
                 'introduction' => $request->introduction,
             ]);
         }
-
-        // dd($group);
 
         $group->user()->sync(Auth::id());
         $group->userRoles()->syncWithoutDetaching([

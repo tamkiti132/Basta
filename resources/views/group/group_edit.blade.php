@@ -77,8 +77,6 @@
                     </div>
                   </div>
                 </div>
-
-
               </form>
             </div>
           </div>
@@ -104,8 +102,6 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
@@ -127,8 +123,6 @@
                     @livewire('toggle-join-free-enable-button', ['groupId' => $group_data['id']])
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
@@ -159,8 +153,6 @@
                     </div>
                   </form>
                 </div>
-
-
               </div>
             </div>
           </div>
@@ -184,8 +176,6 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
       </div>
@@ -211,8 +201,6 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>

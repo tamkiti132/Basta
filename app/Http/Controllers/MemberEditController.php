@@ -20,49 +20,6 @@ class MemberEditController extends Controller
     {
         $group_data = Group::find(session()->get('group_id'));
 
-        // $all_users_data = User::withCount('memo')
-        //     ->whereHas('group_user', 'group_id', 1)
-        //     ->get();
-
-        // $all_users_data = User::whereHas('group', function ($query) {
-        //     $query->where('group_id', '=', 1);
-        // })->get();
-
-        // $all_users_data = User::join('group_user', 'users.id', '=', 'group_user.user_id')
-        //     ->where('group_user.group_id', session()->get('group_id'))
-        //     ->get();
-
-        // これでも動く
-        // $all_users_data = User::join('group_user', 'users.id', '=', 'group_user.user_id')
-        //     ->where('group_user.group_id', session()->get('group_id'))
-        //     ->whereNotExists(function ($query) {
-        //         $query->select(DB::raw(1))
-        //             ->from('block_states')
-        //             ->whereRaw('block_states.user_id = users.id')
-        //             ->where('block_states.group_id', 2);
-        //     })
-        //     ->get();
-
-        // ブロックされていないユーザー一覧取得
-        // $all_not_blocked_users_data = User::withCount(['memo' => function ($query) {
-        //     $query->where('group_id', session()->get('group_id'));
-        // }])->whereHas('group', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->whereDoesntHave('blockedGroup', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->paginate(20, ['*'], 'not_blocked_page');
-
-        // $all_not_blocked_users_data = User::with(['memo' => function ($query) {
-        //     $query->where('group_id', session()->get('group_id'));
-        // }, 'groupRoles' => function ($query) {
-        //     $query->where('group_id', session()->get('group_id'));
-        // }])->withCount(['memo' => function ($query) {
-        //     $query->where('group_id', session()->get('group_id'));
-        // }])->whereHas('group', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->whereDoesntHave('blockedGroup', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->paginate(20, ['*'], 'not_blocked_page');
 
         $all_not_blocked_users_data = User::with(['memo' => function ($query) {
             $query->where('group_id', session()->get('group_id'));
@@ -76,22 +33,6 @@ class MemberEditController extends Controller
             $query->where('groups.id', session()->get('group_id'));
         })->paginate(20, ['*'], 'not_blocked_page');
 
-        // ブロック中のユーザー一覧取得
-        // $all_blocked_users_data = User::withCount('memo')->whereHas('group', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->whereHas('group', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->whereHas('blockedGroup', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->paginate(20, ['*'], 'blocked_page');
-
-        // $all_blocked_users_data = User::withCount(['memo' => function ($query) {
-        //     $query->where('group_id', session()->get('group_id'));
-        // }])->whereHas('group', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->whereHas('blockedGroup', function ($query) {
-        //     $query->where('groups.id', session()->get('group_id'));
-        // })->paginate(20, ['*'], 'blocked_page');
 
         $all_blocked_users_data = User::with(['memo' => function ($query) {
             $query->where('group_id', session()->get('group_id'));
@@ -105,7 +46,6 @@ class MemberEditController extends Controller
             $query->where('groups.id', session()->get('group_id'));
         })->paginate(20, ['*'], 'blocked_page');
 
-        // dd($all_not_blocked_users_data, $all_blocked_users_data);
 
         return view('group/member_edit', compact('group_data', 'all_not_blocked_users_data', 'all_blocked_users_data'));
     }
@@ -148,9 +88,8 @@ class MemberEditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(/*$id*/)
+    public function edit($id)
     {
-        return view('group.member_edit'/*,  compact('memo_data', 'labels_data') */);
     }
 
     /**
@@ -183,8 +122,6 @@ class MemberEditController extends Controller
      */
     public function quit($group_id, $user_id)
     {
-        // dd($group_id, $user_id);
-
         $group_data = Group::find(session()->get('group_id'));
         $group_data->user()->detach($user_id);
 
@@ -196,7 +133,6 @@ class MemberEditController extends Controller
         $group = Group::find(session()->get('group_id'));
 
 
-        // dd($user);
         if ($group) {
             $user->groupRoles()->updateExistingPivot($group->id, ['role' => $request->role]);
         }
@@ -212,7 +148,6 @@ class MemberEditController extends Controller
     {
         $user = User::find($id);
 
-        // dd(session()->get('group_id'));
 
         $user->blockedGroup()->syncWithoutDetaching(session()->get('group_id'));
 
@@ -227,7 +162,6 @@ class MemberEditController extends Controller
     {
         $user = User::find($id);
 
-        // dd(session()->get('group_id'));
 
         $user->blockedGroup()->detach(session()->get('group_id'));
 

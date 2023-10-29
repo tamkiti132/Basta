@@ -31,13 +31,10 @@ class UserTopController extends Controller
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
 
                 $memoIds = $user->memo()->pluck('id');
-                // dump($memoIds);
                 $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
 
                 $commentIds = $user->comment()->pluck('id');
                 $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
-
-                // ここで、groupReportsCount も同様に計算できます。
             });
 
 
@@ -56,19 +53,8 @@ class UserTopController extends Controller
 
                 $commentIds = $user->comment()->pluck('id');
                 $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
-
-                // ここで、groupReportsCount も同様に計算できます。
             });
 
-
-
-        // foreach ($all_users_data as $user) {
-        //     dump($user->type_0_reports_count);
-        //     dump($user->type_1_reports_count);
-        //     dump($user->type_2_reports_count);
-        // }
-
-        // dd($all_not_suspended_users_data, $all_suspended_users_data);
 
         return view('admin/user_top', compact('all_not_suspended_users_data', 'all_suspended_users_data'));
     }
@@ -135,12 +121,8 @@ class UserTopController extends Controller
      */
     public function destroy($id)
     {
-        // dd($id);
-
         $user_data = User::find($id);
         $user_data->delete();
-
-        // dd($user_data);
 
         return to_route('admin.user_top.index');
     }
@@ -151,11 +133,7 @@ class UserTopController extends Controller
      */
     public function suspend($id)
     {
-        // dd($id);
-
         $user_data = User::find($id);
-
-        // dd($user_data);
 
         $user_data->suspension_state = 1;
         $user_data->save();
@@ -169,11 +147,7 @@ class UserTopController extends Controller
      */
     public function liftSuspend($id)
     {
-        // dd($id);
-
         $user_data = User::find($id);
-
-        // dd($user_data);
 
         $user_data->suspension_state = 0;
         $user_data->save();

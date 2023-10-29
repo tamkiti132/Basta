@@ -3,7 +3,6 @@
         <div class="grid items-center grid-cols-2">
             {{-- 左側 --}}
             <div class="flex">
-                {{-- <div class="object-cover w-8 h-8 mr-3 bg-blue-200 rounded-full sm:w-10 sm:h-10"></div> --}}
                 @if($user_data->profile_photo_path)
                 <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full sm:w-10 sm:h-10">
                     <img class="object-fill w-8 h-8 rounded-full sm:w-10 sm:h-10"
@@ -66,18 +65,11 @@
                                     class="block w-full p-2 text-left hover:bg-slate-100">
                                     ユーザーを通報
                                 </button>
-                                <form method="POST"
-                                    action="{{ route('group.member.destroy', ['id' => $user_data['id'] ]) }}">
-                                    @csrf
-                                    <button type="submit" class="block w-full p-2 text-left hover:bg-slate-100"
-                                        onclick="return confirm('本当に削除しますか？');">ユーザーを削除</button>
-                                </form>
-                                <form method="POST"
-                                    action="{{ route('group.member.suspend', ['id' => $user_data['id'] ]) }}">
-                                    @csrf
-                                    <button type="submit" class="block w-full p-2 text-left hover:bg-slate-100"
-                                        onclick="return confirm('本当に利用停止にしますか？');">ユーザーを利用停止</button>
-                                </form>
+                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                    onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteUser') }">ユーザーを削除</button>
+
+                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                    onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspendUser') }">ユーザーを利用停止</button>
 
                             </div>
                         </x-slot>
@@ -152,9 +144,6 @@
                 <x-flash-message status="quit" />
 
                 @foreach ($all_memos_data_paginated as $memo_data)
-                {{-- @php
-                dd($memo_data);
-                @endphp --}}
                 @if ($memo_data->type == 0)
                 {{-- Webタイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
@@ -308,14 +297,11 @@
                                         </div>
                                         {{-- 右側 --}}
                                         <div class="grid grid-cols-5">
-                                            {{-- <div class="col-span-2">
-                                            </div> --}}
                                             <div class="col-span-5">
                                                 <div class="max-w-xs m-auto">
                                                     <div class="hidden text-right xl:block">
                                                         <i class="text-3xl fas fa-book-open"></i>
                                                     </div>
-                                                    {{-- <img src="/images/本の画像（青）.png"> --}}
                                                     @if($memo_data['book_photo_path'])
                                                     <<img
                                                         src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />

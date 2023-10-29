@@ -12,8 +12,6 @@ class MailSendController extends Controller
     public function send()
     {
 
-        // dd('aaa');
-
         $to = [
             [
                 'email' => 'harada.a.0907@gmail.com',
