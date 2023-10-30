@@ -22,6 +22,8 @@ class MemoListMember extends Component
     public $selected_labels = [];
     public $search = '';
 
+    public $isSuspended;
+
 
     protected $listeners = [
         'filterByWebBookLabels',
@@ -66,8 +68,14 @@ class MemoListMember extends Component
 
         $user_data->suspension_state = 1;
         $user_data->save();
+    }
 
-        return to_route('admin.user_top.index');
+    public function liftSuspendUser()
+    {
+        $user_data = User::find($this->user_id);
+
+        $user_data->suspension_state = 0;
+        $user_data->save();
     }
 
     public function render()
@@ -77,6 +85,9 @@ class MemoListMember extends Component
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
+
+        $this->isSuspended = $user_data->suspension_state;
+
 
         // 全角スペースを半角スペースに変換
         $search = str_replace("　", " ", $this->search);
@@ -162,8 +173,6 @@ class MemoListMember extends Component
         if (!$exists) {
             session()->flash('quit', 'このユーザーはグループを退会済みです。');
         }
-
-        // dd($user_data, $all_memos_data, $count_all_memos_data, $labels_data);    
 
         return view('livewire.memo-list-member', compact('group_data', 'user_data', 'count_all_memos_data', 'all_memos_data_paginated'));
     }
