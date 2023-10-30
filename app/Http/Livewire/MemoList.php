@@ -20,6 +20,8 @@ class MemoList extends Component
     public $selected_labels = [];
     public $search = '';
 
+    public $isSuspended;
+
 
     protected $listeners = [
         'filterByWebBookLabels',
@@ -57,6 +59,22 @@ class MemoList extends Component
         return to_route('index');
     }
 
+    public function suspendGroup()
+    {
+        $user_data = Group::find($this->group_id);
+
+        $user_data->suspension_state = 1;
+        $user_data->save();
+    }
+
+    public function liftSuspendGroup()
+    {
+        $user_data = Group::find($this->group_id);
+
+        $user_data->suspension_state = 0;
+        $user_data->save();
+    }
+
     public function render()
     {
         $group_data = Group::find($this->group_id);
@@ -64,6 +82,9 @@ class MemoList extends Component
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
+
+        $this->isSuspended = $group_data->suspension_state;
+
 
         // 全角スペースを半角スペースに変換
         $search = str_replace("　", " ", $this->search);
