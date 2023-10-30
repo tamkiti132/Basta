@@ -27,7 +27,7 @@
             {{-- 右側 --}}
             <div class="flex items-center justify-end gap-5 sm:gap-20">
                 <div>
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown align="right" width="">
                         <x-slot name="trigger">
                             <button class="flex text-sm transition border-2 border-transparent focus:outline-none">
                                 <p class="font-semibold leading-tight text-gray-800 sm:text-xl">投げ銭する</p>
@@ -36,7 +36,7 @@
 
                         <!-- モーダルの中身 -->
                         <x-slot name="content">
-                            <div class="flex flex-col pt-4 text-center text-gray-800 px-7 w-72">
+                            <div class="flex flex-col pt-4 text-center text-gray-800 w-72">
                                 <p>100円の投げ銭をしますか？</p>
                                 <div class="flex justify-center gap-4 my-3">
                                     <button
