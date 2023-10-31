@@ -154,6 +154,7 @@ return [
     */
 
     'attributes' => [
+        'current_password' => 'パスワード',
         'nickname' => 'ニックネーム',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
