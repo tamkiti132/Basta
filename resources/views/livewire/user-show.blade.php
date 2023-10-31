@@ -77,16 +77,17 @@
             </form>
         </div>
 
-        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl">
+        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
+            x-bind:class="{ 'invisible pointer-events-none': memo || comment }">
             <option value="">通報理由で絞り込み</option>
-            <option value="1">法律違反</option>
+            <option value=" 1">法律違反</option>
             <option value="2">不適切なコンテンツ</option>
             <option value="3">フィッシング or スパム</option>
             <option value="4">その他</option>
         </select>
 
         <select wire:change="setGroupId($event.target.value)" class="max-w-xs rounded-xl"
-            :class="{ 'invisible pointer-events-none': user}">
+            x-bind:class="{ 'invisible pointer-events-none': user }">
             <option value="">グループで絞り込み</option>
             @foreach($user_groups as $group)
             <option value=" {{ $group->id }}" {{ $group_id==$group->id ? 'selected' : '' }}>
@@ -98,7 +99,8 @@
 
     <div class="py-12 xl:grid-cols-12 xl:grid">
         {{-- ラベル一覧（左） --}}
-        <div class="absolute z-20 col-span-2 sm:block xl:static" :class="{ 'invisible pointer-events-none': !memo }">
+        <div class="absolute z-20 col-span-2 sm:block xl:static"
+            x-bind:class="{ 'invisible pointer-events-none': !memo }">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
             <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg xl:hidden top-40 ">
                 <div class="w-6 h-1 mb-3 bg-white rounded-lg"></div>
