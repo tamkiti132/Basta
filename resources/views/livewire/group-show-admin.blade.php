@@ -84,8 +84,8 @@
             </form>
         </div>
 
-        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl" :class="
-            { 'invisible pointer-events-none' : member}">
+        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
+            x-bind:class="{ 'invisible pointer-events-none': member }">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
             <option value="2">不適切なコンテンツ</option>
@@ -93,8 +93,8 @@
             <option value="4">その他</option>
         </select>
 
-        <select wire:change="setUserBlockState($event.target.value)" class="max-w-xs rounded-xl" :class="
-            { 'invisible pointer-events-none' : group_report}">
+        <select wire:change="setUserBlockState($event.target.value)" class="max-w-xs rounded-xl"
+            x-bind:class="{ 'invisible pointer-events-none': group_report }">
             <option value="">すべてのユーザー</option>
             <option value="1">ブロックなし</option>
             <option value="2">ブロック状態</option>
