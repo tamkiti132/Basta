@@ -81,12 +81,16 @@
                         <button class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
                           onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' "></button>
                         @endif
-                        <p>{{ $user_data->nickname }}</p>
+
+                        <button
+                          onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
+                          {{ $user_data->nickname }}
+                        </button>
                       </div>
                       {{-- ユーザーid --}}
                       <div class="ml-16 sm:ml-0 sm:col-span-3">
                         <button class="text-sm text-gray-500"
-                          onclick="location.href='{{-- route('admin/user_show') --}}' ">
+                          onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                           {{ $user_data->username }}
                         </button>
                       </div>
@@ -162,13 +166,17 @@
                         <button class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
                           onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' "></button>
                         @endif
-                        <p>{{ $user_data->nickname }}</p>
+                        <button
+                          onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
+                          {{ $user_data->nickname }}
+                        </button>
                       </div>
                       {{-- ユーザーid --}}
                       <div class="ml-16 sm:ml-0 sm:col-span-3">
-                        <p class="text-sm text-gray-500">
+                        <button class="text-sm text-gray-500"
+                          onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                           {{ $user_data->username }}
-                        </p>
+                        </button>
                       </div>
                       {{-- メールアドレス --}}
                       <div class="mt-3 sm:col-span-3 sm:mt-0">

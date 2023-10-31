@@ -40,21 +40,23 @@
                       {{-- プロフィール画像 ・ ニックネーム --}}
                       <div class="flex items-center sm:col-span-2">
                         @if($user_data->profile_photo_path)
-                        <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                           <img class="object-fill w-10 h-10 rounded-full"
                             src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                         </button>
                         @else
-                        <button class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "></button>
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                         @endif
-                        <p>{{ $user_data->nickname }}</p>
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                          {{ $user_data->nickname }}
+                        </button>
                       </div>
                       {{-- ユーザーid --}}
                       <div class="ml-16 sm:ml-0 sm:col-span-2">
-                        <button class="text-sm text-gray-500"
-                          onclick="location.href='{{-- route('group.member') --}}' ">
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="text-sm text-gray-500">
                           {{ $user_data->username }}
                         </button>
                       </div>
@@ -173,22 +175,25 @@
                       {{-- プロフィール画像 ・ ニックネーム --}}
                       <div class="flex items-center sm:col-span-2">
                         @if($user_data->profile_photo_path)
-                        <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                           <img class="object-fill w-10 h-10 rounded-full"
                             src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                         </button>
                         @else
-                        <button class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "></button>
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                         @endif
-                        <p>{{ $user_data->nickname }}</p>
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                          {{ $user_data->nickname }}
+                        </button>
                       </div>
                       {{-- ユーザーid --}}
                       <div class="ml-16 sm:mt-0 sm:ml-0 sm:col-span-2">
-                        <p class="text-sm text-gray-500">
+                        <button onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                          class="text-sm text-gray-500">
                           {{ $user_data->username }}
-                        </p>
+                        </button>
                       </div>
                       {{-- 投稿数 ・ 権限 ・ 三点リーダー（モーダル） --}}
                       <div class="grid items-center grid-cols-3 text-center sm:text-left sm:col-span-3">

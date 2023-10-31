@@ -171,8 +171,8 @@
                                                 @endif
                                                 {{-- コメント作成者情報 --}}
                                                 <div>
-                                                    <div class="grid sm:grid-cols-2">
-                                                        <button class="ml-3 text-left text-black" type="button"
+                                                    <div>
+                                                        <button class="block ml-3 text-left text-black" type="button"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' ">
                                                             {{ $user_report_data->contribute_user->nickname }}
                                                         </button>

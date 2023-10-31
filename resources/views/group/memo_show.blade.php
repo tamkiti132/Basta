@@ -26,21 +26,27 @@
                       <div class="flex items-center content-center">
                         {{-- photo --}}
                         @if($memo_data->user->profile_photo_path)
-                        <button class="object-cover mr-3 bg-center rounded-full h-14 w-14"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "><img
-                            class="object-fill rounded-full h-14 w-14"
+                        <button
+                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                          class="object-cover mr-3 bg-center rounded-full h-14 w-14">
+                          <img class="object-fill rounded-full h-14 w-14"
                             src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                         @else
-                        <div class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"></div>
+                        <button
+                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                          class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"></button>
                         @endif
                         {{-- メモ作成者情報 --}}
                         <div class="text-xs">
                           <div class="mb-1 sm:mb-0">
-                            <p class="ml-3 text-black sm:text-base">
+                            <button
+                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                              class="block ml-3 text-black sm:text-base">
                               {{ $memo_data->user->nickname }}
-                            </p>
-                            <button class="ml-5 text-gray-500 sm:text-sm"
-                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' ">
+                            </button>
+                            <button
+                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                              class="ml-5 text-gray-500 sm:text-sm">
                               {{ $memo_data->user->username }}
                             </button>
                           </div>
@@ -169,21 +175,27 @@
                       <div class="flex items-center content-center">
                         {{-- photo --}}
                         @if($memo_data->user->profile_photo_path)
-                        <button class="object-cover mr-3 bg-center rounded-full h-14 w-14"
-                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "><img
+                        <button
+                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                          class="object-cover mr-3 bg-center rounded-full h-14 w-14"><img
                             class="object-fill rounded-full h-14 w-14"
                             src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                         @else
-                        <div class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"></div>
+                        <button
+                          onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                          class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"></button>
                         @endif
                         {{-- メモ作成者情報 --}}
                         <div class="text-xs">
                           <div class="mb-1 sm:mb-0">
-                            <p class="ml-3 text-black sm:text-base">
+                            <button
+                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                              class="block ml-3 text-black sm:text-base">
                               {{ $memo_data->user->nickname }}
-                            </p>
-                            <button class="ml-5 text-gray-500 sm:text-sm"
-                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' ">
+                            </button>
+                            <button
+                              onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                              class="ml-5 text-gray-500 sm:text-sm">
                               {{ $memo_data->user->username }}
                             </button>
                           </div>
@@ -318,9 +330,10 @@
                       {{-- photo --}}
                       @if($comment_data->user->profile_photo_path)
                       <button class="object-cover mr-3 bg-center rounded-full h-14 w-14"
-                        onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' "><img
-                          class="object-fill rounded-full h-14 w-14"
-                          src="{{ asset('storage/'. $comment_data->user->profile_photo_path) }}" /></button>
+                        onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' ">
+                        <img class="object-fill rounded-full h-14 w-14"
+                          src="{{ asset('storage/'. $comment_data->user->profile_photo_path) }}" />
+                      </button>
                       @else
                       <button class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"
                         onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' "></button>
@@ -328,11 +341,13 @@
                       {{-- コメント作成者情報 --}}
                       <div class="text-xs">
                         <div class="mb-1 sm:mb-0">
-                          <p class="ml-3 text-black sm:text-base">
+                          <button
+                            onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' "
+                            class="block ml-3 text-black sm:text-base">
                             {{ $comment_data->user->nickname }}
-                          </p>
+                          </button>
                           <button class="ml-5 text-sm text-gray-500 sm:text-sm"
-                            onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['id']]) }}' ">
+                            onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' ">
                             {{ $comment_data->user->username }}
                           </button>
                         </div>
@@ -403,7 +418,7 @@
                         <img class="object-fill rounded-full h-14 w-14" src="{{ Auth::user()->profile_photo_url }}"
                           alt="{{ Auth::user()->name }}" />
                       </div>
-                      {{-- コメント作成者情報 --}}
+
                       <div class="self-center text-sm sm:text-base">
                         <p class="ml-3 text-black">
                           コメントする
