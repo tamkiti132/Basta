@@ -163,7 +163,7 @@
                                                     <div>
                                                         @if ($book_image?->isPreviewable())
                                                         <img src="{{ $book_image->temporaryUrl() }}">
-                                                        @elseif($memo_data?->book_type_feature->book_photo_path)
+                                                        @elseif($memo_data?->book_type_feature?->book_photo_path)
                                                         <img
                                                             src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                                                         @endif
