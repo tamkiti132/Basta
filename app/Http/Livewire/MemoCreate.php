@@ -38,12 +38,12 @@ class MemoCreate extends Component
                 );
             })->exists();
 
-        if ($isBlocked) {
-            session()->flash('error', 'ブロックされているため、この機能は利用できません。');
-            $this->redirectRoute('group.index', ['group_id' => session()->get('group_id')]);
-        } else {
-            return view('group/memo_create');
-        }
+        // if ($isBlocked) {
+        //     session()->flash('error', 'ブロックされているため、この機能は利用できません。');
+        //     $this->redirectRoute('group.index', ['group_id' => session()->get('group_id')]);
+        // } else {
+        //     return view('group/memo_create');
+        // }
     }
 
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\GroupCreateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemoEditController;
 use App\Http\Controllers\GroupEditController;
@@ -20,6 +19,8 @@ use App\Http\Livewire\GroupShowAdmin;
 use App\Http\Livewire\AdminUserTop;
 use App\Http\Livewire\Index;
 use App\Http\Livewire\GroupJoin;
+use App\Http\Livewire\GroupEdit;
+use App\Http\Livewire\GroupCreate;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -48,13 +49,7 @@ Route::middleware(['auth', 'check_suspension'])
         Route::get('/', Index::class)->name('index');
         Route::get('/index', Index::class);
 
-        Route::prefix('group_create')
-            ->controller(GroupCreateController::class)
-            ->name('group_create.')
-            ->group(function () {
-                Route::get('/', 'create')->name('create');
-                Route::post('/', 'store')->name('store');
-            });
+        Route::get('group_create', GroupCreate::class)->name('group_create');
 
         // Route::prefix('group_join')
         //     ->controller(GroupJoinController::class)
@@ -134,12 +129,9 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
                 Route::prefix('group_edit')
-                    ->controller(GroupEditController::class)
-                    ->name('group_edit.')
                     ->group(function () {
-                        Route::get('/{group_id}/edit', 'edit')->name('edit');
-                        Route::post('/{id}', 'update')->name('update');
-                        Route::get('mail', 'sendMail')->name('sendMail');
+                        Route::get('/{group_id}', GroupEdit::class)->name('group_edit');
+                        Route::get('mail', [GroupEditController::class, 'sendMail'])->name('group_edit.sendMail');
                     });
 
                 Route::prefix('member')

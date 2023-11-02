@@ -28,7 +28,7 @@
 
                                 @can('manager', $group_data)
                                 <button
-                                    onclick="location.href='{{ route('group.group_edit.edit', ['group_id' => $group_data['id']]) }}' "
+                                    onclick="location.href='{{ route('group.group_edit', ['group_id' => $group_data['id']]) }}' "
                                     class="block w-full p-2 text-left hover:bg-slate-100">
                                     グループ編集
                                 </button>

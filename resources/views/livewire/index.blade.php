@@ -11,7 +11,7 @@
                 <div class="flex-wrap gap-4 sm:flex sm:gap-10 sm:flex-nowrap">
                     <div class="sm:w-auto">
                         <a class="text-sm font-semibold leading-tight text-gray-800 sm:text-xl"
-                            href="{{ route('group_create.create') }}">
+                            href="{{ route('group_create') }}">
                             グループをつくる
                         </a>
                     </div>

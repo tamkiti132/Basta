@@ -60,11 +60,11 @@ class GroupEditController extends Controller
      */
     public function edit($group_id)
     {
-        session()->put('group_id', $group_id);
+        // session()->put('group_id', $group_id);
 
-        $group_data = Group::find($group_id);
+        // $group_data = Group::find($group_id);
 
-        return view('group.group_edit', compact('group_data'));
+        // return view('group.group_edit', compact('group_data'));
     }
 
     /**
@@ -76,24 +76,24 @@ class GroupEditController extends Controller
      */
     public function update(StoreGroupRequest $request, $id)
     {
-        $group_data = Group::find($id);
+        // $group_data = Group::find($id);
 
-        $group_data->name = $request->group_name;
-        $group_data->introduction = $request->introduction;
+        // $group_data->name = $request->group_name;
+        // $group_data->introduction = $request->introduction;
 
-        if ($request->group_image) {
-            $group_image = $request->file('group_image');
+        // if ($request->group_image) {
+        //     $group_image = $request->file('group_image');
 
-            $group_image_data = $group_image->store('public/group-image/');
+        //     $group_image_data = $group_image->store('public/group-image/');
 
-            $group_image_path = basename($group_image_data);
+        //     $group_image_path = basename($group_image_data);
 
-            $group_data->group_photo_path = $group_image_path;
-        }
+        //     $group_data->group_photo_path = $group_image_path;
+        // }
 
-        $group_data->push();
+        // $group_data->push();
 
-        return to_route('group.group_edit.edit', ['group_id' => $id]);
+        // return to_route('group.group_edit.edit', ['group_id' => $id]);
     }
 
     /**
@@ -104,10 +104,10 @@ class GroupEditController extends Controller
      */
     public function destroy($id)
     {
-        $group_data = Group::find($id);
-        $group_data->delete();
+        // $group_data = Group::find($id);
+        // $group_data->delete();
 
-        return to_route('index');
+        // return to_route('index');
     }
 
     public function sendMail(Request $request)
