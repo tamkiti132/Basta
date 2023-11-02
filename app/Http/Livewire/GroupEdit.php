@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Group;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class GroupEdit extends Component
 {
@@ -12,12 +13,13 @@ class GroupEdit extends Component
 
     public $group_id;
     public $group_data;
-    public $group_image;
+    public $group_image_preview;
+    public $group_image_delete_flag = false;
 
 
     protected $rules = [
-        'group_image' => ['nullable', 'image', 'max:2048'],
-        'group_data.group_name' => ['required', 'string', 'max:50'],
+        'group_image_preview' => ['nullable', 'image', 'max:2048'],
+        'group_data.name' => ['required', 'string', 'max:50'],
         'group_data.introduction' => ['required', 'string', 'max:200'],
     ];
 
@@ -29,18 +31,49 @@ class GroupEdit extends Component
         $this->group_data = Group::find($this->group_id);
     }
 
+
+    public function deleteGroupImage()
+    {
+        $this->group_image_preview = null;
+
+        $this->group_image_delete_flag = true;
+    }
+
+    public function updatedGroupImagePreview($value)
+    {
+        // $book_image_preview に新しい値がセットされたときに呼ばれる
+        if (!is_null($value)) {
+            $this->group_image_delete_flag = false;
+        }
+    }
+
+
     public function updateGroupInfo()
     {
         $this->validate();
 
         $group_data = Group::find($this->group_id);
 
-        $group_data->name = $this->group_data['group_name'];
+        $group_data->name = $this->group_data['name'];
         $group_data->introduction = $this->group_data['introduction'];
 
-        if ($this->group_image) {
-            $group_data->group_photo_path = basename($this->group_image->store('public/group-image/'));
+
+        if ($this->group_image_preview) {
+            $group_data->group_photo_path = basename($this->group_image_preview->store('public/group-image/'));
         }
+
+
+        if ($this->group_image_delete_flag) {
+
+            // ストレージから画像ファイルが存在するか確認して、あれば削除
+            if ($group_data->group_photo_path && Storage::disk('public')->exists('group-image/' . $group_data->group_photo_path)) {
+                Storage::disk('public')->delete('group-image/' . $group_data->group_photo_path);
+            }
+
+            // データベース上のグループ画像パスをnullに更新
+            $group_data->group_photo_path = null;
+        }
+
 
         $group_data->save();
 
