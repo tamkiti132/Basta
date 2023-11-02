@@ -31,11 +31,15 @@
                                         <div class="sm:col-span-3">
                                             {{-- photo --}}
                                             <div class="flex content-center max-w-xs">
-                                                @if($group_image?->isPreviewable())
+                                                @if($group_image_preview?->isPreviewable())
                                                 <div
                                                     class="object-cover mr-3 bg-center rounded-full h-14 sm:h-20 w-14 sm:w-20">
                                                     <img class="object-fill rounded-full sm:w-20 h-14 sm:h-20 w-14"
-                                                        src="{{ $group_image->temporaryUrl() }}">
+                                                        src="{{ $group_image_preview->temporaryUrl() }}">
+                                                </div>
+                                                @elseif ($group_image_delete_flag)
+                                                <div
+                                                    class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 sm:h-20 w-14 sm:w-20">
                                                 </div>
                                                 @elseif($group_data->group_photo_path)
                                                 <div
@@ -48,27 +52,25 @@
                                                     class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 sm:h-20 w-14 sm:w-20">
                                                 </div>
                                                 @endif
+                                                {{-- end_photo --}}
                                             </div>
-                                            {{-- end_photo --}}
 
                                             {{-- 画像設定ボタン --}}
 
-                                            <div class="flex gap-4 mt-3 leading-none y-4">
+                                            @error('group_image_preview')
+                                            <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
+                                            @enderror
 
-                                                @error('group_image')
-                                                <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
-                                                @enderror
-
+                                            <div class="flex items-center gap-4 mt-3 leading-none y-4">
                                                 <div>
-                                                    <label for="group_image"
-                                                        class="px-2 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input id="group_image" class="hidden" type="file"
-                                                        wire:model.defer="group_image"></input>
+                                                    <label for="group_image_preview"
+                                                        class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                    <input id="group_image_preview" class="hidden" type="file"
+                                                        wire:model.defer="group_image_preview"></input>
                                                 </div>
                                                 <div>
-                                                    <label for="delete_photo"
-                                                        class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</label>
-                                                    <input id="delete_photo" class="hidden" type="file"></input>
+                                                    <button wire:click="deleteGroupImage" type="button"
+                                                        class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</button>
                                                 </div>
                                             </div>
 
@@ -79,9 +81,9 @@
                                                 <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
                                                 @enderror
 
-                                                <label for="name" class="block text-sm">グループ名<span
+                                                <label for="group_name" class="block text-sm">グループ名<span
                                                         class="required">*</span></label>
-                                                <input wire:model.defer="group_data.name" id="name" type="text"
+                                                <input wire:model.defer="group_data.name" id="group_name" type="text"
                                                     class="rounded-lg" size="30">
                                             </div>
 

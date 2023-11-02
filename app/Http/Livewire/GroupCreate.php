@@ -58,6 +58,12 @@ class GroupCreate extends Component
     }
 
 
+    public function deleteGroupImagePreview()
+    {
+        $this->group_image = null;
+    }
+
+
     public function render()
     {
         return view('livewire.group-create');

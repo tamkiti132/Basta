@@ -161,8 +161,10 @@
                                                     </div>
 
                                                     <div>
-                                                        @if ($book_image?->isPreviewable())
-                                                        <img src="{{ $book_image->temporaryUrl() }}">
+                                                        @if ($book_image_preview?->isPreviewable())
+                                                        <img src="{{ $book_image_preview->temporaryUrl() }}">
+                                                        @elseif ($book_image_delete_flag)
+                                                        <img src="/images/本の画像（青）.png">
                                                         @elseif($memo_data?->book_type_feature?->book_photo_path)
                                                         <img
                                                             src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
@@ -173,13 +175,23 @@
                                                 </div>
                                                 <div class="mt-3">
                                                     <!-- TODO: バリデーションでエラーが起きた際の画像の復元は難しい問題なのであとでやる -->
-                                                    @error('book_image')
+                                                    @error('book_image_preview')
                                                     <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
                                                     @enderror
-                                                    <label for="book_image"
-                                                        class="px-2 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input id="book_image" class="hidden" type="file"
-                                                        wire:model.defer="book_image"></input>
+
+                                                    <div class="flex flex-col gap-2">
+                                                        <div>
+                                                            <label for="book_image_preview"
+                                                                class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                            <input id="book_image_preview" class="hidden" type="file"
+                                                                wire:model.defer="book_image_preview"></input>
+                                                        </div>
+                                                        <div>
+                                                            <button wire:click="deleteBookImage" type="button"
+                                                                class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</button>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -39,7 +39,7 @@
                                             <li class="mt-3 text-sm text-red-600">{{ $message }}</li>
                                             @enderror
 
-                                            <div class="flex gap-4 mt-3 leading-none y-4">
+                                            <div class="flex items-center gap-4 mt-3 leading-none y-4">
                                                 <div>
                                                     <label for="group_image"
                                                         class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
@@ -47,9 +47,8 @@
                                                         wire:model.defer="group_image"></input>
                                                 </div>
                                                 <div>
-                                                    <label for="delete_photo"
-                                                        class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</label>
-                                                    <input id="delete_photo" class="hidden" type="file"></input>
+                                                    <button wire:click="deleteGroupImagePreview" type="button"
+                                                        class="px-6 py-1 text-sm font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</button>
                                                 </div>
                                             </div>
 
