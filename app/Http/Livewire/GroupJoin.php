@@ -33,6 +33,8 @@ class GroupJoin extends Component
             session()->flash('isNotJoinFreeEnabled', 'このグループへの参加は現在許可されていません。');
             return redirect()->back();
         }
+
+        $this->emit('joinedGroup');
     }
 
 
