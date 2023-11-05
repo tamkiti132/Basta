@@ -171,6 +171,7 @@ return [
         'web_type_feature.url' => 'URL',
         'book_image' => '画像',
         'book_image_preview' => '画像',
+        'photo' => '画像',
         'group_image' => '画像',
         'group_image_preview' => '画像',
         'name' => 'グループ名',

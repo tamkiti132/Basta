@@ -17,9 +17,7 @@ class LabelEditor extends Component
     protected $listeners = ['deleteLabel' => 'deleteLabel'];
 
 
-    protected $rules = [
-        'labelName' => ['required', 'string', 'max:50'],
-    ];
+
 
     public function mount()
     {
@@ -48,7 +46,7 @@ class LabelEditor extends Component
             'labelName' => [
                 'required',
                 'string',
-                'max:50',
+                'max:30',
                 Rule::unique('labels', 'name')->where(function ($query) {
                     return $query->where('group_id', session()->get('group_id'));
                 }),
@@ -77,7 +75,7 @@ class LabelEditor extends Component
             'newName' => [
                 'required',
                 'string',
-                'max:50',
+                'max:30',
                 Rule::unique('labels', 'name')->ignore($labelId)->where(function ($query) {
                     return $query->where('group_id', session()->get('group_id'));
                 }),
