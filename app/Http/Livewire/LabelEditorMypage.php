@@ -21,10 +21,6 @@ class LabelEditorMypage extends Component
     ];
 
 
-    protected $rules = [
-        'labelName' => ['required', 'string', 'max:50'],
-    ];
-
     public function mount()
     {
         $this->loadLabels();
@@ -53,7 +49,7 @@ class LabelEditorMypage extends Component
             'labelName' => [
                 'required',
                 'string',
-                'max:50',
+                'max:30',
                 Rule::unique('labels', 'name')->where(function ($query) {
                     return $query->where('group_id', $this->group_id);
                 }),
@@ -82,7 +78,7 @@ class LabelEditorMypage extends Component
             'newName' => [
                 'required',
                 'string',
-                'max:50',
+                'max:30',
                 Rule::unique('labels', 'name')->ignore($labelId)->where(function ($query) {
                     return $query->where('group_id', $this->group_id);
                 }),
