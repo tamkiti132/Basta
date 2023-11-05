@@ -25,7 +25,8 @@ class MemoList extends Component
 
     protected $listeners = [
         'filterByWebBookLabels',
-        'filterByLabels'
+        'filterByLabels',
+        'labelUpdated',
     ];
 
     public function mount($group_id)
@@ -44,6 +45,22 @@ class MemoList extends Component
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_labels = $selected_labels;
+    }
+
+    public function labelUpdated($label_id = null)
+    {
+        if ($label_id) {
+            // $label_id の値のキーを検索
+            $key = array_search($label_id, $this->selected_labels);
+            // dd($key);
+
+            // 値が見つかった場合、そのキーを使用して値を削除
+            if ($key !== false) {
+                unset($this->selected_labels[$key]);
+            }
+        }
+
+        $this->executeSearch();
     }
 
     public function executeSearch()

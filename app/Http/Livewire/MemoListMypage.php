@@ -31,14 +31,21 @@ class MemoListMypage extends Component
     protected $listeners = [
         'setGroupId',
         'filterByWebBookLabels',
-        'filterByLabels'
+        'filterByLabels',
+        'labelUpdated',
     ];
+
+
+    public function mount($user_id)
+    {
+        $this->user_id = $user_id;
+
+        $this->group_id = '';
+    }
 
 
     public function setGroupId($group_id)
     {
-        // dd($group_id);
-
         $this->group_id = $group_id;
 
         $this->emitTo('label-editor-mypage', 'setGroupId', $this->group_id);
@@ -58,22 +65,28 @@ class MemoListMypage extends Component
         $this->selected_labels = $selected_labels;
     }
 
+    public function labelUpdated($label_id = null)
+    {
+        if ($label_id) {
+            // $label_id の値のキーを検索
+            $key = array_search($label_id, $this->selected_labels);
+            // dd($key);
+
+            // 値が見つかった場合、そのキーを使用して値を削除
+            if ($key !== false) {
+                unset($this->selected_labels[$key]);
+            }
+        }
+
+        $this->executeSearch();
+    }
+
     public function executeSearch()
     {
         $this->resetPage();
-        // dd($this->search);
     }
 
 
-    public function mount($user_id)
-    {
-        $this->user_id = $user_id;
-
-        $this->group_id = '';
-
-
-        // dd($this->user_id);
-    }
 
     public function render()
     {
