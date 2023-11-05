@@ -28,9 +28,27 @@ class LabelListMypage extends Component
         $this->loadLabels();
     }
 
-    public function loadLabels()
+    public function loadLabels($labelId = null)
     {
         $this->labels = Label::where('group_id', $this->group_id)->get();
+
+        if ($labelId) {
+            $this->deleteLabel($labelId);
+        }
+    }
+
+    public function deleteLabel($labelId)
+    {
+        // $label_id の値のキーを検索
+        $key = array_search($labelId, $this->selected_labels);
+        // dd($key);
+
+        // 値が見つかった場合、そのキーを使用して値を削除
+        if ($key !== false) {
+            unset($this->selected_labels[$key]);
+        }
+
+        $this->emit('filterByLabels', $this->selected_labels);
     }
 
 
