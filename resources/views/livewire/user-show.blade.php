@@ -80,7 +80,7 @@
         <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
             x-bind:class="{ 'invisible pointer-events-none': memo || comment }">
             <option value="">通報理由で絞り込み</option>
-            <option value=" 1">法律違反</option>
+            <option value="1">法律違反</option>
             <option value="2">不適切なコンテンツ</option>
             <option value="3">フィッシング or スパム</option>
             <option value="4">その他</option>
