@@ -53,6 +53,7 @@
 
                         {{-- ラベル編集 --}}
                         <div>
+                            @if($group_id)
                             {{-- @can('manager', $group_data) --}}
                             <div>
                                 <button onclick="Livewire.emit('showLabelEditModal')"
@@ -62,7 +63,7 @@
                                 </button>
                             </div>
                             {{-- @endcan --}}
-
+                            @endif
                             {{-- ラベル編集モーダル --}}
 
 
