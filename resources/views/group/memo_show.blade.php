@@ -97,7 +97,15 @@
                       </div>
 
                       {{-- ボタン --}}
-                      <div class="mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
+                      <div class="grid grid-cols-2 gap-10 mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
+                        @if ($memo_data['user_id'] === Auth::id() )
+                        <button
+                          class="px-10 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                          onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
+                        @else
+                        <div class=""></div>
+                        @endif
+
                         <button
                           class="px-10 py-3 font-bold text-white bg-indigo-400 border-0 sm:text-lg rounded-2xl focus:outline-none hover:bg-indigo-500"
                           onclick="window.open('{{ $memo_data->web_type_feature->url }}') ">リンクを開く</button>
@@ -246,7 +254,15 @@
                       </div>
 
                       {{-- ボタン --}}
-                      <div class="mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
+                      <div class="grid grid-cols-2 gap-10 mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
+                        @if ($memo_data['user_id'] === Auth::id() )
+                        <button
+                          class="px-10 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                          onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
+                        @else
+                        <div class=""></div>
+                        @endif
+                        <div></div>
                       </div>
                     </div>
                     {{-- 右側 --}}
