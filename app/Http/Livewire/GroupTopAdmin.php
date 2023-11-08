@@ -32,7 +32,8 @@ class GroupTopAdmin extends Component
 
     public function executeSearch()
     {
-        $this->resetPage();
+        $this->resetPage('groups_page');
+        $this->resetPage('suspension_groups_page');
     }
 
     public function deleteGroup($group_id)
@@ -50,6 +51,9 @@ class GroupTopAdmin extends Component
 
         $group_data->suspension_state = 1;
         $group_data->save();
+
+        $this->resetPage('groups_page');
+        $this->resetPage('suspension_groups_page');
     }
 
     public function liftSuspend($group_id)
@@ -58,6 +62,9 @@ class GroupTopAdmin extends Component
 
         $group_data->suspension_state = 0;
         $group_data->save();
+
+        $this->resetPage('groups_page');
+        $this->resetPage('suspension_groups_page');
     }
 
 

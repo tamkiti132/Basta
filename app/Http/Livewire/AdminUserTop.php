@@ -43,13 +43,17 @@ class AdminUserTop extends Component
 
     public function executeSearch()
     {
-        $this->resetPage();
+        $this->resetPage('all_not_suspended_users_page');
+        $this->resetPage('all_suspended_users_page');
     }
 
 
     public function deleteUser($user_id)
     {
         User::find($user_id)->delete();
+
+        $this->resetPage('all_not_suspended_users_page');
+        $this->resetPage('all_suspended_users_page');
     }
 
     public function suspendUser($user_id)
@@ -58,6 +62,9 @@ class AdminUserTop extends Component
 
         $user_data->suspension_state = 1;
         $user_data->save();
+
+        $this->resetPage('all_not_suspended_users_page');
+        $this->resetPage('all_suspended_users_page');
     }
 
     public function liftSuspendUser($user_id)
@@ -66,6 +73,9 @@ class AdminUserTop extends Component
 
         $user_data->suspension_state = 0;
         $user_data->save();
+
+        $this->resetPage('all_not_suspended_users_page');
+        $this->resetPage('all_suspended_users_page');
     }
 
 
@@ -110,7 +120,7 @@ class AdminUserTop extends Component
             ->get();
 
 
-        $perPage = 20;
+        $perPage = 1;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_not_suspended_users_page');
         $items = $this->all_not_suspended_users_data->slice(($currentPage - 1) * $perPage, $perPage);

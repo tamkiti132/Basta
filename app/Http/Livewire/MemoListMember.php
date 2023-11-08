@@ -42,12 +42,16 @@ class MemoListMember extends Component
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_web_book_labels = $selected_web_book_labels;
+
+        $this->resetPage();
     }
 
     public function filterByLabels($selected_labels)
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_labels = $selected_labels;
+
+        $this->resetPage();
     }
 
     public function labelUpdated($label_id = null)
@@ -63,7 +67,7 @@ class MemoListMember extends Component
             }
         }
 
-        $this->executeSearch();
+        $this->resetPage();
     }
 
     public function executeSearch()

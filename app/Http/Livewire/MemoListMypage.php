@@ -50,6 +50,10 @@ class MemoListMypage extends Component
 
         $this->emitTo('label-editor-mypage', 'setGroupId', $this->group_id);
         $this->emitTo('label-list-mypage', 'setGroupId', $this->group_id);
+
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('all_good_memos_page');
+        $this->resetPage('all_later_read_memos_page');
     }
 
 
@@ -57,12 +61,20 @@ class MemoListMypage extends Component
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_web_book_labels = $selected_web_book_labels;
+
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('all_good_memos_page');
+        $this->resetPage('all_later_read_memos_page');
     }
 
     public function filterByLabels($selected_labels)
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_labels = $selected_labels;
+
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('all_good_memos_page');
+        $this->resetPage('all_later_read_memos_page');
     }
 
     public function labelUpdated($label_id = null)
@@ -78,12 +90,16 @@ class MemoListMypage extends Component
             }
         }
 
-        $this->executeSearch();
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('all_good_memos_page');
+        $this->resetPage('all_later_read_memos_page');
     }
 
     public function executeSearch()
     {
-        $this->resetPage();
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('all_good_memos_page');
+        $this->resetPage('all_later_read_memos_page');
     }
 
 

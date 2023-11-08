@@ -56,12 +56,18 @@ class UserShow extends Component
 
         $this->emitTo('label-editor-mypage', 'setGroupId', $this->group_id);
         $this->emitTo('label-list-mypage', 'setGroupId', $this->group_id);
+
+        $this->resetPage('all_user_reports_page');
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('comments_page');
     }
 
 
     public function setReportReason($report_reason)
     {
         $this->report_reason = $report_reason;
+
+        $this->resetPage('all_user_reports_page');
     }
 
 
@@ -69,18 +75,25 @@ class UserShow extends Component
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_web_book_labels = $selected_web_book_labels;
+
+        $this->resetPage('all_my_memos_page');
     }
 
     public function filterByLabels($selected_labels)
     {
         // 選択されたラベルのON/OFF切り替え
         $this->selected_labels = $selected_labels;
+
+        $this->resetPage('all_my_memos_page');
     }
 
     public function executeSearch()
     {
         $this->resetPage();
-        // dd($this->search);
+
+        $this->resetPage('all_user_reports_page');
+        $this->resetPage('all_my_memos_page');
+        $this->resetPage('comments_page');
     }
 
     public function deleteUser()

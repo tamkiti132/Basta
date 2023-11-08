@@ -21,6 +21,7 @@ use App\Http\Livewire\Index;
 use App\Http\Livewire\GroupJoin;
 use App\Http\Livewire\GroupEdit;
 use App\Http\Livewire\GroupCreate;
+use App\Http\Livewire\MemberEdit;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -143,14 +144,8 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
                 Route::prefix('member_edit')
-                    ->controller(MemberEditController::class)
-                    ->name('member_edit.')
                     ->group(function () {
-                        Route::get('/', 'index')->name('index');
-                        Route::post('/{group_id}/{user_id}/quit', 'quit')->name('quit');
-                        Route::post('/updateRole/{user}', 'updateRole')->name('updateRole');
-                        Route::get('/{id}/blockMember', 'blockMember')->name('blockMember');
-                        Route::get('/{id}/liftBlockMember', 'liftBlockMember')->name('liftBlockMember');
+                        Route::get('/', MemberEdit::class)->name('member_edit');
                     });
             });
 
