@@ -35,6 +35,8 @@ class GroupJoin extends Component
         }
 
         $this->emit('joinedGroup');
+
+        $this->resetPage();
     }
 
 

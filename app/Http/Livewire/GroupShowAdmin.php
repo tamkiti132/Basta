@@ -60,18 +60,27 @@ class GroupShowAdmin extends Component
     public function setReportReason($report_reason)
     {
         $this->report_reason = $report_reason;
+
+        $this->resetPage('group_reports_page');
     }
+
 
     public function setUserBlockState($user_block_state)
     {
         $this->user_block_state = $user_block_state;
+
+        $this->resetPage('users_data_page');
+        $this->resetPage('suspension_users_data_page');
     }
 
 
     public function executeSearch()
     {
-        $this->resetPage();
+        $this->resetPage('group_reports_page');
+        $this->resetPage('users_data_page');
+        $this->resetPage('suspension_users_data_page');
     }
+
 
     public function deleteGroup()
     {
@@ -79,6 +88,7 @@ class GroupShowAdmin extends Component
 
         return to_route('admin.group_top');
     }
+
 
     public function suspendGroup()
     {
@@ -89,6 +99,7 @@ class GroupShowAdmin extends Component
 
         $this->emit('suspendedGroup');
     }
+
 
     public function liftSuspendGroup()
     {
@@ -106,6 +117,7 @@ class GroupShowAdmin extends Component
         User::find($userId)->delete();
     }
 
+
     public function suspendUser($userId)
     {
         $user_data = User::find($userId);
@@ -114,7 +126,11 @@ class GroupShowAdmin extends Component
         $user_data->save();
 
         $this->emit('suspendedGroup');
+
+        $this->resetPage('users_data_page');
+        $this->resetPage('suspension_users_data_page');
     }
+
 
     public function liftSuspendUser($userId)
     {
@@ -124,6 +140,9 @@ class GroupShowAdmin extends Component
         $user_data->save();
 
         $this->emit('liftSuspendedGroup');
+
+        $this->resetPage('users_data_page');
+        $this->resetPage('suspension_users_data_page');
     }
 
 
@@ -269,18 +288,18 @@ class GroupShowAdmin extends Component
             'pageName' => 'group_reports_page'
         ]);
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage('user_dataes_page');
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('users_data_page');
         $items = $users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $users_data_paginated = new LengthAwarePaginator($items, count($users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'user_dataes_page'
+            'pageName' => 'users_data_page'
         ]);
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage('suspension_user_dataes_page');
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('suspension_users_data_page');
         $items = $suspension_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $suspension_users_data_paginated = new LengthAwarePaginator($items, count($suspension_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'suspension_user_dataes_page'
+            'pageName' => 'suspension_users_data_page'
         ]);
 
 
