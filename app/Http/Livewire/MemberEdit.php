@@ -114,7 +114,7 @@ class MemberEdit extends Component
         })->get();
 
 
-        $perPage = 1;
+        $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_not_blocked_users_page');
         $items = $all_not_blocked_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
