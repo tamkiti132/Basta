@@ -64,6 +64,8 @@ class ReportUser extends Component
         $report->users()->sync([$this->user_id]);
 
         $this->reset(['reason', 'detail']);
+
+        $this->dispatchBrowserEvent('flash-message', ['message' => '通報しました']);
     }
 
     public function render()

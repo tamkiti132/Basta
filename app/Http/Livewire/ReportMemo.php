@@ -64,6 +64,8 @@ class ReportMemo extends Component
         $report->memos()->sync([$this->memo_id]);
 
         $this->reset(['reason', 'detail']);
+
+        $this->dispatchBrowserEvent('flash-message', ['message' => '通報しました']);
     }
 
     public function render()
