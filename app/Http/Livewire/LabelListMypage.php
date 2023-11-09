@@ -25,6 +25,8 @@ class LabelListMypage extends Component
     {
         $this->group_id = $group_id;
 
+        $this->selected_labels = [];
+
         $this->loadLabels();
     }
 
