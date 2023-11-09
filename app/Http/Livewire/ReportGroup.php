@@ -64,6 +64,8 @@ class ReportGroup extends Component
         $report->groups()->sync([$this->group_id]);
 
         $this->reset(['reason', 'detail']);
+
+        $this->dispatchBrowserEvent('flash-message', ['message' => '通報しました']);
     }
 
     public function render()

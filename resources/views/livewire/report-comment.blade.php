@@ -9,6 +9,14 @@
                 <p>問題点を教えてください</p>
             </div>
 
+            <div x-data="{ showMessage: false, message: '' }"
+                @flash-message.window="showMessage = true; message = $event.detail.message; setTimeout(() => showMessage = false, 4000);">
+                <div x-show="showMessage" x-cloak
+                    class="w-1/2 p-2 mx-auto font-bold text-center text-white bg-blue-300 rounded-2xl">
+                    <span x-text="message"></span>
+                </div>
+            </div>
+
             <form wire:submit.prevent="createReport" class="flex flex-col gap-2 p-2">
 
                 <x-validation-error name="reason" />
