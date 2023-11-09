@@ -71,40 +71,6 @@
             {{-- 退会確認モーダル --}}
             @livewire('quit-group-form')
 
-            {{-- 次の管理者選択モーダル --}}
-
-
-            {{-- サブ管理者いませんよモーダルモーダル --}}
-            <div x-cloak x-show="modal_nobody_submanager"
-                class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-                <div x-on:click.away="modal_nobody_submanager = false"
-                    class="flex flex-col justify-center w-full h-auto max-w-sm px-3 py-2 bg-white rounded-xl">
-                    <div class="flex flex-col items-center pb-2 mb-6">
-                        <div class="object-cover w-8 h-8 bg-blue-200 rounded-full"></div>
-                        <p>グループ名</p>
-                    </div>
-
-                    <div class="flex justify-center mb-6 text-sm font-bold text-center">
-                        <p class="leading-relaxed">本当に退会しますか？<br>
-                            （グループ内で投稿したメモ、コメントは残ります）</p>
-                    </div>
-
-                    <div action="" method="GET" class="flex flex-col gap-2 p-2">
-
-                        <label for="password">パスワード</label>
-                        <input type="password" id="password" class="text-sm rounded-lg sm:text-base">
-
-                        <div class="flex flex-col items-center justify-center gap-5 pt-2 text-sm sm:flex-row sm:gap-2">
-                            <button class="w-48 px-1 py-2 text-red-500 border border-red-500 hover:bg-red-50"
-                                x-on:click="">サブ管理者を設定しない</button>
-                            <button class="w-48 px-1 py-2 border border-gray-300 hover:bg-slate-100"
-                                x-on:click="modal_nobody_submanager = false">サブ管理者を設定する</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
     </x-slot>
 
