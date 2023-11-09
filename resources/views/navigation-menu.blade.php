@@ -8,7 +8,7 @@
                 @can('admin-higher')
                 {{-- 運営者の場合 --}}
                 <div class="flex items-center shrink-0">
-                    <a href="{{ route('admin.user_top.index') }}">
+                    <a href="{{ route('admin.user_top') }}">
                         <div class="w-20 p-2">
                             <x-application-mark class="block w-auto h-9" />
                         </div>
@@ -39,7 +39,7 @@
                 @can('admin-higher')
                 <div class="flex justify-end gap-20">
                     <div class="text-xs sm:text-base">
-                        <a href="{{ route('admin.user_top.index') }}">ユーザー一覧</a>
+                        <a href="{{ route('admin.user_top') }}">ユーザー一覧</a>
                     </div>
                     <div class="text-xs sm:text-base">
                         <a href="{{ route('admin.group_top') }}">グループ一覧</a>

@@ -3,10 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemoEditController;
 use App\Http\Controllers\GroupEditController;
-use App\Http\Controllers\MemberEditController;
 use App\Http\Controllers\MemoShowController;
 use App\Http\Controllers\MypageController;
-use App\Http\Controllers\UserTopController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoCreate;
 use App\Http\Livewire\MemoEdit;
@@ -22,6 +20,7 @@ use App\Http\Livewire\GroupJoin;
 use App\Http\Livewire\GroupEdit;
 use App\Http\Livewire\GroupCreate;
 use App\Http\Livewire\MemberEdit;
+use App\Http\Livewire\UserTopAdmin;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -154,13 +153,8 @@ Route::middleware(['auth', 'check_suspension'])
             ->group(function () {
 
                 Route::prefix('user_top')
-                    ->controller(UserTopController::class)
-                    ->name('user_top.')
                     ->group(function () {
-                        Route::get('/', 'index')->name('index');
-                        Route::post('/{id}/destroy', 'destroy')->name('destroy');
-                        Route::post('/{id}/suspend', 'suspend')->name('suspend');
-                        Route::post('/{id}/liftSuspend', 'liftSuspend')->name('liftSuspend');
+                        Route::get('/', UserTopAdmin::class)->name('user_top');
                     });
 
                 Route::prefix('user_show')
