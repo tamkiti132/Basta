@@ -50,9 +50,9 @@ class UserShow extends Component
 
     public function setGroupId($group_id)
     {
-        // dd($group_id);
-
         $this->group_id = $group_id;
+
+        $this->selected_labels = [];
 
         $this->emitTo('label-editor-mypage', 'setGroupId', $this->group_id);
         $this->emitTo('label-list-mypage', 'setGroupId', $this->group_id);
