@@ -101,6 +101,7 @@ class AdminUserTop extends Component
                     });
                 }
             })
+            ->orderBy('nickname')
             ->get();
 
 
@@ -117,6 +118,7 @@ class AdminUserTop extends Component
                     });
                 }
             })
+            ->orderBy('nickname')
             ->get();
 
 

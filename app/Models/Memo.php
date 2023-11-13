@@ -35,7 +35,7 @@ class Memo extends Model
 
     public function labels()
     {
-        return $this->belongsToMany(Label::class);
+        return $this->belongsToMany(Label::class)->orderBy('name');
     }
 
     public function web_type_feature()

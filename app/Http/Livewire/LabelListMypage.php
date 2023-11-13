@@ -32,7 +32,7 @@ class LabelListMypage extends Component
 
     public function loadLabels($labelId = null)
     {
-        $this->labels = Label::where('group_id', $this->group_id)->get();
+        $this->labels = Label::where('group_id', $this->group_id)->orderBy('name')->get();
 
         if ($labelId) {
             $this->deleteLabel($labelId);

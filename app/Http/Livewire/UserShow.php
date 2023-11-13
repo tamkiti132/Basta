@@ -135,7 +135,8 @@ class UserShow extends Component
 
         $user_groups = Group::whereHas('user', function ($query) {
             $query->where('users.id', $this->user_id);
-        })->get();
+        })->orderBy('name')
+            ->get();
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
@@ -171,6 +172,7 @@ class UserShow extends Component
             ->when($this->report_reason, function ($query) {
                 $query->where('reason', $this->report_reason);
             })
+            ->latest()
             ->get();
 
 
@@ -242,7 +244,7 @@ class UserShow extends Component
                 ->get();
         }
 
-        $all_my_memos_data = $web_memos_data->concat($book_memos_data)->sortBy('updated_at')->values()->all();
+        $all_my_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('reports_count')->values()->all();
 
 
 
@@ -262,6 +264,7 @@ class UserShow extends Component
                     $query->where('group_id', $this->group_id);
                 });
             })
+            ->orderByDesc('reports_count')
             ->get();
 
 

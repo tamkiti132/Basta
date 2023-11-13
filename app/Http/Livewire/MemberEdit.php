@@ -98,7 +98,10 @@ class MemberEdit extends Component
             $query->where('groups.id', $this->group_id);
         })->whereDoesntHave('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
-        })->get();
+        })->orderBy('nickname')
+            ->get();
+
+        // dd($all_not_blocked_users_data);
 
 
         $all_blocked_users_data = User::with(['memo' => function ($query) {
@@ -111,7 +114,8 @@ class MemberEdit extends Component
             $query->where('groups.id', $this->group_id);
         })->whereHas('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
-        })->get();
+        })->orderBy('nickname')
+            ->get();
 
 
         $perPage = 20;

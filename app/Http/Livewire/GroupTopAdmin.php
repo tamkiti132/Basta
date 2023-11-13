@@ -101,6 +101,7 @@ class GroupTopAdmin extends Component
                     });
                 }
             })
+            ->orderBy('name')
             ->get();
 
 
@@ -119,6 +120,7 @@ class GroupTopAdmin extends Component
                     });
                 }
             })
+            ->orderBy('name')
             ->get();
 
 

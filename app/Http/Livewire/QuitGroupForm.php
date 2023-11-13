@@ -30,8 +30,12 @@ class QuitGroupForm extends Component
     public function mount()
     {
         $this->group_data = Group::with(['userRoles' => function ($query) {
-            $query->wherePivot('role', 50);
+            $query
+                ->wherePivot('role', 50)
+                ->orderBy('nickname');
         }])->find(session()->get('group_id'));
+
+        // dd($this->group_data);
     }
 
 
@@ -170,6 +174,9 @@ class QuitGroupForm extends Component
 
     public function render()
     {
+        // foreach ($this->group_data->userRoles as $user_data) {
+        //     dd($user_data->nickname);
+        // }
         return view('livewire.quit-group-form');
     }
 }

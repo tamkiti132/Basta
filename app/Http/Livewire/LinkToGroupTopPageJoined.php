@@ -31,7 +31,8 @@ class LinkToGroupTopPageJoined extends Component
             $my_user_id = Auth::id();
             $this->user_groups = Group::whereHas('user', function ($query) use ($my_user_id) {
                 $query->where('group_user.user_id', $my_user_id);
-            })->get();
+            })->orderBy('name')
+                ->get();
         }
     }
 

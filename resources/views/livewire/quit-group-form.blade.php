@@ -48,6 +48,11 @@
     {{-- 次の管理者選択モーダル --}}
     <div x-cloak x-show="showNextManagerModal"
         class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
+        @foreach ($group_data->userRoles as $user_data)
+        <p>
+            {{ $user_data->nickname }}
+        </p>
+        @endforeach
         <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
             x-on:click.away="$wire.closeModal">
             <div class="flex flex-col items-center pb-2 mb-6">
@@ -72,7 +77,7 @@
                 <select class="w-full p-2 mb-4 border border-gray-300 rounded" wire:model.defer="selectedUserId">
                     <option value="">次の管理者を選択してください</option>
                     @foreach ($group_data->userRoles as $user_data)
-                    <option value="{{ $user_data->id }}">
+                    <option value="{{ $user_data->id }}" wire:key="user_role_option_{{ $user_data->id }}">
                         {{ $user_data->nickname }} ( {{ $user_data->username }} )
                     </option>
                     @endforeach
@@ -134,8 +139,13 @@
             </div>
 
             <div class="flex justify-center mb-6 text-sm font-bold text-center">
-                <p class="leading-relaxed">本当に退会しますか？<br>
-                    （グループ内で投稿したメモ、コメントは残ります）</p>
+                <p class="leading-relaxed">サブ管理者がいません。<br>
+                    管理者権限を継承するために、サブ管理者を<br>
+                    設定してください。<br>
+                    管理者権限を継承しなかった場合、<br>
+                    このグループは削除され、<br>
+                    元に戻すことはできません。
+                </p>
             </div>
 
             <div class="flex flex-col gap-2 p-2">
