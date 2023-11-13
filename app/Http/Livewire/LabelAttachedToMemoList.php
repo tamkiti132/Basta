@@ -31,7 +31,7 @@ class LabelAttachedToMemoList extends Component
     public function loadTempLabels($checked)
     {
         $checkedLabels = array_filter($checked);
-        $this->labels = Label::whereIn('id', array_keys($checkedLabels))->get();
+        $this->labels = Label::whereIn('id', array_keys($checkedLabels))->orderBy('name')->get();
         // dd($checked, $this->labels);
     }
 

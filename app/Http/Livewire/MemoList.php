@@ -134,7 +134,6 @@ class MemoList extends Component
                         });
                     }
                 })
-
                 ->get();
         }
 
@@ -169,7 +168,7 @@ class MemoList extends Component
                 ->get();
         }
 
-        $all_memos_data = $web_memos_data->concat($book_memos_data)->sortBy('updated_at')->values()->all();
+        $all_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('created_at')->values()->all();
         $perPage = 20;
         $page = LengthAwarePaginator::resolveCurrentPage();
         $items = array_slice($all_memos_data, ($page - 1) * $perPage, $perPage);

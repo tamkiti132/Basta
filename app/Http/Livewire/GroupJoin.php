@@ -62,6 +62,7 @@ class GroupJoin extends Component
                     });
                 }
             })
+            ->latest()
             ->get();
 
         $perPage = 20;

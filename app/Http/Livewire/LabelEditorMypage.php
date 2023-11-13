@@ -37,7 +37,7 @@ class LabelEditorMypage extends Component
 
     public function loadLabels()
     {
-        $this->labels = Label::where('group_id', $this->group_id)->get();
+        $this->labels = Label::where('group_id', $this->group_id)->orderBy('name')->get();
         foreach ($this->labels as $label) {
             $this->labelNames[$label->id] = $label->name;
         }

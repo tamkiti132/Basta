@@ -112,7 +112,8 @@ class MemoListMypage extends Component
 
         $user_groups = Group::whereHas('user', function ($query) {
             $query->where('users.id', $this->user_id);
-        })->get();
+        })->orderBy('name')
+            ->get();
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
@@ -512,13 +513,12 @@ class MemoListMypage extends Component
             }
         }
 
-        $all_my_memos_data = $web_memos_data->concat($book_memos_data)->sortBy('updated_at')->values()->all();
+        $all_my_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('created_at')->values()->all();
 
-        $all_good_memos_data = $good_web_memos_data->concat($good_book_memos_data)->sortBy('updated_at')->values()->all();
+        $all_good_memos_data = $good_web_memos_data->concat($good_book_memos_data)->sortByDesc('created_at')->values()->all();
 
-        $all_later_read_memos_data = $later_read_web_memos_data->concat($later_read_book_memos_data)->sortBy('updated_at')->values()->all();
+        $all_later_read_memos_data = $later_read_web_memos_data->concat($later_read_book_memos_data)->sortByDesc('created_at')->values()->all();
 
-        // dd($all_memos_data, $all_good_memos_data, $all_later_read_memos_data);
 
         $perPage = 20;
 
@@ -545,9 +545,7 @@ class MemoListMypage extends Component
 
         $count_all_my_memos_data = count($all_my_memos_data);
 
-        // $labels_data = Label::all();
 
-        // dd($all_memos_data, $count_all_memos_data);
 
         return view('livewire.memo-list-mypage', compact(
             'user_groups',

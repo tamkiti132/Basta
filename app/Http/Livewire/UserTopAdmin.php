@@ -84,6 +84,7 @@ class UserTopAdmin extends Component
                     });
                 }
             })
+            ->orderBy('nickname')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
@@ -110,6 +111,7 @@ class UserTopAdmin extends Component
                     });
                 }
             })
+            ->orderBy('nickname')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();

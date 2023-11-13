@@ -19,7 +19,7 @@ class LabelList extends Component
 
     public function loadLabels($labelId = null)
     {
-        $this->labels = Label::where('group_id', session()->get('group_id'))->get();
+        $this->labels = Label::where('group_id', session()->get('group_id'))->orderBy('name')->get();
 
         if ($labelId) {
             $this->deleteLabel($labelId);

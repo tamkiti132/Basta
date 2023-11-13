@@ -45,7 +45,7 @@ class Index extends Component
                     });
                 }
             })
-
+            ->latest()
             ->get();
 
         $perPage = 20;
