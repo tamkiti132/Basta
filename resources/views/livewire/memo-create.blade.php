@@ -1,7 +1,22 @@
 <div x-data="{
     form_web: true,
     form_book: false,
-    modal_label_select: false,
+    modal_label_select: false,    
+    {{-- 以下のコードを書いた理由は、
+        この遅延がないと、form_bookがtrueになった際にadjustTextareaHeight関数が正しく実行されず、
+        textareaのデフォルトの高さがcssで指定した通りの高さにならないため。 --}}
+    init() {
+        this.$watch('form_book', value => {
+            if (value) {
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        adjustTextareaHeight(this.$refs.book_shortMemo);
+                        adjustTextareaHeight(this.$refs.book_additionalMemo);
+                    },80); // 80ミリ秒の遅延
+                });
+            }
+        });
+    }
 }">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
@@ -70,6 +85,7 @@
 
                                                     {{-- タグ --}}
                                                     @livewire('label-attached-to-new-memo')
+
 
                                                 </div>
                                                 {{-- 右側 --}}
@@ -155,7 +171,7 @@
                                                         @enderror
                                                         <label for="book_shortMemo" class="block text-sm">ひとことメモ<span
                                                                 class="required">*</span></label>
-                                                        <textarea id="book_shortMemo" type="text"
+                                                        <textarea id="book_shortMemo" x-ref="book_shortMemo" type="text"
                                                             wire:model.defer="book_shortMemo"
                                                             class="w-full text-sm rounded-lg sm:text-base" cols="60"
                                                             rows="6"></textarea>
@@ -192,8 +208,8 @@
                                             </div>
                                             <div class="mt-10">
                                                 <label for="book_additionalMemo" class="block text-sm">自由記入欄</label>
-                                                <textarea id="book_additionalMemo" type="text"
-                                                    class="w-full text-sm rounded-lg sm:text-base"
+                                                <textarea id="book_additionalMemo" x-ref="book_additionalMemo"
+                                                    type="text" class="w-full text-sm rounded-lg sm:text-base"
                                                     wire:model.defer="book_additionalMemo" rows="10"></textarea>
                                             </div>
 

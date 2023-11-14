@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemoEditController;
 use App\Http\Controllers\GroupEditController;
-use App\Http\Controllers\MemoShowController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoCreate;
@@ -21,6 +20,7 @@ use App\Http\Livewire\GroupEdit;
 use App\Http\Livewire\GroupCreate;
 use App\Http\Livewire\MemberEdit;
 use App\Http\Livewire\UserTopAdmin;
+use App\Http\Livewire\MemoShow;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -109,24 +109,17 @@ Route::middleware(['auth', 'check_suspension'])
 
 
                 Route::prefix('memo_edit')
-                    ->controller(MemoEditController::class)
                     ->name('memo_edit.')
                     ->group(function () {
                         Route::get('/{id}/edit/{type}', MemoEdit::class)->name('edit');
                     });
 
+
                 Route::prefix('memo_show')
-                    ->controller(MemoShowController::class)
-                    ->name('memo_show.')
                     ->group(function () {
-                        Route::post('/', 'store')->name('store');
-                        Route::get('/{id}/{group_id?}', 'show')->name('show')
-                            ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-                        Route::post('/{id}/destroyMemo', 'destroyMemo')->name('destroyMemo');
-                        Route::post('/{id}/destroyComment', 'destroyComment')->name('destroyComment');
-                        Route::post('/report/memo', 'storeMemoTypeReport')->name('storeMemoTypeReport');
-                        Route::post('/report/comment', 'storeCommentTypeReport')->name('storeCommentTypeReport');
+                        Route::get('/{memo_id}/show/{group_id?}', MemoShow::class)->name('memo_show');
                     });
+
 
                 Route::prefix('group_edit')
                     ->group(function () {

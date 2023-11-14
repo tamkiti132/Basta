@@ -187,7 +187,7 @@ class GroupShowAdmin extends Component
             ->when($this->report_reason, function ($query) {
                 $query->where('reason', $this->report_reason);
             })
-
+            ->latest()
             ->get();
 
 

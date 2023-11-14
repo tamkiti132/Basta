@@ -248,7 +248,7 @@
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
                                                         class="font-bold text-left text-gray-700 break-all sm:text-xl title-font"
-                                                        onclick="location.href='{{ route('group.memo_show.show', ['id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
+                                                        onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
                                                 </div>
@@ -343,7 +343,7 @@
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
                                                         class="font-bold text-left text-gray-700 break-all sm:text-xl title-font"
-                                                        onclick="location.href='{{ route('group.memo_show.show', ['id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
+                                                        onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
                                                 </div>
@@ -420,7 +420,7 @@
                         <div class="container px-5 mx-auto">
                             <div class="-m-4">
                                 <div class="p-4 cursor-pointer"
-                                    onclick="linkToMemoOfComment('{{ route('group.memo_show.show', ['id' => $comment_data->memo->id, 'group_id' => $comment_data->memo->group_id ] ) }}')  ">
+                                    onclick="linkToMemoOfComment('{{ route('group.memo_show', ['memo_id' => $comment_data->memo->id, 'group_id' => $comment_data->memo->group_id] ) }}')  ">
                                     <div
                                         class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
                                         <div class="text-xs w-max">

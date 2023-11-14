@@ -34,9 +34,12 @@ class ReportComment extends Component
 
 
 
-    public function showModalReportComment()
+    public function showModalReportComment($comment_id)
     {
-        $this->showModalReportComment = true;
+        //複数のレポート（コメント）がいっぺんに表示されないようにするためのif文
+        if ($this->comment_id == $comment_id) {
+            $this->showModalReportComment = true;
+        }
     }
 
     public function closeModalReportComment()
