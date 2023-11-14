@@ -24,3 +24,23 @@ $(function(){
     $(requestId).show();
   });
 });
+
+
+
+window.adjustTextareaHeight = function(textarea){
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+// 全てのtextareaタグに対してイベントリスナーを設定
+document.querySelectorAll('textarea').forEach(textarea => {
+    textarea.addEventListener('input', function() {
+        adjustTextareaHeight(this);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('textarea').forEach(textarea => {
+        adjustTextareaHeight(textarea);
+    });
+});

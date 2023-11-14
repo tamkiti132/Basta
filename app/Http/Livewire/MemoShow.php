@@ -1,0 +1,175 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Comment;
+use App\Models\Memo;
+use App\Models\Report;
+use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class MemoShow extends Component
+{
+    use WithPagination;
+
+    public $memo_id;
+    public $type;
+    public $comment;
+
+    // 各タブの表示状態を管理するプロパティ
+    public $show_reports_memo = false;
+    public $show_reports_comments = [];
+    public $commentsReportsPage = [];
+
+
+    protected $rules = [
+        'comment' => ['required', 'string']
+    ];
+
+
+    public function mount($memo_id, $type, $group_id = null)
+    {
+        if ($group_id) {
+            session()->put('group_id', $group_id);
+        }
+
+        $this->memo_id = $memo_id;
+        $this->type = $type;
+
+        // 各コメントのページネーション状態を初期化
+        $comments = Comment::where('memo_id', $this->memo_id)->get();
+        foreach ($comments as $comment) {
+            $this->commentsReportsPage[$comment->id] = 1;
+        }
+    }
+
+
+    public function toggleCommentReport($comment_id)
+    {
+        $this->show_reports_comments[$comment_id] = !$this->show_reports_comments[$comment_id];
+    }
+
+
+
+    public function deleteMemo($memo_id)
+    {
+        $memo_data = Memo::find($memo_id);
+        $memo_data->delete();
+
+        return to_route('group.index', ['group_id' => session()->get('group_id')]);
+    }
+
+
+    public function storeComment()
+    {
+        // グループ内でのブロック状態を取得
+        $isBlocked = User::where('id', Auth::id())
+            ->whereHas('blockedGroup', function ($query) {
+                $query->where(
+                    'groups.id',
+                    session()->get('group_id')
+                );
+            })->exists();
+
+
+        if ($isBlocked) {
+            session()->flash('error', 'ブロックされているため、この機能は利用できません。');
+            return redirect()->back();
+        } else {
+
+            $this->validate();
+
+            $comments_data = [
+                'user_id' => Auth::id(),
+                'memo_id' => $this->memo_id,
+                'comment' => $this->comment,
+            ];
+
+            Comment::create($comments_data);
+
+            $this->reset(['comment']);
+        }
+    }
+
+
+    public function deleteComment($comment_id)
+    {
+        $comment_data = Comment::find($comment_id);
+        $comment_data->delete();
+    }
+
+
+    public function render()
+    {
+        // メモ
+        if ($this->type === "web") {
+            $memo_data = Memo::with(['web_type_feature', 'user' => function ($query) {
+                $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
+            }, 'labels'])
+                ->withCount('reports')
+                ->find($this->memo_id);
+        } else {
+            $memo_data = Memo::with(['book_type_feature', 'user' => function ($query) {
+                $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
+            }, 'labels'])
+                ->withCount('reports')
+                ->find($this->memo_id);
+        }
+
+
+
+        //メモ通報情報
+        $all_memo_reports_data = Report::whereIn('id', function ($query) {
+            $query->select('report_id')
+                ->from('memo_type_report_links')
+                ->where('memo_id', $this->memo_id);
+        })
+            ->with(['contribute_user'])
+            ->latest()
+            ->get();
+
+
+
+        // コメント, コメント通報情報
+        $comments_data = Comment::with(['user' => function ($query) {
+            $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
+        }, 'reports'])
+            ->where('memo_id', $this->memo_id)
+            ->withCount('reports')
+            ->get();
+
+
+        // 各コメントに対する表示状態を初期化
+        foreach ($comments_data as $comment) {
+            if (!array_key_exists($comment->id, $this->show_reports_comments)) {
+                $this->show_reports_comments[$comment->id] = false;
+            }
+        }
+
+
+
+        $perPage = 10;
+        $perPage_for_report = 5;
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('comments_data_page');
+        $items = $comments_data->slice(($currentPage - 1) * $perPage, $perPage);
+        $comments_data_paginated = new LengthAwarePaginator($items, count($comments_data), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'comments_data_page'
+        ]);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('all_memo_reports_page');
+        $items = $all_memo_reports_data->slice(($currentPage - 1) * $perPage_for_report, $perPage_for_report);
+        $all_memo_reports_data_paginated = new LengthAwarePaginator($items, count($all_memo_reports_data), $perPage_for_report, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'all_memo_reports_page'
+        ]);
+
+
+
+        return view('livewire.memo-show', compact('memo_data', 'comments_data_paginated', 'all_memo_reports_data_paginated'));
+    }
+}

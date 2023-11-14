@@ -181,7 +181,7 @@
                                             <div class="mt-5 ml-3 leading-none y-4">
                                                 <button
                                                     class="font-bold text-left text-gray-700 break-all sm:text-xl title-font"
-                                                    onclick="location.href='{{ route('group.memo_show.show',['id' => $memo_data['id']]) }}' ">{{
+                                                    onclick="location.href='{{ route('group.memo_show',['memo_id' => $memo_data['id']]) }}' ">{{
                                                     $memo_data->title }}
                                                 </button>
                                             </div>
@@ -278,7 +278,7 @@
                                             <div class="mt-5 ml-3 leading-none y-4">
                                                 <button
                                                     class="self-center font-bold text-gray-700 break-all sm:text-xl title-font"
-                                                    onclick="location.href='{{ route('group.memo_show.show',['id'=>$memo_data['id']]) }}' ">{{
+                                                    onclick="location.href='{{ route('group.memo_show',['memo_id'=>$memo_data['id']]) }}' ">{{
                                                     $memo_data->title }}
                                                 </button>
                                             </div>
