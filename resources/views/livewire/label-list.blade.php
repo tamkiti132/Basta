@@ -7,7 +7,7 @@
         @else
         <span class="sm:text-4xl material-symbols-rounded">label</span>
         @endif
-        <p class="text-xs sm:text-base">{{ $label->name }}</p>
+        <p class="text-xs text-left break-all whitespace-normal sm:text-base">{{ $label->name }}</p>
     </button>
     @endforeach
 </div>

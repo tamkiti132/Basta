@@ -102,7 +102,7 @@
         </form>
     </div>
 
-    <div class="py-12 2xl:grid-cols-12 2xl:grid">
+    <div class="relative py-12 xl:grid-cols-12 xl:grid">
         {{-- ラベル一覧（左） --}}
         <div class="absolute z-20 col-span-2 sm:block xl:static">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
