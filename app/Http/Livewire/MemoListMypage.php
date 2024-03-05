@@ -33,6 +33,7 @@ class MemoListMypage extends Component
         'filterByWebBookLabels',
         'filterByLabels',
         'labelUpdated',
+        'labelDeleted',
     ];
 
 
@@ -80,6 +81,20 @@ class MemoListMypage extends Component
     }
 
     public function labelUpdated($label_id = null)
+    {
+        if ($label_id) {
+            // $label_id の値のキーを検索
+            $key = array_search($label_id, $this->selected_labels);
+            // dd($key);
+
+            // 値が見つかった場合、そのキーを使用して値を削除
+            if ($key !== false) {
+                unset($this->selected_labels[$key]);
+            }
+        }
+    }
+
+    public function labelDeleted($label_id = null)
     {
         if ($label_id) {
             // $label_id の値のキーを検索

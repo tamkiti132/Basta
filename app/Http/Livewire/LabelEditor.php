@@ -110,7 +110,7 @@ class LabelEditor extends Component
 
         $this->loadLabels();
 
-        $this->emit('labelUpdated', $labelId);
+        $this->emit('labelDeleted', $labelId);
     }
 
 
