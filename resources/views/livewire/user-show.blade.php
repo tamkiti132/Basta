@@ -78,7 +78,7 @@
         </div>
 
         <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
-            x-bind:class="{ 'invisible pointer-events-none': memo || comment }">
+            x-bind:class="{ 'hidden': memo || comment }">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
             <option value="2">不適切なコンテンツ</option>
@@ -86,8 +86,14 @@
             <option value="4">その他</option>
         </select>
 
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl"
+            x-bind:class="{ 'hidden': user }">
+            <option value="report">通報数順</option>
+            <option value="time">投稿日時順</option>
+        </select>
+
         <select wire:change="setGroupId($event.target.value)" class="max-w-xs rounded-xl"
-            x-bind:class="{ 'invisible pointer-events-none': user }">
+            x-bind:class="{ 'hidden': user }">
             <option value="">グループで絞り込み</option>
             @foreach($user_groups as $group)
             <option value=" {{ $group->id }}" {{ $group_id==$group->id ? 'selected' : '' }}>

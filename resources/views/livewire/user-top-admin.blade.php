@@ -18,6 +18,16 @@
                 </button>
             </form>
         </div>
+
+        {{-- ソート基準切り替え --}}
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl">
+            <option value="report_all">通報数順（全ての合計）</option>
+            <option value="report_user">通報数順（ユーザー）</option>
+            <option value="report_memo">通報数順（メモ）</option>
+            <option value="report_comment">通報数順（コメント）</option>
+            <option value="nickname">名前順</option>
+        </select>
+
     </div>
 
     <div class="py-12">

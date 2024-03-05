@@ -98,8 +98,13 @@ class MemberEdit extends Component
             $query->where('groups.id', $this->group_id);
         })->whereDoesntHave('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
-        })->orderBy('nickname')
+        })->join('roles', function ($join) {
+            $join->on('users.id', '=', 'roles.user_id')
+                ->where('roles.group_id', '=', $this->group_id);
+        })->orderBy('roles.role', 'asc') // ここで権限に基づいてソート
+            ->orderBy('nickname')
             ->get();
+
 
         // dd($all_not_blocked_users_data);
 
@@ -114,7 +119,11 @@ class MemberEdit extends Component
             $query->where('groups.id', $this->group_id);
         })->whereHas('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
-        })->orderBy('nickname')
+        })->join('roles', function ($join) {
+            $join->on('users.id', '=', 'roles.user_id')
+                ->where('roles.group_id', '=', $this->group_id);
+        })->orderBy('roles.role', 'asc') // ここで権限に基づいてソート
+            ->orderBy('nickname')
             ->get();
 
 

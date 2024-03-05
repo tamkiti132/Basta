@@ -17,7 +17,7 @@ class GroupTopAdmin extends Component
 
     public $user_id;
     public $group_id;
-    public $report_reason;
+    public $sortCriteria = 'report';
     public $search = '';
 
     // 各タブの表示状態を管理するプロパティ
@@ -27,6 +27,15 @@ class GroupTopAdmin extends Component
 
     public function mount()
     {
+    }
+
+
+    public function setSortCriteria($sortCriteria)
+    {
+        $this->sortCriteria = $sortCriteria;
+
+        $this->resetPage('groups_page');
+        $this->resetPage('suspension_groups_page');
     }
 
 
@@ -101,8 +110,12 @@ class GroupTopAdmin extends Component
                     });
                 }
             })
+            ->when($this->sortCriteria === 'report', function ($query) {
+                $query->orderBy('reports_count', 'desc');
+            })
             ->orderBy('name')
             ->get();
+        // dd($groups_data);
 
 
         //利用停止中グループ
@@ -119,6 +132,9 @@ class GroupTopAdmin extends Component
                             ->orWhere('groups.introduction', 'like', '%' . $keyword . '%');
                     });
                 }
+            })
+            ->when($this->sortCriteria === 'report', function ($query) {
+                $query->orderBy('reports_count', 'desc');
             })
             ->orderBy('name')
             ->get();

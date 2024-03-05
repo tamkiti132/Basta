@@ -219,7 +219,14 @@ class GroupShowAdmin extends Component
                     $query->where('groups.id', $this->group_id);
                 });
             })
-            ->orderBy('nickname')
+            ->leftJoin('roles', function ($join) {
+                $join->on('users.id', '=', 'roles.user_id')
+                    ->where('roles.group_id', '=', $this->group_id);
+            })
+            ->groupBy('users.id')
+            ->orderByRaw('MIN(roles.role) ASC')
+            ->orderBy('users.nickname', 'ASC')
+            ->select('users.*')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
@@ -230,6 +237,9 @@ class GroupShowAdmin extends Component
                 $commentIds = $user->comment()->pluck('id');
                 $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
             });
+
+
+
 
 
         //利用停止中ユーザー
@@ -259,7 +269,14 @@ class GroupShowAdmin extends Component
                     $query->where('groups.id', $this->group_id);
                 });
             })
-            ->orderBy('nickname')
+            ->leftJoin('roles', function ($join) {
+                $join->on('users.id', '=', 'roles.user_id')
+                    ->where('roles.group_id', '=', $this->group_id);
+            })
+            ->groupBy('users.id')
+            ->orderByRaw('MIN(roles.role) ASC')
+            ->orderBy('users.nickname', 'ASC')
+            ->select('users.*')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
