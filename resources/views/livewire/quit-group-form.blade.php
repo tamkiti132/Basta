@@ -48,11 +48,6 @@
     {{-- 次の管理者選択モーダル --}}
     <div x-cloak x-show="showNextManagerModal"
         class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        @foreach ($group_data->userRoles as $user_data)
-        <p>
-            {{ $user_data->nickname }}
-        </p>
-        @endforeach
         <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
             x-on:click.away="$wire.closeModal">
             <div class="flex flex-col items-center pb-2 mb-6">
@@ -72,7 +67,6 @@
                     次の管理者を選択してください</p>
             </div>
 
-
             <form wire:submit.prevent="quitGroupForManager" class="flex flex-col p-2">
                 <select class="w-full p-2 mb-4 border border-gray-300 rounded" wire:model.defer="selectedUserId">
                     <option value="">次の管理者を選択してください</option>
@@ -90,7 +84,6 @@
                         class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">退会</button>
                 </div>
             </form>
-
         </div>
     </div>
 
