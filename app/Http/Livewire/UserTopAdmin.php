@@ -14,11 +14,21 @@ class UserTopAdmin extends Component
 {
     use WithPagination;
 
+    public $sortCriteria = 'report_all';
     public $search = '';
 
     // 各タブの表示状態を管理するプロパティ
     public $show_user = true;
     public $show_suspended_user = false;
+
+
+    public function setSortCriteria($sortCriteria)
+    {
+        $this->sortCriteria = $sortCriteria;
+
+        $this->resetPage('all_not_suspended_users_page');
+        $this->resetPage('all_suspended_users_page');
+    }
 
 
     public function executeSearch()
@@ -84,7 +94,6 @@ class UserTopAdmin extends Component
                     });
                 }
             })
-            ->orderBy('nickname')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
@@ -94,7 +103,55 @@ class UserTopAdmin extends Component
 
                 $commentIds = $user->comment()->pluck('id');
                 $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+
+                $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
             });
+
+        // ソート基準に応じて並び替え
+        switch ($this->sortCriteria) {
+            case 'report_all':
+                $all_not_suspended_users_data = $all_not_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->allReportsCount <=> $a->allReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_user':
+                $all_not_suspended_users_data = $all_not_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->userReportsCount <=> $a->userReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_memo':
+                $all_not_suspended_users_data = $all_not_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->memoReportsCount <=> $a->memoReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_comment':
+                $all_not_suspended_users_data = $all_not_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->commentReportsCount <=> $a->commentReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'nickname':
+                $all_not_suspended_users_data = $all_not_suspended_users_data->sort(function ($a, $b) {
+                    return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                });
+                break;
+        }
+
 
 
 
@@ -111,7 +168,6 @@ class UserTopAdmin extends Component
                     });
                 }
             })
-            ->orderBy('nickname')
             ->get()
             ->each(function ($user) {
                 $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
@@ -121,7 +177,54 @@ class UserTopAdmin extends Component
 
                 $commentIds = $user->comment()->pluck('id');
                 $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+
+                $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
             });
+
+        // ソート基準に応じて並び替え
+        switch ($this->sortCriteria) {
+            case 'report_all':
+                $all_suspended_users_data = $all_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->allReportsCount <=> $a->allReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_user':
+                $all_suspended_users_data = $all_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->userReportsCount <=> $a->userReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_memo':
+                $all_suspended_users_data = $all_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->memoReportsCount <=> $a->memoReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'report_comment':
+                $all_suspended_users_data = $all_suspended_users_data->sort(function ($a, $b) {
+                    $result = $b->commentReportsCount <=> $a->commentReportsCount;
+                    if ($result === 0) {
+                        return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                    }
+                    return $result;
+                });
+                break;
+            case 'nickname':
+                $all_suspended_users_data = $all_suspended_users_data->sort(function ($a, $b) {
+                    return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
+                });
+                break;
+        }
 
 
         $perPage = 20;

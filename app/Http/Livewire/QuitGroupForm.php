@@ -30,13 +30,10 @@ class QuitGroupForm extends Component
     public function mount()
     {
         $this->group_data = Group::with(['userRoles' => function ($query) {
-            $query
-                ->wherePivot('role', 50)
-                ->orderBy('nickname');
+            $query->wherePivot('role', 50);
         }])->find(session()->get('group_id'));
-
-        // dd($this->group_data);
     }
+
 
 
     public function getListeners()
@@ -88,8 +85,10 @@ class QuitGroupForm extends Component
 
             // グループのデータ（サブ管理者のデータも併せて取得）
             $this->group_data = Group::with(['userRoles' => function ($query) {
-                $query->wherePivot('role', 50);
+                $query->wherePivot('role', 50)
+                    ->orderBy('nickname');
             }])->find(session()->get('group_id'));
+
 
 
             if ($this->group_data->userRoles->isNotEmpty()) {

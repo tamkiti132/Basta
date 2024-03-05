@@ -19,6 +19,7 @@ class UserShow extends Component
     public $user_id;
     public $group_id;
     public $report_reason;
+    public $sortCriteria = 'report';
     public $show_web = true;
     public $show_book = true;
     public $selected_web_book_labels = ['web', 'book'];
@@ -60,6 +61,15 @@ class UserShow extends Component
         $this->resetPage('all_user_reports_page');
         $this->resetPage('all_my_memos_page');
         $this->resetPage('comments_page');
+    }
+
+
+    public function setSortCriteria($sortCriteria)
+    {
+        $this->sortCriteria = $sortCriteria;
+
+        $this->resetPage('groups_page');
+        $this->resetPage('suspension_groups_page');
     }
 
 
@@ -244,7 +254,21 @@ class UserShow extends Component
                 ->get();
         }
 
-        $all_my_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('reports_count')->values()->all();
+
+        $all_my_memos_data = $web_memos_data->concat($book_memos_data);
+
+
+        if ($this->sortCriteria === 'report') {
+            $all_my_memos_data =
+                $all_my_memos_data->sortByDesc(function ($memo) {
+                    return [$memo->reports_count, $memo->created_at];
+                });
+        } elseif ($this->sortCriteria === 'time') {
+            $all_my_memos_data = $all_my_memos_data->sortByDesc('created_at');
+        }
+
+        $all_my_memos_data = $all_my_memos_data->values()->all();
+
 
 
 
@@ -264,7 +288,10 @@ class UserShow extends Component
                     $query->where('group_id', $this->group_id);
                 });
             })
-            ->orderByDesc('reports_count')
+            ->when($this->sortCriteria === 'report', function ($query) {
+                $query->orderByDesc('reports_count');
+            })
+            ->orderByDesc('created_at')
             ->get();
 
 
