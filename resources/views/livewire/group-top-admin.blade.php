@@ -21,7 +21,7 @@
         </div>
 
         {{-- ソート基準切り替え --}}
-        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl">
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl" id="sortCriteria">
             <option value="report">通報数順</option>
             <option value="name">名前順</option>
         </select>
@@ -293,5 +293,31 @@
     <div class="flex justify-center" x-cloak x-show="suspension_group">
         {{ $suspension_groups_data_paginated->withQueryString()->links() }}
     </div>
+
+    {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input（text）２：selectbox ３：textarea ４：checkbox ５：radiobutton をリセットするための処理
+    --}}
+    <script>
+        function resetFormElements() {
+                    const selectElement = document.querySelector('#sortCriteria');
+                    const inputElements = document.querySelectorAll('input:not([name="_token"])');
+                    const textareaElements = document.querySelectorAll('textarea');
+                    
+                    if (selectElement) {
+                        selectElement.value = 'report';
+                    }
+                    inputElements.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                    textareaElements.forEach(textarea => {
+                        textarea.value = '';
+                    });
+                }
+                
+                window.addEventListener('load', resetFormElements);
+    </script>
 
 </div>

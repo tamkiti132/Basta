@@ -1,4 +1,3 @@
-{{-- グループ削除確認モーダル --}}
 <div x-cloak x-show="$wire.showModal"
     class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
     <div x-on:click.away="$wire.closeModal"

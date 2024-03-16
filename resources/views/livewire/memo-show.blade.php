@@ -697,4 +697,31 @@
 
         </div>
     </div>
+
+    {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input（text）２：selectbox ３：textarea ４：checkbox ５：radiobutton をリセットするための処理
+    --}}
+    <script>
+        function resetFormElements() {
+        const selectElements = document.querySelectorAll('select.max-w-xs');
+        const inputElements = document.querySelectorAll('input:not([name="_token"])');
+        const textareaElements = document.querySelectorAll('textarea');
+        
+        selectElements.forEach(select => {
+            select.value = '';
+        });
+        inputElements.forEach(input => {
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = false;
+        } else {
+        input.value = '';
+        }
+        });
+        textareaElements.forEach(textarea => {
+            textarea.value = '';
+        });
+        }
+        
+        window.addEventListener('load', resetFormElements);
+    </script>
+
 </div>

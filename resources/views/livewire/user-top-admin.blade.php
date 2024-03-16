@@ -20,7 +20,7 @@
         </div>
 
         {{-- ソート基準切り替え --}}
-        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl">
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl" id="sortCriteria">
             <option value="report_all">通報数順（全ての合計）</option>
             <option value="report_user">通報数順（ユーザー）</option>
             <option value="report_memo">通報数順（メモ）</option>
@@ -283,5 +283,31 @@
     <div class="flex justify-center" x-cloak x-show="suspended_user">
         {{ $all_suspended_users_data_paginated->withQueryString()->links() }}
     </div>
+
+    {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input（text）２：selectbox ３：textarea ４：checkbox ５：radiobutton をリセットするための処理
+    --}}
+    <script>
+        function resetFormElements() {
+                    const selectElement = document.querySelector('#sortCriteria');
+                    const inputElements = document.querySelectorAll('input:not([name="_token"])');
+                    const textareaElements = document.querySelectorAll('textarea');
+                    
+                    if (selectElement) {
+                        selectElement.value = 'report_all';
+                    }
+                    inputElements.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                    textareaElements.forEach(textarea => {
+                        textarea.value = '';
+                    });
+                }
+                
+                window.addEventListener('load', resetFormElements);
+    </script>
 
 </div>

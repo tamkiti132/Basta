@@ -39,6 +39,8 @@ class GroupShowAdmin extends Component
     public function mount($group_id)
     {
         $this->group_id = $group_id;
+
+        $this->dispatchBrowserEvent('load');
     }
 
 

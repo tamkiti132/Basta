@@ -1,4 +1,4 @@
-<div x-data="{ modal_label_select: false }">
+<div x-data="{ modal_label_select: false }" wire:init="$refresh">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
             メモ編集
