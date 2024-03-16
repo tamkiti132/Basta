@@ -55,6 +55,7 @@
                                     {{-- Web の 場合 --}}
                                     <div x-show="form_web" x-cloak>
                                         <form wire:submit.prevent="store">
+                                            @csrf
                                             <div class="grid xl:grid-cols-7">
                                                 {{-- 左側 --}}
                                                 <div class="xl:col-span-3">
@@ -136,6 +137,7 @@
                                     {{-- 本 の 場合 --}}
                                     <div x-show="form_book" x-cloak>
                                         <form wire:submit.prevent="store">
+                                            @csrf
                                             <div class="grid xl:grid-cols-7">
                                                 {{-- 本タイプのメモであることを示すデータ --}}
                                                 <input type="hidden" wire:model.defer="type" value="book">
@@ -248,4 +250,31 @@
 
         </div>
     </div>
+
+    {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input（text）２：selectbox ３：textarea ４：checkbox ５：radiobutton をリセットするための処理
+    --}}
+    <script>
+        function resetFormElements() {
+                const selectElement = document.querySelector('select.max-w-xs');
+                const inputElements = document.querySelectorAll('input:not([name="_token"])');
+                const textareaElements = document.querySelectorAll('textarea');
+                
+                if (selectElement) {
+                    selectElement.value = '';
+                }
+                inputElements.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+                textareaElements.forEach(textarea => {
+                    textarea.value = '';
+                });
+            }
+            
+            window.addEventListener('load', resetFormElements);
+    </script>
+
 </div>

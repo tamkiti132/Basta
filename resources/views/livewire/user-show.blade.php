@@ -2,7 +2,7 @@
     user: @entangle('show_users'),
     memo: @entangle('show_memos'),
     comment: @entangle('show_comments'),
-}">
+}" wire:init="$refresh">
     <x-slot name="header">
         <div class="grid grid-cols-2">
             <div class="flex">
@@ -484,5 +484,30 @@
     <div class="flex justify-center" x-cloak x-show="comment">
         {{ $comments_data_paginated->withQueryString()->links() }}
     </div>
+
+    {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理 --}}
+    <script>
+        function resetFormElements() {
+                    const selectElement = document.querySelector('select.max-w-xs');
+                    const inputElements = document.querySelectorAll('input:not([name="_token"])');
+                    const textareaElements = document.querySelectorAll('textarea');
+                    
+                    if (selectElement) {
+                    selectElement.value = '';
+                    }
+                    inputElements.forEach(input => {
+                    input.value = '';
+                    });
+                    textareaElements.forEach(textarea => {
+                    textarea.value = '';
+                    });
+                }
+                
+                window.addEventListener('load', function() {
+                        document.querySelectorAll('select.max-w-xs').forEach(select => {
+                        select.selectedIndex = 0;
+                    });
+                });               
+    </script>
 
 </div>

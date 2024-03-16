@@ -1,4 +1,4 @@
-<div>
+<div wire:init="$refresh">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
             グループ編集
@@ -178,9 +178,10 @@
                                             <div>
                                                 <label for="email" class="block text-sm">グループに招待する<span
                                                         class="required">*</span></label>
-                                                <input id="email" type="text" name="email" class="rounded-lg"
-                                                    placeholder="Eメールアドレス" size="30">
-                                                <input type="hidden" name="group_name" value="{{ $group_data->name }}">
+                                                <input wire:model.defer="email" id="email" type="text" name="email"
+                                                    class="rounded-lg" placeholder="Eメールアドレス" size="30">
+                                                <input wire:model.defer="group_name" type="hidden" name="group_name"
+                                                    value="{{ $group_data->name }}">
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
@@ -219,39 +220,38 @@
                             </div>
                         </div>
                     </div>
-            </div>
-            </section>
+                </section>
 
-            {{-- グループを削除 --}}
-            <section class="text-gray-600 body-font">
-                <div class="container px-5 mx-auto">
-                    <div class="-m-4 ">
-                        <div class="p-4">
-                            <div
-                                class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
-                                <div class="items-center sm:grid sm:grid-cols-5">
-                                    {{-- 左側 --}}
-                                    <div class="text-center sm:col-span-3 sm:text-left">
-                                        <p>グループを削除</p>
-                                    </div>
-                                    {{-- 右側 --}}
-                                    {{-- ボタン --}}
-                                    <div
-                                        class="flex items-center justify-center pt-10 sm:justify-end sm:col-span-2 sm:pt-0">
-                                        <button
-                                            class="px-8 py-3 text-lg font-bold text-red-700 border border-red-700 rounded-2xl focus:outline-none hover:bg-red-100"
-                                            onclick="Livewire.emit('showModal')">グループを削除</button>
+                {{-- グループを削除 --}}
+                <section class="text-gray-600 body-font">
+                    <div class="container px-5 mx-auto">
+                        <div class="-m-4 ">
+                            <div class="p-4">
+                                <div
+                                    class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                                    <div class="items-center sm:grid sm:grid-cols-5">
+                                        {{-- 左側 --}}
+                                        <div class="text-center sm:col-span-3 sm:text-left">
+                                            <p>グループを削除</p>
+                                        </div>
+                                        {{-- 右側 --}}
+                                        {{-- ボタン --}}
+                                        <div
+                                            class="flex items-center justify-center pt-10 sm:justify-end sm:col-span-2 sm:pt-0">
+                                            <button
+                                                class="px-8 py-3 text-lg font-bold text-red-700 border border-red-700 rounded-2xl focus:outline-none hover:bg-red-100"
+                                                onclick="Livewire.emit('showModal')">グループを削除</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             {{-- グループ削除確認モーダル --}}
             @livewire('delete-group-form')
-
         </div>
     </div>
 </div>

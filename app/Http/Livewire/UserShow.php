@@ -46,6 +46,8 @@ class UserShow extends Component
         $this->user_id = $user_id;
 
         $this->group_id = '';
+
+        $this->dispatchBrowserEvent('load');
     }
 
 
