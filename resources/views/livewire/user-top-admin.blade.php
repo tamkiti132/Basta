@@ -3,7 +3,7 @@
     suspended_user: @entangle('show_suspended_user'),
 }">
     <x-slot name="header">
-        <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
+        <h2 class="font-semibold leading-tight text-gray-800">
             ユーザー一覧
         </h2>
     </x-slot>
@@ -12,7 +12,8 @@
         <!-- 検索、絞り込み -->
         <div>
             <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="ニックネームかユーザー名で検索" class="rounded-xl" size="50">
+                <input type="text" wire:model.defer="search" placeholder="ニックネームかユーザー名で検索" class="text-sm rounded-xl"
+                    size="50">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -20,7 +21,8 @@
         </div>
 
         {{-- ソート基準切り替え --}}
-        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl" id="sortCriteria">
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs text-sm rounded-xl"
+            id="sortCriteria">
             <option value="report_all">通報数順（全ての合計）</option>
             <option value="report_user">通報数順（ユーザー）</option>
             <option value="report_memo">通報数順（メモ）</option>
@@ -31,23 +33,23 @@
     </div>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
 
                 <section class="text-gray-600 body-font">
-                    <div class="container px-5 mx-auto">
+                    <div class="px-5 mx-auto">
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
-                                    class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl ">
+                                    class="grid gap-10 px-8 pt-8 pb-8 text-xs bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl">
                                     {{-- ユーザー / 利用停止中ユーザー --}}
                                     <div class="mb-2 border-b border-gray-400">
-                                        <div class="flex text-xs font-bold sm:text-lg sm:w-1/2">
+                                        <div class="flex text-xs font-bold sm:text-sm sm:w-1/2">
                                             <button
                                                 class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                                                 type="button" x-on:click="user = true; suspended_user = false"
                                                 x-bind:class="user ? 'border-b-4 border-blue-300' :'' ">
-                                                ユーザー</p>
+                                                <p>ユーザー</p>
                                             </button>
                                             <button
                                                 class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
@@ -65,13 +67,13 @@
                                         </div>
                                         {{-- ユーザーid --}}
                                         <div class="col-span-3">
-                                            <p class="text-sm text-gray-500">
+                                            <p class="text-gray-500">
                                                 ユーザー名
                                             </p>
                                         </div>
                                         {{-- メールアドレス --}}
                                         <div class="col-span-3">
-                                            <p class="text-sm text-gray-500">
+                                            <p class="text-gray-500">
                                                 メールアドレス
                                             </p>
                                         </div>
@@ -91,7 +93,7 @@
                                     </div>
 
                                     {{-- ユーザーの場合 --}}
-                                    <div class="grid gap-10 sm:gap-7" x-cloak x-show="user">
+                                    <div class="grid gap-10 text-xs sm:gap-7" x-cloak x-show="user">
                                         @foreach ($all_not_suspended_users_data_paginated as $user_data)
                                         {{-- １人分のまとまり --}}
                                         <div wire:key='{{ "not_suspend". $user_data->id }}'
@@ -117,21 +119,21 @@
                                             </div>
                                             {{-- ユーザーid --}}
                                             <div class="ml-16 sm:ml-0 sm:col-span-3">
-                                                <button class="text-sm text-gray-500"
+                                                <button class="text-gray-500"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     {{ $user_data->username }}
                                                 </button>
                                             </div>
                                             {{-- メールアドレス --}}
                                             <div class="mt-3 sm:col-span-3 sm:mt-0">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-gray-500">
                                                     {{ $user_data->email }}
                                                 </p>
                                             </div>
                                             <div class="grid grid-cols-3 sm:col-span-3">
                                                 {{-- ユーザー通報 --}}
                                                 <div
-                                                    class="grid grid-cols-3 col-span-2 mt-3 text-sm text-left sm:text-center sm:mt-0">
+                                                    class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
                                                     <div class="col-span-2 sm:hidden">
                                                         <p>ユーザー通報</p>
                                                         {{-- 通報メモ --}}
@@ -153,8 +155,8 @@
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
 
@@ -178,7 +180,7 @@
                                     </div>
 
                                     {{-- 利用停止中ユーザーの場合 --}}
-                                    <div class="grid gap-10 sm:gap-7" x-cloak x-show="suspended_user">
+                                    <div class="grid gap-10 text-xs sm:gap-7" x-cloak x-show="suspended_user">
                                         @foreach ($all_suspended_users_data_paginated as $user_data)
                                         {{-- １人分のまとまり --}}
                                         <div wire:key='{{ "suspend". $user_data->id }}'
@@ -187,7 +189,7 @@
                                             <div class="flex items-center sm:col-span-3">
                                                 @if($user_data->profile_photo_path)
                                                 <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                                                    onclick="location.href='{{ route('admin.user_show.show', ['id' => $user_data->id]) }}' ">
+                                                    onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
@@ -203,21 +205,21 @@
                                             </div>
                                             {{-- ユーザーid --}}
                                             <div class="ml-16 sm:ml-0 sm:col-span-3">
-                                                <button class="text-sm text-gray-500"
+                                                <button class="text-gray-500"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     {{ $user_data->username }}
                                                 </button>
                                             </div>
                                             {{-- メールアドレス --}}
                                             <div class="mt-3 sm:col-span-3 sm:mt-0">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-gray-500">
                                                     {{ $user_data->email }}
                                                 </p>
                                             </div>
                                             <div class="grid grid-cols-3 sm:col-span-3">
                                                 {{-- ユーザー通報 --}}
                                                 <div
-                                                    class="grid grid-cols-3 col-span-2 mt-3 text-sm text-left sm:text-center sm:mt-0">
+                                                    class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
                                                     <div class="col-span-2 sm:hidden">
                                                         <p>ユーザー通報</p>
                                                         {{-- 通報メモ --}}
@@ -239,8 +241,8 @@
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
 

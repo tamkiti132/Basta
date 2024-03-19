@@ -76,7 +76,6 @@ Route::middleware(['auth', 'check_suspension'])
         });
 
         Route::prefix('mypage')
-            ->controller(MypageController::class)
             ->name('mypage.')
             ->group(function () {
                 Route::get('/{user_id}/{group_id?}', MemoListMypage::class)->name('show');
@@ -128,7 +127,6 @@ Route::middleware(['auth', 'check_suspension'])
                     });
 
                 Route::prefix('member')
-                    ->controller(MemberController::class)
                     ->name('member.')
                     ->group(function () {
                         Route::get('/{id}', MemoListMember::class)->name('show')

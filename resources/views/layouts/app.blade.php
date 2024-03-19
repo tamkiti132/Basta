@@ -48,11 +48,13 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
+        <!-- ナビゲーションメニュー -->
         @livewire('navigation-menu')
 
+        <!-- ヘッダー -->
         @if (isset($header))
         <header class="bg-white shadow">
-            <div class="px-4 py-6 mx-auto sm:px-6 lg:px-8">
+            <div class="px-4 py-4 mx-auto text-xs sm:px-6 lg:px-8 sm:text-sm">
                 {{ $header }}
             </div>
         </header>
@@ -67,7 +69,7 @@
         <footer class="px-4 py-10 mx-auto mt-10 bg-white shadow sm:mt-20 sm:px-6 lg:px-8">
             @can('admin-top')
             {{-- 運営トップ --}}
-            <div class="flex flex-wrap gap-3 font-bold sm:flex-nowrap sm:gap-0 sm:justify-between sm:text-lg">
+            <div class="flex flex-wrap gap-3 text-xs font-bold sm:flex-nowrap sm:gap-0 sm:justify-between sm:text-sm">
                 <div class="w-full sm:w-auto">
                     <a href="{{ route('admin.admin_user_top') }}">運営ユーザー一覧</a>
                 </div>
@@ -77,8 +79,8 @@
             </div>
             @elsecan('admin-lower')
             {{-- 運営ユーザー以外 --}}
-            <div class="text-right">
-                <a class="font-bold sm:text-lg" href="{{ route('request') }}">リクエストを送信</a>
+            <div class="text-xs text-right sm:text-sm">
+                <a class="font-bold" href="{{ route('request') }}">リクエストを送信</a>
             </div>
             @endcan
 

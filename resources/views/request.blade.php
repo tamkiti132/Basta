@@ -1,6 +1,6 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
+    <h2 class="font-semibold leading-tight text-gray-800">
       リクエストを送信
     </h2>
   </x-slot>
@@ -10,7 +10,7 @@
       <div class="grid gap-10 py-12 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
         <div class="mx-5 text-center sm:mx-auto sm:w-1/2">
           {{-- 注意文 --}}
-          <div class="text-xs sm:text-base">
+          <div class="text-xs sm:text-sm">
             <p>※ユーザー・グループの通報はここではしないでください。<br>
               （運営者がその通報を見つけられなくなってしまいます）</p>
           </div>
@@ -253,7 +253,7 @@
                 {{-- ボタン --}}
                 <div class="mt-10 text-center">
                   <button
-                    class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                    class="px-24 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
                     type="">送信</button>
                 </div>
               </li>

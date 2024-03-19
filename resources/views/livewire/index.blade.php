@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="grid grid-cols-2">
             {{-- 左側 --}}
-            <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
+            <h2 class="font-semibold leading-tight text-gray-800">
                 参加グループ一覧
             </h2>
 
@@ -10,14 +10,12 @@
             <div class="flex justify-end">
                 <div class="flex-wrap gap-4 sm:flex sm:gap-10 sm:flex-nowrap">
                     <div class="sm:w-auto">
-                        <a class="text-sm font-semibold leading-tight text-gray-800 sm:text-xl"
-                            href="{{ route('group_create') }}">
+                        <a class="font-semibold leading-tight text-gray-800" href="{{ route('group_create') }}">
                             グループをつくる
                         </a>
                     </div>
                     <div class="sm:w-auto">
-                        <a class="text-sm font-semibold leading-tight text-gray-800 sm:text-xl"
-                            href="{{ route('group_join.index') }}">
+                        <a class="font-semibold leading-tight text-gray-800" href="{{ route('group_join.index') }}">
                             グループに参加する
                         </a>
                     </div>
@@ -29,7 +27,8 @@
 
     <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <form wire:submit.prevent="executeSearch">
-            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索" class="rounded-xl" size="50">
+            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索" class="text-sm rounded-xl"
+                size="50">
             <button class="px-3 py-2 font-bold" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -43,8 +42,8 @@
                 <x-flash-message status="suspension" />
 
                 @foreach ($my_groups_data_paginated as $group_data)
-                <section class="w-full text-gray-600 body-font">
-                    <div class="container px-5 mx-auto">
+                <section class="w-full text-xs text-gray-600 body-font">
+                    <div class="px-5 mx-auto">
                         <div class="flex flex-wrap justify-center -m-4">
                             <div class="w-full p-4">
                                 <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
@@ -55,27 +54,26 @@
                                                 {{-- photo --}}
                                                 @if($group_data->group_photo_path)
                                                 <div
-                                                    class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
-                                                    <img class="object-fill rounded-full h-14 w-14"
+                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                 </div>
                                                 @else
                                                 <div
-                                                    class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
+                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
                                                 </div>
                                                 @endif
                                                 {{-- end_photo --}}
-                                                <h1
-                                                    class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                <h1 class="self-center text-sm font-bold text-gray-700 title-font">
                                                     {{
                                                     $group_data->name }}
                                                 </h1>
                                             </div>
                                             <div class="mt-2 leading-none y-4 ">
-                                                <p class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                     管理者：{{ $group_data->userRoles->first()->nickname }}
                                                 </p>
-                                                <p class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                     メンバー：{{ $group_data->user_count }}人
                                                 </p>
                                             </div>
@@ -90,7 +88,7 @@
                                     {{-- ボタン --}}
                                     <div class="px-10 pt-10 text-center">
                                         <button
-                                            class="w-2/3 px-10 py-3 text-lg font-bold text-white bg-indigo-400 border-0 lg:w-1/3 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                            class="w-2/3 px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:w-1/3 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                             onclick="location.href='{{ route('group.index', ['group_id' => $group_data['id']]) }}' ">入室</button>
 
                                     </div>
