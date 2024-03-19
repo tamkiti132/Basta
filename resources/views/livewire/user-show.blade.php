@@ -12,13 +12,13 @@
                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                 </div>
                 @else
-                <div class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"></div>
+                <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full sm:w-10 sm:h-10"></div>
                 @endif
                 <div>
-                    <h2 class="text-sm font-semibold leading-tight text-gray-800 sm:text-xl">
+                    <h2 class="font-semibold leading-tight text-gray-800">
                         {{ $user_data->nickname }}
                     </h2>
-                    <p class="ml-5 text-sm text-gray-500">
+                    <p class="ml-5 text-xs text-gray-500">
                         {{ $user_data->username }}
                     </p>
                 </div>
@@ -29,8 +29,8 @@
                 <div>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                <i class="px-5 text-3xl fas fa-ellipsis-v"></i>
+                            <button class="flex transition border-2 border-transparent focus:outline-none">
+                                <i class="px-5 text-xl fas fa-ellipsis-v"></i>
                             </button>
                         </x-slot>
 
@@ -67,17 +67,17 @@
     <div class="flex flex-col-reverse gap-8 pt-12 mx-auto lg:flex-row max-w-7xl sm:px-6 lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
-            <form wire:submit.prevent="executeSearch">
+            <form wire:submit.prevent=" executeSearch">
                 <input type="text" wire:model.defer="search" :placeholder="user ? 'ニックネームか本文のワードで検索' : 
                             (memo ? 'タイトルかメモ概要のワードで検索' : 
-                            (comment ? '本文のワードで検索' : '検索'))" class="rounded-xl" size="50">
+                            (comment ? '本文のワードで検索' : '検索'))" class="text-sm rounded-xl" size="50">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
         </div>
 
-        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
+        <select wire:change="setReportReason($event.target.value)" class="max-w-xs text-sm rounded-xl"
             x-bind:class="{ 'hidden': memo || comment }">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
@@ -86,13 +86,13 @@
             <option value="4">その他</option>
         </select>
 
-        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl"
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs text-sm rounded-xl"
             x-bind:class="{ 'hidden': user }">
             <option value="report">通報数順</option>
             <option value="time">投稿日時順</option>
         </select>
 
-        <select wire:change="setGroupId($event.target.value)" class="max-w-xs rounded-xl"
+        <select wire:change="setGroupId($event.target.value)" class="max-w-xs text-sm rounded-xl"
             x-bind:class="{ 'hidden': user }">
             <option value="">グループで絞り込み</option>
             @foreach($user_groups as $group)
@@ -132,7 +132,7 @@
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 {{-- ユーザー通報情報 / メモ / コメント 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
-                    <div class="flex text-xs font-bold sm:text-lg lg:w-1/2">
+                    <div class="flex text-xs font-bold sm:text-sm lg:w-1/2">
                         <button
                             class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                             type="button" x-on:click="user = true; memo=false; comment=false"
@@ -154,10 +154,10 @@
                     </div>
                 </div>
                 {{-- ユーザー通報情報　を　選択しているとき --}}
-                <div class="grid gap-10" x-cloak x-show="user">
+                <div class="grid gap-10 text-xs" x-cloak x-show="user">
                     @foreach ($all_user_reports_data_paginated as $user_report_data)
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4">
                                 <div class="p-4">
                                     <div
@@ -167,14 +167,14 @@
                                             <div class="flex items-center content-center sm:col-span-8">
                                                 {{-- photo --}}
                                                 @if($user_report_data->contribute_user->profile_photo_path)
-                                                <button class="object-cover mr-3 bg-center rounded-full h-14 w-14"
+                                                <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id'=> $user_report_data->contribute_user_id]) }}' ">
-                                                    <img class="object-fill rounded-full h-14 w-14"
+                                                    <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_report_data->contribute_user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"
+                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' "></button>
                                                 @endif
                                                 {{-- コメント作成者情報 --}}
@@ -184,12 +184,12 @@
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' ">
                                                             {{ $user_report_data->contribute_user->nickname }}
                                                         </button>
-                                                        <button class="ml-5 text-sm text-left text-gray-500"
+                                                        <button class="ml-5 text-left text-gray-500"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' ">
                                                             {{ $user_report_data->contribute_user->username }}
                                                         </button>
                                                     </div>
-                                                    <div class="inline mt-1 ml-5 text-sm text-gray-500">
+                                                    <div class="inline mt-1 ml-5 text-gray-500">
                                                         <i class="fa-regular fa-clock"></i>
                                                         <span>{{ $user_report_data->created_at->format('Y-m-d')
                                                             }}</span>
@@ -197,7 +197,7 @@
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="mt-5 text-sm sm:text-base sm:mt-0 sm:text-right sm:col-span-4">
+                                            <div class="mt-5 sm:mt-0 sm:text-right sm:col-span-4">
                                                 @if ($user_report_data->reason == 1)
                                                 <p>法律違反</p>
                                                 @elseif ($user_report_data->reason == 2)
@@ -211,7 +211,7 @@
 
                                         </div>
                                         <div class="grid grid-cols-12 mt-4">
-                                            <div class="col-span-11 text-xs sm:text-base">
+                                            <div class="col-span-11">
                                                 <p>{!! nl2br(e($user_report_data->detail)) !!}
                                                 </p>
                                             </div>
@@ -225,11 +225,11 @@
                 </div>
 
                 {{-- メモ　を　選択しているとき --}}
-                <div class="grid gap-10" x-cloak x-show="memo">
+                <div class="grid gap-10 text-xs" x-cloak x-show="memo">
                     @foreach ($all_my_memos_data_paginated as $memo_data)
                     @if ($memo_data->type == 0)
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
@@ -239,12 +239,12 @@
                                             <div class="sm:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- メモ作成者情報 --}}
-                                                    <div class="text-xs">
-                                                        <div class="inline mt-1 ml-5 text-gray-500 sm:text-sm">
+                                                    <div>
+                                                        <div class="inline mt-1 ml-5 text-gray-500">
                                                             <i class="fa-regular fa-clock"></i>
                                                             <span>{{ $memo_data['created_at']->format('Y-m-d') }}</span>
                                                         </div>
-                                                        <div class="inline mt-1 ml-5 text-gray-500 sm:text-sm">
+                                                        <div class="inline mt-1 ml-5 text-gray-500">
                                                             <i class="fa-solid fa-rotate-right fa-rotate-270"></i>
                                                             <span>{{ $memo_data['updated_at']->format('Y-m-d')}}</span>
                                                         </div>
@@ -252,8 +252,7 @@
                                                 </div>
                                                 {{-- メモタイトル --}}
                                                 <div class="mt-5 ml-3 leading-none y-4">
-                                                    <button
-                                                        class="font-bold text-left text-gray-700 break-all sm:text-xl title-font"
+                                                    <button class="text-sm font-bold text-left text-gray-700 break-all"
                                                         onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
@@ -262,8 +261,7 @@
                                                 <div class="grid w-20 grid-cols-3 mt-5 ml-3 text-sm gap-14">
                                                     <div class="w-20">
                                                         <div class="inline">
-                                                            <i class="fa-solid fa-bell sm:text-lg"
-                                                                style="color: #c6c253;"></i>
+                                                            <i class="fa-solid fa-bell" style="color: #c6c253;"></i>
                                                             <span class="ml-1">{{ $memo_data->reports_count }}</span>
                                                         </div>
                                                     </div>
@@ -291,16 +289,15 @@
                                             <div class="sm:col-span-3">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
-                                                    <p class="mb-3 text-sm leading-relaxed break-all sm:text-base">{!!
-                                                        nl2br(e($memo_data['shortMemo']))
-                                                        !!}
+                                                    <p class="mb-3 leading-relaxed break-all">
+                                                        {!! nl2br(e($memo_data['shortMemo'])) !!}
                                                     </p>
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div class="mt-6 text-center sm:mt-40 sm:ml-8 sm:text-right">
+                                                <div class="mt-6 text-center sm:mt-20 sm:ml-8 sm:text-right">
                                                     <button
-                                                        class="px-10 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="window.open('{{ $memo_data['url'] }}') ">リンクを開く</button>
                                                 </div>
                                             </div>
@@ -310,7 +307,7 @@
                                                 </div>
                                                 <div class="sm:col-span-3">
                                                     <div class="text-right">
-                                                        <i class="text-3xl fas fa-globe"></i>
+                                                        <i class="text-xl fas fa-globe"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -324,7 +321,7 @@
                     </section>
                     @elseif ($memo_data->type == 1)
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
@@ -334,12 +331,12 @@
                                             <div class="sm:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- メモ作成者情報 --}}
-                                                    <div class="text-xs">
-                                                        <div class="inline mt-1 ml-5 text-gray-500 sm:text-sm">
-                                                            <i class="fa-regular fa-clock"></i>
+                                                    <div>
+                                                        <div class="inline mt-1 ml-5 text-gray-500">
+                                                            <i class=" fa-regular fa-clock"></i>
                                                             <span>{{ $memo_data['created_at']->format('Y-m-d') }}</span>
                                                         </div>
-                                                        <div class="inline mt-1 ml-5 text-gray-500 sm:text-sm">
+                                                        <div class="inline mt-1 ml-5 text-gray-500">
                                                             <i class="fa-solid fa-rotate-right fa-rotate-270"></i>
                                                             <span>{{ $memo_data['updated_at']->format('Y-m-d')}}</span>
                                                         </div>
@@ -348,16 +345,16 @@
                                                 {{-- メモタイトル --}}
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
-                                                        class="font-bold text-left text-gray-700 break-all sm:text-xl title-font"
+                                                        class="text-sm font-bold text-left text-gray-700 break-all title-font"
                                                         onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
                                                 </div>
                                                 {{-- 『いいね』 『あとでよむ』 --}}
-                                                <div class="grid w-20 grid-cols-3 mt-5 ml-3 text-sm gap-14">
+                                                <div class="grid w-20 grid-cols-3 mt-5 ml-3 gap-14">
                                                     <div class="w-20">
                                                         <div class="inline">
-                                                            <i class="fa-solid fa-bell sm:text-lg"
+                                                            <i class="text-sm fa-solid fa-bell"
                                                                 style="color: #c6c253;"></i>
                                                             <span class="ml-1">{{ $memo_data->reports_count }}</span>
                                                         </div>
@@ -372,7 +369,7 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
-                                                <div class="mt-8 text-xs sm:text-sm">
+                                                <div class="mt-8 sm:text-sm">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
                                                         class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
@@ -386,7 +383,7 @@
                                             <div class="sm:col-span-3">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
-                                                    <p class="mb-3 text-sm leading-relaxed break-all sm:text-base">
+                                                    <p class="mb-3 leading-relaxed break-all">
                                                         {!! nl2br(e($memo_data['shortMemo'])) !!}
                                                     </p>
                                                 </div>
@@ -395,8 +392,8 @@
                                             <div class="grid grid-cols-5">
                                                 <div class="col-span-5">
                                                     <div class="max-w-xs m-auto">
-                                                        <div class="hidden text-right xl:block">
-                                                            <i class="text-3xl fas fa-book-open"></i>
+                                                        <div class="hidden text-right sm:block">
+                                                            <i class="text-xl fas fa-book-open"></i>
                                                         </div>
                                                         @if($memo_data['book_photo_path'])
                                                         <img
@@ -417,30 +414,27 @@
                 </div>
 
                 {{-- コメント　を　選択しているとき --}}
-                <div class="grid gap-10" x-cloak x-show="comment">
+                <div class="grid gap-10 text-xs" x-cloak x-show="comment">
                     @foreach ($comments_data_paginated as $comment_data)
-                    {{-- @php
-                    dd($comment_data);
-                    @endphp --}}
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4">
                                 <div class="p-4 cursor-pointer"
                                     onclick="linkToMemoOfComment('{{ route('group.memo_show', ['memo_id' => $comment_data->memo->id, 'group_id' => $comment_data->memo->group_id] ) }}')  ">
                                     <div
                                         class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="text-xs w-max">
+                                        <div class="w-max">
                                             {{-- 左側 --}}
                                             <div class="items-center content-center">
                                                 {{-- コメント作成者情報 --}}
-                                                <div class="inline mt-1 ml-5 text-gray-500 sm:text-sm">
+                                                <div class="inline mt-1 ml-5 text-gray-500">
                                                     <i class="fa-regular fa-clock"></i>
                                                     <span>{{ $comment_data->created_at->format('Y-m-d')}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-12 mt-4">
-                                            <div class="col-span-11 text-sm sm:text-base">
+                                            <div class="col-span-11">
                                                 <p>{!! nl2br(e($comment_data->comment)) !!}</p>
                                             </div>
 
@@ -454,7 +448,7 @@
 
                                             <!-- 三点リーダー（モーダル） -->
                                             <div class="flex items-end justify-end">
-                                                <i class="fa-solid fa-bell sm:text-lg" style="color: #c6c253;"></i>
+                                                <i class="text-sm fa-solid fa-bell" style="color: #c6c253;"></i>
                                                 <span class="ml-1">{{ $comment_data->reports_count }}</span>
                                             </div>
 

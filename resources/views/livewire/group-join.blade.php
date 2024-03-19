@@ -1,13 +1,14 @@
 <div>
     <x-slot name="header">
-        <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
+        <h2 class="font-semibold leading-tight text-gray-800">
             グループ参加
         </h2>
     </x-slot>
 
     <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <form wire:submit.prevent="executeSearch">
-            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索" class="rounded-xl" size="50">
+            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索" class="text-sm rounded-xl"
+                size="50">
             <button class="px-3 py-2 font-bold" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -22,7 +23,7 @@
                 <x-flash-message status="isNotJoinFreeEnabled" />
 
                 @foreach ( $all_groups_data_paginated as $group_data )
-                <section class="w-full text-gray-600 body-font">
+                <section class="w-full text-xs text-gray-600 body-font">
                     <div class="px-5 ">
                         <div class="flex flex-wrap justify-center -m-4">
                             <div class="w-full p-4">
@@ -34,27 +35,26 @@
                                                 {{-- photo --}}
                                                 @if($group_data->group_photo_path)
                                                 <div
-                                                    class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
-                                                    <img class="object-cover rounded-full h-14 w-14"
+                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img class="object-cover w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                 </div>
                                                 @else
                                                 <div
-                                                    class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
+                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
                                                 </div>
                                                 @endif
                                                 {{-- end_photo --}}
-                                                <h1
-                                                    class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                <h1 class="self-center text-sm font-bold text-gray-700 title-font">
                                                     {{
                                                     $group_data->name }}
                                                 </h1>
                                             </div>
                                             <div class="mt-2 leading-none y-4 ">
-                                                <p class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                     管理者：{{ $group_data->userRoles->first()->nickname }}
                                                 </p>
-                                                <p class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                     メンバー：{{ $group_data->user_count }}人
                                                 </p>
                                             </div>
@@ -71,7 +71,7 @@
                                     <div class="px-10 pt-10 text-center">
                                         @if ($group_data->isJoinFreeEnabled)
                                         <button type="button"
-                                            class="px-16 py-3 text-lg font-bold text-white bg-indigo-400 border-0 sm:px-32 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                            class="px-16 py-3 text-sm font-bold text-white bg-indigo-400 border-0 sm:px-32 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                             wire:click="joinGroup({{ $group_data->id }})">参加</button>
                                         @endif
 

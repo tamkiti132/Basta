@@ -3,7 +3,7 @@
     suspension_group: @entangle('show_suspension_groups'),
 }">
     <x-slot name="header">
-        <h2 class="font-semibold leading-tight text-gray-800 sm:text-xl">
+        <h2 class="font-semibold leading-tight text-gray-800">
             グループ一覧
         </h2>
     </x-slot>
@@ -12,8 +12,8 @@
         <!-- 検索、絞り込み -->
         <div>
             <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="グループ名かグループ紹介文のワードで検索" class="rounded-xl"
-                    size="50">
+                <input type="text" wire:model.defer="search" placeholder="グループ名かグループ紹介文のワードで検索"
+                    class="text-sm rounded-xl" size="50">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -21,7 +21,8 @@
         </div>
 
         {{-- ソート基準切り替え --}}
-        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs rounded-xl" id="sortCriteria">
+        <select wire:change="setSortCriteria($event.target.value)" class="max-w-xs text-sm rounded-xl"
+            id="sortCriteria">
             <option value="report">通報数順</option>
             <option value="name">名前順</option>
         </select>
@@ -34,7 +35,7 @@
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 {{-- グループ / 利用停止中グループ 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
-                    <div class="flex text-xs font-bold sm:text-lg lg:w-1/2">
+                    <div class="flex text-xs font-bold sm:text-sm lg:w-1/2">
                         <button
                             class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                             type="button" x-on:click="group = true; suspension_group=false;"
@@ -50,10 +51,10 @@
                     </div>
                 </div>
                 {{-- グループ　を　選択しているとき --}}
-                <div class="grid gap-10" x-cloak x-show="group">
+                <div class="grid gap-10 text-xs" x-cloak x-show="group">
                     @foreach ($groups_data_paginated as $group_data)
                     <section class="w-full text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto ">
                             <div class="flex flex-wrap justify-center -m-4">
                                 <div class="w-full p-4">
                                     <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
@@ -65,28 +66,27 @@
                                                     @if($group_data->group_photo_path)
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
-                                                        <img class="object-fill rounded-full h-14 w-14"
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
                                                     </button>
                                                     @endif
                                                     {{-- end_photo --}}
-                                                    <button type="button"
+                                                    <button class="flex self-center" type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' ">
-                                                        <h1
-                                                            class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                        <h1 class="text-sm font-bold text-gray-700 title-font">
                                                             {{ $group_data->name }}
                                                         </h1>
                                                     </button>
                                                 </div>
                                                 <div class="mt-2 leading-none y-4 ">
                                                     <div
-                                                        class="grid items-center grid-cols-2 pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                        class="grid items-center grid-cols-2 pt-5 ml-3 leading-none text-gray-700">
                                                         <p>
                                                             管理者　：{{ $group_data->userRoles->first()->nickname }}
                                                         </p>
@@ -94,20 +94,16 @@
                                                             {{ $group_data->userRoles->first()->username }}
                                                         </p>
                                                     </div>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         通報数　：{{ $group_data->reports_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         メンバー：{{ $group_data->user_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         メモ　　：{{ $group_data->memos_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         コメント：{{ $group_data->comments_count }}
                                                     </p>
                                                 </div>
@@ -124,8 +120,8 @@
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
 
@@ -165,10 +161,10 @@
                 </div>
 
                 {{-- 利用停止中グループ　を　選択しているとき --}}
-                <div class="grid gap-10" x-cloak x-show="suspension_group">
+                <div class="grid gap-10 text-xs" x-cloak x-show="suspension_group">
                     @foreach ($suspension_groups_data_paginated as $group_data)
                     <section class="w-full text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="flex flex-wrap justify-center -m-4">
                                 <div class="w-full p-4">
                                     <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
@@ -180,28 +176,28 @@
                                                     @if($group_data->group_photo_path)
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover mr-3 bg-center rounded-full h-14 w-14">
-                                                        <img class="object-fill rounded-full h-14 w-14"
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14">
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
                                                     </button>
                                                     @endif
                                                     {{-- end_photo --}}
-                                                    <button type="button"
+                                                    <button class="flex self-center" type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' ">
                                                         <h1
-                                                            class="self-center text-xl font-bold text-gray-700 title-font sm:text-2xl">
+                                                            class="self-center text-sm font-bold text-gray-700 title-font">
                                                             {{ $group_data->name }}
                                                         </h1>
                                                     </button>
                                                 </div>
                                                 <div class="mt-2 leading-none y-4 ">
                                                     <div
-                                                        class="grid items-center grid-cols-2 pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                        class="grid items-center grid-cols-2 pt-5 ml-3 leading-none text-gray-700">
                                                         <p>
                                                             管理者　：{{ $group_data->userRoles->first()->nickname }}
                                                         </p>
@@ -209,20 +205,16 @@
                                                             {{ $group_data->userRoles->first()->username }}
                                                         </p>
                                                     </div>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         通報数　：{{ $group_data->reports_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         メンバー：{{ $group_data->user_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         メモ　　：{{ $group_data->memos_count }}
                                                     </p>
-                                                    <p
-                                                        class="items-center pt-5 ml-3 text-sm leading-none text-gray-700">
+                                                    <p class="items-center pt-5 ml-3 leading-none text-gray-700">
                                                         コメント：{{ $group_data->comments_count }}
                                                     </p>
                                                 </div>
@@ -239,8 +231,8 @@
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
 

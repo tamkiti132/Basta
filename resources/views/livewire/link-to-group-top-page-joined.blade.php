@@ -3,13 +3,14 @@
     <div
         class="overflow-hidden text-xs truncate bg-transparent border-none w-28 sm:w-40 sm:text-base whitespace-nowrap">
         <button onclick="window.location.href = '/group/top/' + document.getElementById('group-select').value"
-            class="w-full h-full text-left bg-transparent border-none cursor-pointer">
+            class="w-full h-full text-xs text-left bg-transparent border-none cursor-pointer sm:text-sm">
             {{ $user_groups->firstWhere('id', session('group_id'))->name ?? $user_groups->first()->name
             }}
         </button>
     </div>
     <div class="absolute top-0 right-0 w-10 h-full overflow-hidden">
-        <select id="group-select" name="group" class="w-full h-full bg-transparent border-none appearance-none"
+        <select id="group-select" name="group"
+            class="w-full h-full text-xs bg-transparent border-none appearance-none sm:text-sm"
             onchange="window.location.href = '/group/top/' + this.value">
             @foreach($user_groups as $group)
             <option value="{{ $group->id }}" {{ (session('group_id')==$group->id) ? 'selected' : '' }}>

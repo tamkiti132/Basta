@@ -9,7 +9,7 @@
                 {{-- 運営者の場合 --}}
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('admin.user_top') }}">
-                        <div class="w-20 p-2">
+                        <div class="w-16 p-2">
                             <x-application-mark class="block w-auto h-9" />
                         </div>
                     </a>
@@ -18,7 +18,7 @@
                 {{-- 運営者以外の場合 --}}
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('index') }}">
-                        <div class="w-20 p-2">
+                        <div class="w-16 p-2">
                             <x-application-mark class="block w-auto h-9" />
                         </div>
                     </a>
@@ -38,10 +38,10 @@
 
                 @can('admin-higher')
                 <div class="flex justify-end gap-20">
-                    <div class="text-xs sm:text-base">
+                    <div class="text-xs sm:text-sm">
                         <a href="{{ route('admin.user_top') }}">ユーザー一覧</a>
                     </div>
-                    <div class="text-xs sm:text-base">
+                    <div class="text-xs sm:text-sm">
                         <a href="{{ route('admin.group_top') }}">グループ一覧</a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                 @livewire('link-to-group-top-page-joined')
 
                 {{-- マイページのリンク --}}
-                <div class="text-xs sm:text-base">
+                <div class="text-xs sm:text-sm">
                     <a href="{{ route('mypage.show', ['user_id' => Auth::id()]) }}">マイページ</a>
                 </div>
                 @endcan

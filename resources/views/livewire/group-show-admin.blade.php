@@ -16,17 +16,18 @@
                         src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                 </button>
                 @else
-                <button type="button" class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"
+                <button type="button"
+                    class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full sm:w-10 sm:h-10"
                     onclick="location.href='{{ route('group.index', ['group_id' => $group_id]) }}' "></button>
                 @endif
-                <div>
+                <div class="self-center">
                     <button type="button"
                         onclick="location.href='{{ route('group.index', ['group_id' => $group_id]) }}' ">
-                        <h2 class="text-sm font-semibold leading-tight text-gray-800 sm:text-xl">
+                        <h2 class="text-sm font-semibold leading-tight text-gray-800">
                             {{ $group_data->name }}
                         </h2>
                     </button>
-                    <p class="ml-5 text-sm text-gray-500">
+                    <p class="ml-5 text-xs text-gray-500">
                         管理者：　{{ $group_data->userRoles->first()->nickname }}
                     </p>
                 </div>
@@ -38,7 +39,7 @@
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                <i class="px-5 text-3xl fas fa-ellipsis-v"></i>
+                                <i class="px-5 text-xl fas fa-ellipsis-v"></i>
                             </button>
                         </x-slot>
 
@@ -77,14 +78,14 @@
         <div>
             <form wire:submit.prevent="executeSearch">
                 <input type="text" wire:model.defer="search" :placeholder="group_report ? 'ニックネームかユーザー名か本文のワードで検索' : 
-                            (member ? 'ニックネームかユーザー名で検索' : '検索')" class="rounded-xl" size="50">
+                            (member ? 'ニックネームかユーザー名で検索' : '検索')" class="text-sm rounded-xl" size="50">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
         </div>
 
-        <select wire:change="setReportReason($event.target.value)" class="max-w-xs rounded-xl"
+        <select wire:change="setReportReason($event.target.value)" class="max-w-xs text-sm rounded-xl"
             x-bind:class="{ 'invisible pointer-events-none': member }">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
@@ -93,7 +94,7 @@
             <option value="4">その他</option>
         </select>
 
-        <select wire:change="setUserBlockState($event.target.value)" class="max-w-xs rounded-xl"
+        <select wire:change="setUserBlockState($event.target.value)" class="max-w-xs text-sm rounded-xl"
             x-bind:class="{ 'invisible pointer-events-none': group_report }">
             <option value="">すべてのユーザー</option>
             <option value="1">ブロックなし</option>
@@ -106,11 +107,11 @@
     <div class="py-12">
 
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto max-w-7xl sm:px-6 lg:px-8 xl:col-span-8">
+        <div class="w-full mx-auto text-xs max-w-7xl sm:px-6 lg:px-8 xl:col-span-8">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 {{-- グループ通報情報 / メンバー 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
-                    <div class="flex text-xs font-bold sm:text-lg lg:w-1/2">
+                    <div class="flex text-xs font-bold sm:text-sm lg:w-1/2">
                         <button
                             class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                             type="button"
@@ -129,7 +130,7 @@
                 <div class="grid gap-10" x-cloak x-show="group_report">
                     @foreach ($group_reports_data_paginated as $group_report_data)
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4">
                                 <div class="p-4">
                                     <div
@@ -139,14 +140,14 @@
                                             <div class="flex items-center content-center sm:col-span-8">
                                                 {{-- photo --}}
                                                 @if($group_report_data->contribute_user->profile_photo_path)
-                                                <button class="object-cover mr-3 bg-center rounded-full h-14 w-14"
+                                                <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id'=>$group_report_data->contribute_user_id])  }}' ">
-                                                    <img class="object-fill rounded-full h-14 w-14"
+                                                    <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $group_report_data->contribute_user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover mr-3 bg-blue-200 bg-center rounded-full h-14 w-14"
+                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id' => $group_report_data->contribute_user_id]) }}' "></button>
                                                 @endif
                                                 {{-- コメント作成者情報 --}}
@@ -156,12 +157,12 @@
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $group_report_data->contribute_user_id]) }}' ">
                                                             {{ $group_report_data->contribute_user->nickname }}
                                                         </button>
-                                                        <button class="ml-5 text-sm text-left text-gray-500"
+                                                        <button class="ml-5 text-left text-gray-500"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id'=>$group_report_data->contribute_user_id]) }}' ">
                                                             {{ $group_report_data->contribute_user->username }}
                                                         </button>
                                                     </div>
-                                                    <div class="inline mt-1 ml-5 text-sm text-gray-500">
+                                                    <div class="inline mt-1 ml-5 text-gray-500">
                                                         <i class="fa-regular fa-clock"></i>
                                                         <span>
                                                             {{ $group_report_data->created_at->format('Y-m-d') }}
@@ -171,7 +172,7 @@
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="mt-5 text-sm sm:text-base sm:mt-0 sm:text-right sm:col-span-4">
+                                            <div class="mt-5 sm:mt-0 sm:text-right sm:col-span-4">
                                                 @if ($group_report_data->reason == 1)
                                                 <p>法律違反</p>
                                                 @elseif ($group_report_data->reason == 2)
@@ -185,7 +186,7 @@
 
                                         </div>
                                         <div class="grid grid-cols-12 mt-4">
-                                            <div class="col-span-11 text-xs sm:text-base">
+                                            <div class="col-span-11">
                                                 <p>
                                                     {!! nl2br(e($group_report_data->detail)) !!}
                                                 </p>
@@ -202,14 +203,14 @@
                 {{-- メンバー　を　選択しているとき --}}
                 <div class="grid gap-10" x-cloak x-show="member">
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 mx-auto">
+                        <div class="px-5 mx-auto">
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
                                         class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl ">
                                         {{-- ユーザー / 利用停止中ユーザー --}}
                                         <div class="mb-2 border-b border-gray-400">
-                                            <div class="flex text-xs font-bold sm:text-lg sm:w-1/2">
+                                            <div class="flex text-xs font-bold sm:text-sm sm:w-1/2">
                                                 <button
                                                     class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                                                     type="button"
@@ -227,26 +228,26 @@
                                             </div>
                                         </div>
                                         {{-- 項目名 --}}
-                                        <div class="items-center hidden grid-cols-12 text-xs sm:grid">
+                                        <div class="items-center hidden grid-cols-12 sm:grid">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
                                             <div class="flex items-center col-span-3">
                                                 <p class="ml-12">ニックネーム</p>
                                             </div>
                                             {{-- ユーザーid --}}
                                             <div class="col-span-3">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-gray-500 ">
                                                     ユーザー名
                                                 </p>
                                             </div>
                                             {{-- メールアドレス --}}
                                             <div class="col-span-2">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-gray-500 ">
                                                     メールアドレス
                                                 </p>
                                             </div>
                                             {{-- 権限 --}}
                                             <div class="col-span-1">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-gray-500">
                                                     権限
                                                 </p>
                                             </div>
@@ -284,27 +285,27 @@
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' "></button>
                                                     @endif
                                                     {{-- ニックネーム --}}
-                                                    <button class="text-sm"
+                                                    <button
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->nickname }}
                                                     </button>
                                                 </div>
                                                 {{-- ユーザーネーム --}}
                                                 <div class="ml-16 sm:ml-0 sm:col-span-3">
-                                                    <button class="text-sm text-gray-500"
+                                                    <button class="text-gray-500"
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->username }}
                                                     </button>
                                                 </div>
                                                 {{-- メールアドレス --}}
                                                 <div class="mt-3 sm:col-span-2 sm:mt-0">
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-gray-500">
                                                         {{ $user_data->email }}
                                                     </p>
                                                 </div>
                                                 {{-- 権限 --}}
                                                 <div class="mt-3 sm:col-span-1 sm:mt-0">
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-gray-500">
                                                         @if ($user_data->groupRoles->first()->role === 10)
                                                     <p>管理者</p>
                                                     @elseif($user_data->groupRoles->first()->role === 50)
@@ -317,7 +318,7 @@
                                                 <div class="grid grid-cols-3 sm:col-span-3">
                                                     {{-- ユーザー通報 --}}
                                                     <div
-                                                        class="grid grid-cols-3 col-span-2 mt-3 text-sm text-left sm:text-center sm:mt-0">
+                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
                                                         <div class="col-span-2 sm:hidden">
                                                             <p>ユーザー通報</p>
                                                             {{-- 通報メモ --}}
@@ -342,8 +343,8 @@
                                                         <x-dropdown align="right" width="48">
                                                             <x-slot name="trigger">
                                                                 <button
-                                                                    class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                    <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                    class="flex transition border-2 border-transparent focus:outline-none">
+                                                                    <i class="text-lg fas fa-ellipsis-v"></i>
                                                                 </button>
                                                             </x-slot>
 
@@ -393,27 +394,27 @@
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                     </button>
                                                     @endif
-                                                    <button class="text-sm text-gray-500"
+                                                    <button class="text-gray-500 "
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->nickname }}
                                                     </button>
                                                 </div>
                                                 {{-- ユーザーネーム --}}
                                                 <div class="ml-16 sm:ml-0 sm:col-span-3">
-                                                    <button class="text-sm text-gray-500"
+                                                    <button class="text-gray-500 "
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->username }}
                                                     </button>
                                                 </div>
                                                 {{-- メールアドレス --}}
                                                 <div class="mt-3 sm:col-span-2 sm:mt-0">
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-gray-500 ">
                                                         {{ $user_data->email }}
                                                     </p>
                                                 </div>
                                                 {{-- 権限 --}}
                                                 <div class="mt-3 sm:col-span-1 sm:mt-0">
-                                                    <p class="text-sm text-gray-500">
+                                                    <p class="text-gray-500 ">
                                                         @if ($user_data->groupRoles->first()->role === 10)
                                                     <p>管理者</p>
                                                     @elseif($user_data->groupRoles->first()->role === 50)
@@ -426,7 +427,7 @@
                                                 <div class="grid grid-cols-3 sm:col-span-3">
                                                     {{-- ユーザー通報 --}}
                                                     <div
-                                                        class="grid grid-cols-3 col-span-2 mt-3 text-sm text-left sm:text-center sm:mt-0">
+                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
                                                         <div class="col-span-2 sm:hidden">
                                                             <p>ユーザー通報</p>
                                                             {{-- 通報メモ --}}
@@ -451,8 +452,8 @@
                                                         <x-dropdown align="right" width="48">
                                                             <x-slot name="trigger">
                                                                 <button
-                                                                    class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                                                    <i class="text-3xl fas fa-ellipsis-v"></i>
+                                                                    class="flex transition border-2 border-transparent focus:outline-none">
+                                                                    <i class="text-lg fas fa-ellipsis-v"></i>
                                                                 </button>
                                                             </x-slot>
 
