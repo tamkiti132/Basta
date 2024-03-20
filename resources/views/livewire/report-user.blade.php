@@ -1,6 +1,14 @@
 <div x-data="{
     showModalReportUser: @entangle('showModalReportUser'),
-}">
+}" x-init="
+    $watch('showModalReportUser', value => {
+        if (value) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+">
     <div x-cloak x-show="showModalReportUser"
         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
         <div x-on:click.away="$wire.closeModalReportUser"
@@ -51,7 +59,7 @@
 
                 <label for="detail">問題がある点の詳細</label>
                 <textarea name="detail" id="detail" cols="30" rows="5" wire:model.defer="detail"
-                    class="rounded-xl"></textarea>
+                    class="overflow-auto rounded-xl max-h-36"></textarea>
 
                 <div class="flex justify-end gap-4 pt-2">
                     <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"

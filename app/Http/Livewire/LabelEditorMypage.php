@@ -113,7 +113,8 @@ class LabelEditorMypage extends Component
 
         $this->loadLabels();
 
-        $this->emit('labelUpdated', $labelId);
+        $this->emit('labelDeleted', $labelId);
+        $this->emit('labelUpdated');
     }
 
     public function setGroupId($group_id = null)
