@@ -1,7 +1,15 @@
 <div x-data="{
     showLabelEditModal: @entangle('showLabelEditModal'),
     isComposing: false
-}">
+}" x-init="
+    $watch('showLabelEditModal', value => {
+        if (value) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+">
     <div x-cloak x-show="showLabelEditModal"
         class="fixed top-0 left-0 flex items-center justify-center w-screen h-screen text-xs bg-black border bg-opacity-40">
         <div x-on:click.away="$wire.closeLabelEditModal"
@@ -19,7 +27,7 @@
 
             <div class="pb-6 mb-2 border-b border-black"></div>
 
-            <div class="flex flex-col py-2">
+            <div class="flex flex-col py-2 overflow-auto max-h-80">
                 @foreach ($labels as $label)
                 <div class="flex justify-between">
                     <input type="text" wire:model.defer="labelNames.{{ $label->id }}"
@@ -39,9 +47,9 @@
     </div>
     <script>
         function confirmDeletion(labelId) {
-                        if (confirm('このラベルは削除され、\nすべてのメモからもこのラベルが削除されます。\nこのラベルを削除してもよろしいですか？')) {
-                            Livewire.emit('deleteLabel', labelId);
-                        }
-                    }
+            if (confirm('このラベルは削除され、\nすべてのメモからもこのラベルが削除されます。\nこのラベルを削除してもよろしいですか？')) {
+                Livewire.emit('deleteLabel', labelId);
+            }
+        }
     </script>
 </div>
