@@ -92,15 +92,11 @@
                 <div class="w-6 h-1 bg-white rounded-lg"></div>
             </label>
             <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block">
-
-                <div class="z-20 px-1 py-2 sm:static">
+                <div class="z-20 px-1 py-2 overflow-auto sm:static max-h-96 label-list-container">
                     {{-- ラベル表示 --}}
                     <div class="xl:col-span-2">
-
                         @livewire('web-book-label')
-
                         @livewire('label-list')
-
                         {{-- ラベル編集 --}}
                         <div>
                             @can('manager', $group_data)
@@ -112,20 +108,13 @@
                                 </button>
                             </div>
                             @endcan
-
                             {{-- ラベル編集モーダル --}}
-
-
                             {{-- ラベル名入力 --}}
                             @livewire('label-editor')
-
-
                         </div>
-
                     </div>
                 </div>
             </div>
-            </input>
         </div>
         {{-- メインコンテンツ（中央） --}}
         <div class="w-full mx-auto text-xs xl:col-span-8 max-w-7xl sm:px-6 lg:px-8">
@@ -419,6 +408,19 @@
             }
             
             window.addEventListener('load', resetFormElements);
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+            const labelList = document.querySelector('.label-list-container'); // ラベル一覧のコンテナに適切なクラスを追加
+            
+            labelList.addEventListener('mouseenter', function() {
+            document.body.style.overflow = 'hidden';
+            });
+            
+            labelList.addEventListener('mouseleave', function() {
+            document.body.style.overflow = 'auto';
+            });
+            });
     </script>
 
 </div>

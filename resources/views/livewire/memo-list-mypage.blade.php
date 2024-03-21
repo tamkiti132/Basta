@@ -43,7 +43,7 @@
             </label>
             <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block">
 
-                <div class="z-20 px-1 py-2 sm:static">
+                <div class="z-20 px-1 py-2 overflow-auto sm:static max-h-96 label-list-container">
                     {{-- ラベル表示 --}}
                     <div class="xl:col-span-2">
 
@@ -854,6 +854,21 @@
                 }
                 
                 window.addEventListener('load', resetFormElements);
+
+
+            //ラベル一覧モーダルにカーソルがある間、その他の部分がスクロールしないようにするための処理
+            document.addEventListener('DOMContentLoaded', function() {
+                const labelList = document.querySelector('.label-list-container'); // ラベル一覧のコンテナに適切なクラスを追加
+                
+                labelList.addEventListener('mouseenter', function() {
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                labelList.addEventListener('mouseleave', function() {
+                    document.body.style.overflow = 'auto';
+                });
+            });
+    </script>
     </script>
 
 </div>
