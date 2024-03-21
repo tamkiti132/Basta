@@ -858,7 +858,7 @@
 
             //ラベル一覧モーダルにカーソルがある間、その他の部分がスクロールしないようにするための処理
             document.addEventListener('DOMContentLoaded', function() {
-                const labelList = document.querySelector('.label-list-container'); // ラベル一覧のコンテナに適切なクラスを追加
+                const labelList = document.querySelector('.label-list-container');
                 
                 labelList.addEventListener('mouseenter', function() {
                     document.body.style.overflow = 'hidden';
