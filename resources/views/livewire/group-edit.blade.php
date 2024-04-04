@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                {{-- グループ情報更新 --}}
+                {{-- グループ情報--}}
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
@@ -82,7 +82,7 @@
                                                 <label for="group_name" class="block">グループ名<span
                                                         class="required">*</span></label>
                                                 <input wire:model.defer="group_data.name" id="group_name" type="text"
-                                                    class="rounded-lg" size="30">
+                                                    class="w-full rounded-lg">
                                             </div>
 
                                             <div class="mt-5">

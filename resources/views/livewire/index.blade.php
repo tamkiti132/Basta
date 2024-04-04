@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        <div class="grid grid-cols-2">
+        <div class="grid items-center grid-cols-2">
             {{-- 左側 --}}
             <h2 class="font-semibold leading-tight text-gray-800">
                 参加グループ一覧
@@ -9,8 +9,8 @@
             {{-- 右側 --}}
             <div class="flex justify-end">
                 <div class="flex-wrap gap-4 sm:flex sm:gap-10 sm:flex-nowrap">
-                    <div class="sm:w-auto">
-                        <a class="font-semibold leading-tight text-gray-800" href="{{ route('group_create') }}">
+                    <div class="mb-5 sm:mb-0 sm:w-auto">
+                        <a class="font-semibold leading-tight text-gray-800 " href="{{ route('group_create') }}">
                             グループをつくる
                         </a>
                     </div>
@@ -25,10 +25,10 @@
         </div>
     </x-slot>
 
-    <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-6 pt-12 mx-auto max-w-7xl lg:px-8">
         <form wire:submit.prevent="executeSearch">
-            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索" class="text-sm rounded-xl"
-                size="50">
+            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索"
+                class="w-64 text-sm rounded-xl sm:w-96">
             <button class="px-3 py-2 font-bold" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -79,8 +79,9 @@
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
-                                        <div>
-                                            <p class="mb-3 leading-relaxed">{!! nl2br(e($group_data->introduction)) !!}
+                                        <div class="md:ml-2">
+                                            <p class="mb-3 leading-relaxed break-all">
+                                                {!! nl2br(e($group_data->introduction)) !!}
                                             </p>
                                         </div>
                                     </div>
@@ -88,7 +89,7 @@
                                     {{-- ボタン --}}
                                     <div class="px-10 pt-10 text-center">
                                         <button
-                                            class="w-2/3 px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:w-1/3 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                            class="w-4/5 px-10 py-3 text-xs font-bold text-white bg-indigo-400 border-0 sm:text-sm lg:w-1/3 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                             onclick="location.href='{{ route('group.index', ['group_id' => $group_data['id']]) }}' ">入室</button>
 
                                     </div>

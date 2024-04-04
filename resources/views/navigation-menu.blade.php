@@ -37,7 +37,7 @@
             <div class="flex items-center justify-end col-span-5 gap-3 sm:gap-10 md:col-span-2">
 
                 @can('admin-higher')
-                <div class="flex justify-end gap-20">
+                <div class="flex justify-end gap-5 sm:gap-20">
                     <div class="text-xs sm:text-sm">
                         <a href="{{ route('admin.user_top') }}">ユーザー一覧</a>
                     </div>
@@ -139,9 +139,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            <p class="ml-4 text-sm">
+                アカウント管理
+            </p>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -162,12 +162,13 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                <x-responsive-nav-link class="text-sm" href="{{ route('profile.show') }}"
+                    :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                <x-responsive-nav-link href="{{ route('api-tokens.index') }}"
+                <x-responsive-nav-link class="text-sm" href="{{ route('api-tokens.index') }}"
                     :active="request()->routeIs('api-tokens.index')">
                     {{ __('API Tokens') }}
                 </x-responsive-nav-link>
@@ -177,7 +178,8 @@
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf
 
-                    <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                    <x-responsive-nav-link class="text-sm" href="{{ route('logout') }}"
+                        @click.prevent="$root.submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

@@ -1,7 +1,8 @@
 <x-guest-layout>
 
     @can('admin-top')
-    <p class="fixed text-3xl font-bold text-gray-700 border-b-4 border-gray-700 right-32 top-20">運営</p>
+    <p class="fixed text-sm font-bold text-gray-700 border-b-4 border-gray-700 md:text-3xl right-8 md:right-32 top-20">
+        運営</p>
     @endcan
 
     <x-authentication-card>

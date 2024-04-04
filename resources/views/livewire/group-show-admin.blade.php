@@ -7,32 +7,35 @@
     suspension_user_pagination: @entangle('show_suspension_users_pagination'),
 }" wire:init="$refresh">
     <x-slot name="header">
-        <div class="grid grid-cols-2">
-            <div class="flex">
+        <div class="grid grid-cols-4 lg:grid-cols-2">
+            {{-- 左側 --}}
+            <div class="flex w-auto col-span-3 lg:col-span-1">
                 @if($group_data->group_photo_path)
-                <button type="button" class="object-cover w-8 h-8 mr-3 bg-center rounded-full sm:w-10 sm:h-10"
+                <button type="button"
+                    class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10"
                     onclick="location.href='{{ route('group.index', ['group_id' => $group_id]) }}' ">
-                    <img class="object-fill w-8 h-8 rounded-full sm:w-10 sm:h-10"
+                    <img class="object-fill w-8 h-8 rounded-full lg:w-10 lg:h-10"
                         src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                 </button>
                 @else
                 <button type="button"
-                    class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full sm:w-10 sm:h-10"
+                    class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full lg:w-10 lg:h-10"
                     onclick="location.href='{{ route('group.index', ['group_id' => $group_id]) }}' "></button>
                 @endif
-                <div class="self-center">
-                    <button type="button"
+                <div class="self-center w-full">
+                    <button type="button" class="max-w-full"
                         onclick="location.href='{{ route('group.index', ['group_id' => $group_id]) }}' ">
-                        <h2 class="text-sm font-semibold leading-tight text-gray-800">
+                        <h2
+                            class="overflow-hidden text-xs font-semibold leading-tight text-gray-800 lg:text-sm whitespace-nowrap text-ellipsis">
                             {{ $group_data->name }}
                         </h2>
                     </button>
-                    <p class="ml-5 text-xs text-gray-500">
+                    <p class="ml-5 overflow-hidden text-xs text-gray-500 whitespace-nowrap text-ellipsis">
                         管理者：　{{ $group_data->userRoles->first()->nickname }}
                     </p>
                 </div>
             </div>
-            {{-- 左側 --}}
+            {{-- 右側 --}}
             <div class="flex items-center justify-end">
                 <!-- 三点リーダー（モーダル） -->
                 <div>
@@ -73,12 +76,12 @@
         </div>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 pt-12 mx-auto lg:flex-row max-w-7xl sm:px-6 lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
             <form wire:submit.prevent="executeSearch">
                 <input type="text" wire:model.defer="search" :placeholder="group_report ? 'ニックネームかユーザー名か本文のワードで検索' : 
-                            (member ? 'ニックネームかユーザー名で検索' : '検索')" class="text-sm rounded-xl" size="50">
+                            (member ? 'ニックネームかユーザー名で検索' : '検索')" class="w-64 text-sm rounded-xl sm:w-96">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -86,7 +89,7 @@
         </div>
 
         <select wire:change="setReportReason($event.target.value)" class="max-w-xs text-sm rounded-xl"
-            x-bind:class="{ 'invisible pointer-events-none': member }">
+            x-bind:class="{ 'hidden': member }">
             <option value="">通報理由で絞り込み</option>
             <option value="1">法律違反</option>
             <option value="2">不適切なコンテンツ</option>
@@ -95,7 +98,7 @@
         </select>
 
         <select wire:change="setUserBlockState($event.target.value)" class="max-w-xs text-sm rounded-xl"
-            x-bind:class="{ 'invisible pointer-events-none': group_report }">
+            x-bind:class="{ 'hidden': group_report }">
             <option value="">すべてのユーザー</option>
             <option value="1">ブロックなし</option>
             <option value="2">ブロック状態</option>
@@ -107,11 +110,11 @@
     <div class="py-12">
 
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto text-xs max-w-7xl sm:px-6 lg:px-8 xl:col-span-8">
+        <div class="w-full mx-auto text-xs max-w-7xl lg:px-8 xl:col-span-8">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 {{-- グループ通報情報 / メンバー 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
-                    <div class="flex text-xs font-bold sm:text-sm lg:w-1/2">
+                    <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
                         <button
                             class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                             type="button"
@@ -135,9 +138,9 @@
                                 <div class="p-4">
                                     <div
                                         class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
-                                        <div class="grid w-full sm:grid-cols-12">
+                                        <div class="grid w-full lg:grid-cols-12">
                                             {{-- 左側 --}}
-                                            <div class="flex items-center content-center sm:col-span-8">
+                                            <div class="flex items-center content-center lg:col-span-8">
                                                 {{-- photo --}}
                                                 @if($group_report_data->contribute_user->profile_photo_path)
                                                 <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
@@ -153,26 +156,27 @@
                                                 {{-- コメント作成者情報 --}}
                                                 <div>
                                                     <div>
-                                                        <button class="block ml-3 text-left text-black" type="button"
+                                                        <button class="block text-left text-black lg:ml-3" type="button"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $group_report_data->contribute_user_id]) }}' ">
                                                             {{ $group_report_data->contribute_user->nickname }}
                                                         </button>
-                                                        <button class="ml-5 text-left text-gray-500"
+                                                    </div>
+                                                    <div class="grid items-center mt-1 text-gray-500 lg:ml-5">
+                                                        <button class="text-left text-gray-500"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id'=>$group_report_data->contribute_user_id]) }}' ">
                                                             {{ $group_report_data->contribute_user->username }}
                                                         </button>
-                                                    </div>
-                                                    <div class="inline mt-1 ml-5 text-gray-500">
-                                                        <i class="fa-regular fa-clock"></i>
-                                                        <span>
-                                                            {{ $group_report_data->created_at->format('Y-m-d') }}
-
-                                                        </span>
+                                                        <div>
+                                                            <i class="fa-regular fa-clock"></i>
+                                                            <span>
+                                                                {{ $group_report_data->created_at->format('Y-m-d') }}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="mt-5 sm:mt-0 sm:text-right sm:col-span-4">
+                                            <div class="mt-5 lg:mt-0 lg:text-right lg:col-span-4">
                                                 @if ($group_report_data->reason == 1)
                                                 <p>法律違反</p>
                                                 @elseif ($group_report_data->reason == 2)
@@ -186,8 +190,8 @@
 
                                         </div>
                                         <div class="grid grid-cols-12 mt-4">
-                                            <div class="col-span-11">
-                                                <p>
+                                            <div class="col-span-12">
+                                                <p class="break-words">
                                                     {!! nl2br(e($group_report_data->detail)) !!}
                                                 </p>
                                             </div>
@@ -207,10 +211,10 @@
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
-                                        class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl ">
+                                        class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:gap-7 rounded-2xl ">
                                         {{-- ユーザー / 利用停止中ユーザー --}}
                                         <div class="mb-2 border-b border-gray-400">
-                                            <div class="flex text-xs font-bold sm:text-sm sm:w-1/2">
+                                            <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
                                                 <button
                                                     class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                                                     type="button"
@@ -228,7 +232,7 @@
                                             </div>
                                         </div>
                                         {{-- 項目名 --}}
-                                        <div class="items-center hidden grid-cols-12 sm:grid">
+                                        <div class="items-center hidden grid-cols-12 lg:grid">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
                                             <div class="flex items-center col-span-3">
                                                 <p class="ml-12">ニックネーム</p>
@@ -267,12 +271,12 @@
                                         </div>
 
                                         {{-- ユーザーの場合 --}}
-                                        <div class="grid gap-10 sm:gap-7" x-cloak x-show="user">
+                                        <div class="grid gap-10 lg:gap-7" x-cloak x-show="user">
                                             @foreach ($users_data_paginated as $user_data)
                                             {{-- １人分のまとまり --}}
-                                            <div class="items-center sm:grid sm:grid-cols-12">
+                                            <div class="items-center lg:grid lg:grid-cols-12">
                                                 {{-- プロフィール画像 ・ ニックネーム --}}
-                                                <div class="flex items-center sm:col-span-3">
+                                                <div class="flex items-center lg:col-span-3">
                                                     @if($user_data->profile_photo_path)
                                                     <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
                                                         onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
@@ -291,20 +295,20 @@
                                                     </button>
                                                 </div>
                                                 {{-- ユーザーネーム --}}
-                                                <div class="ml-16 sm:ml-0 sm:col-span-3">
+                                                <div class="ml-16 lg:ml-0 lg:col-span-3">
                                                     <button class="text-gray-500"
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->username }}
                                                     </button>
                                                 </div>
                                                 {{-- メールアドレス --}}
-                                                <div class="mt-3 sm:col-span-2 sm:mt-0">
+                                                <div class="mt-3 lg:col-span-2 lg:mt-0">
                                                     <p class="text-gray-500">
                                                         {{ $user_data->email }}
                                                     </p>
                                                 </div>
                                                 {{-- 権限 --}}
-                                                <div class="mt-3 sm:col-span-1 sm:mt-0">
+                                                <div class="mt-3 lg:col-span-1 lg:mt-0">
                                                     <p class="text-gray-500">
                                                         @if ($user_data->groupRoles->first()->role === 10)
                                                     <p>管理者</p>
@@ -315,25 +319,25 @@
                                                     @endif
                                                     </p>
                                                 </div>
-                                                <div class="grid grid-cols-3 sm:col-span-3">
+                                                <div class="grid grid-cols-3 lg:col-span-3">
                                                     {{-- ユーザー通報 --}}
                                                     <div
-                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
-                                                        <div class="col-span-2 sm:hidden">
+                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left lg:text-center lg:mt-0">
+                                                        <div class="col-span-2 lg:hidden">
                                                             <p>ユーザー通報</p>
                                                             {{-- 通報メモ --}}
                                                             <p>通報メモ</p>
                                                             {{-- 通報コメント --}}
                                                             <p>通報コメント</p>
                                                         </div>
-                                                        <div class="grid sm:items-center sm:grid-cols-3 sm:col-span-3">
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                        <div class="grid lg:items-center lg:grid-cols-3 lg:col-span-3">
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->userReportsCount }}
                                                             </p>
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->memoReportsCount }}
                                                             </p>
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->commentReportsCount }}
                                                             </p>
                                                         </div>
@@ -376,12 +380,12 @@
                                         </div>
 
                                         {{-- 利用停止中ユーザーの場合 --}}
-                                        <div class="grid gap-10 sm:gap-7" x-cloak x-show="suspension_user">
+                                        <div class="grid gap-10 lg:gap-7" x-cloak x-show="suspension_user">
                                             @foreach ($suspension_users_data_paginated as $user_data)
                                             {{-- １人分のまとまり --}}
-                                            <div class="items-center sm:grid sm:grid-cols-12">
+                                            <div class="items-center lg:grid lg:grid-cols-12">
                                                 {{-- プロフィール画像 ・ ニックネーム --}}
-                                                <div class="flex items-center sm:col-span-3">
+                                                <div class="flex items-center lg:col-span-3">
                                                     @if($user_data->profile_photo_path)
                                                     <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
                                                         onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
@@ -400,20 +404,20 @@
                                                     </button>
                                                 </div>
                                                 {{-- ユーザーネーム --}}
-                                                <div class="ml-16 sm:ml-0 sm:col-span-3">
+                                                <div class="ml-16 lg:ml-0 lg:col-span-3">
                                                     <button class="text-gray-500 "
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $user_data->id]) }}' ">
                                                         {{ $user_data->username }}
                                                     </button>
                                                 </div>
                                                 {{-- メールアドレス --}}
-                                                <div class="mt-3 sm:col-span-2 sm:mt-0">
+                                                <div class="mt-3 lg:col-span-2 lg:mt-0">
                                                     <p class="text-gray-500 ">
                                                         {{ $user_data->email }}
                                                     </p>
                                                 </div>
                                                 {{-- 権限 --}}
-                                                <div class="mt-3 sm:col-span-1 sm:mt-0">
+                                                <div class="mt-3 lg:col-span-1 lg:mt-0">
                                                     <p class="text-gray-500 ">
                                                         @if ($user_data->groupRoles->first()->role === 10)
                                                     <p>管理者</p>
@@ -424,25 +428,25 @@
                                                     @endif
                                                     </p>
                                                 </div>
-                                                <div class="grid grid-cols-3 sm:col-span-3">
+                                                <div class="grid grid-cols-3 lg:col-span-3">
                                                     {{-- ユーザー通報 --}}
                                                     <div
-                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left sm:text-center sm:mt-0">
-                                                        <div class="col-span-2 sm:hidden">
+                                                        class="grid grid-cols-3 col-span-2 mt-3 text-left lg:text-center lg:mt-0">
+                                                        <div class="col-span-2 lg:hidden">
                                                             <p>ユーザー通報</p>
                                                             {{-- 通報メモ --}}
                                                             <p>通報メモ</p>
                                                             {{-- 通報コメント --}}
                                                             <p>通報コメント</p>
                                                         </div>
-                                                        <div class="grid sm:items-center sm:grid-cols-3 sm:col-span-3">
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                        <div class="grid lg:items-center lg:grid-cols-3 lg:col-span-3">
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->userReportsCount }}
                                                             </p>
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->memoReportsCount }}
                                                             </p>
-                                                            <p><span class="mr-3 sm:hidden">：</span>
+                                                            <p><span class="mr-3 lg:hidden">：</span>
                                                                 {{ $user_data->commentReportsCount }}
                                                             </p>
                                                         </div>

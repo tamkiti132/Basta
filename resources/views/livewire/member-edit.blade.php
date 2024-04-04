@@ -21,7 +21,7 @@
                                     class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl">
                                     {{-- メンバー / ブロック中のメンバー --}}
                                     <div class="border-b border-gray-400">
-                                        <div class="flex text-xs font-bold sm:text-base sm:w-1/2">
+                                        <div class="flex text-xs font-bold sm:text-base lg:w-1/2">
                                             <button
                                                 class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                                                 type="button" x-on:click="member = true; block_member= false"
@@ -39,11 +39,11 @@
                                     {{-- メンバー を選択した 場合 --}}
                                     @foreach ($all_not_blocked_users_data_paginated as $user_data)
                                     {{-- １人分のまとまり --}}
-                                    <div class="grid gap-10 text-xs sm:gap-7" x-cloak x-show="member"
+                                    <div class="grid gap-10 text-xs lg:gap-7" x-cloak x-show="member"
                                         wire:key='{{ "not_block". $user_data->id }}'>
-                                        <div class="items-center sm:grid sm:grid-cols-7">
+                                        <div class="items-center lg:grid lg:grid-cols-7">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
-                                            <div class="flex items-center sm:col-span-2">
+                                            <div class="flex items-center lg:col-span-2">
                                                 @if($user_data->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
@@ -62,7 +62,7 @@
                                                 </button>
                                             </div>
                                             {{-- ユーザーid --}}
-                                            <div class="ml-16 sm:ml-0 sm:col-span-2">
+                                            <div class="ml-16 lg:ml-0 lg:col-span-2">
                                                 <button
                                                     onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
                                                     class="text-gray-500">
@@ -71,9 +71,9 @@
                                             </div>
                                             {{-- 投稿数 ・ 権限 ・ 三点リーダー（モーダル） --}}
                                             <div
-                                                class="grid items-center grid-cols-3 text-center sm:text-left sm:col-span-3">
+                                                class="grid items-center grid-cols-3 text-center lg:text-left lg:col-span-3">
                                                 {{-- 投稿数 --}}
-                                                <div class="mt-3 sm:mt-0">
+                                                <div class="mt-3 lg:mt-0">
                                                     <p>{{ $user_data->memo_count }}<span class="ml-3">投稿</span></p>
                                                 </div>
                                                 {{-- 権限 --}}
@@ -83,7 +83,7 @@
                                                 @endphp
 
                                                 @if(auth()->id() != $user_data->id)
-                                                <div class="mt-3 sm:mt-0">
+                                                <div class="mt-3 lg:mt-0">
                                                     <select
                                                         wire:change="updateRole({{ $user_data->id }}, $event.target.value)"
                                                         class="pl-0 text-xs bg-transparent border-none">
@@ -96,7 +96,7 @@
                                                 </div>
                                                 @else
                                                 @if ($role == 10)
-                                                <p class="text-xs">管理者</p>
+                                                <p class="self-end text-xs">管理者</p>
                                                 @elseif ($role == 50)
                                                 サブ管理者
                                                 @elseif ($role == 100)
@@ -136,12 +136,12 @@
 
                                     {{-- ブロック中のメンバー を選択した場合 --}}
                                     @foreach ($all_blocked_users_data_paginated as $user_data)
-                                    <div class="grid gap-10 sm:gap-7" x-cloak x-show="block_member"
+                                    <div class="grid gap-10 lg:gap-7" x-cloak x-show="block_member"
                                         wire:key='{{ "block". $user_data->id }}'>
                                         {{-- １人分のまとまり --}}
-                                        <div class="items-center text-xs sm:grid sm:grid-cols-7">
+                                        <div class="items-center text-xs lg:grid lg:grid-cols-7">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
-                                            <div class="flex items-center sm:col-span-2">
+                                            <div class="flex items-center lg:col-span-2">
                                                 @if($user_data->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
@@ -160,7 +160,7 @@
                                                 </button>
                                             </div>
                                             {{-- ユーザーid --}}
-                                            <div class="ml-16 sm:mt-0 sm:ml-0 sm:col-span-2">
+                                            <div class="ml-16 lg:mt-0 lg:ml-0 lg:col-span-2">
                                                 <button
                                                     onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
                                                     class="text-gray-500">
@@ -169,20 +169,20 @@
                                             </div>
                                             {{-- 投稿数 ・ 権限 ・ 三点リーダー（モーダル） --}}
                                             <div
-                                                class="grid items-center grid-cols-3 text-center sm:text-left sm:col-span-3">
+                                                class="grid items-center grid-cols-3 text-center lg:text-left lg:col-span-3">
                                                 {{-- 投稿数 --}}
-                                                <div class="mt-3 sm:mt-0">
+                                                <div class="mt-3 lg:mt-0">
                                                     <p>{{ $user_data->memo_count }}<span class="ml-3">投稿</span></p>
                                                 </div>
                                                 {{-- 権限 --}}
-                                                <div class="mt-3 sm:mt-0">
-                                                    <p class="text-xs sm:text-base">
+                                                <div class="mt-3 lg:mt-0">
+                                                    <p class="text-xs lg:text-base">
                                                         @php
                                                         $role = $user_data->groupRoles->first()->pivot->role;
                                                         @endphp
 
                                                         @if(auth()->id() != $user_data->id)
-                                                    <div class="mt-3 sm:mt-0">
+                                                    <div class="mt-3 lg:mt-0">
                                                         <select
                                                             wire:change="updateRole({{ $user_data->id }}, $event.target.value)"
                                                             class="pl-0 text-xs bg-transparent border-none">

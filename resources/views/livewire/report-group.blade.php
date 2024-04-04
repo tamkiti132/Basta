@@ -58,7 +58,7 @@
 
                 <label for="detail">問題がある点の詳細</label>
                 <textarea name="detail" id="detail" cols="30" rows="5" wire:model.defer="detail"
-                    class="overflow-auto rounded-xl max-h-36"></textarea>
+                    class="overflow-auto text-xs sm:text-sm rounded-xl max-h-36"></textarea>
                 <div class="flex justify-end gap-4 pt-2">
                     <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
                         x-on:click="$wire.closeModalReportGroup">キャンセル</button>

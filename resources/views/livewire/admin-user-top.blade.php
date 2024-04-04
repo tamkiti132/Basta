@@ -8,12 +8,12 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 pt-12 mx-auto lg:flex-row max-w-7xl sm:px-6 lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
             <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="ニックネームかユーザー名で検索" class="text-sm rounded-xl"
-                    size="50">
+                <input type="text" wire:model.defer="search" placeholder="ニックネームかユーザー名で検索"
+                    class="w-64 text-sm rounded-xl sm:w-96">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -30,10 +30,10 @@
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
-                                    class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl ">
+                                    class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:gap-7 rounded-2xl ">
                                     {{-- ユーザー / 利用停止中ユーザー --}}
                                     <div class="mb-2 border-b border-gray-400">
-                                        <div class="flex text-xs font-bold sm:text-sm sm:w-1/2">
+                                        <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
                                             <button
                                                 class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                                                 type="button" x-on:click="user = true; suspension_user = false"
@@ -50,12 +50,12 @@
                                     </div>
 
                                     {{-- ユーザーの場合 --}}
-                                    <div class="grid gap-10 sm:gap-7" x-cloak x-show="user">
+                                    <div class="grid gap-10 lg:gap-7" x-cloak x-show="user">
                                         @foreach ($all_not_suspended_users_data_paginated as $user_data)
                                         {{-- １人分のまとまり --}}
-                                        <div class="items-center sm:grid sm:grid-cols-12">
+                                        <div class="items-center lg:grid lg:grid-cols-12">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
-                                            <div class="flex items-center sm:col-span-3">
+                                            <div class="flex items-center lg:col-span-3">
                                                 @if($user_data->profile_photo_path)
                                                 <div class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
@@ -69,13 +69,13 @@
                                                 <p>{{ $user_data->nickname }}</p>
                                             </div>
                                             {{-- ユーザーid --}}
-                                            <div class="ml-16 sm:ml-0 sm:col-span-3">
+                                            <div class="ml-16 lg:ml-0 lg:col-span-3">
                                                 <div class="text-gray-500 ">
                                                     {{ $user_data->username }}
                                                 </div>
                                             </div>
                                             {{-- メールアドレス --}}
-                                            <div class="mt-3 sm:col-span-3 sm:mt-0">
+                                            <div class="mt-3 lg:col-span-3 lg:mt-0">
                                                 <p class="text-gray-500 ">
                                                     {{ $user_data->email }}
                                                 </p>
@@ -119,12 +119,12 @@
                                     </div>
 
                                     {{-- 利用停止中ユーザーの場合 --}}
-                                    <div class="grid gap-10 sm:gap-7" x-cloak x-show="suspension_user">
+                                    <div class="grid gap-10 lg:gap-7" x-cloak x-show="suspension_user">
                                         @foreach ($all_suspended_users_data_paginated as $user_data)
                                         {{-- １人分のまとまり --}}
-                                        <div class="items-center sm:grid sm:grid-cols-12">
+                                        <div class="items-center lg:grid lg:grid-cols-12">
                                             {{-- プロフィール画像 ・ ニックネーム --}}
-                                            <div class="flex items-center sm:col-span-3">
+                                            <div class="flex items-center lg:col-span-3">
                                                 @if($user_data->profile_photo_path)
                                                 <div class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
@@ -138,13 +138,13 @@
                                                 <p>{{ $user_data->nickname }}</p>
                                             </div>
                                             {{-- ユーザーid --}}
-                                            <div class="ml-16 sm:ml-0 sm:col-span-3">
+                                            <div class="ml-16 lg:ml-0 lg:col-span-3">
                                                 <p class="text-gray-500">
                                                     {{ $user_data->username }}
                                                 </p>
                                             </div>
                                             {{-- メールアドレス --}}
-                                            <div class="mt-3 sm:col-span-3 sm:mt-0">
+                                            <div class="mt-3 lg:col-span-3 lg:mt-0">
                                                 <p class="text-gray-500">
                                                     {{ $user_data->email }}
                                                 </p>

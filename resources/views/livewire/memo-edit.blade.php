@@ -24,7 +24,7 @@
                 {{-- Webタイプの　場合 --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="flex flex-wrap justify-center -m-4">
+                        <div class="-m-4">
                             <form class="p-4" wire:submit.prevent="update">
                                 <div
                                     class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
@@ -43,7 +43,7 @@
                                                 <label for="title" class="block">タイトル<span
                                                         class="required">*</span></label>
                                                 <input id="title" type="text" wire:model.defer="memo_data.title"
-                                                    class="w-full mb-3 rounded-lg sm:w-3/4">
+                                                    class="w-full mb-3 rounded-lg lg:w-3/4">
                                             </div>
                                             <div class="mt-3">
                                                 @error('memo_data.web_type_feature.url')
@@ -53,8 +53,17 @@
                                                         class="required">*</span></label>
                                                 <input id="url" type="text"
                                                     wire:model.defer="memo_data.web_type_feature.url"
-                                                    class="w-full rounded-lg sm:w-3/4">
+                                                    class="w-full rounded-lg lg:w-3/4">
                                             </div>
+
+                                            {{-- ラベル追加ボタン　（スマホ　・　タブレット　用の表示） --}}
+                                            <div class="block mt-3 lg:hidden">
+                                                <label for="select_label"
+                                                    class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                    x-on:click="modal_label_select = true">ラベルを選択</label>
+                                                <input id="select_label" class="hidden"></input>
+                                            </div>
+
                                             {{-- タグ --}}
                                             @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id ])
                                         </div>
@@ -70,7 +79,9 @@
                                                     wire:model.defer="memo_data.shortMemo" class="w-full rounded-lg"
                                                     cols="60" rows="6"></textarea>
                                             </div>
-                                            <div class="mt-3">
+
+                                            {{-- ラベル追加ボタン　（PC用　の表示） --}}
+                                            <div class="hidden mt-3 lg:block">
                                                 <label for="select_label"
                                                     class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
                                                     x-on:click="modal_label_select = true">ラベルを選択</label>
@@ -106,16 +117,16 @@
                 @elseif ($memo_data->type == 1)
                 {{-- 本タイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
-                    <div class="container px-5 mx-auto">
-                        <div class="flex flex-wrap justify-center -m-4">
+                    <div class="px-5 mx-auto">
+                        <div class="-m-4">
                             <form class="p-4" wire:submit.prevent="update">
                                 <div
                                     class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                    <div class="grid xl:grid-cols-7">
+                                    <div class="grid lg:grid-cols-7">
                                         {{-- 左側 --}}
                                         {{-- Bookタイプのメモであることを示すデータ --}}
                                         <input type="hidden" name="memo_type" value="book">
-                                        <div class="xl:col-span-3">
+                                        <div class="lg:col-span-3">
                                             {{-- メモ情報 --}}
                                             <div>
                                                 @error('memo_data.title')
@@ -124,15 +135,23 @@
                                                 <label for="title" class="block">タイトル<span
                                                         class="required">*</span></label>
                                                 <input id="title" type="text" wire:model.defer="memo_data.title"
-                                                    class="w-full mb-3 rounded-lg sm:w-3/4">
+                                                    class="w-full mb-3 rounded-lg lg:w-3/4">
                                             </div>
+
+                                            <div class="block mt-3 lg:hidden">
+                                                <label for="select_label"
+                                                    class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                    x-on:click="modal_label_select = true">ラベルを選択</label>
+                                                <input id="select_label" class="hidden"></input>
+                                            </div>
+
                                             {{-- タグ --}}
-                                            <div class="mt-12 sm:mt-32">
+                                            <div class="mt-12 lg:mt-32">
                                                 @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id])
                                             </div>
                                         </div>
                                         {{-- 真ん中 --}}
-                                        <div class="mt-6 xl:col-span-3 xl:mt-0">
+                                        <div class="mt-6 lg:col-span-3 lg:mt-0">
                                             <div>
                                                 @error('memo_data.shortMemo')
                                                 <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
@@ -143,7 +162,9 @@
                                                     wire:model.defer="memo_data.shortMemo" class="w-full rounded-lg"
                                                     cols="60" rows="6"></textarea>
                                             </div>
-                                            <div class="mt-3">
+
+                                            {{-- ラベル追加ボタン　（PC用　の表示） --}}
+                                            <div class="hidden mt-3 lg:block">
                                                 <label for="select_label"
                                                     class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
                                                     x-on:click="modal_label_select = true">ラベルを選択</label>
@@ -154,20 +175,21 @@
                                         <div class="grid grid-cols-5">
                                             <div class="col-span-5">
                                                 <div class="max-w-xs m-auto">
-                                                    <div class="hidden text-right xl:block">
+                                                    <div class="hidden text-right lg:block">
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
 
-                                                    <div>
+                                                    <div class="flex justify-center">
                                                         @if ($book_image_preview?->isPreviewable())
-                                                        <img src="{{ $book_image_preview->temporaryUrl() }}">
+                                                        <img class="h-36 lg:h-auto"
+                                                            src="{{ $book_image_preview->temporaryUrl() }}">
                                                         @elseif ($book_image_delete_flag)
-                                                        <img src="/images/本の画像（青）.png">
+                                                        <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
                                                         @elseif($memo_data?->book_type_feature?->book_photo_path)
-                                                        <img
+                                                        <img class="h-36 lg:h-auto"
                                                             src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                                                         @else
-                                                        <img src="/images/本の画像（青）.png">
+                                                        <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
                                                         @endif
                                                     </div>
                                                 </div>
@@ -177,14 +199,14 @@
                                                     <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
                                                     @enderror
 
-                                                    <div class="flex flex-col gap-2">
-                                                        <div>
+                                                    <div class="flex justify-center gap-2 lg:flex-col">
+                                                        <div class="text-center">
                                                             <label for="book_image_preview"
                                                                 class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
                                                             <input id="book_image_preview" class="hidden" type="file"
                                                                 wire:model.defer="book_image_preview"></input>
                                                         </div>
-                                                        <div>
+                                                        <div class="text-center">
                                                             <button wire:click="deleteBookImage" type="button"
                                                                 class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を削除</button>
                                                         </div>
@@ -225,7 +247,7 @@
     <div x-cloak x-show=" modal_label_select"
         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
         <div x-on:click.away="modal_label_select = false"
-            class="flex flex-col w-full h-auto max-w-xs px-3 py-2 bg-white rounded-xl">
+            class="flex flex-col w-full max-h-[80%] max-w-[80%] md:max-w-[40%] px-3 py-2 bg-white rounded-xl">
 
             @livewire('label-selector', ['memoId' => $memo_data->id ])
 

@@ -31,7 +31,7 @@
 
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="flex flex-wrap justify-center -m-4">
+                        <div class="-m-4 ">
                             <div class="p-4">
                                 <div
                                     class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
@@ -56,9 +56,9 @@
                                     <div x-show="form_web" x-cloak>
                                         <form wire:submit.prevent="store">
                                             @csrf
-                                            <div class="grid xl:grid-cols-7">
+                                            <div class="grid lg:grid-cols-7">
                                                 {{-- 左側 --}}
-                                                <div class="xl:col-span-3">
+                                                <div class="lg:col-span-3">
                                                     {{-- Webタイプのメモであることを示すデータ --}}
                                                     {{-- メモ情報 --}} <div>
                                                         <div>
@@ -69,7 +69,7 @@
                                                         <label for="web_title" class="block">タイトル<span
                                                                 class="required">*</span></label>
                                                         <input id="web_title" type="text" wire:model.defer="web_title"
-                                                            class="w-full mb-3 rounded-lg sm:w-3/4">
+                                                            class="w-full mb-3 rounded-lg lg:w-3/4">
                                                     </div>
                                                     <div class="mt-3">
                                                         <div>
@@ -80,7 +80,15 @@
                                                         <label for="url" class="block">URL<span
                                                                 class="required">*</span></label>
                                                         <input id="url" type="url" wire:model.defer="url"
-                                                            class="w-full rounded-lg sm:w-3/4">
+                                                            class="w-full rounded-lg lg:w-3/4">
+                                                    </div>
+
+                                                    {{-- ラベル追加ボタン　（スマホ　・　タブレット　用の表示） --}}
+                                                    <div class="block mt-3 lg:hidden">
+                                                        <label for="select_label"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            x-on:click="modal_label_select = true">ラベルを追加</label>
+                                                        <input id="select_label" class="hidden"></input>
                                                     </div>
 
                                                     {{-- タグ --}}
@@ -89,7 +97,7 @@
 
                                                 </div>
                                                 {{-- 右側 --}}
-                                                <div class="mt-6 xl:col-span-3 xl:mt-0">
+                                                <div class="mt-6 lg:col-span-3 lg:mt-0">
                                                     <div>
                                                         <div>
                                                             @error('web_shortMemo')
@@ -102,7 +110,9 @@
                                                             wire:model.defer="web_shortMemo" class="w-full rounded-lg"
                                                             cols="60" rows="6"></textarea>
                                                     </div>
-                                                    <div class="mt-3">
+
+                                                    {{-- ラベル追加ボタン　（PC用　の表示） --}}
+                                                    <div class="hidden mt-3 lg:block">
                                                         <label for="select_label"
                                                             class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
@@ -136,12 +146,12 @@
                                     <div x-show="form_book" x-cloak>
                                         <form wire:submit.prevent="store">
                                             @csrf
-                                            <div class="grid xl:grid-cols-7">
+                                            <div class="grid lg:grid-cols-7">
                                                 {{-- 本タイプのメモであることを示すデータ --}}
                                                 <input type="hidden" wire:model.defer="type" value="book">
 
                                                 {{-- 左側 --}}
-                                                <div class="xl:col-span-3">
+                                                <div class="lg:col-span-3">
 
                                                     {{-- メモ情報 --}}
                                                     <div>
@@ -151,12 +161,21 @@
                                                         <label for="book_title" class="block">タイトル<span
                                                                 class="required">*</span></label>
                                                         <input id="book_title" type="text" wire:model.defer="book_title"
-                                                            class="w-full mb-3 rounded-lg sm:w-3/4">
+                                                            class="w-full mb-3 rounded-lg lg:w-3/4">
                                                     </div>
+
+                                                    {{-- ラベル追加ボタン　（スマホ　・　タブレット　用の表示） --}}
+                                                    <div class="block mt-3 lg:hidden">
+                                                        <label for="select_label"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            x-on:click="modal_label_select = true">ラベルを追加</label>
+                                                        <input id="select_label" class="hidden"></input>
+                                                    </div>
+
                                                     <div class="sm:mt-3">
 
                                                         {{-- タグ --}}
-                                                        <div class="mt-12 sm:mt-32">
+                                                        <div class="mt-12 lg:mt-32">
                                                             @livewire('label-attached-to-new-memo')
                                                         </div>
                                                     </div>
@@ -164,7 +183,7 @@
 
 
                                                 {{-- 真ん中 --}}
-                                                <div class="mt-6 xl:col-span-3 xl:mt-0">
+                                                <div class="mt-6 lg:col-span-3 lg:mt-0">
                                                     <div>
                                                         @error('book_shortMemo')
                                                         <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
@@ -175,7 +194,9 @@
                                                             wire:model.defer="book_shortMemo" class="w-full rounded-lg"
                                                             cols="60" rows="6"></textarea>
                                                     </div>
-                                                    <div class="mt-3">
+
+                                                    {{-- ラベル追加ボタン　（PC用　の表示） --}}
+                                                    <div class="hidden mt-3 lg:block">
                                                         <label for="select_label"
                                                             class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
@@ -185,14 +206,15 @@
                                                 {{-- 右側 --}}
                                                 <div class="grid grid-cols-5">
                                                     <div class="col-span-5">
-                                                        <div class="max-w-xs m-auto">
+                                                        <div class="flex justify-center max-w-xs m-auto">
                                                             @if ($book_image?->isPreviewable())
-                                                            <img src="{{ $book_image->temporaryUrl() }}">
+                                                            <img class="h-36 lg:h-auto"
+                                                                src="{{ $book_image->temporaryUrl() }}">
                                                             @else
-                                                            <img src="/images/本の画像（青）.png">
+                                                            <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
                                                             @endif
                                                         </div>
-                                                        <div class="mt-3">
+                                                        <div class="flex justify-center mt-3">
                                                             <!-- TODO: バリデーションでエラーが起きた際の画像の復元は難しい問題なのであとでやる -->
                                                             @error('book_image')
                                                             <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
@@ -232,19 +254,14 @@
     {{-- ラベル追加モーダル --}}
     <div x-cloak x-show="modal_label_select"
         class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        <div x-on:click.away="modal_label_select = false"
-            class="flex flex-col w-full h-auto max-w-xs px-3 py-2 bg-white rounded-xl">
+        <div x-cloak x-show=" modal_label_select"
+            class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen border bg-opacity-40">
+            <div x-on:click.away="modal_label_select = false"
+                class="flex flex-col w-full max-h-[80%] max-w-[80%] md:max-w-[40%] px-3 py-2 bg-white rounded-xl overflow-auto">
 
-            <div x-cloak x-show=" modal_label_select"
-                class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-                <div x-on:click.away="modal_label_select = false"
-                    class="flex flex-col w-full h-auto max-w-xs px-3 py-2 bg-white rounded-xl">
+                @livewire('label-adder')
 
-                    @livewire('label-adder')
-
-                </div>
             </div>
-
         </div>
     </div>
 
