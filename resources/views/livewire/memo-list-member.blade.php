@@ -1,53 +1,34 @@
 <div>
     <x-slot name="header">
-        <div class="grid items-center grid-cols-2">
+        <div class="grid items-center grid-cols-4 lg:grid-cols-2">
             {{-- 左側 --}}
-            <div class="flex text-xs">
+            <div class="flex w-auto col-span-3 text-xs lg:col-span-1">
                 @if($user_data->profile_photo_path)
-                <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full sm:w-10 sm:h-10">
-                    <img class="object-fill w-8 h-8 rounded-full sm:w-10 sm:h-10"
+                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10">
+                    <img class="object-fill w-8 h-8 rounded-full lg:w-10 lg:h-10"
                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                 </div>
                 @else
-                <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full sm:w-10 sm:h-10"></div>
+                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full lg:w-10 lg:h-10">
+                </div>
                 @endif
-                <div>
-                    <h2 class="font-semibold leading-tight text-gray-800">
-                        {{ $user_data->nickname }} <span class="hidden">のページ</span>
+                <div class="w-full">
+                    <h2
+                        class="overflow-hidden font-semibold leading-tight text-gray-800 whitespace-nowrap text-ellipsis">
+                        {{ $user_data->nickname }}
                     </h2>
-                    <div class="flex flex-col">
-                        <p class="ml-5 text-gray-500">
+                    <div class="flex flex-col max-w-full">
+                        <p class="ml-5 overflow-hidden text-gray-500 whitespace-nowrap text-ellipsis">
                             {{ $user_data->username }}
                         </p>
-                        <p class="mt-3 sm:mt-0 sm:ml-28">{{ $count_all_memos_data }}<span class="ml-3">投稿</span>
+                        <p class="mt-3 lg:mt-0 lg:ml-28">{{ $count_all_memos_data }}<span class="ml-3">投稿</span>
                         </p>
                     </div>
                 </div>
             </div>
             {{-- 右側 --}}
-            <div class="flex items-center justify-end gap-5 sm:gap-20">
-                <div>
-                    <x-dropdown align="right" width="">
-                        <x-slot name="trigger">
-                            <button class="flex text-sm transition border-2 border-transparent focus:outline-none">
-                                <p class="font-semibold leading-tight text-gray-800">投げ銭する</p>
-                            </button>
-                        </x-slot>
+            <div class="flex items-center justify-end gap-5 lg:gap-20">
 
-                        <!-- モーダルの中身 -->
-                        <x-slot name="content">
-                            <div class="flex flex-col pt-4 text-center text-gray-800 w-72">
-                                <p>100円の投げ銭をしますか？</p>
-                                <div class="flex justify-center gap-4 my-3">
-                                    <button
-                                        class="block px-1 py-2 text-center border border-gray-300 w-28 hover:bg-slate-100">キャンセル</button>
-                                    <button
-                                        class="block px-1 py-2 text-center text-blue-500 border border-blue-300 w-28 hover:bg-slate-100">はい</button>
-                                </div>
-                            </div>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
                 <!-- 三点リーダー（モーダル） -->
                 <div>
                     <x-dropdown align="right" width="48">
@@ -59,7 +40,7 @@
 
                         <!-- モーダルの中身 -->
                         <x-slot name="content">
-                            <div class="flex flex-col text-gray-800" x-data="{ isSuspended: @entangle('isSuspended') }">
+                            <div class="flex flex-col text-gray-800">
 
                                 <button onclick="Livewire.emit('showModalReportUser')"
                                     class="block w-full p-2 text-left hover:bg-slate-100">
@@ -80,6 +61,28 @@
                                     ユーザーを利用停止解除
                                 </button>
 
+                                <x-dropdown align="right">
+                                    <x-slot name="trigger">
+                                        <button
+                                            class="flex w-full p-2 transition border-2 border-transparent focus:outline-none hover:bg-slate-100">
+                                            <p>投げ銭する</p>
+                                        </button>
+                                    </x-slot>
+
+                                    <!-- モーダルの中身 -->
+                                    <x-slot name="content">
+                                        <div class="flex flex-col pt-4 text-center text-gray-800 w-72">
+                                            <p>100円の投げ銭をしますか？</p>
+                                            <div class="flex justify-center gap-4 my-3">
+                                                <button
+                                                    class="block px-1 py-2 text-center border border-gray-300 w-28 hover:bg-slate-100">キャンセル</button>
+                                                <button
+                                                    class="block px-1 py-2 text-center text-blue-500 border border-blue-300 w-28 hover:bg-slate-100">はい</button>
+                                            </div>
+                                        </div>
+                                    </x-slot>
+                                </x-dropdown>
+
                             </div>
                         </x-slot>
                     </x-dropdown>
@@ -93,29 +96,31 @@
         </div>
     </x-slot>
 
-    <div class="pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <form wire:submit.prevent="executeSearch">
-            <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索" class="text-sm rounded-xl"
-                size="50">
-            <button class="px-3 py-2 font-bold" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+    <div class="lg:grid lg:grid-cols-12">
+        <div class="w-full px-6 pt-12 mx-auto max-w-7xl lg:px-8 lg:col-start-3 lg:col-end-10">
+            <form wire:submit.prevent="executeSearch">
+                <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索"
+                    class="w-64 text-sm rounded-xl lg:w-96">
+                <button class="px-3 py-2 font-bold" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
-    <div class="relative py-12 xl:grid-cols-12 xl:grid">
+    <div class="relative py-12 lg:grid-cols-12 lg:grid">
         {{-- ラベル一覧（左） --}}
-        <div class="absolute z-20 col-span-2 sm:block xl:static">
+        <div class="absolute z-20 col-span-2 lg:block lg:static">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
-            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg xl:hidden top-40 ">
+            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg lg:hidden top-40 ">
                 <div class="w-6 h-1 mb-3 bg-white rounded-lg"></div>
                 <div class="w-6 h-1 bg-white rounded-lg"></div>
             </label>
-            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block">
+            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block lg:block">
 
-                <div class="z-20 px-1 py-2 overflow-auto sm:static max-h-96 label-list-container">
+                <div class="z-20 px-1 py-2 overflow-auto lg:static max-h-96 label-list-container">
                     {{-- ラベル表示 --}}
-                    <div class="xl:col-span-2">
+                    <div class="lg:col-span-2">
 
                         @livewire('web-book-label')
 
@@ -127,8 +132,8 @@
                             <div>
                                 <button onclick="Livewire.emit('showLabelEditModal')"
                                     class="flex items-center w-full gap-4 p-2 hover:bg-slate-100"><i
-                                        class="sm:text-xl fa-solid fa-pencil fa-fw"></i>
-                                    <p class="text-xs sm:text-sm">ラベルを編集</p>
+                                        class="lg:text-xl fa-solid fa-pencil fa-fw"></i>
+                                    <p class="text-xs lg:text-sm">ラベルを編集</p>
                                 </button>
                             </div>
                             @endcan
@@ -148,7 +153,7 @@
         </div>
 
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto text-xs xl:col-span-8 max-w-7xl sm:px-6 lg:px-8">
+        <div class="w-full mx-auto text-xs lg:col-span-8 max-w-7xl sm:px-6 lg:px-8">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
 
                 <x-flash-message status="quit" />
@@ -161,10 +166,10 @@
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                    <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                    <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                         {{-- 左側 --}}
-                                        <div class="sm:col-span-3">
+                                        <div class="xl:col-span-3">
                                             <div class="flex items-center content-center">
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
@@ -198,18 +203,20 @@
                                                 </div>
                                             </div>
                                             {{-- タグ --}}
+                                            @if (!$memo_data->labels->isEmpty())
                                             <div class="mt-8">
                                                 @foreach ($memo_data->labels as $label)
                                                 <div
-                                                    class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                    class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                     {{ $label->name }}</div>
                                                 @endforeach
                                             </div>
+                                            @endif
 
 
                                         </div>
                                         {{-- 真ん中 --}}
-                                        <div class="flex flex-col justify-between sm:col-span-3">
+                                        <div class="flex flex-col xl:justify-between xl:col-span-3 xl:ml-2">
                                             {{-- shortMemo --}}
                                             <div class="flex">
                                                 <p class="mb-3 leading-relaxed break-all">
@@ -218,25 +225,25 @@
                                             </div>
 
                                             {{-- ボタン --}}
-                                            <div class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                            <div class="grid gap-10 px-10 pt-10 lg:grid-cols-2 lg:gap-5 lg:px-0">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
 
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                     onclick="window.open('{{ $memo_data['url'] }}') ">リンクを開く</button>
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
-                                        <div class="hidden sm:grid-cols-5 sm:grid">
-                                            <div class="sm:col-span-2">
+                                        <div class="hidden xl:grid-cols-5 xl:grid">
+                                            <div class="xl:col-span-2">
                                             </div>
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="text-right">
                                                     <i class="text-xl fas fa-globe"></i>
                                                 </div>
@@ -257,10 +264,10 @@
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                    <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                    <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                         {{-- 左側 --}}
-                                        <div class="sm:col-span-3">
+                                        <div class="xl:col-span-3">
                                             <div class="flex items-center content-center">
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
@@ -294,18 +301,20 @@
                                                 </div>
                                             </div>
                                             {{-- タグ --}}
+                                            @if (!$memo_data->labels->isEmpty())
                                             <div class="mt-8">
                                                 @foreach ($memo_data->labels as $label)
                                                 <div
-                                                    class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                    class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                     {{ $label->name }}</div>
                                                 @endforeach
                                             </div>
+                                            @endif
 
 
                                         </div>
                                         {{-- 真ん中 --}}
-                                        <div class="flex flex-col justify-between sm:col-span-3">
+                                        <div class="flex flex-col justify-between xl:col-span-3 xl:ml-2">
                                             {{-- shortMemo --}}
                                             <div class="flex">
                                                 <p class="mb-3 leading-relaxed break-all">
@@ -314,28 +323,29 @@
                                             </div>
 
                                             {{-- ボタン --}}
-                                            <div class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                            <div class="grid gap-10 px-10 mt-6 lg:grid-cols-2 lg:gap-5 lg:px-0">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
-                                                <div></div>
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
                                         <div class="grid grid-cols-5">
                                             <div class="col-span-5">
                                                 <div class="max-w-xs m-auto">
-                                                    <div class="hidden text-right sm:block">
+                                                    <div class="hidden text-right xl:block">
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
-                                                    @if($memo_data['book_photo_path'])
-                                                    <img
-                                                        src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
-                                                    @endif
+                                                    <div class="flex justify-center">
+                                                        @if($memo_data['book_photo_path'])
+                                                        <img class="h-36 xl:h-auto"
+                                                            src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

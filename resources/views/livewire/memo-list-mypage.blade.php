@@ -12,11 +12,11 @@
         </div>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 pt-12 mx-auto lg:flex-row max-w-7xl sm:px-6 lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
         <div>
             <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索" class="text-sm rounded-xl"
-                    size="50">
+                <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索"
+                    class="w-64 text-sm rounded-xl sm:w-96">
                 <button class="px-3 py-2 font-bold" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -33,19 +33,18 @@
         </select>
     </div>
 
-    <div class="py-12 xl:grid-cols-12 xl:grid">
+    <div class="py-12 lg:grid-cols-12 lg:grid">
         {{-- ラベル一覧（左） --}}
-        <div class="absolute z-20 col-span-2 sm:block xl:static">
+        <div class="absolute z-20 col-span-2 lg:block lg:static">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
-            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg xl:hidden top-40 ">
+            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg lg:hidden top-40 ">
                 <div class="w-6 h-1 mb-3 bg-white rounded-lg"></div>
                 <div class="w-6 h-1 bg-white rounded-lg"></div>
             </label>
-            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block">
-
-                <div class="z-20 px-1 py-2 overflow-auto sm:static max-h-96 label-list-container">
+            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block lg:block">
+                <div class="z-20 px-1 py-2 overflow-auto lg:static max-h-96 label-list-container">
                     {{-- ラベル表示 --}}
-                    <div class="xl:col-span-2">
+                    <div class="lg:col-span-2">
 
                         @livewire('web-book-label')
 
@@ -58,8 +57,8 @@
                             <div>
                                 <button onclick="Livewire.emit('showLabelEditModal')"
                                     class="flex items-center w-full gap-4 p-2 hover:bg-slate-100"><i
-                                        class="sm:text-xl fa-solid fa-pencil fa-fw"></i>
-                                    <p class="text-xs sm:text-sm">ラベルを編集</p>
+                                        class="lg:text-xl fa-solid fa-pencil fa-fw"></i>
+                                    <p class="text-xs lg:text-sm">ラベルを編集</p>
                                 </button>
                             </div>
                             {{-- @endcan --}}
@@ -79,11 +78,11 @@
         </div>
 
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto text-xs max-w-7xl sm:px-6 lg:px-8 xl:col-span-8">
+        <div class="w-full mx-auto text-xs max-w-7xl sm:px-6 lg:px-8 lg:col-span-8">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 {{-- 自分が作成したメモ / いいねしたメモ / あとでよむにしたメモ 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
-                    <div class="flex text-xs font-bold sm:text-sm lg:w-1/2">
+                    <div class="flex text-xs font-bold lg:text-sm xl:w-1/2">
                         <button
                             class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
                             type="button" x-on:click="my_memo = true; good_memo=false; later_read_memo=false"
@@ -109,14 +108,14 @@
                     @foreach ($all_my_memos_data_paginated as $memo_data)
                     @if ($memo_data->type == 0)
                     <section class="text-gray-600 body-font">
-                        <div class="px-5 mx-auto ">
-                            <div class="-m-4 ">
+                        <div class="px-5 mx-auto">
+                            <div class="-m-4">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
@@ -150,18 +149,20 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
-                                                        class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                        class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col xl:justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -170,26 +171,25 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 pt-10 lg:px-0 lg:grid-cols-2 lg:gap-5">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl lg:px-1 focus:outline-none hover:bg-indigo-500"
                                                         onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                     @else
                                                     <div class=""></div>
                                                     @endif
 
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="window.open('{{ $memo_data['url'] }}') ">リンクを開く</button>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="hidden sm:grid-cols-5 sm:grid">
-                                                <div class="sm:col-span-2">
+                                            <div class="hidden xl:grid-cols-5 xl:grid">
+                                                <div class="xl:col-span-2">
                                                 </div>
-                                                <div class="sm:col-span-3">
+                                                <div class="xl:col-span-3">
                                                     <div class="text-right">
                                                         <i class="text-xl fas fa-globe"></i>
                                                     </div>
@@ -209,10 +209,10 @@
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
@@ -246,18 +246,20 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
-                                                        class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                        class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col xl:justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -266,16 +268,14 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 mt-10 lg:px-0 lg:gap-5 lg:grid-cols-2">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                     @else
                                                     <div class=""></div>
                                                     @endif
-                                                    <div></div>
                                                 </div>
                                             </div>
 
@@ -283,13 +283,16 @@
                                             <div class="grid grid-cols-5">
                                                 <div class="col-span-5">
                                                     <div class="max-w-xs m-auto">
-                                                        <div class="hidden text-right sm:block">
+                                                        <div class="hidden text-right xl:block">
                                                             <i class="text-xl fas fa-book-open"></i>
                                                         </div>
-                                                        @if($memo_data['book_photo_path'])
-                                                        <img
-                                                            src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
-                                                        @endif
+
+                                                        <div class="flex justify-center">
+                                                            @if($memo_data['book_photo_path'])
+                                                            <img class="h-36 xl:h-auto"
+                                                                src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -313,27 +316,27 @@
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- photo --}}
                                                     @if($memo_data->profile_photo_path)
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/'. $memo_data->profile_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
-                                                        <div class="mb-1 sm:mb-0">
+                                                        <div class="mb-1 lg:mb-0">
                                                             <button
                                                                 onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
                                                                 class="block ml-3 text-black">
@@ -362,7 +365,7 @@
                                                 {{-- メモタイトル --}}
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
-                                                        class="text-sm font-bold text-left text-gray-700 break-all title-font"
+                                                        class="font-bold text-left text-gray-700 break-all sm:text-sm title-font"
                                                         onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
@@ -379,18 +382,20 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
-                                                        class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                        class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col xl:justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -399,8 +404,7 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 pt-10 lg:grid-cols-2 lg:gap-5 lg:px-0">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
                                                         class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
@@ -410,14 +414,14 @@
                                                     @endif
 
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500">リンクを開く</button>
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500">リンクを開く</button>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="hidden sm:grid-cols-5 sm:grid">
-                                                <div class="sm:col-span-2">
+                                            <div class="hidden xl:grid-cols-5 xl:grid">
+                                                <div class="xl:col-span-2">
                                                 </div>
-                                                <div class="sm:col-span-3">
+                                                <div class="xl:col-span-3">
                                                     <div class="text-right">
                                                         <i class="text-xl fas fa-globe"></i>
                                                     </div>
@@ -438,26 +442,26 @@
                                 <div class="p-4">
                                     <div
                                         class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- photo --}}
                                                     @if($memo_data->profile_photo_path)
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/'. $memo_data->profile_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
-                                                        <div class="mb-1 sm:mb-0">
+                                                        <div class="mb-1 lg:mb-0">
                                                             <button
                                                                 onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
                                                                 class="block ml-3 text-black">
@@ -486,7 +490,7 @@
                                                 {{-- メモタイトル --}}
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
-                                                        class="text-sm font-bold text-left text-gray-700 break-all title-font"
+                                                        class="font-bold text-left text-gray-700 break-all sm:text-sm title-font"
                                                         onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
@@ -503,18 +507,20 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
-                                                        class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                        class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -523,29 +529,29 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 mt-6 lg:grid-cols-2 lg:gap-5 lg:px-0">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                     @else
                                                     <div class=""></div>
                                                     @endif
-                                                    <div></div>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
                                             <div class="grid grid-cols-5">
                                                 <div class="col-span-5">
                                                     <div class="max-w-xs m-auto">
-                                                        <div class="hidden text-right sm:block">
+                                                        <div class="hidden text-right xl:block">
                                                             <i class="text-xl fas fa-book-open"></i>
                                                         </div>
-                                                        @if($memo_data['book_photo_path'])
-                                                        <img
-                                                            src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
-                                                        @endif
+                                                        <div class="flex justify-center">
+                                                            @if($memo_data['book_photo_path'])
+                                                            <img class="h-36 xl:h-auto"
+                                                                src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -569,10 +575,10 @@
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- photo --}}
                                                     @if($memo_data->profile_photo_path)
@@ -589,7 +595,7 @@
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
-                                                        <div class="mb-1 sm:mb-0">
+                                                        <div class="mb-1 lg:mb-0">
                                                             <button
                                                                 onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
                                                                 class="block ml-3 text-black">
@@ -635,6 +641,7 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
@@ -642,11 +649,12 @@
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col xl:justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -655,25 +663,24 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 pt-10 lg:px-0 lg:grid-cols-2 lg:gap-5">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                     @else
                                                     <div class=""></div>
                                                     @endif
 
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500">リンクを開く</button>
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500">リンクを開く</button>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
-                                            <div class="hidden sm:grid-cols-5 sm:grid">
-                                                <div class="sm:col-span-2">
+                                            <div class="hidden xl:grid-cols-5 xl:grid">
+                                                <div class="xl:col-span-2">
                                                 </div>
-                                                <div class="sm:col-span-3">
+                                                <div class="xl:col-span-3">
                                                     <div class="text-right">
                                                         <i class="text-xl fas fa-globe"></i>
                                                     </div>
@@ -693,27 +700,27 @@
                             <div class="-m-4 ">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
-                                        <div class="grid gap-10 sm:grid-cols-7 sm:gap-0">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
-                                            <div class="sm:col-span-3">
+                                            <div class="xl:col-span-3">
                                                 <div class="flex items-center content-center">
                                                     {{-- photo --}}
                                                     @if($memo_data->profile_photo_path)
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/'. $memo_data->profile_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
-                                                        <div class="mb-1 sm:mb-0">
+                                                        <div class="mb-1 lg:mb-0">
                                                             <button
                                                                 onclick="location.href='{{ route('group.member.show', ['id' => $memo_data->memo_user_id]) }}' "
                                                                 class="block ml-3 text-black">
@@ -742,7 +749,7 @@
                                                 {{-- メモタイトル --}}
                                                 <div class="mt-5 ml-3 leading-none y-4">
                                                     <button
-                                                        class="text-sm font-bold text-left text-gray-700 break-all title-font"
+                                                        class="font-bold text-left text-gray-700 break-all sm:text-sm title-font"
                                                         onclick="location.href='{{ route('group.memo_show', ['memo_id' => $memo_data->id, 'group_id' => $memo_data->group_id, 'type' => 'book'] ) }}' ">{{
                                                         $memo_data['title'] }}
                                                     </button>
@@ -759,18 +766,20 @@
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
+                                                @if (!$memo_data->labels->isEmpty())
                                                 <div class="mt-8">
                                                     @foreach ($memo_data->labels as $label)
                                                     <div
-                                                        class="inline-block px-3 py-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
+                                                        class="inline-block px-3 py-1 m-1 font-bold text-gray-600 bg-gray-300 rounded-2xl">
                                                         {{ $label->name }}</div>
                                                     @endforeach
                                                 </div>
+                                                @endif
 
 
                                             </div>
                                             {{-- 真ん中 --}}
-                                            <div class="flex flex-col justify-between sm:col-span-3">
+                                            <div class="flex flex-col justify-between xl:col-span-3 xl:ml-2">
                                                 {{-- shortMemo --}}
                                                 <div class="flex">
                                                     <p class="mb-3 leading-relaxed break-all">
@@ -779,29 +788,29 @@
                                                 </div>
 
                                                 {{-- ボタン --}}
-                                                <div
-                                                    class="grid grid-cols-2 gap-10 mt-6 text-center sm:ml-8 sm:text-right">
+                                                <div class="grid gap-10 px-10 mt-6 lg:gap-5 lg:grid-cols-2 lg:px-0">
                                                     @if ($memo_data['user_id'] === Auth::id() )
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
                                                         onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                     @else
                                                     <div class=""></div>
                                                     @endif
-                                                    <div></div>
                                                 </div>
                                             </div>
                                             {{-- 右側 --}}
                                             <div class="grid grid-cols-5">
                                                 <div class="col-span-5">
                                                     <div class="max-w-xs m-auto">
-                                                        <div class="hidden text-right sm:block">
+                                                        <div class="hidden text-right xl:block">
                                                             <i class="text-xl fas fa-book-open"></i>
                                                         </div>
-                                                        @if($memo_data['book_photo_path'])
-                                                        <img
-                                                            src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
-                                                        @endif
+                                                        <div class="flex justify-center">
+                                                            @if($memo_data['book_photo_path'])
+                                                            <img class="h-36 xl:h-auto"
+                                                                src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

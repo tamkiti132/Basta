@@ -6,11 +6,11 @@
   </x-slot>
 
   <div class="py-12">
-    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-6 mx-auto text-sm lg:text-base max-w-7xl lg:px-8">
       <div class="grid gap-10 py-12 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
-        <div class="mx-5 text-center sm:mx-auto sm:w-1/2">
+        <div class="mx-5 text-center lg:mx-auto lg:w-1/2">
           {{-- 注意文 --}}
-          <div class="text-xs sm:text-sm">
+          <div class="text-xs lg:text-sm">
             <p>※ユーザー・グループの通報はここではしないでください。<br>
               （運営者がその通報を見つけられなくなってしまいます）</p>
           </div>
@@ -32,18 +32,18 @@
               {{-- サービスの不具合の報告 の場合 --}}
               <li class="hidden" id="request_type_0">
                 {{-- メールアドレス --}}
-                <label for="mail" class="block mt-8 mb-2 text-left">メールアドレス<span class="required">*</span></label>
-                <input type="mail" id="mail" size="50" class="w-full py-2 border border-gray-500 rounded-lg">
+                <label for="email" class="block mt-8 mb-2 text-left">メールアドレス<span class="required">*</span></label>
+                <input type="email" id="email" size="50" class="w-full border border-gray-500 rounded-lg">
 
                 {{-- 件名（お問い合わせのタイトル） --}}
                 <label for="title" class="block mt-8 mb-2 text-left">件名（お問い合わせのタイトル）<span
                     class="required">*</span></label>
-                <input type="title" id="title" size="50" class="w-full py-2 border border-gray-500 rounded-lg">
+                <input type="text" id="title" size="50" class="w-full py-2 border border-gray-500 rounded-lg">
 
                 {{-- 詳細 --}}
                 <label for="detail" class="block mt-8 mb-2 text-left">詳細<span class="required">*</span></label>
-                <textarea name="detail" id="detail" cols="30" rows="8"
-                  class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                <textarea name="detail" id="detail" rows="5"
+                  class="w-full border border-gray-500 rounded-lg"></textarea>
 
                 {{-- リクエスト種別 --}}
                 <label for="environment" class="block mt-8 mb-2 text-left">ご利用環境<span class="required">*</span></label>

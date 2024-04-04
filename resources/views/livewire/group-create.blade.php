@@ -37,7 +37,7 @@
                                             <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
                                             @enderror
 
-                                            <div class="flex items-center gap-4 mt-3 leading-none y-4">
+                                            <div class="flex flex-wrap items-center gap-4 mt-3 leading-none y-4">
                                                 <div>
                                                     <label for="group_image"
                                                         class="px-6 py-1 font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
@@ -59,7 +59,7 @@
                                                 <label for="group_name" class="block text-sm">グループ名<span
                                                         class="required">*</span></label>
                                                 <input wire:model.defer="group_name" id="group_name" type="text"
-                                                    class="rounded-lg" size="30">
+                                                    class="w-full rounded-lg">
                                             </div>
 
                                             <div class="mt-5">
