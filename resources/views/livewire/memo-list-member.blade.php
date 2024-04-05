@@ -61,27 +61,10 @@
                                     ユーザーを利用停止解除
                                 </button>
 
-                                <x-dropdown align="right">
-                                    <x-slot name="trigger">
-                                        <button
-                                            class="flex w-full p-2 transition border-2 border-transparent focus:outline-none hover:bg-slate-100">
-                                            <p>投げ銭する</p>
-                                        </button>
-                                    </x-slot>
-
-                                    <!-- モーダルの中身 -->
-                                    <x-slot name="content">
-                                        <div class="flex flex-col pt-4 text-center text-gray-800 w-72">
-                                            <p>100円の投げ銭をしますか？</p>
-                                            <div class="flex justify-center gap-4 my-3">
-                                                <button
-                                                    class="block px-1 py-2 text-center border border-gray-300 w-28 hover:bg-slate-100">キャンセル</button>
-                                                <button
-                                                    class="block px-1 py-2 text-center text-blue-500 border border-blue-300 w-28 hover:bg-slate-100">はい</button>
-                                            </div>
-                                        </div>
-                                    </x-slot>
-                                </x-dropdown>
+                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                    onclick="if (confirm('100円の投げ銭をしますか？')) {  }">
+                                    投げ銭する
+                                </button>
 
                             </div>
                         </x-slot>
