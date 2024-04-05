@@ -26,7 +26,7 @@ break;
 @endphp
 
 <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
-    <div @click.stop="open = !open">
+    <div @click="open = ! open">
         {{ $trigger }}
     </div>
 
