@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Memo;
 use App\Models\Group;
+use App\Models\Group_type_report_link;
 use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -47,6 +48,18 @@ class GroupTopAdmin extends Component
 
     public function deleteGroup($group_id)
     {
+        // グループに関連する通報リンクを取得
+        $reportLinks = Group_type_report_link::where('group_id', $group_id)->get();
+
+        // 各通報リンクに対して
+        foreach ($reportLinks as $link) {
+            // 通報レコードを削除
+            Report::find($link->report_id)->delete();
+            // 通報リンクを削除
+            $link->delete();
+        }
+
+        // グループを削除
         $group_data = Group::find($group_id);
 
         $group_data->delete();
