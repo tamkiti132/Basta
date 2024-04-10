@@ -43,8 +43,10 @@
                                     退会
                                 </button>
 
+                                @can('admin-higher')
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', {{ $group_data->id }}) }">グループを削除</button>
+                                @endcan
 
                                 <button x-show="!isSuspended" type="button"
                                     class="block w-full p-2 text-left hover:bg-slate-100"
