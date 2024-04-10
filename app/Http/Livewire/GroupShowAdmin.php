@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\Group_type_report_link;
 use App\Models\Memo_type_report_link;
 use App\Models\Report;
 use App\Models\User_type_report_link;
@@ -86,6 +87,18 @@ class GroupShowAdmin extends Component
 
     public function deleteGroup()
     {
+        // グループに関連する通報リンクを取得
+        $reportLinks = Group_type_report_link::where('group_id', $this->group_id)->get();
+
+        // 各通報リンクに対して
+        foreach ($reportLinks as $link) {
+            // 通報レコードを削除
+            Report::find($link->report_id)->delete();
+            // 通報リンクを削除
+            $link->delete();
+        }
+
+        // グループを削除
         Group::find($this->group_id)->delete();
 
         return to_route('admin.group_top');
