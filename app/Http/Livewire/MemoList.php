@@ -107,7 +107,7 @@ class MemoList extends Component
         $group_data = Group::find($group_id);
         $group_data->delete();
 
-        return to_route('index');
+        return to_route('admin.group_top');
     }
 
 
