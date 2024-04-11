@@ -126,7 +126,7 @@
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
 
                 <x-flash-message status="suspension" />
-                <x-flash-message status="error" />
+                <x-flash-message status="blockedUser" />
 
                 @foreach ($all_memos_data_paginated as $memo_data)
                 @if ($memo_data['type'] == 0 )

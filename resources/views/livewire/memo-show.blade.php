@@ -11,7 +11,6 @@
         <div class="mx-auto text-xs max-w-7xl sm:px-6 lg:px-8">
 
             <x-flash-message status="suspension" />
-            <x-flash-message status="error" />
 
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 @if ($memo_data->type == 0)
@@ -644,6 +643,9 @@
                 @endforeach
 
                 {{-- コメント入力セクション --}}
+                <x-flash-message status="blockedUser" />
+
+
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
                         <div class="-m-4">

@@ -76,7 +76,7 @@ class MemoShow extends Component
 
 
         if ($isBlocked) {
-            session()->flash('error', 'ブロックされているため、この機能は利用できません。');
+            session()->flash('blockedUser', 'ブロックされているため、この機能は利用できません。');
             return redirect()->back();
         } else {
 

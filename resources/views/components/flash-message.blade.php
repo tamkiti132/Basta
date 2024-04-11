@@ -3,6 +3,7 @@
 @php
 if($status === 'info'){$bgColor = 'bg-blue-300';}
 if($status === 'error'){$bgColor = 'bg-red-300';}
+if($status === 'blockedUser'){$bgColor = 'bg-orange-300';}
 if($status === 'suspension'){$bgColor = 'bg-yellow-400';}
 if($status === 'quit'){$bgColor = 'bg-gray-400';}
 if($status === 'isNotJoinFreeEnabled'){$bgColor = 'bg-green-400';}
