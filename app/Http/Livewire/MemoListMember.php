@@ -162,7 +162,7 @@ class MemoListMember extends Component
         $user_data = User::find($this->user_id);
         $user_data->delete();
 
-        return to_route('admin.user_top.index');
+        return to_route('admin.user_top');
     }
 
     public function suspendUser()
