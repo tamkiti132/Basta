@@ -34,7 +34,7 @@ use App\Http\Livewire\MemoShow;
 |
 */
 
-Route::middleware(['auth', 'check_suspension'])
+Route::middleware(['auth'])
 
     ->group(function () {
 
