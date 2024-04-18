@@ -345,5 +345,27 @@
             fileListContainer.appendChild(fileDisplayElement);
         }
 
+
+        //  ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理   
+        function resetFormElements() {
+            const selectElements = document.querySelectorAll("select");
+            const inputElements = document.querySelectorAll("input");
+            const textareaElements = document.querySelectorAll("textarea");
+
+            selectElements.forEach((select) => {
+                select.value = "";
+            });
+            inputElements.forEach((input) => {
+                input.value = "";
+            });
+            textareaElements.forEach((textarea) => {
+                textarea.value = "";
+            });
+        }
+
+        window.addEventListener("load", resetFormElements);
+
+    
+
     </script>
 </div>
