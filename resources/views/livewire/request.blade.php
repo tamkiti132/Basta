@@ -17,7 +17,7 @@
                     </div>
 
                     {{-- リクエスト入力欄 --}}
-                    <div class="mt-20">
+                    <div class="mt-20" id="request-input-container">
                         {{-- リクエスト種別 --}}
                         <label for="type" class="block mb-2 text-left">リクエスト種別をお選びください<span
                                 class="required">*</span></label>
@@ -348,9 +348,11 @@
 
         //  ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理   
         function resetFormElements() {
-            const selectElements = document.querySelectorAll("select");
-            const inputElements = document.querySelectorAll("input");
-            const textareaElements = document.querySelectorAll("textarea");
+            const container = document.querySelector('#request-input-container');
+            
+            const selectElements = container.querySelectorAll('select');
+            const inputElements = container.querySelectorAll('input:not([name="_token"])');
+            const textareaElements = container.querySelectorAll("textarea");
 
             selectElements.forEach((select) => {
                 select.value = "";
