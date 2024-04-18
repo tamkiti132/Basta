@@ -21,6 +21,7 @@ use App\Http\Livewire\GroupCreate;
 use App\Http\Livewire\MemberEdit;
 use App\Http\Livewire\UserTopAdmin;
 use App\Http\Livewire\MemoShow;
+use App\Http\Livewire\Request;
 
 // use App\Http\Controllers\MemoController;
 /*
@@ -85,9 +86,11 @@ Route::middleware(['auth'])
             return view('creditcard');
         })->name('creditcard');
 
-        Route::get('request', function () {
-            return view('request');
-        })->name('request');
+
+        Route::prefix('request')
+            ->group(function () {
+                Route::get('/', Request::class)->name('request');
+            });
 
 
         // Route::get('mail', [MailSendController::class, 'send']);
