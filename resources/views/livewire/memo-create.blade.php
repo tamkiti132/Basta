@@ -1,23 +1,21 @@
 <div x-data="{
     form_web: true,
     form_book: false,
-    modal_label_select: false,    
-    {{-- 以下のコードを書いた理由は、
-        この遅延がないと、form_bookがtrueになった際にadjustTextareaHeight関数が正しく実行されず、
-        textareaのデフォルトの高さがcssで指定した通りの高さにならないため。 --}}
-    init() {
-        this.$watch('form_book', value => {
-            if (value) {
-                this.$nextTick(() => {
-                    setTimeout(() => {
-                        adjustTextareaHeight(this.$refs.book_shortMemo);
-                        adjustTextareaHeight(this.$refs.book_additionalMemo);
-                    },80); // 80ミリ秒の遅延
-                });
-            }
-        });
-    }
+    modal_label_select: false,
 }">
+
+    {{-- このCSSの記述を書いた理由は、『本』のタブを選択した際（form_bookをtrueにした際）、
+        『本 の 場合 』の中のtextareaの高さが狭くなってしまう不具合の応急処置をするため --}}    
+    <style>
+        #book_shortMemo {
+            min-height: 160px; /* 開始時の最小高さ */
+        }
+
+        #book_additionalMemo{
+            min-height: 256px; /* 開始時の最小高さ */
+        }
+    </style>
+
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">
             メモ投稿
@@ -60,7 +58,9 @@
                                                 {{-- 左側 --}}
                                                 <div class="lg:col-span-3">
                                                     {{-- Webタイプのメモであることを示すデータ --}}
-                                                    {{-- メモ情報 --}} <div>
+                                                    <input type="hidden" wire:model.defer="type" value="web">
+                                                    {{-- メモ情報 --}} 
+                                                    <div>
                                                         <div>
                                                             @error('web_title')
                                                             <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
