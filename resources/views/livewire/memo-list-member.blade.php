@@ -61,10 +61,12 @@
                                     ユーザーを利用停止解除
                                 </button>
 
-                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                @if (auth()->id() !== $user_data->id)                                    
+                                    <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('100円の投げ銭をしますか？')) {  }">
                                     投げ銭する
-                                </button>
+                                    </button>
+                                @endif
 
                             </div>
                         </x-slot>
