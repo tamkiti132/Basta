@@ -154,11 +154,15 @@
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを通報
                                                         </button>
-                                                        <button
+
+                                                        @if (auth()->id() === $memo_data->user_id)                                                            
+                                                            <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを削除
-                                                        </button>
+                                                            </button>
+                                                        @endif
+                                                        
                                                     </div>
                                                 </x-slot>
                                             </x-dropdown>
@@ -329,11 +333,15 @@
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを通報
                                                         </button>
-                                                        <button
+                                                        
+                                                        @if (auth()->id() === $memo_data->user_id)                                                            
+                                                            <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを削除
-                                                        </button>
+                                                            </button>
+                                                        @endif
+                                                        
                                                     </div>
                                                 </x-slot>
                                             </x-dropdown>
@@ -518,11 +526,13 @@
                                                             コメントを通報
                                                         </button>
 
-                                                        <button
+                                                        @if (auth()->id() === $comment_data->user_id)                                                            
+                                                            <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteComment', {{ $comment_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             コメントを削除する
-                                                        </button>
+                                                            </button>
+                                                        @endif
 
                                                     </div>
                                                 </x-slot>
