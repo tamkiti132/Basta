@@ -14,10 +14,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        //セッションが切れた後にログインするとエラーが発生する問題は、とりあえず、
-        // php artisan config:clear　と
-        // php artisan cache:clear　をしたらとりあえず発生しなくなった。
-        // 原因はまだよくわかっていない
         if (!$request->expectsJson()) {
             return route('login');
         }
