@@ -60,6 +60,14 @@
         </header>
         @endif
 
+        <x-flash-message status="error" />
+        <x-flash-message status="role-access-error" />
+        <x-flash-message status="blockedUser" />
+        <x-flash-message status="suspension" />
+        <x-flash-message status="not_member" />
+        <x-flash-message status="isNotJoinFreeEnabled" />
+
+
         <!-- メインコンテンツ -->
         <main class="overflow-hidden">
             {{ $slot }}

@@ -18,9 +18,7 @@
     <div class="py-12">
 
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-center gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
-
-                <x-flash-message status="isNotJoinFreeEnabled" />
+            <div class="flex flex-wrap justify-center gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">                
 
                 @foreach ( $all_groups_data_paginated as $group_data )
                 <section class="w-full text-xs text-gray-600 body-font">

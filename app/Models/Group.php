@@ -28,12 +28,12 @@ class Group extends Model
         return $this->belongsToMany(User::class, 'roles')->withPivot('role');
     }
 
-    public function isUserAdmin()
+    //グループの管理者ユーザーのデータだけを返す
+    public function managerUser()
     {
-        return $this->hasMany(GroupUser::class)
-            ->where('user_id', Auth::id())
-            ->where('role', 10);
+        return $this->userRoles()->wherePivot('role', 10);
     }
+
 
     public function memos()
     {

@@ -14,10 +14,13 @@ use App\Models\Memo_type_report_link;
 use App\Models\Report;
 use App\Models\User_type_report_link;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class MemoListMember extends Component
 {
     use WithPagination;
+
+    public $previous_route;
 
     public $user_id;
     public $group_id;
@@ -38,10 +41,19 @@ class MemoListMember extends Component
     ];
 
 
-    public function mount($id)
+    public function mount($group_id, $user_id)
     {
-        $this->user_id = $id;
-        $this->group_id = session()->get('group_id');
+        $group = Group::find($group_id);
+
+        $this->previous_route = url()->previous();
+
+        if (!$group->user()->where('user_id', Auth::id())->exists()) {
+            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+            redirect($this->previous_route);
+        }
+
+        $this->group_id = $group_id;
+        $this->user_id = $user_id;
     }
 
     public function filterByWebBookLabels($selected_web_book_labels)
@@ -206,7 +218,7 @@ class MemoListMember extends Component
                 ->join('groups', 'memos.group_id', '=', 'groups.id')
                 ->select('memos.*', 'web_type_features.url', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
                 ->where('users.id', $this->user_id)
-                ->where('group_id', session()->get('group_id'))
+                ->where('group_id', $this->group_id)
                 ->when($this->selected_labels, function ($query) { // 選択されたラベルがある場合のみフィルタリング
                     $query->whereHas('labels', function ($query) {
                         $query->whereIn('id', $this->selected_labels);
@@ -243,7 +255,7 @@ class MemoListMember extends Component
                                 ->whereNull('book_type_features.memo_id');
                         });
                 })
-                ->where('group_id', session()->get('group_id'))
+                ->where('group_id', $this->group_id)
                 ->when($this->selected_labels, function ($query) { // 選択されたラベルがある場合のみフィルタリング
                     $query->whereHas('labels', function ($query) {
                         $query->whereIn('id', $this->selected_labels);
@@ -269,12 +281,14 @@ class MemoListMember extends Component
         $count_all_memos_data = count($all_memos_data);
 
         // 退会済みか確認
-        $exists = Group::where('id', session()->get('group_id'))->whereHas('user', function ($query) {
+        $exists = Group::where('id', $this->group_id)->whereHas('user', function ($query) {
             $query->where('id', $this->user_id);
         })->exists();
 
+
         if (!$exists) {
-            session()->flash('quit', 'このユーザーはグループを退会済みです。');
+            session()->flash('not_member', 'このユーザーはグループに所属していません。');
+            redirect($this->previous_route);
         }
 
         return view('livewire.memo-list-member', compact('group_data', 'user_data', 'count_all_memos_data', 'all_memos_data_paginated'));

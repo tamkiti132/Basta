@@ -12,6 +12,8 @@ class MemoCreate extends Component
 {
     use WithFileUploads;
 
+    public $previous_route;
+
     public $type;
     public $web_title;
     public $web_shortMemo;
@@ -27,8 +29,18 @@ class MemoCreate extends Component
     public $rules = [];
 
 
-    public function mount()
+    public function mount($group_id)
     {
+        $this->previous_route = url()->previous();
+
+        // $group_idに一致するidのグループに自分が所属していなかった場合、直前のページにリダイレクト
+        if (!(Auth::user()->group()->where('id', $group_id)->exists())) {
+            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+            redirect($this->previous_route);
+        }
+
+        session()->put('group_id', $group_id);
+
         // グループ内でのブロック状態を取得
         $isBlocked = User::where('id', Auth::id())
             ->whereHas('blockedGroup', function ($query) {
@@ -47,8 +59,6 @@ class MemoCreate extends Component
 
     public function store($type)
     {
-        // dd($this->memo_data);
-
         $this->type = $type;
 
         if ($this->type === "web") {
@@ -69,11 +79,8 @@ class MemoCreate extends Component
         }
 
 
-        // dd($this->type, $this->rules);
         $this->validate();
 
-
-        //TODO:group_id　と　type　を正しく登録できるようにする（今は仮のデータ）
 
         if ($this->type === "web") {
             //Webタイプのメモを保存する
@@ -116,6 +123,8 @@ class MemoCreate extends Component
                 $memo->book_type_feature()->create($book_type_feature_data);
             }
         }
+
+
         $this->emitTo('label-adder', 'memoCreated', $memo->id);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Book_type_feature;
 use App\Models\Memo;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 class MemoEdit extends Component
 {
     use WithFileUploads;
+
+    public $previous_route;
 
     public $memo_data;
     public $memo_id;
@@ -23,9 +26,20 @@ class MemoEdit extends Component
     public $rules = [];
 
 
-    public function mount($id, $type)
+    public function mount($memo_id, $type)
     {
-        $this->memo_id = $id;
+        $this->previous_route = url()->previous();
+
+        $memo_posted_user_id = Memo::where('id', $memo_id)->value('user_id');
+
+        // 自分が作成したメモかどうかを確認
+        if (Auth::id() !== $memo_posted_user_id) {
+            session()->flash('error', '他のユーザーのメモは編集できません');
+            redirect($this->previous_route);
+        }
+
+
+        $this->memo_id = $memo_id;
         $this->type = $type;
 
         if ($type === 'web') {

@@ -14,6 +14,8 @@ class MemoListMypage extends Component
 {
     use WithPagination;
 
+    public $previous_route;
+
     public $user_id;
     public $group_id;
     public $show_web = true;
@@ -28,6 +30,7 @@ class MemoListMypage extends Component
     public $show_later_read_memos = false;
 
 
+
     protected $listeners = [
         'setGroupId',
         'filterByWebBookLabels',
@@ -40,6 +43,15 @@ class MemoListMypage extends Component
     public function mount($user_id)
     {
         $this->user_id = $user_id;
+        $authUserId = auth()->id();
+
+        // dd($this->user_id, $authUserId);
+        // リクエストのユーザーIDと　自分のIDが一致しない場合、直前のページにリダイレクト
+        if ($authUserId != $this->user_id) {
+            session()->flash('error', '他のユーザーのマイページにはアクセスできません');
+            $this->previous_route = url()->previous();
+            redirect($this->previous_route);
+        }
 
         $this->group_id = '';
     }
@@ -129,6 +141,8 @@ class MemoListMypage extends Component
             $query->where('users.id', $this->user_id);
         })->orderBy('name')
             ->get();
+
+        // dd($user_groups);
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);

@@ -40,9 +40,16 @@ class GroupShowAdmin extends Component
     public function mount($group_id)
     {
         $this->group_id = $group_id;
+        $this->group_data = Group::find($this->group_id);
+
+        // グループが存在しない場合に 404 エラーを返す
+        if (!$this->group_data) {
+            abort(404);
+        }
 
         $this->dispatchBrowserEvent('load');
     }
+
 
 
     public function showMember()
@@ -169,6 +176,7 @@ class GroupShowAdmin extends Component
                 $query->wherePivot('role', 10);
             }])
             ->first();
+
 
 
         $this->isSuspended = $this->group_data->suspension_state;

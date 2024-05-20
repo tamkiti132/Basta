@@ -10,8 +10,6 @@
     <div class="py-12">
         <div class="mx-auto text-xs max-w-7xl sm:px-6 lg:px-8">
 
-            <x-flash-message status="suspension" />
-
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
                 @if ($memo_data->type == 0)
                 {{-- メモセクション --}}
@@ -29,25 +27,25 @@
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                 @endif
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
                                                     <div class="mb-1 lg:mb-0">
                                                         <button
-                                                            onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                             class="block ml-3 text-black">
                                                             {{ $memo_data->user->nickname }}
                                                         </button>
                                                         <button
-                                                            onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                             class="ml-5 text-gray-500">
                                                             {{ $memo_data->user->username }}
                                                         </button>
@@ -107,7 +105,7 @@
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
                                                     class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-3 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
+                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
@@ -207,25 +205,24 @@
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full"><img
                                                         class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                 @endif
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
                                                     <div class="mb-1 lg:mb-0">
                                                         <button
-                                                            onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                             class="block ml-3 text-black">
                                                             {{ $memo_data->user->nickname }}
                                                         </button>
                                                         <button
-                                                            onclick="location.href='{{ route('group.member.show', ['id' => $memo_data['user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
                                                             class="ml-5 text-gray-500">
                                                             {{ $memo_data->user->username }}
                                                         </button>
@@ -284,7 +281,7 @@
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
                                                     class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-5 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
+                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
@@ -459,6 +456,9 @@
                 <h2 class="px-5 text-base font-bold">コメント</h2>
                 {{-- コメントセクション --}}
                 @foreach ($comments_data_paginated as $comment_data)
+                {{-- @php
+                    dd($comment_data->memo['group_id']);
+                @endphp --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
                         <div class="-m-4">
@@ -471,25 +471,25 @@
                                             {{-- photo --}}
                                             @if($comment_data->user->profile_photo_path)
                                             <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                                                onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' ">
+                                                onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' ">
                                                 <img class="object-fill w-10 h-10 rounded-full"
                                                     src="{{ asset('storage/'. $comment_data->user->profile_photo_path) }}" />
                                             </button>
                                             @else
                                             <button
                                                 class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' "></button>
+                                                onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' "></button>
                                             @endif
                                             {{-- コメント作成者情報 --}}
                                             <div>
                                                 <div class="mb-1 sm:mb-0">
                                                     <button
-                                                        onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' "
+                                                        onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' "
                                                         class="block ml-3 text-black">
                                                         {{ $comment_data->user->nickname }}
                                                     </button>
                                                     <button class="ml-5 text-gray-500"
-                                                        onclick="location.href='{{ route('group.member.show', ['id' => $comment_data['user_id']]) }}' ">
+                                                        onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' ">
                                                         {{ $comment_data->user->username }}
                                                     </button>
                                                 </div>
@@ -653,8 +653,6 @@
                 @endforeach
 
                 {{-- コメント入力セクション --}}
-                <x-flash-message status="blockedUser" />
-
 
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
