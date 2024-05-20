@@ -131,7 +131,7 @@
                                             class="flex items-center justify-center pt-10 sm:justify-end sm:col-span-2 sm:pt-0">
                                             <button
                                                 class="py-3 font-bold text-white bg-indigo-400 border-0 px-14 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                onclick="location.href='{{ route('group.member_edit') }}' ">編集する</button>
+                                                onclick="location.href='{{ route('group.member_edit', ['group_id' => $group_data->id]) }}' ">編集する</button>
                                         </div>
                                     </div>
                                 </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Group;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 class GroupEdit extends Component
 {
     use WithFileUploads;
+
+    public $previous_route;
 
     public $group_id;
     public $group_data;
@@ -25,6 +29,18 @@ class GroupEdit extends Component
 
     public function mount($group_id)
     {
+        $group = Group::find($group_id);
+        $manager_user_id = $group->managerUser()->value('user_id');
+
+        // dd($manager_user_id);
+
+        // グループの管理者のIDと　自分のIDが一致しない場合、直前のページにリダイレクト
+        if (Auth::id() !== $manager_user_id) {
+            session()->flash('error', '対象のグループの管理者ではないため、アクセスできません');
+            $this->previous_route = url()->previous();
+            redirect($this->previous_route);
+        }
+
         session()->put('group_id', $group_id);
         $this->group_id = $group_id;
 

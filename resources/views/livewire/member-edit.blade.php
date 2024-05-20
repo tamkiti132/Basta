@@ -46,25 +46,25 @@
                                             <div class="flex items-center lg:col-span-2">
                                                 @if($user_data->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                 @endif
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' ">
                                                     {{ $user_data->nickname }}
                                                 </button>
                                             </div>
                                             {{-- ユーザーid --}}
                                             <div class="ml-16 lg:ml-0 lg:col-span-2">
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="text-gray-500">
                                                     {{ $user_data->username }}
                                                 </button>
@@ -144,25 +144,25 @@
                                             <div class="flex items-center lg:col-span-2">
                                                 @if($user_data->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
                                                 @endif
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' ">
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' ">
                                                     {{ $user_data->nickname }}
                                                 </button>
                                             </div>
                                             {{-- ユーザーid --}}
                                             <div class="ml-16 lg:mt-0 lg:ml-0 lg:col-span-2">
                                                 <button
-                                                    onclick="location.href='{{ route('group.member.show', ['id' => $user_data->id]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="text-gray-500">
                                                     {{ $user_data->username }}
                                                 </button>

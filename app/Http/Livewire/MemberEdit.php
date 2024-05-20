@@ -7,10 +7,13 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class MemberEdit extends Component
 {
     use WithPagination;
+
+    public $previous_route;
 
     public $group_id;
     public $group_data;
@@ -28,8 +31,17 @@ class MemberEdit extends Component
     }
 
 
-    public function mount()
+    public function mount($group_id)
     {
+        $group = Group::find($group_id);
+        $manager_user_id = $group->managerUser()->value('user_id');
+
+        if (Auth::id() !== $manager_user_id) {
+            session()->flash('error', '対象のグループの管理者ではないため、アクセスできません');
+            $this->previous_route = url()->previous();
+            redirect($this->previous_route);
+        }
+
         $this->group_id = session()->get('group_id');
     }
 

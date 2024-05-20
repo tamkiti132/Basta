@@ -15,6 +15,8 @@ class MemoShow extends Component
 {
     use WithPagination;
 
+    public $previous_route;
+
     public $memo_id;
     public $type;
     public $comment;
@@ -32,6 +34,17 @@ class MemoShow extends Component
 
     public function mount($memo_id, $type, $group_id = null)
     {
+        $this->previous_route = url()->previous();
+
+        // メモに紐づくグループのidを取得
+        $memo_posted_group_id = Memo::where('id', $memo_id)->value('group_id');
+
+        // メモが投稿されたグループに自分が所属していない場合、直前のページにリダイレクト
+        if (!(Auth::user()->group()->where('id', $memo_posted_group_id)->exists())) {
+            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+            redirect($this->previous_route);
+        }
+
         if ($group_id) {
             session()->put('group_id', $group_id);
         }
@@ -134,13 +147,20 @@ class MemoShow extends Component
 
 
         // コメント, コメント通報情報
-        $comments_data = Comment::with(['user' => function ($query) {
-            $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
-        }, 'reports'])
+        $comments_data = Comment::with([
+            'user' => function ($query) {
+                $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
+            },
+            'memo' => function ($query) {
+                $query->select('id', 'group_id');
+            },
+            'reports'
+        ])
             ->where('memo_id', $this->memo_id)
             ->withCount('reports')
             ->get();
 
+        // dd($comments_data);
 
         // 各コメントに対する表示状態を初期化
         foreach ($comments_data as $comment) {

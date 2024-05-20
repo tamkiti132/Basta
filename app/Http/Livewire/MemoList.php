@@ -11,10 +11,13 @@ use App\Models\Label;
 use App\Models\GroupTypeReportLink;
 use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class MemoList extends Component
 {
     use WithPagination;
+
+    public $previous_route;
 
     public $group_id;
     public $show_web = true;
@@ -35,6 +38,21 @@ class MemoList extends Component
 
     public function mount($group_id)
     {
+        $this->previous_route = url()->previous();
+
+        $group = Group::find($group_id);
+
+        // グループが存在しない場合に 404 エラーを返す
+        if (!$group) {
+            abort(404);
+        }
+
+        // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
+        if (!(Auth::user()->group()->where('id', $group_id)->exists())) {
+            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+            redirect($this->previous_route);
+        }
+
         $this->group_id = $group_id;
     }
 

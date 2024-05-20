@@ -133,15 +133,13 @@
                         </div>
 
                     </div>
-                </div>
+          　      </div>
             </div>
         </div>
 
         {{-- メインコンテンツ（中央） --}}
         <div class="w-full mx-auto text-xs lg:col-span-8 max-w-7xl sm:px-6 lg:px-8">
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
-
-                <x-flash-message status="quit" />
 
                 @foreach ($all_memos_data_paginated as $memo_data)
                 @if ($memo_data->type == 0)
@@ -214,7 +212,7 @@
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
                                                     class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
+                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
@@ -312,7 +310,7 @@
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
                                                     class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
+                                                    onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif

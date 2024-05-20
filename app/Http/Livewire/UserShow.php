@@ -47,6 +47,12 @@ class UserShow extends Component
     public function mount($user_id)
     {
         $this->user_id = $user_id;
+        $this->user_data = User::find($this->user_id);
+
+        // ユーザーが存在しない場合に 404 エラーを返す
+        if (!$this->user_data) {
+            abort(404);
+        }
 
         $this->group_id = '';
 

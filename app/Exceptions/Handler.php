@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Throwable;
@@ -53,6 +54,12 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof TokenMismatchException) {
             return redirect('login')->withErrors('セッションが切れました。もう一度ログインしてください。');
+        }
+
+        // アクセス権限がない場合の処理
+        if ($exception instanceof AuthorizationException) {
+            session()->flash('role-access-error', 'アクセス権限がありません。');
+            return redirect()->back();
         }
 
         return parent::render($request, $exception);
