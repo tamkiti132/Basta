@@ -27,6 +27,7 @@ class UserTopAdmin extends Component
 
     public function checkSuspension($skip = false)
     {
+        // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
         if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
