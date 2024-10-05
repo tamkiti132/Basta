@@ -22,7 +22,7 @@ use App\Http\Livewire\MemberEdit;
 use App\Http\Livewire\UserTopAdmin;
 use App\Http\Livewire\MemoShow;
 use App\Http\Livewire\Request;
-
+use App\Http\Middleware\CheckSuspensionState;
 // use App\Http\Controllers\MemoController;
 /*
 |--------------------------------------------------------------------------
@@ -35,32 +35,16 @@ use App\Http\Livewire\Request;
 |
 */
 
-Route::middleware(['auth'])
+Route::middleware(['auth', CheckSuspensionState::class])
 
     ->group(function () {
 
-        // Route::controller(IndexController::class)
-        //     ->group(function () {
-        //         Route::get('/', 'index')->name('index')
-        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-        //         Route::get('index', 'index')->name('index')
-        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-        //     });
-
-        Route::get('/', Index::class)->name('index');
-        Route::get('/index', Index::class);
+        Route::get('/', Index::class)->name('index')
+            ->withoutMiddleware([CheckSuspensionState::class]);
+        Route::get('/index', Index::class)
+            ->withoutMiddleware([CheckSuspensionState::class]);
 
         Route::get('group_create', GroupCreate::class)->name('group_create');
-
-        // Route::prefix('group_join')
-        //     ->controller(GroupJoinController::class)
-        //     ->name('group_join.')
-        //     ->group(function () {
-        //         Route::get('/', 'index')->name('index')
-        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-        //         Route::get('/{group_id}', 'joinGroup')->name('joinGroup')
-        //             ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
-        //     });
 
         Route::prefix('group_join')
             ->name('group_join.')
@@ -79,17 +63,20 @@ Route::middleware(['auth'])
         Route::prefix('mypage')
             ->name('mypage.')
             ->group(function () {
-                Route::get('/{user_id}/{group_id?}', MemoListMypage::class)->name('show');
+                Route::get('/{user_id}/{group_id?}', MemoListMypage::class)->name('show')
+                    ->withoutMiddleware([CheckSuspensionState::class]);
             });
 
         Route::get('creditcard', function () {
             return view('creditcard');
-        })->name('creditcard');
+        })->name('creditcard')
+            ->withoutMiddleware([CheckSuspensionState::class]);
 
 
         Route::prefix('request')
             ->group(function () {
-                Route::get('/', Request::class)->name('request');
+                Route::get('/', Request::class)->name('request')
+                    ->withoutMiddleware([CheckSuspensionState::class]);
             });
 
 
@@ -131,8 +118,7 @@ Route::middleware(['auth'])
 
                 Route::prefix('member_show')
                     ->group(function () {
-                        Route::get('/{group_id}/{user_id}', MemoListMember::class)->name('member_show')
-                            ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+                        Route::get('/{group_id}/{user_id}', MemoListMember::class)->name('member_show');
                     });
 
                 Route::prefix('member_edit')
@@ -148,21 +134,22 @@ Route::middleware(['auth'])
                 Route::prefix('user_top')
                     ->middleware('can:admin-higher')
                     ->group(function () {
-                        Route::get('/', UserTopAdmin::class)->name('user_top');
+                        Route::get('/', UserTopAdmin::class)->name('user_top')
+                            ->withoutMiddleware([CheckSuspensionState::class]);
                     });
 
                 Route::prefix('user_show')
                     ->middleware('can:admin-higher')
                     ->group(function () {
-                        Route::get('/{user_id}/{group_id?}', UserShow::class)->name('user_show')
-                            ->withoutMiddleware([\App\Http\Middleware\CheckSuspensionState::class]);
+                        Route::get('/{user_id}/{group_id?}', UserShow::class)->name('user_show');
                     });
 
                 //TODO:このファイルのwithoutMiddlewareを外すのを忘れていたので、外して、かつそれが問題ないかテストして検討する
                 Route::prefix('group_top')
                     ->middleware('can:admin-higher')
                     ->group(function () {
-                        Route::get('/', GroupTopAdmin::class)->name('group_top');
+                        Route::get('/', GroupTopAdmin::class)->name('group_top')
+                            ->withoutMiddleware([CheckSuspensionState::class]);
                     });
 
 

@@ -11,6 +11,7 @@ use App\Models\Group;
 use App\Models\Group_type_report_link;
 use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class GroupTopAdmin extends Component
 {
@@ -26,8 +27,12 @@ class GroupTopAdmin extends Component
     public $show_suspension_groups = false;
 
 
-    public function mount()
+    public function checkSuspension($skip = false)
     {
+        // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
+        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+            abort(403, '利用停止中のため、この機能は利用できません。');
+        }
     }
 
 
@@ -48,6 +53,8 @@ class GroupTopAdmin extends Component
 
     public function deleteGroup($group_id)
     {
+        $this->checkSuspension();
+
         // グループに関連する通報リンクを取得
         $reportLinks = Group_type_report_link::where('group_id', $group_id)->get();
 
@@ -69,6 +76,8 @@ class GroupTopAdmin extends Component
 
     public function suspend($group_id)
     {
+        $this->checkSuspension();
+
         $group_data = Group::find($group_id);
 
         $group_data->suspension_state = 1;
@@ -80,6 +89,8 @@ class GroupTopAdmin extends Component
 
     public function liftSuspend($group_id)
     {
+        $this->checkSuspension();
+
         $group_data = Group::find($group_id);
 
         $group_data->suspension_state = 0;
