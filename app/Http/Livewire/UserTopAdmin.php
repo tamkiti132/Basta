@@ -12,6 +12,7 @@ use App\Models\User_type_report_link;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class UserTopAdmin extends Component
 {
@@ -20,19 +21,23 @@ class UserTopAdmin extends Component
     public $sortCriteria = 'report_all';
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
     public $show_user = true;
     public $show_suspended_user = false;
 
 
+    public function checkSuspension($skip = false)
+    {
+        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+            abort(403, '利用停止中のため、この機能は利用できません。');
+        }
+    }
+
     public function setSortCriteria($sortCriteria)
     {
         $this->sortCriteria = $sortCriteria;
-
         $this->resetPage('all_not_suspended_users_page');
         $this->resetPage('all_suspended_users_page');
     }
-
 
     public function executeSearch()
     {
@@ -40,9 +45,9 @@ class UserTopAdmin extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-
     public function deleteUser($user_id)
     {
+        $this->checkSuspension();
         // 以下、削除対象ユーザーに対するレポートを削除する処理
         // ユーザーに関連する通報リンクを取得
         $userReportLinks = User_type_report_link::where('user_id', $user_id)->get();
@@ -54,7 +59,6 @@ class UserTopAdmin extends Component
             // 通報リンクを削除
             $link->delete();
         }
-
 
         // 以下、ユーザーが投稿したメモに対するレポートを削除する処理
         // ユーザーが投稿したメモを取得
@@ -79,7 +83,6 @@ class UserTopAdmin extends Component
 
         // ユーザーが投稿者である通報を削除
         Report::where('contribute_user_id', $user_id)->delete();
-
 
         // 以下、ユーザーが投稿したコメントに対するレポートを削除する処理
         // ユーザーが投稿したメモを取得
@@ -112,9 +115,9 @@ class UserTopAdmin extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-
     public function suspendUser($user_id)
     {
+        $this->checkSuspension();
         $user_data = User::find($user_id);
 
         $user_data->suspension_state = 1;
@@ -124,9 +127,9 @@ class UserTopAdmin extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-
     public function liftSuspendUser($user_id)
     {
+        $this->checkSuspension();
         $user_data = User::find($user_id);
 
         $user_data->suspension_state = 0;
@@ -136,7 +139,6 @@ class UserTopAdmin extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-
     public function render()
     {
         // 全角スペースを半角スペースに変換
@@ -144,7 +146,6 @@ class UserTopAdmin extends Component
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
-
 
         // 利用停止されていないユーザー情報一覧取得
         $all_not_suspended_users_data = User::where('suspension_state', 0)
@@ -217,9 +218,6 @@ class UserTopAdmin extends Component
                 break;
         }
 
-
-
-
         // 利用停止中のユーザー情報一覧取得
         $all_suspended_users_data = User::where('suspension_state', 1)
             ->whereDoesntHave('roles', function ($query) {
@@ -291,7 +289,6 @@ class UserTopAdmin extends Component
                 break;
         }
 
-
         $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_not_suspended_users_page');
@@ -307,7 +304,6 @@ class UserTopAdmin extends Component
             'path' => LengthAwarePaginator::resolveCurrentPath(),
             'pageName' => 'all_suspended_users_page'
         ]);
-
 
         return view('livewire.user-top-admin', compact('all_not_suspended_users_data_paginated', 'all_suspended_users_data_paginated'));
     }
