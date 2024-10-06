@@ -39,10 +39,13 @@ class MemoShow extends Component
         // メモに紐づくグループのidを取得
         $memo_posted_group_id = Memo::where('id', $memo_id)->value('group_id');
 
-        // メモが投稿されたグループに自分が所属していない場合、直前のページにリダイレクト
-        if (!(Auth::user()->group()->where('id', $memo_posted_group_id)->exists())) {
-            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
-            redirect($this->previous_route);
+        // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
+        if (!Auth::user()->can('admin-higher')) {
+            // メモが投稿されたグループに自分が所属していない場合、直前のページにリダイレクト
+            if (!(Auth::user()->group()->where('id', $memo_posted_group_id)->exists())) {
+                session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+                redirect($this->previous_route);
+            }
         }
 
         if ($group_id) {

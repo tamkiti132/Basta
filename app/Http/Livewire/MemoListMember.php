@@ -47,9 +47,13 @@ class MemoListMember extends Component
 
         $this->previous_route = url()->previous();
 
-        if (!$group->user()->where('user_id', Auth::id())->exists()) {
-            session()->flash('error', '対象のグループに所属していないため、アクセスできません');
-            redirect($this->previous_route);
+        // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
+        if (!Auth::user()->can('admin-higher')) {
+            // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
+            if (!$group->user()->where('user_id', Auth::id())->exists()) {
+                session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+                redirect($this->previous_route);
+            }
         }
 
         $this->group_id = $group_id;
@@ -198,11 +202,12 @@ class MemoListMember extends Component
         $group_data = Group::find($this->group_id);
         $user_data = User::find($this->user_id);
 
+
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
 
+        // ユーザーのサスペンション状態を取得
         $this->isSuspended = $user_data->suspension_state;
-
 
         // 全角スペースを半角スペースに変換
         $search = str_replace("　", " ", $this->search);

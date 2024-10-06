@@ -34,15 +34,24 @@ class MemberEdit extends Component
     public function mount($group_id)
     {
         $group = Group::find($group_id);
-        $manager_user_id = $group->managerUser()->value('user_id');
 
-        if (Auth::id() !== $manager_user_id) {
-            session()->flash('error', '対象のグループの管理者ではないため、アクセスできません');
-            $this->previous_route = url()->previous();
-            redirect($this->previous_route);
+        // グループが存在しない場合に 404 エラーを返す
+        if (!$group) {
+            abort(404);
         }
 
-        $this->group_id = session()->get('group_id');
+        //グループの管理者 and サブ管理者のIDを取得
+        $manager_user_ids =
+            $group->managerAndSubManagerUser($group_id)->pluck('user_id')->toArray();
+
+        // グループの管理者のIDと　自分のIDが一致しない場合、直前のページにリダイレクト
+        if (!in_array(Auth::id(), $manager_user_ids)) {
+            session()->flash('error', '対象のグループの管理者 or サブ管理者ではないため、アクセスできません');
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
+        }
+
+        $this->group_id = $group_id;
     }
 
 

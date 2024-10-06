@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MemoEditController;
 use App\Http\Controllers\GroupEditController;
-use App\Http\Controllers\MypageController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoCreate;
 use App\Http\Livewire\MemoEdit;
@@ -23,7 +21,6 @@ use App\Http\Livewire\UserTopAdmin;
 use App\Http\Livewire\MemoShow;
 use App\Http\Livewire\Request;
 use App\Http\Middleware\CheckSuspensionState;
-// use App\Http\Controllers\MemoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

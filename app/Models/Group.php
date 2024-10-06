@@ -34,6 +34,14 @@ class Group extends Model
         return $this->userRoles()->wherePivot('role', 10);
     }
 
+    //グループの管理者 and サブ管理者ユーザーのデータだけを返す
+    public function managerAndSubManagerUser($groupId)
+    {
+        return $this->userRoles()
+            ->wherePivot('role', 10)
+            ->orWherePivot('role', 50)
+            ->wherePivot('group_id', $groupId);
+    }
 
     public function memos()
     {
@@ -49,7 +57,6 @@ class Group extends Model
     {
         return $this->hasManyThrough(Comment::class, Memo::class);
     }
-
 
     public function blockedUser()
     {

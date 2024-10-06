@@ -75,23 +75,26 @@
 
         <!-- フッター -->
         <footer class="px-4 py-10 mx-auto mt-10 bg-white shadow sm:mt-20 sm:px-6 lg:px-8">
-            @can('admin-top')
             {{-- 運営トップ --}}
-            <div class="flex flex-wrap gap-3 text-xs font-bold sm:flex-nowrap sm:gap-0 sm:justify-between sm:text-sm">
-                <div class="w-full sm:w-auto">
+            <div class="flex flex-wrap justify-between text-xs font-bold sm:flex-nowrap sm:text-sm">
+                {{-- 左側 --}}
+                <div class="w-auto">
+                    @can('admin-top')
                     <a href="{{ route('admin.admin_user_top') }}">運営ユーザー一覧</a>
+                    @endcan
                 </div>
-                <div class="w-full sm:w-auto">
-                    <a href="{{ route('register') }}">運営権限ユーザー新規登録</a>
+                {{-- 右側 --}}
+                <div class="w-auto text-right">
+                    @can('admin-top')
+                    <div>
+                        <a href="{{ route('register') }}">運営権限ユーザー新規登録</a>
+                    </div>
+                    @endcan
+                    <div class="mt-2">
+                        <a class="font-bold" href="{{ route('request') }}">リクエストを送信</a>
+                    </div>
                 </div>
             </div>
-            @elsecan('admin-lower')
-            {{-- 運営ユーザー以外 --}}
-            <div class="text-xs text-right sm:text-sm">
-                <a class="font-bold" href="{{ route('request') }}">リクエストを送信</a>
-            </div>
-            @endcan
-
         </footer>
     </div>
 
