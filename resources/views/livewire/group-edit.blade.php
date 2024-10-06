@@ -20,6 +20,7 @@
                 </div>
 
                 {{-- グループ情報--}}
+                @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
@@ -112,6 +113,7 @@
                         </div>
                     </div>
                 </section>
+                @endcan
 
                 {{-- メンバー編集 --}}
                 <section class="text-gray-600 body-font">
@@ -139,8 +141,9 @@
                         </div>
                     </div>
                 </section>
-
+                
                 {{-- グループの自由参加 --}}
+                @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
@@ -161,6 +164,7 @@
                         </div>
                     </div>
                 </section>
+                @endcan
 
                 {{-- グループに招待する --}}
                 <section class="text-gray-600 body-font">
@@ -198,6 +202,7 @@
                 </section>
 
                 {{-- グループ内投げ銭 --}}
+                @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
@@ -218,9 +223,11 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section>                    
+                @endcan
 
                 {{-- グループを削除 --}}
+                @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
@@ -246,6 +253,7 @@
                         </div>
                     </div>
                 </section>
+                @endcan
             </div>
 
             {{-- グループ削除確認モーダル --}}

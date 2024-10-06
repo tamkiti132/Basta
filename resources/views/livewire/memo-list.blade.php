@@ -25,7 +25,7 @@
                         <x-slot name="content">
                             <div class="flex flex-col text-gray-800" x-data="{ isSuspended: @entangle('isSuspended') }">
 
-                                @can('manager', $group_data)
+                                @can('subManager-to-manager', $group_data)
                                 <button
                                     onclick="location.href='{{ route('group.group_edit', ['group_id' => $group_data['id']]) }}' "
                                     class="block w-full p-2 text-left hover:bg-slate-100">
@@ -48,17 +48,20 @@
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', {{ $group_data->id }}) }">グループを削除</button>
                                 @endcan
 
+                                @can('admin-higher')
                                 <button x-show="!isSuspended" type="button"
                                     class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspendGroup') }">
                                     グループを利用停止
                                 </button>
 
+
                                 <button x-show="isSuspended" type="button"
                                     class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspendGroup') }">
                                     グループを利用停止解除
                                 </button>
+                                @endcan
 
                             </div>
                         </x-slot>

@@ -53,7 +53,7 @@
                         {{-- ラベル編集 --}}
                         <div>
                             @if($group_id)
-                            {{-- @can('manager', $group_data) --}}
+                            @can('manager', $group_data)
                             <div>
                                 <button onclick="Livewire.emit('showLabelEditModal')"
                                     class="flex items-center w-full gap-4 p-2 hover:bg-slate-100"><i
@@ -61,7 +61,7 @@
                                     <p class="text-xs lg:text-sm">ラベルを編集</p>
                                 </button>
                             </div>
-                            {{-- @endcan --}}
+                            @endcan
                             @endif
                             {{-- ラベル編集モーダル --}}
 

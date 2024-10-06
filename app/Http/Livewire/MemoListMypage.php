@@ -18,6 +18,8 @@ class MemoListMypage extends Component
 
     public $user_id;
     public $group_id;
+    public $group_data;
+
     public $show_web = true;
     public $show_book = true;
     public $selected_web_book_labels = ['web', 'book'];
@@ -60,7 +62,7 @@ class MemoListMypage extends Component
     public function setGroupId($group_id)
     {
         $this->group_id = $group_id;
-
+        $this->group_data = Group::find($this->group_id);
         $this->selected_labels = [];
 
         $this->emitTo('label-editor-mypage', 'setGroupId', $this->group_id);

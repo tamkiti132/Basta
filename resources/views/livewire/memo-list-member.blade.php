@@ -40,26 +40,33 @@
 
                         <!-- モーダルの中身 -->
                         <x-slot name="content">
-                            <div class="flex flex-col text-gray-800">
+                            <div class="flex flex-col text-gray-800" x-data="{ isSuspended: @entangle('isSuspended') }">
 
                                 <button onclick="Livewire.emit('showModalReportUser')"
                                     class="block w-full p-2 text-left hover:bg-slate-100">
                                     ユーザーを通報
                                 </button>
+
+                                @can('admin-higher')                                
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteUser') }">ユーザーを削除</button>
 
+                                {{-- @if (!$isSuspended) --}}
                                 <button x-show="!isSuspended" type="button"
                                     class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspendUser') }">
                                     ユーザーを利用停止
                                 </button>
-
+                                {{-- @else --}}
                                 <button x-show="isSuspended" type="button"
                                     class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspendUser') }">
                                     ユーザーを利用停止解除
                                 </button>
+                                {{-- @endif --}}
+                                
+
+                                @endcan
 
                                 @if (auth()->id() !== $user_data->id)                                    
                                     <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"

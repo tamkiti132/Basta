@@ -584,9 +584,9 @@
                                                         @if($comment_report->contribute_user->profile_photo_path)
                                                         <button
                                                             class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
-                                                            onclick="location.href='{{ route('admin.user_show',['user_id'=> $comment_report_data->contribute_user_id]) }}' ">
+                                                            onclick="location.href='{{ route('admin.user_show',['user_id'=> $comment_report->contribute_user_id]) }}' ">
                                                             <img class="object-fill w-10 h-10 rounded-full"
-                                                                src="{{ asset('storage/'. $comment_report_data->contribute_user->profile_photo_path) }}" />
+                                                                src="{{ asset('storage/'. $comment_report->contribute_user->profile_photo_path) }}" />
                                                         </button>
                                                         @else
                                                         <button

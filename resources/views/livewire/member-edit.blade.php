@@ -82,27 +82,31 @@
                                                 $role = $user_data->groupRoles->first()->pivot->role;
                                                 @endphp
 
-                                                @if(auth()->id() != $user_data->id)
+                                                @can('manager', $group_data)
                                                 <div class="mt-3 lg:mt-0">
+                                                    @if ($role == 10)
+                                                    <p class="self-end text-xs">管理者</p>
+                                                    @else
                                                     <select
                                                         wire:change="updateRole({{ $user_data->id }}, $event.target.value)"
-                                                        class="pl-0 text-xs bg-transparent border-none">
+                                                        class="pl-0 text-xs bg-transparent border-none">                                                        
                                                         <option value="50" {{ ($role==50) ? 'selected' : '' }}>サブ管理者
                                                         </option>
                                                         <option value="100" {{ ($role==100) ? 'selected' : '' }}>
                                                             メンバー
                                                         </option>
                                                     </select>
+                                                    @endif
                                                 </div>
                                                 @else
-                                                @if ($role == 10)
-                                                <p class="self-end text-xs">管理者</p>
-                                                @elseif ($role == 50)
-                                                サブ管理者
-                                                @elseif ($role == 100)
-                                                メンバー
-                                                @endif
-                                                @endif
+                                                    @if ($role == 10)
+                                                    <p class="self-end text-xs">管理者</p>
+                                                    @elseif ($role == 50)
+                                                    サブ管理者
+                                                    @elseif ($role == 100)
+                                                    メンバー
+                                                    @endif
+                                                @endcan
                                                 <!-- 三点リーダー（モーダル） -->
                                                 @if(auth()->id() != $user_data->id)
                                                 <div class="flex items-end justify-end">
