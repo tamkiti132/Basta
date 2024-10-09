@@ -51,8 +51,22 @@ class GroupEdit extends Component
         $this->group_id = $group_id;
 
         $this->group_data = Group::find($this->group_id);
+
+        $this->checkSuspensionGroup();
     }
 
+    public function checkSuspensionGroup()
+    {
+        $group = Group::find($this->group_id);
+
+        // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+        if ($group && $group->suspension_state == 1) {
+            session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
+
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
+        }
+    }
 
     public function deleteGroupImage()
     {
@@ -92,7 +106,7 @@ class GroupEdit extends Component
                 Storage::disk('public')->delete('group-image/' . $group_data->group_photo_path);
             }
 
-            // データベース上のグループ画像パスをnullに更新
+            // デー���ベース上のグループ画像パスをnullに更新
             $group_data->group_photo_path = null;
         }
 

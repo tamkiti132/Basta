@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Group;
 use Livewire\Component;
 use App\Models\Label;
 use Illuminate\Validation\Rule;
@@ -97,6 +98,18 @@ class LabelEditorMypage extends Component
 
     public function showLabelEditModal()
     {
+        if ($this->group_id !== null) {
+            $group = Group::find($this->group_id);
+
+            // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+            if ($group && $group->suspension_state == 1) {
+                session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
+
+                $this->previous_route = url()->previous();
+                return redirect($this->previous_route);
+            }
+        }
+
         $this->showLabelEditModal = true;
     }
 

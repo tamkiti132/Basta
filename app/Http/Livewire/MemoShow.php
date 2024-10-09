@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Comment;
+use App\Models\Group;
 use App\Models\Memo;
 use App\Models\Report;
 use App\Models\User;
@@ -16,6 +17,8 @@ class MemoShow extends Component
     use WithPagination;
 
     public $previous_route;
+
+    public $group_id;
 
     public $memo_id;
     public $type;
@@ -38,6 +41,8 @@ class MemoShow extends Component
 
         // メモに紐づくグループのidを取得
         $memo_posted_group_id = Memo::where('id', $memo_id)->value('group_id');
+
+        $this->group_id = $memo_posted_group_id;
 
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
         if (!Auth::user()->can('admin-higher')) {
@@ -62,6 +67,19 @@ class MemoShow extends Component
         }
     }
 
+    public function checkSuspensionGroup()
+    {
+        $group = Group::find($this->group_id);
+
+        // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+        if ($group && $group->suspension_state == 1) {
+            session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
+
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
+        }
+    }
+
 
     public function toggleCommentReport($comment_id)
     {
@@ -72,6 +90,10 @@ class MemoShow extends Component
 
     public function deleteMemo($memo_id)
     {
+        if ($this->checkSuspensionGroup()) {
+            return;
+        }
+
         $memo_data = Memo::find($memo_id);
         $memo_data->delete();
 
@@ -81,6 +103,10 @@ class MemoShow extends Component
 
     public function storeComment()
     {
+        if ($this->checkSuspensionGroup()) {
+            return;
+        }
+
         // グループ内でのブロック状態を取得
         $isBlocked = User::where('id', Auth::id())
             ->whereHas('blockedGroup', function ($query) {
@@ -113,6 +139,10 @@ class MemoShow extends Component
 
     public function deleteComment($comment_id)
     {
+        if ($this->checkSuspensionGroup()) {
+            return;
+        }
+
         $comment_data = Comment::find($comment_id);
         $comment_data->delete();
     }
