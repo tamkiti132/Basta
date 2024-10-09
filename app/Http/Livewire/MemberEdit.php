@@ -52,6 +52,21 @@ class MemberEdit extends Component
         }
 
         $this->group_id = $group_id;
+
+        $this->checkSuspensionGroup();
+    }
+
+    public function checkSuspensionGroup()
+    {
+        $group = Group::find($this->group_id);
+
+        // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+        if ($group && $group->suspension_state == 1) {
+            session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません。');
+
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
+        }
     }
 
 
@@ -98,9 +113,6 @@ class MemberEdit extends Component
         $user = User::find($user_id);
 
         $user->blockedGroup()->detach($this->group_id);
-
-        $this->resetPage('all_not_blocked_users_page');
-        $this->resetPage('all_blocked_users_page');
     }
 
 

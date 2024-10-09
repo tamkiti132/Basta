@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Book_type_feature;
+use App\Models\Group;
 use App\Models\Memo;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -14,6 +15,8 @@ class MemoEdit extends Component
     use WithFileUploads;
 
     public $previous_route;
+
+    public $group_id;
 
     public $memo_data;
     public $memo_id;
@@ -31,6 +34,8 @@ class MemoEdit extends Component
         $this->previous_route = url()->previous();
 
         $memo_posted_user_id = Memo::where('id', $memo_id)->value('user_id');
+
+        $this->group_id = Memo::where('id', $memo_id)->value('group_id');
 
         // 自分が作成したメモかどうかを確認
         if (Auth::id() !== $memo_posted_user_id) {
@@ -63,6 +68,21 @@ class MemoEdit extends Component
             $this->memo_data = Memo::with('web_type_feature')->find($this->memo_id);
         } else {
             $this->memo_data = Memo::with('book_type_feature')->find($this->memo_id);
+        }
+
+        $this->checkSuspensionGroup();
+    }
+
+    public function checkSuspensionGroup()
+    {
+        $group = Group::find($this->group_id);
+
+        // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+        if ($group && $group->suspension_state == 1) {
+            session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
+
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
         }
     }
 

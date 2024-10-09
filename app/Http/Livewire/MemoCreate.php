@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Group;
 use Livewire\Component;
 use App\Models\Memo;
 use App\Models\User;
@@ -13,6 +14,8 @@ class MemoCreate extends Component
     use WithFileUploads;
 
     public $previous_route;
+
+    public $group_id;
 
     public $type;
     public $web_title;
@@ -53,6 +56,23 @@ class MemoCreate extends Component
         if ($isBlocked) {
             session()->flash('blockedUser', 'ブロックされているため、この機能は利用できません。');
             $this->redirectRoute('group.index', ['group_id' => session()->get('group_id')]);
+        }
+
+        $this->group_id = session()->get('group_id');
+
+        $this->checkSuspensionGroup();
+    }
+
+    public function checkSuspensionGroup()
+    {
+        $group = Group::find($this->group_id);
+
+        // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
+        if ($group && $group->suspension_state == 1) {
+            session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
+
+            $this->previous_route = url()->previous();
+            return redirect($this->previous_route);
         }
     }
 
