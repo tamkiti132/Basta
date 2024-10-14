@@ -47,7 +47,7 @@ class MemoCreate extends Component
 
     public function store($type)
     {
-        // dd($this->memo_data);
+        // dd($this->book_image);
 
         $this->type = $type;
 
