@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GroupEditController;
 use App\Http\Controllers\MailSendController;
 use App\Http\Livewire\MemoCreate;
@@ -21,6 +22,9 @@ use App\Http\Livewire\UserTopAdmin;
 use App\Http\Livewire\MemoShow;
 use App\Http\Livewire\Request;
 use App\Http\Middleware\CheckSuspensionState;
+use App\Http\Livewire\SocialLoginConnect;
+use App\Http\Controllers\SocialLoginConnectController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +35,9 @@ use App\Http\Middleware\CheckSuspensionState;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 Route::middleware(['auth', CheckSuspensionState::class])
 
@@ -76,7 +83,10 @@ Route::middleware(['auth', CheckSuspensionState::class])
                     ->withoutMiddleware([CheckSuspensionState::class]);
             });
 
-
+        Route::get('/social-login-connect', [SocialLoginConnectController::class, 'index'])->name('social_login_connect');
+        Route::get('/social-login-connect/google', [SocialLoginConnectController::class, 'redirectToGoogle'])->name('social_login_connect.google');
+        Route::get('/social-login-connect/google/disconnect', [SocialLoginConnectController::class, 'disconnectGoogle'])->name('social_login_connect.google.disconnect');
+        Route::get('/social-login-connect/google/callback', [SocialLoginConnectController::class, 'handleGoogleCallback'])->name('social_login_connect.google.callback');
         // Route::get('mail', [MailSendController::class, 'send']);
 
 

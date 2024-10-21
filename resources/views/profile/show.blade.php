@@ -33,7 +33,32 @@
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
 
-            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+            <x-section-border />
+
+            <div class="mt-10 sm:mt-0">
+                <x-action-section>
+                    <x-slot name="title">
+                        {{ __('ソーシャルログイン設定') }}
+                    </x-slot>
+
+                    <x-slot name="description">
+                        
+                    </x-slot>
+
+                    <x-slot name="content">
+                        <div class="max-w-xl text-sm text-gray-600">
+                            <p>別ウィンドウで表示します。</p>
+                        </div>
+
+                        <div class="mt-5">
+                            <button
+                                class="px-6 py-2 text-sm font-bold text-white bg-gray-800 border-0 rounded-md focus:outline-none hover:bg-gray-700"
+                                onclick="location.href='{{ route('social_login_connect') }}' ">連携する</button>
+                        </div>
+                    </x-slot>
+                </x-action-section>
+            </div>
+
             <x-section-border />
 
             <div class="mt-10 sm:mt-0">
@@ -53,7 +78,7 @@
 
                         <div class="mt-5">
                             <button
-                                class="px-6 py-2 text-sm font-bold text-white bg-indigo-400 border-0 rounded-md focus:outline-none hover:bg-indigo-500"
+                                class="px-6 py-2 text-sm font-bold text-white bg-indigo-500 border-0 rounded-md focus:outline-none hover:bg-indigo-400"
                                 onclick="location.href='{{ route('creditcard') }}' ">編集する</button>
                         </div>
 
@@ -65,6 +90,7 @@
 
             <x-section-border />
 
+            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <div class="mt-10 sm:mt-0">
                 @livewire('profile.delete-user-form')
             </div>
