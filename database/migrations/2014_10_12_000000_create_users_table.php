@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nickname');
             $table->string('username')->unique();
             $table->dateTime('email_verified_at')->nullable();
+            $table->string('google_id')->unique()->nullable();
             $table->rememberToken();
             // $table->tinyInteger('role');
             $table->foreignId('current_team_id')->nullable();
