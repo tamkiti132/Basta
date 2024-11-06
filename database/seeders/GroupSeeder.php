@@ -37,6 +37,13 @@ class GroupSeeder extends Seeder
                 'isTipEnabled' => 1,
                 'suspension_state' => 1,
             ],
+            [
+                'name' => 'eeeee',
+                'introduction' => 'eeeeeです。',
+                'isJoinFreeEnabled' => 1,
+                'isTipEnabled' => 1,
+                'suspension_state' => 0,
+            ]
         ]);
     }
 }

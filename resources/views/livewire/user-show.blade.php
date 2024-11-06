@@ -2,6 +2,8 @@
     user: @entangle('show_users'),
     memo: @entangle('show_memos'),
     comment: @entangle('show_comments'),
+    showNextManagerModal: @entangle('showNextManagerModal'),
+    showModalNobodyMember: @entangle('showModalNobodyMember'),
 }" wire:init="$refresh">
     <x-slot name="header">
         <div class="grid items-center grid-cols-4 lg:grid-cols-2">
@@ -43,7 +45,7 @@
 
 
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
-                                    onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteUser') }">
+                                    onclick="if (confirm('本当に削除しますか？')) { @this.call('isManager', {{ $user_data->id }}) }">
                                     ユーザーを削除
                                 </button>
 
@@ -492,6 +494,109 @@
         {{ $comments_data_paginated->withQueryString()->links() }}
     </div>
 
+    {{-- 次の管理者選択モーダル --}}
+    <div x-cloak x-show="showNextManagerModal"
+        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
+        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+            x-on:click.away="$wire.closeModal"
+            >
+
+            @if($targetGroup)
+            
+            <p>{{ $selectedNextManagerCount + 1 }} / {{ $totalManagedGroupCount }}</p>
+            
+            <div class="flex flex-col items-center pb-2 mb-6">
+                @if($targetGroup->group_photo_path)
+                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                        <img class="object-fill w-8 h-8 rounded-full"
+                            src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
+                    </div>
+                @else
+                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                @endif
+                <p>{{ $targetGroup->name }}</p>
+            </div>
+
+            <div class="flex justify-center mb-6 text-sm font-bold text-center">
+                <p class="leading-relaxed">
+                    @if($fragSubManagerOrMember == 'subManager')
+                    <span class="text-blue-600">サブ管理者</span>の中から、<br>
+                    次の管理者を選択してください
+                    @elseif($fragSubManagerOrMember == 'member')
+                    サブ管理者がいないため、<br>
+                    <span class="text-green-600">メンバー</span>の中から、<br>
+                    次の管理者を選択してください
+                    @endif
+                </p>
+            </div>
+
+            <form wire:submit.prevent="selectNextManager" class="flex flex-col p-2">
+
+                <select class="w-full p-2 mb-4 border border-gray-300 rounded" required wire:model="nextManagerId">
+                    <option value="" disabled>次の管理者を選択してください</option>
+                    @foreach ($targetGroup->userRoles as $user_data)
+                    <option value="{{ $user_data->id }}" wire:key="user_role_option_{{ $user_data->id }}">
+                        {{ $user_data->nickname }} ( {{ $user_data->username }} )
+                    </option>
+                    @endforeach
+                </select>
+
+                <div class="flex justify-end gap-4 pt-2">
+                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                        x-on:click="$wire.closeModal">キャンセル</button>
+                    <button type="submit"
+                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">決定</button>
+                </div>
+            </form>
+            @endif
+            
+        </div>
+    </div>
+
+    {{-- メンバーがいない場合のモーダル --}}
+    <div x-cloak x-show="showModalNobodyMember"
+        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
+        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+            x-on:click.away="$wire.closeModal"
+            >            
+
+            @if($targetGroup)
+
+            <p>{{ $selectedNextManagerCount + 1 }} / {{ $totalManagedGroupCount }}</p>
+
+            <div class="flex flex-col items-center pb-2 mb-6">
+                @if($targetGroup->group_photo_path)
+                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                        <img class="object-fill w-8 h-8 rounded-full"
+                            src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
+                    </div>
+                @else
+                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                @endif
+                <p>{{ $targetGroup->name }}</p>
+            </div>
+            
+            <div class="flex justify-center mb-6 text-sm font-bold text-center">
+                <p class="leading-relaxed">
+                    このグループにはメンバーがいません。<br>
+                    このグループを削除しますか？
+                </p>
+            </div>
+
+            <div class="flex flex-col p-2">
+                <div class="flex justify-end gap-4 pt-2">
+                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                        x-on:click="$wire.closeModal">キャンセル</button>
+                    <button type="button"
+                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50"
+                        x-on:click="$wire.addDeleteGroupFlag">削除</button>
+                </div>
+            </div>
+            @endif
+            
+        </div>
+    </div>
+
     {{-- ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理 --}}
     <script>
         function resetFormElements() {
@@ -515,6 +620,19 @@
                         select.selectedIndex = 0;
                     });
                 });               
+    </script>
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // confirmDeletionイベントのリスナー
+            Livewire.on('confirmDeletion', () => {
+                if (confirm('一連の処理を実行してよろしいですか？')) {
+                    Livewire.emit('deleteUser');
+                } else {
+                    Livewire.emit('closeModal');
+                }
+            });            
+        });
     </script>
 
 </div>
