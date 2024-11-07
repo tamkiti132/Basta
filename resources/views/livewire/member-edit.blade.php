@@ -88,9 +88,13 @@
                                                     <p class="self-end text-xs">管理者</p>
                                                     @else
                                                     <select
-                                                        wire:change="updateRole({{ $user_data->id }}, $event.target.value)"
-                                                        class="pl-0 text-xs bg-transparent border-none">                                                        
-                                                        <option value="50" {{ ($role==50) ? 'selected' : '' }}>サブ管理者
+                                                        wire:change="checkUpdateRole({{ $user_data->id }}, $event.target.value)"
+                                                        class="pl-0 text-xs bg-transparent border-none">
+                                                        <option value="10" {{ ($role==10) ? 'selected' : '' }}>
+                                                            管理者
+                                                        </option>
+                                                        <option value="50" {{ ($role==50) ? 'selected' : '' }}>
+                                                            サブ管理者
                                                         </option>
                                                         <option value="100" {{ ($role==100) ? 'selected' : '' }}>
                                                             メンバー
@@ -266,4 +270,19 @@
     <div class="flex justify-center" x-cloak x-show="block_member">
         {{ $all_blocked_users_data_paginated->withQueryString()->links() }}
     </div>
+
+    {{-- 管理者を変更しようとした場合に確認メッセージを出す（イベントを発行して、ビュー側で確認メッセージを出す） --}}
+    <script>
+        Livewire.on('checkUpdateRole', function (userId, role) {
+            if (confirm('本当に実行しますか？\n' +
+                        'この操作を実行した場合、あなたはこのグループのサブ管理者となり、\n' +
+                        '管理者権限でのすべての操作ができなくなります。\n' +
+                        'この操作は取り消すことができません。')) {
+                Livewire.emit('updateRole', userId, role);
+            }else {
+                // 画面をリフレッシュする
+                location.reload();
+            }
+        });
+    </script>
 </div>

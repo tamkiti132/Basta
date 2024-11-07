@@ -27,6 +27,7 @@ class MemberEdit extends Component
     {
         return [
             'quitGroupMember' => 'resetAllModal',
+            'updateRole' => 'updateRole',
         ];
     }
 
@@ -76,6 +77,16 @@ class MemberEdit extends Component
         $this->resetPage('all_blocked_users_page');
     }
 
+    public function checkUpdateRole($user_id, $role)
+    {
+        // 管理者を変更しようとした場合に確認メッセージを出す（イベントを発行して、ビュー側で確認メッセージを出す）
+        if ($role == 10) {
+            $this->emit('checkUpdateRole', $user_id, $role);
+        } else {
+            $this->updateRole($user_id, $role);
+        }
+    }
+
 
     public function updateRole($user_id, $role)
     {
@@ -83,6 +94,16 @@ class MemberEdit extends Component
 
         if ($this->group_data) {
             $user_data->groupRoles()->updateExistingPivot($this->group_id, ['role' => $role]);
+        }
+
+        if ($role == 10) {
+            // 自分自身のユーザーデータを取得
+            $self_user_data = User::find(Auth::id());
+            // 自分自身の権限をサブ管理者に変更する            
+            $self_user_data->groupRoles()->updateExistingPivot($this->group_id, ['role' => 50]);
+
+            // グループトップページにリダイレクト
+            return redirect()->route('group.index', ['group_id' => $this->group_id]);
         }
     }
 
