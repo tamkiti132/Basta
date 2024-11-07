@@ -18,9 +18,7 @@ class DeleteUser implements DeletesUsers
      */
     public function delete(User $user): void
     {
-        // dd($user);
         $user_id = $user->id;
-        // dd($user_id);
         // 以下、削除対象ユーザーに対するレポートを削除する処理
         // ユーザーに関連する通報リンクを取得
         $userReportLinks = User_type_report_link::where('user_id', $user_id)->get();

@@ -30,11 +30,15 @@
 
                 <div class="mt-4" x-data="{}"
                     x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="block w-3/4 mt-1" autocomplete="current-password"
-                        placeholder="{{ __('Password') }}" x-ref="password" wire:model.defer="password"
-                        wire:keydown.enter="deleteUser" />
+                    {{-- パスワードが間違っている場合は、エラーメッセージを表示する --}}
+                    <x-flash-message status="error" width="w-full" />
 
                     <x-input-error for="password" class="mt-2" />
+
+                    <x-input type="password" class="block w-3/4 mt-1" autocomplete="current-password"
+                        placeholder="{{ __('Password') }}" x-ref="password" wire:model.defer="password"
+                        wire:keydown.enter="isManager" />
+
                 </div>
             </x-slot>
 
@@ -43,7 +47,7 @@
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3" wire:click="deleteUser" wire:loading.attr="disabled">
+                <x-danger-button class="ml-3" wire:click="isManager" wire:loading.attr="disabled">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </x-slot>

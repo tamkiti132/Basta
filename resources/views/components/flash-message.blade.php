@@ -1,4 +1,4 @@
-@props(['status' => 'info'])
+@props(['status' => 'info', 'width' => 'w-1/2'])
 
 @php
 if($status === 'info'){$bgColor = 'bg-blue-300';}
@@ -11,7 +11,7 @@ if($status === 'role-access-error'){$bgColor = 'bg-pink-400';}
 @endphp
 
 @if (session($status))
-<div class="{{ $bgColor }} w-1/2 mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
-  {{ session($status) }}
+<div class="{{ $bgColor }} {{ $width }} mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
+  {!! nl2br(e(session($status))) !!}
 </div>
 @endif
