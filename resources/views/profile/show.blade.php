@@ -92,7 +92,7 @@
 
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <div class="mt-10 sm:mt-0">
-                @livewire('profile.delete-user-form')
+                @livewire('custom-delete-user-form')
             </div>
             @endif
         </div>
