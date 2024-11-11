@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -47,6 +48,20 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // 署名付きURLの署名が無効な場合の処理
+        $this->renderable(function (InvalidSignatureException $e) {
+            $expire = request()->query('expire');
+            $currentTimestamp = now()->timestamp;
+
+            // 招待メールのURLの有効期限が切れた場合の処理
+            if ($expire && $currentTimestamp > $expire) {
+                return to_route('index')->with('error', 'URLの有効期限が切れています。');
+            }
+
+            // 招待メールのURLが変更された場合の処理
+            return to_route('index')->with('error', 'URLが変更されたため、アクセスに失敗しました。');
         });
     }
 

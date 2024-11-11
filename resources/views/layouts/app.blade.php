@@ -60,6 +60,7 @@
         </header>
         @endif
 
+        <x-flash-message status="success" />
         <x-flash-message status="error" />
         <x-flash-message status="role-access-error" />
         <x-flash-message status="blockedUser" />

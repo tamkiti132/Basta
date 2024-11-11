@@ -167,23 +167,29 @@
                 @endcan
 
                 {{-- グループに招待する --}}
+
+                <x-flash-message status="error" />                            
+
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
                                     class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
-                                    <form method="GET" action="{{ route('group.group_edit.sendMail') }}"
+                                    <form wire:submit.prevent="sendInviteToGroupMail"
                                         class="items-center sm:grid sm:grid-cols-5">
                                         {{-- 左側 --}}
+                                        
                                         <div class="flex justify-center sm:justify-start sm:text-left sm:col-span-3">
                                             <div>
+                                                @error('email')
+                                                <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
+                                                @enderror
+
                                                 <label for="email" class="block">グループに招待する<span
                                                         class="required">*</span></label>
-                                                <input wire:model.defer="email" id="email" type="text" name="email"
-                                                    class="rounded-lg" placeholder="Eメールアドレス" size="30">
-                                                <input wire:model.defer="group_name" type="hidden" name="group_name"
-                                                    value="{{ $group_data->name }}">
+                                                <input id="email" type="text" name="email" wire:model.defer="email"
+                                                    class="rounded-lg" placeholder="Eメールアドレス" size="30">                                                
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
