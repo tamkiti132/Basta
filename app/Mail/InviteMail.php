@@ -8,24 +8,28 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Address;
+use Illuminate\Support\Facades\URL;
 
-class SendInviteMail extends Mailable
+class InviteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $group_name;
-    protected $invite_url;
+    protected $email;
+    protected $group_data;
+    protected $target_user;
+    protected $url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($group_name, $invite_url)
+    public function __construct($email, $group_data, $target_user)
     {
-        $this->group_name = $group_name;
-        $this->invite_url = $invite_url;
+        $this->email = $email;
+        $this->group_data = $group_data;
+        $this->target_user = $target_user;
+        $this->url = URL::temporarySignedRoute('invite.joinGroup', now()->addHours(24), ['group_id' => $group_data->id, 'target_user_id' => $target_user->id, 'expire' => now()->addHours(24)->timestamp]);
     }
 
     /**
@@ -36,7 +40,7 @@ class SendInviteMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Basta 招待',
+            subject: 'Basta グループ招待',
         );
     }
 
@@ -51,8 +55,10 @@ class SendInviteMail extends Mailable
             html: 'emails.invite-mail',
             text: 'emails.invite-mail-text',
             with: [
-                'group_name' => $this->group_name,
-                'invite_url' => $this->invite_url,
+                'email' => $this->email,
+                'group_data' => $this->group_data,
+                'target_user' => $this->target_user,
+                'url' => $this->url,
             ],
         );
     }

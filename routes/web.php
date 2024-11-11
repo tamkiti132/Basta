@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GroupEditController;
-use App\Http\Controllers\MailSendController;
+use App\Http\Controllers\InviteController;
 use App\Http\Livewire\MemoCreate;
 use App\Http\Livewire\MemoEdit;
 use App\Http\Livewire\MemoList;
@@ -56,6 +56,10 @@ Route::middleware(['auth', CheckSuspensionState::class])
                 Route::get('/', GroupJoin::class)->name('index');
             });
 
+        Route::get('/invite/join-group/{group_id}/{target_user_id}', [InviteController::class, 'joinGroup'])
+            ->name('invite.joinGroup')
+            ->middleware('signed');
+
         Route::get('timeout', function () {
             return view('timeout');
         });
@@ -87,7 +91,6 @@ Route::middleware(['auth', CheckSuspensionState::class])
         Route::get('/social-login-connect/google', [SocialLoginConnectController::class, 'redirectToGoogle'])->name('social_login_connect.google');
         Route::get('/social-login-connect/google/disconnect', [SocialLoginConnectController::class, 'disconnectGoogle'])->name('social_login_connect.google.disconnect');
         Route::get('/social-login-connect/google/callback', [SocialLoginConnectController::class, 'handleGoogleCallback'])->name('social_login_connect.google.callback');
-        // Route::get('mail', [MailSendController::class, 'send']);
 
 
 

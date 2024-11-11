@@ -13,9 +13,9 @@ class LoginResponse implements LoginResponseContract
     $user = Auth::user();
 
     if (Gate::allows('admin-higher', $user)) {
-      return redirect('/admin/user_top');
+      return redirect()->intended('/admin/user_top');
     } else {
-      return redirect('/index');
+      return redirect()->intended('/index');
     }
   }
 }

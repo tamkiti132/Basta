@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\InviteMail;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +21,8 @@ class GroupEdit extends Component
     public $group_data;
     public $group_image_preview;
     public $group_image_delete_flag = false;
+
+    public $email;
 
 
     protected $rules = [
@@ -106,7 +110,7 @@ class GroupEdit extends Component
                 Storage::disk('public')->delete('group-image/' . $group_data->group_photo_path);
             }
 
-            // デー���ベース上のグループ画像パスをnullに更新
+            // デーベース上のグループ画像パスをnullに更新
             $group_data->group_photo_path = null;
         }
 
@@ -114,6 +118,33 @@ class GroupEdit extends Component
         $group_data->save();
 
         $this->dispatchBrowserEvent('flash-message', ['message' => '更新しました']);
+    }
+
+    public function sendInviteToGroupMail()
+    {
+        $this->rules = [
+            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
+        ];
+
+        $this->validate();
+
+        // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
+        $hasUser = Group::where('id', $this->group_id)
+            ->whereHas('user', function ($query) {
+                $query->where('email', $this->email);
+            })->exists();
+
+
+        if ($hasUser) {
+            session()->flash('error', "指定のメールアドレスのユーザーは\nすでにグループに参加しています");
+            return;
+        } else {
+            // $this->emailをもつユーザーを取得
+            $target_user = User::where('email', $this->email)->first();
+
+            // メール送信
+            Mail::to($this->email)->send(new InviteMail($this->email, $this->group_data, $target_user));
+        }
     }
 
 
