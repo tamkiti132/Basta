@@ -60,14 +60,6 @@ Route::middleware(['auth', CheckSuspensionState::class])
             ->name('invite.joinGroup')
             ->middleware('signed');
 
-        Route::get('timeout', function () {
-            return view('timeout');
-        });
-
-        Route::get('cannot_access', function () {
-            return view('cannot_access');
-        });
-
         Route::prefix('mypage')
             ->name('mypage.')
             ->group(function () {
