@@ -168,7 +168,8 @@
 
                 {{-- グループに招待する --}}
 
-                <x-flash-message status="error" />                            
+                <x-flash-message status="success" />
+                <x-flash-message status="error" />
 
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
