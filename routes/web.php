@@ -75,10 +75,11 @@ Route::middleware(['auth', CheckSuspensionState::class])
                     ->withoutMiddleware([CheckSuspensionState::class]);
             });
 
-        Route::get('creditcard', function () {
-            return view('creditcard');
-        })->name('creditcard')
-            ->withoutMiddleware([CheckSuspensionState::class]);
+        //TODO: クレジットカード関連のルーティング（あとでやる）
+        // Route::get('creditcard', function () {
+        //     return view('creditcard');
+        // })->name('creditcard')
+        //     ->withoutMiddleware([CheckSuspensionState::class]);
 
 
         Route::prefix('request')

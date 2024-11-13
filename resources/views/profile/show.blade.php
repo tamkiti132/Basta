@@ -61,14 +61,15 @@
 
             <x-section-border />
 
-            <div class="mt-10 sm:mt-0">
+            <!-- TODO: クレジットカード関連機能（あとでやる） -->
+            {{-- <div class="mt-10 sm:mt-0">
                 <x-action-section>
                     <x-slot name="title">
                         {{ __('クレジットカード情報') }}
                     </x-slot>
 
                     <x-slot name="description">
-                        {{-- --}}
+                        
                     </x-slot>
 
                     <x-slot name="content">
@@ -82,14 +83,13 @@
                                 onclick="location.href='{{ route('creditcard') }}' ">編集する</button>
                         </div>
 
-                        <!-- Delete User Confirmation Modal -->
-
+                        
                     </x-slot>
                 </x-action-section>
             </div>
-
-            <x-section-border />
-
+            
+            <x-section-border /> --}}
+            
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <div class="mt-10 sm:mt-0">
                 @livewire('custom-delete-user-form')

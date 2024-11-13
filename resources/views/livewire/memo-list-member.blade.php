@@ -71,12 +71,13 @@
 
                                 @endcan
 
-                                @if (auth()->id() !== $user_data->id)                                    
+                                <!-- TODO: 投げ銭機能（あとでやる） -->
+                                {{-- @if (auth()->id() !== $user_data->id)                                    
                                     <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('100円の投げ銭をしますか？')) {  }">
                                     投げ銭する
                                     </button>
-                                @endif
+                                @endif --}}
 
                             </div>
                         </x-slot>
