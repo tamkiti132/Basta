@@ -208,30 +208,31 @@
                     </div>
                 </section>
 
-                {{-- グループ内投げ銭 --}}
-                @can('manager', $group_data)
+                <!-- TODO: グループ内投げ銭許可スイッチ機能 （この機能自体は完成しているが、クレカ・投げ銭機能ができてからコメントアウトを外す） -->
+                {{-- グループ内投げ銭 --}}                
+                {{-- @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
                         <div class="-m-4 ">
                             <div class="p-4">
                                 <div
                                     class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
-                                    <div class="flex items-center justify-between">
+                                    <div class="flex items-center justify-between"> --}}
                                         {{-- 左側 --}}
-                                        <div>
+                                        {{-- <div>
                                             <p>グループ内投げ銭 <br>
                                                 （100円 / 回）</p>
-                                        </div>
+                                        </div> --}}
                                         {{-- 右側 --}}
                                         {{-- ボタン --}}
-                                        @livewire('toggle-tip-enable-button', ['groupId' => $group_data['id']])
+                                        {{-- @livewire('toggle-tip-enable-button', ['groupId' => $group_data['id']])
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>                    
-                @endcan
+                @endcan --}}
 
                 {{-- グループを削除 --}}
                 @can('manager', $group_data)
