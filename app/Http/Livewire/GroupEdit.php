@@ -29,6 +29,7 @@ class GroupEdit extends Component
         'group_image_preview' => ['nullable', 'image', 'max:2048'],
         'group_data.name' => ['required', 'string', 'max:50'],
         'group_data.introduction' => ['required', 'string', 'max:200'],
+        'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
     ];
 
     public function mount($group_id)
@@ -122,10 +123,6 @@ class GroupEdit extends Component
 
     public function sendInviteToGroupMail()
     {
-        $this->rules = [
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
-        ];
-
         $this->validate();
 
         // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
@@ -144,6 +141,11 @@ class GroupEdit extends Component
 
             // メール送信
             Mail::to($this->email)->send(new InviteMail($this->email, $this->group_data, $target_user));
+
+            session()->flash('success', '招待メールを送信しました');
+
+            // $this->emailを空にする
+            $this->email = null;
         }
     }
 
