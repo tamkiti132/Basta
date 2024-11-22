@@ -11,7 +11,7 @@
         body { font-family: Arial, sans-serif; }
         .container { width: 100%; max-width: 600px; }
         .header { text-align: center; padding-bottom: 20px; }
-        td { padding: 10px 20px; }
+        /* td { padding: 10px 20px; } */
         
         @media only screen and (max-width: 480px) {
             .container {
@@ -22,6 +22,9 @@
             img {
                 width: 100% !important;
                 height: auto !important;
+            }
+            td {
+                padding: 10px 20px !important;
             }
         }
     </style>
@@ -42,7 +45,7 @@
 </head>
 
 <body>
-    <table class="container" border="0" cellspacing="0" cellpadding="0">
+    <table class="container" align="center" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td class="header" align="center">
                 <img src="{{ asset('images/logo.png') }}" alt="LOGO" style="max-width: 100px;">

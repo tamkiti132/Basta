@@ -24,12 +24,10 @@ class GroupEdit extends Component
 
     public $email;
 
-
     protected $rules = [
         'group_image_preview' => ['nullable', 'image', 'max:2048'],
         'group_data.name' => ['required', 'string', 'max:50'],
         'group_data.introduction' => ['required', 'string', 'max:200'],
-        'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
     ];
 
     public function mount($group_id)
@@ -123,7 +121,9 @@ class GroupEdit extends Component
 
     public function sendInviteToGroupMail()
     {
-        $this->validate();
+        $this->validate([
+            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
+        ]);
 
         // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
         $hasUser = Group::where('id', $this->group_id)
@@ -146,6 +146,9 @@ class GroupEdit extends Component
 
             // $this->emailを空にする
             $this->email = null;
+
+            //TODO: これを設定しないと、メール送信後のフラッシュメッセージが表示されたりされなかったりするので、応急処置でつけた
+            return redirect()->route('group.group_edit', ['group_id' => $this->group_id]);
         }
     }
 

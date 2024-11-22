@@ -162,6 +162,8 @@ class Request extends Component
         Mail::to('basta.h.a.132@gmail.com')->send(new SendRequestMail($this->request_type, $report_data));
 
         session()->flash('success', 'リクエストを送信しました。');
+
+        //TODO: これを設定しないと、メール送信後のフラッシュメッセージが表示されたりされなかったりするので、応急処置でつけた
         return redirect()->route('request');
     }
 
