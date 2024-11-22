@@ -1,4 +1,4 @@
-@props(['status' => 'info', 'width' => 'w-1/2'])
+@props(['status' => 'info', 'width' => 'w-1/2', 'timeout' => 4000])
 
 @php
 if($status === 'info'){$bgColor = 'bg-blue-300';}
@@ -12,7 +12,7 @@ if($status === 'role-access-error'){$bgColor = 'bg-pink-400';}
 @endphp
 
 @if (session($status))
-<div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="{{ $bgColor }} {{ $width }} mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
+<div x-data="{ show: true }" x-init="if ({{ $timeout }} > 0) setTimeout(() => show = false, {{ $timeout }})" x-show="show" class="{{ $bgColor }} {{ $width }} mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
   {!! nl2br(e(session($status))) !!}
 </div>
 @endif
