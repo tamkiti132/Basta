@@ -9,7 +9,7 @@
     <style type="text/css">
         html { width: 100%; height: 100%; }
         body { font-family: Arial, sans-serif; }
-        .container { width: 100%; max-width: 600px; }
+        .container { width: 100%; max-width: 600px; justify-items: center;}
         .header { text-align: center; padding-bottom: 20px; }
         /* td { padding: 10px 20px; } */
         

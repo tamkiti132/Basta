@@ -147,7 +147,6 @@ class GroupEdit extends Component
             // $this->emailを空にする
             $this->email = null;
 
-            //TODO: これを設定しないと、メール送信後のフラッシュメッセージが表示されたりされなかったりするので、応急処置でつけた
             return redirect()->route('group.group_edit', ['group_id' => $this->group_id]);
         }
     }

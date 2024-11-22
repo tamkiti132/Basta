@@ -163,7 +163,6 @@ class Request extends Component
 
         session()->flash('success', 'リクエストを送信しました。');
 
-        //TODO: これを設定しないと、メール送信後のフラッシュメッセージが表示されたりされなかったりするので、応急処置でつけた
         return redirect()->route('request');
     }
 
