@@ -57,15 +57,10 @@ class Request extends Component
 
     public function sendRequest($request_type)
     {
-        // dd($request_type);
-        // dd($);
-
         $this->request_type = $request_type;
 
         if ($this->request_type === "type_1") {
 
-            // dump($this->uploaded_files);
-            // dd($this->uploaded_photo_1);
 
             $this->rules = [
                 'email_1' => ['required', 'string', 'email', 'max:255'],
@@ -74,7 +69,7 @@ class Request extends Component
                 'environment_1' => ['required'],
                 'additional_information' => ['nullable', 'string'],
                 'reference_url_1' => ['nullable', 'url'],
-                'uploaded_photo_1' => ['nullable', 'max:2048'],
+                'uploaded_photo_1' => ['nullable', 'image', 'max:2048'],
             ];
         } elseif ($this->request_type === "type_2") {
 
@@ -85,7 +80,7 @@ class Request extends Component
                 'detail_2' => ['required', 'string'],
                 'environment_2' => ['required'],
                 'reference_url_2' => ['nullable', 'url'],
-                'uploaded_photo_2' => ['nullable', 'max:2048'],
+                'uploaded_photo_2' => ['nullable', 'image', 'max:2048'],
             ];
         } elseif ($this->request_type === "type_3") {
 
@@ -99,7 +94,7 @@ class Request extends Component
                 'workaround' => ['nullable', 'string'],
                 'environment_3' => ['required'],
                 'reference_url_3' => ['nullable', 'url'],
-                'uploaded_photo_3' => ['nullable', 'max:2048'],
+                'uploaded_photo_3' => ['nullable', 'image', 'max:2048'],
             ];
         } elseif ($this->request_type === "type_4") {
 
@@ -109,7 +104,7 @@ class Request extends Component
                 'detail_4' => ['required', 'string'],
                 'environment_4' => ['required'],
                 'reference_url_4' => ['nullable', 'url'],
-                'uploaded_photo_4' => ['nullable', 'max:2048'],
+                'uploaded_photo_4' => ['nullable', 'image', 'max:2048'],
             ];
         }
 
@@ -163,13 +158,11 @@ class Request extends Component
             ];
         }
 
-        // dd($report_data);
 
         Mail::to('basta.h.a.132@gmail.com')->send(new SendRequestMail($this->request_type, $report_data));
 
-        // ページをリロード
-        session()->flash('info', 'リクエストを送信しました。');
-        $this->dispatchBrowserEvent('reloadPage');
+        session()->flash('success', 'リクエストを送信しました。');
+        return redirect()->route('request');
     }
 
     public function render()

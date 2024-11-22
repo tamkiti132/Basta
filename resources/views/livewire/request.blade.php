@@ -94,7 +94,7 @@
                                                 <textarea id="additional_information" cols="30" wire:model.defer="additional_information" rows="8"
                                                     class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
                                             </div>
-                                            {{-- Q参考URL --}}
+                                            {{-- 参考URL --}}
                                             <div>
                                                 @error('reference_url_1')
                                                 <p class="text-xs text-left text-red-600">{{ $message }}</p>
@@ -110,9 +110,14 @@
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="text-left">
-                                                    <input type="file" wire:model.defer="uploaded_photo_1" class="m-4" accept="image/*">
+                                                <div class="mb-4 text-left">
+                                                    <label for="uploaded_photo_1" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                    <input type="file" id="uploaded_photo_1" wire:model.defer="uploaded_photo_1" class="hidden" accept="image/*">                                                   
                                                 </div>
+                                                @if ($uploaded_photo_1?->isPreviewable())
+                                                    <img class="h-36 lg:h-auto"
+                                                        src="{{ $uploaded_photo_1->temporaryUrl() }}">
+                                                @endif
                                             </div>
                                         </div>
 
@@ -207,16 +212,20 @@
                                                     class="w-full py-2 border border-gray-500 rounded-lg">
                                             </div>
                                             {{-- 添付ファイル --}}
-                                            <div>
+                                            <div>                                                
                                                 @error('uploaded_photo_2')
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="text-left">
-                                                    <input type="file" wire:model.defer="uploaded_photo_2" class="m-4" accept="image/*">
+                                                <div class="mb-4 text-left">
+                                                    <label for="uploaded_photo_2" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                    <input type="file" id="uploaded_photo_2" wire:model.defer="uploaded_photo_2" class="hidden" accept="image/*">
                                                 </div>
+                                                @if ($uploaded_photo_2?->isPreviewable())
+                                                    <img class="h-36 lg:h-auto"
+                                                        src="{{ $uploaded_photo_2->temporaryUrl() }}">
+                                                @endif
                                             </div>
-                                            
                                         </div>                              
 
                                         {{-- ボタン --}}
@@ -337,9 +346,14 @@
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="text-left">
-                                                    <input type="file" wire:model.defer="uploaded_photo_3" class="m-4" accept="image/*">
+                                                <div class="mb-4 text-left">
+                                                    <label for="uploaded_photo_3" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                    <input type="file" id="uploaded_photo_3" wire:model.defer="uploaded_photo_3" class="hidden" accept="image/*">
                                                 </div>
+                                                @if ($uploaded_photo_3?->isPreviewable())
+                                                    <img class="h-36 lg:h-auto"
+                                                        src="{{ $uploaded_photo_3->temporaryUrl() }}">
+                                                @endif
                                             </div>
                                         </div>
 
@@ -423,10 +437,15 @@
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="text-left">
-                                                    <input type="file" wire:model.defer="uploaded_photo_4" class="m-4" multiple>
-                                                </div>
-                                            </div>                                     
+                                                <div class="mb-4 text-left">
+                                                    <label for="uploaded_photo_4" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
+                                                    <input type="file" id="uploaded_photo_4" wire:model.defer="uploaded_photo_4" class="hidden" accept="image/*">
+                                                </div>                                     
+                                                @if ($uploaded_photo_4?->isPreviewable())
+                                                    <img class="h-36 lg:h-auto"
+                                                        src="{{ $uploaded_photo_4->temporaryUrl() }}">
+                                                @endif
+                                            </div>
                                         </div>
 
 
