@@ -12,7 +12,7 @@ if($status === 'role-access-error'){$bgColor = 'bg-pink-400';}
 @endphp
 
 @if (session($status))
-<div class="{{ $bgColor }} {{ $width }} mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
+<div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="{{ $bgColor }} {{ $width }} mx-auto m-5 p-2 text-center rounded-2xl font-bold text-white">
   {!! nl2br(e(session($status))) !!}
 </div>
 @endif
