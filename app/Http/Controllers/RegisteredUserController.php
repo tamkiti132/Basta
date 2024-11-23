@@ -59,13 +59,13 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Create a new registered user（運営権限のユーザーとして）.
+     * Create a new registered user（運営権限のユーザーとして登録）.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Laravel\Fortify\Contracts\CreatesNewUsers  $creator
      * @return \Laravel\Fortify\Contracts\RegisterResponse
      */
-    public function storeAdmin(Request $request, CreatesNewUsers $creator): RegisterResponse
+    public function storeAdmin(Request $request, CreatesNewUsers $creator)
     {
         $user = $creator->create($request->all());
         event(new Registered($user));
@@ -76,6 +76,6 @@ class RegisteredUserController extends Controller
             'role' => 5,
         ]);
 
-        return app(RegisterResponse::class);
+        return to_route('admin.admin_user_top');
     }
 }
