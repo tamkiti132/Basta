@@ -10,6 +10,8 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RegisteredUserController extends Controller
 {
@@ -67,6 +69,11 @@ class RegisteredUserController extends Controller
      */
     public function storeAdmin(Request $request, CreatesNewUsers $creator)
     {
+        // 運営トップ権限ユーザーであることを確認（Gateで）
+        if (!Gate::allows('admin-top', Auth::user())) {
+            return redirect()->route('admin.user_top');
+        }
+
         $user = $creator->create($request->all());
         event(new Registered($user));
 
