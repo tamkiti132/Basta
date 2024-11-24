@@ -78,22 +78,22 @@ class RegisteredUserControllerTest extends TestCase
         // Arrange（準備）
 
         // 運営トップ権限ユーザーを用意
-        $adminUser = User::create([
-            'nickname' => 'Admin User',
-            'email' => 'test_admin@example.com',
-            'password' => Hash::make('passwordAdmin'),
+        $adminTopUser = User::create([
+            'nickname' => 'AdminTopUser',
+            'email' => 'test_admin_top@example.com',
+            'password' => Hash::make('passwordAdminTop'),
             'username' => '@' . (string) Str::ulid(),
         ]);
 
         Role::create([
-            'user_id' => $adminUser->id,
+            'user_id' => $adminTopUser->id,
             'role' => 3,
         ]);
 
         // 運営トップ権限ユーザーでログイン
         $this->post('/login', [
-            'email' => 'test_admin@example.com',
-            'password' => 'passwordAdmin',
+            'email' => 'test_admin_top@example.com',
+            'password' => 'passwordAdminTop',
         ]);
 
         // Act（実行）
@@ -107,13 +107,13 @@ class RegisteredUserControllerTest extends TestCase
 
         // Assert（検証）
         // 運営トップ権限ユーザーがログインしていることを確認
-        $this->assertAuthenticatedAs($adminUser);
+        $this->assertAuthenticatedAs($adminTopUser);
         // 運営トップ権限ユーザーがデータベースに登録されていることを確認
         $this->assertDatabaseHas('users', [
-            'email' => 'test_admin@example.com',
+            'email' => 'test_admin_top@example.com',
         ]);
         $this->assertDatabaseHas('roles', [
-            'user_id' => $adminUser->id,
+            'user_id' => $adminTopUser->id,
             'role' => 3,
         ]);
 
