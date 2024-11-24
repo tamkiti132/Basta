@@ -79,4 +79,16 @@ class AuthenticatedSessionControllerTest extends TestCase
         // Assert（検証）
         $this->assertGuest();
     }
+
+    public function test_ログアウトできる(): void
+    {
+        // Arrange（準備）
+        $user = User::factory()->create();
+
+        // Act（実行）
+        $this->post('/logout');
+
+        // Assert（検証）
+        $this->assertGuest();
+    }
 }
