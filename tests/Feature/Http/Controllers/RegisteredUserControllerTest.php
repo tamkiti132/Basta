@@ -129,4 +129,50 @@ class RegisteredUserControllerTest extends TestCase
 
         $response->assertRedirect('/admin/admin_user_top');
     }
+
+    public function test_ユーザー新規登録_バリデーションで失敗させる(): void
+    {
+        // Arrange（準備）
+
+        $testUser = User::create([
+            'nickname' => 'TestUser',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password'),
+            'username' => '@' . (string) Str::ulid(),
+        ]);
+
+        $url = '/register';
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+
+
+        // Act（実行）  &  Assert（検証）
+
+        // nicknameのバリデーション
+        $this->post($url, ['nickname' => ''])
+            ->assertInvalid(['nickname' => 'required']);
+
+        $this->post($url, ['nickname' => str_repeat('a', 14)])
+            ->assertInvalid(['nickname' => 'max']);
+
+
+        // emailのバリデーション
+        $this->post($url, ['email' => ''])
+            ->assertInvalid(['email' => 'required']);
+
+        $this->post($url, ['email' => 'testexample.com'])
+            ->assertInvalid(['email' => 'email']);
+
+        $this->post($url, ['email' => str_repeat('a', 256) . '@example.com'])
+            ->assertInvalid(['email' => 'max']);
+
+        $this->post($url, ['email' => $testUser->email])
+            ->assertInvalid(['email' => 'unique']);
+
+
+        // passwordのバリデーション
+        $this->post($url, ['password' => ''])
+            ->assertInvalid(['password' => 'required']);
+    }
 }
