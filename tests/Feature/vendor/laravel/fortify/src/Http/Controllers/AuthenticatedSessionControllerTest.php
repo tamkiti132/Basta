@@ -91,4 +91,41 @@ class AuthenticatedSessionControllerTest extends TestCase
         // Assert（検証）
         $this->assertGuest();
     }
+
+    public function test_ログイン画面でバリデーションで失敗させる(): void
+    {
+        // Arrange（準備）
+        User::create([
+            'nickname' => 'TestUser',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password'),
+            'username' => '@' . (string) Str::ulid(),
+        ]);
+
+        $url = '/login';
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+
+
+
+        // Act（実行）  &  Assert（検証）
+
+        // ログイン時のバリデーションルールは、
+        // vendor/laravel/fortify/src/Http/Requests/LoginRequest.php
+        // のrules()メソッドで定義されている。
+        // （データベース上のデータと一致しているかを確認するバリデーションはまた別の場所）
+        // なお、そこに記載されている、
+        // Fortify::username()にあたるカラムは
+        // config/fortify.phpで設定することができる。
+        // 今回は'email'となっている。
+
+        // emailのバリデーション
+        $this->post($url, ['email' => ''])
+            ->assertInvalid(['email' => 'required']);
+
+        // パスワードのバリデーション
+        $this->post($url, ['password' => ''])
+            ->assertInvalid(['password' => 'required']);
+    }
 }
