@@ -17,10 +17,12 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(20),
-            'introduction' => $this->faker->realText(50),
-            'isJoinFreeEnabled' => $this->faker->boolean(),
-            'isTipEnabled' => $this->faker->boolean(),
+            'group_photo_path' => null,
+            'name' => fake()->name(50),
+            'introduction' => fake()->realText(200),
+            'isJoinFreeEnabled' => fake()->boolean(),
+            'isTipEnabled' => fake()->boolean(),
+            'suspension_state' => fake()->boolean(),
         ];
     }
 }
