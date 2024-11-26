@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +19,12 @@ class MemoFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->realText(30),
-            'shortMemo' => $this->faker->realText(100),
-            'additionalMemo' => $this->faker->realText(200),
-            'type' => $this->faker->numberBetween(1, 2),
+            'user_id' => User::factory(),
+            'group_id' => Group::factory(),
+            'title' => fake()->realText(30),
+            'shortMemo' => fake()->realText(100),
+            'additionalMemo' => fake()->realText(200),
+            'type' => fake()->numberBetween(1, 2),
         ];
     }
 }

@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Report;
 use App\Models\User;
-use App\Models\Memo;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class CommentFactory extends Factory
+class User_type_report_linkFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'comment' => fake()->realText(100),
+            'report_id' => Report::factory(),
             'user_id' => User::factory(),
-            'memo_id' => Memo::factory(),
         ];
     }
 }
