@@ -24,9 +24,7 @@ class GroupCreate extends Component
     ];
 
 
-    public function mount()
-    {
-    }
+    public function mount() {}
 
     public function storeGroup()
     {

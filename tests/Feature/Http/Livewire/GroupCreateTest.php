@@ -1,0 +1,76 @@
+<?php
+
+namespace Tests\Feature\Http\Livewire;
+
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+use Livewire\Livewire;
+use App\Http\Livewire\GroupCreate;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
+
+class GroupCreateTest extends TestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+        // テスト用のストレージを設定
+        Storage::fake('public');
+    }
+
+    public function test_storeGroup()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Act（実行）
+        Livewire::test(GroupCreate::class)
+            ->set('group_name', 'Test Group')
+            ->set('introduction', 'Test Introduction')
+            ->call('storeGroup');
+
+        // Assert（検証）
+        $this->assertDatabaseHas('groups', [
+            'name' => 'Test Group',
+            'introduction' => 'Test Introduction',
+        ]);
+    }
+
+    public function test_バリデーション_失敗_storeGroup()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Act（実行） & Assert（検証）
+        // group_nameのバリデーション
+        Livewire::test(GroupCreate::class)
+            ->set('group_name', '')
+            ->call('storeGroup')
+            ->assertHasErrors(['group_name' => 'required']);
+
+        Livewire::test(GroupCreate::class)
+            ->set('group_name', str_repeat('a', 51))
+            ->call('storeGroup')
+            ->assertHasErrors(['group_name' => 'max']);
+
+        // introductionのバリデーション
+        Livewire::test(GroupCreate::class)
+            ->set('introduction', '')
+            ->call('storeGroup')
+            ->assertHasErrors(['introduction' => 'required']);
+
+        Livewire::test(GroupCreate::class)
+            ->set('introduction', str_repeat('a', 201))
+            ->call('storeGroup')
+            ->assertHasErrors(['introduction' => 'max']);
+
+        //　データベース内にデータがないことを確認
+        $this->assertDatabaseEmpty('groups');
+    }
+}
