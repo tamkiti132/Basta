@@ -114,7 +114,8 @@ class MemoEdit extends Component
             $memo_data->title = $this->memo_data['title'];
             $memo_data->shortMemo = $this->memo_data['shortMemo'];
             $memo_data->additionalMemo = $this->memo_data['additionalMemo'];
-            $memo_data->web_type_feature->url = $this->memo_data['url'];
+
+            $memo_data->web_type_feature->url = $this->memo_data['web_type_feature']['url'];
         } else {
             $memo_data = Memo::with('book_type_feature')->find($this->memo_id);
 
@@ -154,6 +155,10 @@ class MemoEdit extends Component
         $this->emitTo('label-selector', 'updated');
 
         $memo_data->save();
+
+        if ($this->type === "web") {
+            $memo_data->web_type_feature->save();
+        }
     }
 
 
