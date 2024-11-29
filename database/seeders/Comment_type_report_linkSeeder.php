@@ -20,6 +20,14 @@ class Comment_type_report_linkSeeder extends Seeder
                 'report_id' => 3,
                 'comment_id' => 1,
             ],
+            [
+                'report_id' => 19,
+                'comment_id' => 1,
+            ],
+            [
+                'report_id' => 20,
+                'comment_id' => 2,
+            ],
 
         ]);
     }
