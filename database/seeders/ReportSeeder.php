@@ -185,6 +185,14 @@ class ReportSeeder extends Seeder
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ],
+            [
+                'contribute_user_id' => 2,
+                'type' => 3,
+                'reason' => 4,
+                'detail' => 'これはテストレポート16です。',
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ],
 
         ]);
     }
