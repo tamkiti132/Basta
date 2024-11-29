@@ -455,10 +455,7 @@
 
                 <h2 class="px-5 text-base font-bold">コメント</h2>
                 {{-- コメントセクション --}}
-                @foreach ($comments_data_paginated as $comment_data)
-                {{-- @php
-                    dd($comment_data->memo['group_id']);
-                @endphp --}}
+                @foreach ($comments_data_paginated as $comment_data)                
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
                         <div class="-m-4">
@@ -651,6 +648,11 @@
 
                 </section>
                 @endforeach
+
+                {{-- コメントのページネーション --}}
+                    <div class="flex justify-center mt-10">
+                        {{ $comments_data_paginated->withQueryString()->links() }}
+                    </div>
 
                 {{-- コメント入力セクション --}}
 

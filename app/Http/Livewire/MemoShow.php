@@ -177,9 +177,6 @@ class MemoShow extends Component
             ->latest()
             ->get();
 
-
-
-        // コメント, コメント通報情報
         $comments_data = Comment::with([
             'user' => function ($query) {
                 $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
@@ -193,7 +190,6 @@ class MemoShow extends Component
             ->withCount('reports')
             ->get();
 
-        // dd($comments_data);
 
         // 各コメントに対する表示状態を初期化
         foreach ($comments_data as $comment) {
