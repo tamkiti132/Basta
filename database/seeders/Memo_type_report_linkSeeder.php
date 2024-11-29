@@ -24,7 +24,54 @@ class Memo_type_report_linkSeeder extends Seeder
                 'report_id' => 6,
                 'memo_id' => 1,
             ],
-
+            [
+                'report_id' => 7,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 8,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 9,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 10,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 11,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 12,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 13,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 14,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 15,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 16,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 17,
+                'memo_id' => 1,
+            ],
+            [
+                'report_id' => 18,
+                'memo_id' => 1,
+            ],
         ]);
     }
 }

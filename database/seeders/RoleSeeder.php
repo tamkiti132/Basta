@@ -32,8 +32,108 @@ class RoleSeeder extends Seeder
                 'role' => '10',
             ],
             [
+                'user_id' => '2',
+                'group_id' => '1',
+                'role' => '100',
+            ],
+            [
                 'user_id' => '1',
                 'group_id' => '2',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '4',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '5',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '6',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '7',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '8',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '9',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '10',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '11',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '12',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '13',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '14',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '15',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '16',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '17',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '18',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '19',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '20',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '21',
+                'role' => '100',
+            ],
+            [
+                'user_id' => '1',
+                'group_id' => '22',
                 'role' => '100',
             ],
             [
@@ -71,6 +171,211 @@ class RoleSeeder extends Seeder
                 'group_id' => '4',
                 'role' => '10',
             ],
+            [
+                'user_id' => '1',
+                'group_id' => '5',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '2',
+                'group_id' => '6',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '2',
+                'group_id' => '7',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '3',
+                'group_id' => '8',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '3',
+                'group_id' => '9',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '2',
+                'group_id' => '10',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '3',
+                'group_id' => '11',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '12',
+                'group_id' => '12',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '13',
+                'group_id' => '13',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '14',
+                'group_id' => '14',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '15',
+                'group_id' => '15',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '16',
+                'group_id' => '16',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '17',
+                'group_id' => '17',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '18',
+                'group_id' => '18',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '19',
+                'group_id' => '19',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '20',
+                'group_id' => '20',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '21',
+                'group_id' => '21',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '22',
+                'group_id' => '22',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '23',
+                'group_id' => '23',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '24',
+                'group_id' => '24',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '25',
+                'group_id' => '25',
+                'role' => '10',
+            ],
+            [
+                'user_id' => '31',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '32',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '33',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '34',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '35',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '36',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '37',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '38',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '39',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '40',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '41',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '42',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '43',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '44',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '45',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '46',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '47',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '48',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '49',
+                'group_id' => null,
+                'role' => '5',
+            ],
+            [
+                'user_id' => '50',
+                'group_id' => null,
+                'role' => '5',
+            ]
         ]);
     }
 }

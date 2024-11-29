@@ -24,6 +24,10 @@ class User_type_report_linkSeeder extends Seeder
                 'report_id' => 5,
                 'user_id' => 2,
             ],
+            [
+                'report_id' => 21,
+                'user_id' => 2,
+            ],
 
         ]);
     }
