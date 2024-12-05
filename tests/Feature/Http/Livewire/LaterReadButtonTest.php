@@ -53,7 +53,6 @@ class LaterReadButtonTest extends TestCase
             'title' => 'テストタイトル',
         ]);
 
-        // $this->dumpdb();
 
         // Act（実行）  && Assert（検証）
         // 『later_reads』テーブルにデータがないことを確認

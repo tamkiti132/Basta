@@ -42,8 +42,6 @@ class UserTopAdminTest extends TestCase
         ]);
 
 
-        // $this->dumpdb();
-
         // Act（実行）
         // Livewireコンポーネントをテスト
         Livewire::test(UserTopAdmin::class)
