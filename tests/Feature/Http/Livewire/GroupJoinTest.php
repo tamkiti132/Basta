@@ -55,7 +55,6 @@ class GroupJoinTest extends TestCase
         ]);
         $this->actingAs($testUser);
 
-        // $this->dumpdb();
 
         // Act（実行） & Assert（検証）
         $this->get('/group_join')
