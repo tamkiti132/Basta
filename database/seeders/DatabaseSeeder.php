@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             // LabelSeeder::class,
             // Label_memoSeeder::class,
             CommentSeeder::class,
-            // GoodSeeder::class,
+            GoodSeeder::class,
             // Later_readSeeder::class,
             RequestSeeder::class,
             // Attached_file_pathSeeder::class,

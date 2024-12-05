@@ -20,20 +20,10 @@ class GoodButton extends Component
             return;
         }
 
-        // 中間テーブルを１対多で繋げた場合
-        // if ($this->memo->goods()->where('user_id', Auth::id())->exists()) {
-        //     // User has already gooded this memo, so let's remove the good.
-        //     $this->memo->goods()->where('user_id', Auth::id())->delete();
-        // } else {
-        //     // User has not yet gooded this memo, so let's add a new good.
-        //     $this->memo->goods()->create(['user_id' => Auth::id()]);
-        // }
-
-        // 中間テーブルを多対多で繋げた場合
         $this->memo->goods()->toggle(Auth::id());
 
 
-        // Refresh the memo model so the good count updates.
+        // Memoモデルをリフレッシュして、goodの数を更新する
         $this->memo->refresh();
     }
 
