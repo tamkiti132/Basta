@@ -17,7 +17,7 @@ class Function_addition_improvementSeeder extends Seeder
     {
         DB::table('function_addition_improvements')->insert([
             [
-                'request_id' => 1,
+                'request_id' => 2,
                 'type' => 1,
             ],
 
