@@ -17,7 +17,7 @@ class DefectSeeder extends Seeder
     {
         DB::table('defects')->insert([
             [
-                'request_id' => 0,
+                'request_id' => 1,
                 'additional_information' => 'Windows10を使っています。',
             ],
 
