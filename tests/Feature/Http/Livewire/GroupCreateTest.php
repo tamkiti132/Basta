@@ -28,16 +28,28 @@ class GroupCreateTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
+        // テスト用の画像を作成
+        $group_image = UploadedFile::fake()->image('test.png')->size(2048);
+
         // Act（実行）
-        Livewire::test(GroupCreate::class)
+        $component = Livewire::test(GroupCreate::class)
+            ->set('group_image', $group_image)
             ->set('group_name', 'Test Group')
             ->set('introduction', 'Test Introduction')
             ->call('storeGroup');
 
+        $storedImage = $component->get('storedImage');
+
+
         // Assert（検証）
+        // ストレージにファイルが保存されていることを確認
+        Storage::disk('public')->assertExists($storedImage);
+
+        // データベースにデータが保存されていることを確認
         $this->assertDatabaseHas('groups', [
             'name' => 'Test Group',
             'introduction' => 'Test Introduction',
+            'group_photo_path' => basename($storedImage),
         ]);
     }
 
@@ -47,7 +59,22 @@ class GroupCreateTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
+
         // Act（実行） & Assert（検証）
+        // group_imageのバリデーション        
+        $notImage = UploadedFile::fake()->create('notImage.txt', 100);
+        Livewire::test(GroupCreate::class)
+            ->set('group_image', $notImage)
+            ->call('storeGroup')
+            ->assertHasErrors(['group_image' => 'image']);
+
+        // 2048KB以上の画像
+        $group_image = UploadedFile::fake()->image('test.png')->size(2049);
+        Livewire::test(GroupCreate::class)
+            ->set('group_image', $group_image)
+            ->call('storeGroup')
+            ->assertHasErrors(['group_image' => 'max']);
+
         // group_nameのバリデーション
         Livewire::test(GroupCreate::class)
             ->set('group_name', '')

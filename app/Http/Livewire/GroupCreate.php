@@ -16,6 +16,8 @@ class GroupCreate extends Component
     public $group_name;
     public $introduction;
 
+    public $storedImage;
+
 
     protected $rules = [
         'group_image' => ['nullable', 'image', 'max:2048'],
@@ -32,10 +34,10 @@ class GroupCreate extends Component
 
         if ($this->group_image) {
 
-            $group_photo_path = basename($this->group_image->store('public/group-image/'));
+            $this->storedImage = $this->group_image->store('group-image', 'public');
 
             $group = Group::create([
-                'group_photo_path' => basename($group_photo_path),
+                'group_photo_path' => basename($this->storedImage),
                 'name' => $this->group_name,
                 'introduction' => $this->introduction,
             ]);

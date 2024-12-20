@@ -28,6 +28,8 @@ class MemoCreate extends Component
     public $book_additionalMemo;
     public $book_image;
 
+    public $storedBookImage;
+
 
     public $rules = [];
 
@@ -134,13 +136,11 @@ class MemoCreate extends Component
 
             if ($this->book_image) {
 
-                $book_image_path = $this->book_image->store('public/book-image/');
+                $this->storedBookImage = $this->book_image->store('book-image', 'public');
 
-                $book_type_feature_data = [
-                    'book_photo_path' => $book_image_path
-                ];
-
-                $memo->book_type_feature()->create($book_type_feature_data);
+                $memo->book_type_feature()->create([
+                    'book_photo_path' => basename($this->storedBookImage)
+                ]);
             }
         }
 
