@@ -38,7 +38,6 @@ class LabelAdder extends Component
 
     public function saveLabels($memoId)
     {
-        // dd('ddd');
         if ($this->checked) {
             $memo = Memo::find($memoId);
 
