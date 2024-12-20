@@ -22,6 +22,8 @@ class GroupEdit extends Component
     public $group_image_preview;
     public $group_image_delete_flag = false;
 
+    public $storedImage;
+
     public $email;
 
     protected $rules = [
@@ -98,7 +100,8 @@ class GroupEdit extends Component
 
 
         if ($this->group_image_preview) {
-            $group_data->group_photo_path = basename($this->group_image_preview->store('public/group-image/'));
+            $this->storedImage = $this->group_image_preview->store('group-image', 'public');
+            $group_data->group_photo_path = basename($this->storedImage);
         }
 
 

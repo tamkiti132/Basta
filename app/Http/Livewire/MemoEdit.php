@@ -21,8 +21,10 @@ class MemoEdit extends Component
     public $memo_data;
     public $memo_id;
     public $type;
-    public $book_image_preview;
     public $book_image_delete_flag = false;
+    public $book_image_preview;
+
+    public $storedBookImage;
 
     //TODO: protectedにすると、Missing [$rules/rules()] property/method on Livewire component: [memo-edit].のエラーが発生したため、publicにしたが、セキュリティ的な問題が懸念される。
 
@@ -132,7 +134,8 @@ class MemoEdit extends Component
                     $feature->memo_id = $this->memo_data->id;
                 }
 
-                $feature->book_photo_path = $this->book_image_preview->store('public/book-image/');
+                $this->storedBookImage = $this->book_image_preview->store('book-image', 'public');
+                $feature->book_photo_path = basename($this->storedBookImage);
                 $feature->save();
             }
 

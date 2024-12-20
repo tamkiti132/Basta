@@ -9,6 +9,7 @@ use App\Models\Memo;
 use App\Models\User;
 use App\Models\Web_type_feature;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -85,7 +86,7 @@ class MemoEditTest extends TestCase
     }
 
 
-    public function test_validate_update_web()
+    public function test_validate_失敗_update_web()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -205,6 +206,7 @@ class MemoEditTest extends TestCase
         $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
+
         $memo = Memo::factory()->create([
             'user_id' => $user->id,
             'group_id' => $group->id,
@@ -218,24 +220,47 @@ class MemoEditTest extends TestCase
             'title' => '更新前のタイトル',
         ]);
 
+        // テスト用の画像を作成
+        $book_image = UploadedFile::fake()->image('test.png')->size(2048);
+
         // Act（実行） & Assert（検証）
-        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
+        $component = Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
+            // 各プロパティの値が各カラムの更新前データでセットされているか確認
             ->assertSet('memo_id', $memo->id)
             ->assertSet('type', 'book')
+            ->assertSet('memo_data.title', '更新前のタイトル')
+            ->assertSet('memo_data.shortMemo', '更新前のショートメモ')
+            ->assertSet('memo_data.additionalMemo', '更新前の追加メモ')
+            ->assertSet('book_image_preview', null)
+            ->assertSet('book_image_delete_flag', false)
+
+            // 各プロパティの値に各カラムの更新後データをセット
             ->set('memo_data.title', '更新後のタイトル')
             ->set('memo_data.shortMemo', '更新後のショートメモ')
             ->set('memo_data.additionalMemo', '更新後の追加メモ')
-            ->call('update')
-        ;
+            ->set('book_image_preview', $book_image)
 
-        // データベースにメモが更新されているか
+            // 各データを更新する
+            ->call('update');
+
+        $storedBookImage = $component->get('storedBookImage');
+
+        // ストレージにファイルが保存されていることを確認
+        Storage::disk('public')->assertExists($storedBookImage);
+
+        // データベース上のメモが更新されているか
         $this->assertDatabaseHas('memos', [
             'title' => '更新後のタイトル',
+        ]);
+
+        // データベース上のbook_type_feature（画像）が存在するか
+        $this->assertDatabaseHas('book_type_features', [
+            'book_photo_path' => basename($storedBookImage)
         ]);
     }
 
 
-    public function test_validate_update_book()
+    public function test_validate_失敗_update_book()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -302,6 +327,24 @@ class MemoEditTest extends TestCase
             ->set('memo_data.additionalMemo', 123)
             ->call('update')
             ->assertHasErrors(['memo_data.additionalMemo' => 'string']);
+
+        // book_imageのバリデーション
+        $notImage = UploadedFile::fake()->create('notImage.txt', 100);
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', 'book')
+            ->set('book_image_preview', $notImage)
+            ->call('update')
+            ->assertHasErrors(['book_image_preview' => 'image']);
+
+        // 2048KB以上の画像
+        $book_image = UploadedFile::fake()->image('test.png')->size(2049);
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', 'book')
+            ->set('book_image_preview', $book_image)
+            ->call('update')
+            ->assertHasErrors(['book_image_preview' => 'max']);
 
         // データベースにメモが更新されていないことを確認
         $this->assertDatabaseHas('memos', [
