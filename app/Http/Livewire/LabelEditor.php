@@ -55,13 +55,13 @@ class LabelEditor extends Component
                 'string',
                 'max:30',
                 Rule::unique('labels', 'name')->where(function ($query) {
-                    return $query->where('group_id', session()->get('group_id'));
+                    return $query->where('group_id', $this->group_id);
                 }),
             ],
         ]);
 
         $label_data = [
-            'group_id' => session()->get('group_id'),
+            'group_id' => $this->group_id,
             'name' => $this->labelName,
         ];
 
@@ -73,7 +73,6 @@ class LabelEditor extends Component
         $this->emit('labelUpdated');
     }
 
-    // TODO:バリデーションを加える
     public function updateLabel($labelId, $newName)
     {
         $label = Label::find($labelId);
@@ -84,7 +83,7 @@ class LabelEditor extends Component
                 'string',
                 'max:30',
                 Rule::unique('labels', 'name')->ignore($labelId)->where(function ($query) {
-                    return $query->where('group_id', session()->get('group_id'));
+                    return $query->where('group_id', $this->group_id);
                 }),
             ],
         ];
