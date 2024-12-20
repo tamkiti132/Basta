@@ -257,6 +257,20 @@ class MemoEditTest extends TestCase
         $this->assertDatabaseHas('book_type_features', [
             'book_photo_path' => basename($storedBookImage)
         ]);
+
+        // ここから、画像を削除するテスト
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
+            ->set('book_image_preview', null)
+            ->set('book_image_delete_flag', true)
+            ->call('update');
+
+        // ストレージにファイルが削除されていることを確認
+        Storage::disk('public')->assertMissing($storedBookImage);
+
+        // データベースにデータが削除されていることを確認
+        $this->assertDatabaseMissing('book_type_features', [
+            'book_photo_path' => basename($storedBookImage)
+        ]);
     }
 
 

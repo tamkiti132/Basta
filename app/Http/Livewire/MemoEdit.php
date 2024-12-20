@@ -145,8 +145,8 @@ class MemoEdit extends Component
                 // 関連するBookTypeFeatureモデルが存在するか確認
                 if ($memo_data && $memo_data->book_type_feature) {
                     // 関連する画像ファイルがストレージに存在する場合は削除
-                    if (Storage::disk('public')->exists($memo_data->book_type_feature->book_photo_path)) {
-                        Storage::disk('public')->delete($memo_data->book_type_feature->book_photo_path);
+                    if (Storage::disk('public')->exists('book-image/' . $memo_data->book_type_feature->book_photo_path)) {
+                        Storage::disk('public')->delete('book-image/' . $memo_data->book_type_feature->book_photo_path);
                     }
 
                     // book_type_featuresテーブルの関連レコードを削除

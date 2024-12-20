@@ -70,7 +70,6 @@ class GroupEditTest extends TestCase
 
         $storedImage = $component->get('storedImage');
 
-        // Assert（検証）
         // ストレージにファイルが保存されていることを確認
         Storage::disk('public')->assertExists($storedImage);
 
@@ -80,7 +79,24 @@ class GroupEditTest extends TestCase
             'introduction' => '更新後のグループ紹介文',
             'group_photo_path' => basename($storedImage),
         ]);
+
+
+        // ここから、画像を削除するテスト
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_image_preview', null)
+            ->set('group_image_delete_flag', true)
+            ->call('updateGroupInfo');
+
+
+        // ストレージにファイルが削除されていることを確認
+        Storage::disk('public')->assertMissing($storedImage);
+
+        // データベースにデータが削除されていることを確認
+        $this->assertDatabaseMissing('groups', [
+            'group_photo_path' => basename($storedImage),
+        ]);
     }
+
 
 
     public function test_バリデーション_失敗_updateGroupInfo()
