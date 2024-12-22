@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LabelSelector extends Component
 {
+    public $group_id;
     public $labels;
     public $checked = [];
     public $memoId;
@@ -21,23 +22,19 @@ class LabelSelector extends Component
 
     public function mount($memoId)
     {
-        // dd($memoId);
+        $this->group_id = session()->get('group_id');
         $this->memoId = $memoId;
         $this->loadLabels();
     }
 
     public function loadLabels()
     {
-        $this->labels = Label::where('group_id', session()->get('group_id'))->orderBy('name')->get();
+        $this->labels = Label::where('group_id', $this->group_id)->orderBy('name')->get();
         $memo = Memo::find($this->memoId);
 
         foreach ($this->labels as $label) {
             $this->checked[$label->id] = $memo->labels->contains($label);
-            // dump($this->checked[$label->id]);
         }
-
-
-        // dd($this->labels);
     }
 
     public function updatedChecked($checked, $labelId)
@@ -51,15 +48,17 @@ class LabelSelector extends Component
 
     public function saveLabels()
     {
-
-        // dd('ddd');
         $memo = Memo::find($this->memoId);
 
         // チェックされているラベルだけを取得
-        $checkedLabels = array_filter($this->checked);
+        $checkedLabels = array_filter($this->checked, function ($value) {
+            return $value === true; // trueの値のみを保持
+        });
+
+        $keysOfCheckedLabels = array_keys($checkedLabels);
 
         // ラベルの紐付けを更新
-        $memo->labels()->sync(array_keys($checkedLabels));
+        $memo->labels()->sync($keysOfCheckedLabels);
 
         $this->dispatchBrowserEvent('flash-message', ['message' => '更新しました']);
     }
