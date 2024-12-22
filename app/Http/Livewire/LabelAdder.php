@@ -8,6 +8,7 @@ use App\Models\Memo;
 
 class LabelAdder extends Component
 {
+    public $group_id;
     public $labels;
     public $checked = [];
 
@@ -19,12 +20,13 @@ class LabelAdder extends Component
 
     public function mount()
     {
+        $this->group_id = session()->get('group_id');
         $this->loadLabels();
     }
 
     public function loadLabels()
     {
-        $this->labels = Label::where('group_id', session()->get('group_id'))->orderBy('name')->get();
+        $this->labels = Label::where('group_id', $this->group_id)->orderBy('name')->get();
     }
 
     public function updatedChecked($checked, $labelId)
@@ -42,13 +44,17 @@ class LabelAdder extends Component
             $memo = Memo::find($memoId);
 
             // チェックされているラベルだけを取得
-            $checkedLabels = array_filter($this->checked);
+            $checkedLabels = array_filter($this->checked, function ($value) {
+                return $value === true; // trueの値のみを保持
+            });
+
+            $keysOfCheckedLabels = array_keys($checkedLabels);
 
             // メモにラベルを紐付ける
-            $memo->labels()->sync(array_keys($checkedLabels));
+            $memo->labels()->sync($keysOfCheckedLabels);
         }
 
-        $this->redirectRoute('group.index', ['group_id' => session()->get('group_id')]);
+        $this->redirectRoute('group.index', ['group_id' => $this->group_id]);
     }
 
 

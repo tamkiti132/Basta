@@ -64,7 +64,7 @@
                                                 <input id="select_label" class="hidden"></input>
                                             </div>
 
-                                            {{-- タグ --}}
+                                            {{-- ラベル --}}
                                             @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id ])
                                         </div>
                                         {{-- 真ん中 --}}
@@ -145,7 +145,7 @@
                                                 <input id="select_label" class="hidden"></input>
                                             </div>
 
-                                            {{-- タグ --}}
+                                            {{-- ラベル --}}
                                             <div class="mt-12 lg:mt-32">
                                                 @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id])
                                             </div>
