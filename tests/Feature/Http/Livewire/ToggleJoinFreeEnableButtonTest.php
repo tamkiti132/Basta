@@ -46,6 +46,9 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
             'isJoinFreeEnabled' => 0,
         ]);
 
+
+        // ここから、自由参加を許可するテスト
+
         // updatedIsJoinFreeEnabledメソッドは、
         // isJoinFreeEnabledプロパティの値が変更されると自動的に呼ばれるメソッドであるため、
         // 直接isJoinFreeEnabledプロパティを更新することで、updatedIsJoinFreeEnabledメソッドが呼ばれる。    
@@ -57,6 +60,18 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
         $this->assertDatabaseHas('groups', [
             'name' => $group->name,
             'isJoinFreeEnabled' => 1,
+        ]);
+
+
+        // ここから、自由参加を制限するテスト
+        Livewire::test(ToggleJoinFreeEnableButton::class, ['groupId' => $group->id])
+            ->set('isJoinFreeEnabled', false);
+
+        // データベース上のis_join_free_enabledが0に更新されていることを確認
+        // （自由参加が制限されている状態）
+        $this->assertDatabaseHas('groups', [
+            'name' => $group->name,
+            'isJoinFreeEnabled' => 0,
         ]);
     }
 }
