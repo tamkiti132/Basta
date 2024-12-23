@@ -19,11 +19,6 @@ class ToggleJoinFreeEnableButton extends Component
         }
     }
 
-    public function render()
-    {
-        return view('livewire.toggle-join-free-enable-button');
-    }
-
     public function updatedIsJoinFreeEnabled()
     {
         $group = Group::find($this->groupId);
@@ -31,5 +26,10 @@ class ToggleJoinFreeEnableButton extends Component
             $group->isJoinFreeEnabled = $this->isJoinFreeEnabled;
             $group->save();
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.toggle-join-free-enable-button');
     }
 }
