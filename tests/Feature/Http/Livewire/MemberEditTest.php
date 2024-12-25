@@ -110,4 +110,48 @@ class MemberEditTest extends TestCase
             'group_id' => $group->id,
         ]);
     }
+
+    public function test_updateRole()
+    {
+        // Arrange（準備）
+        // 管理者（権限切り替えする側のユーザー）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->user()->attach($manager);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // 権限切り替えされる側のユーザー
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->user()->attach($user);
+        $group->userRoles()->attach($user, ['role' => 100]);
+
+        // セッションにグループIDをセット
+        session()->put('group_id', $group->id);
+
+
+        // 権限切り替えされる側のユーザーの権限が100（メンバー権限）であることを確認
+        $this->assertDatabaseHas('roles', [
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'role' => 100,
+        ]);
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(MemberEdit::class, ['group_id' => $group->id])
+            ->call('updateRole', $user->id, 50);
+
+        $this->assertDatabaseHas('roles', [
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'role' => 50,
+        ]);
+    }
 }
