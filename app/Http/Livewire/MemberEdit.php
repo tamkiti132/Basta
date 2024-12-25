@@ -112,6 +112,7 @@ class MemberEdit extends Component
     {
         $group_data = Group::find($this->group_id);
         $group_data->user()->detach($selected_user_id);
+        $group_data->userRoles()->detach($selected_user_id);
 
         $this->resetPage('all_not_blocked_users_page');
         $this->resetPage('all_blocked_users_page');
