@@ -51,7 +51,7 @@ class ReportUserTest extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport');
 
@@ -111,17 +111,17 @@ class ReportUserTest extends TestCase
             ->set('reason', ['aaaa'])
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
-            ->assertHasErrors(['reason' => 'string']);
+            ->assertHasErrors(['reason' => 'integer']);
 
         // detailのバリデーション
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "")
             ->call('createReport')
             ->assertHasErrors(['detail' => 'required']);
 
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', 123)
             ->call('createReport')
             ->assertHasErrors(['detail' => 'string']);

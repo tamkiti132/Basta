@@ -16,7 +16,7 @@ class ReportMemo extends Component
 
 
     protected $rules = [
-        'reason' => ['required', 'string'],
+        'reason' => ['required', 'integer', 'between:1,4'],
         'detail' => ['required', 'string']
     ];
 
