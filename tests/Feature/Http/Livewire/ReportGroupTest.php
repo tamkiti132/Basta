@@ -43,7 +43,7 @@ class ReportGroupTest extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(ReportGroup::class)
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport');
 
@@ -94,17 +94,17 @@ class ReportGroupTest extends TestCase
             ->set('reason', ['aaaa'])
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
-            ->assertHasErrors(['reason' => 'string']);
+            ->assertHasErrors(['reason' => 'integer']);
 
         // detailのバリデーション
         Livewire::test(ReportGroup::class)
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "")
             ->call('createReport')
             ->assertHasErrors(['detail' => 'required']);
 
         Livewire::test(ReportGroup::class)
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', 123)
             ->call('createReport')
             ->assertHasErrors(['detail' => 'string']);

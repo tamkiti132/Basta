@@ -50,7 +50,7 @@ class ReportMemoTest extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(ReportMemo::class, ['memo_id' => $memo->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport');
 
@@ -108,17 +108,17 @@ class ReportMemoTest extends TestCase
             ->set('reason', ['aaaa'])
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
-            ->assertHasErrors(['reason' => 'string']);
+            ->assertHasErrors(['reason' => 'integer']);
 
         // detailのバリデーション
         Livewire::test(ReportMemo::class, ['memo_id' => $memo->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', "")
             ->call('createReport')
             ->assertHasErrors(['detail' => 'required']);
 
         Livewire::test(ReportMemo::class, ['memo_id' => $memo->id])
-            ->set('reason', "1")
+            ->set('reason', 1)
             ->set('detail', 123)
             ->call('createReport')
             ->assertHasErrors(['detail' => 'string']);
