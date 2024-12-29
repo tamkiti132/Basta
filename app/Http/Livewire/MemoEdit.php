@@ -107,6 +107,10 @@ class MemoEdit extends Component
 
     public function update()
     {
+        $this->validate([
+            'type' => ['required', 'in:web,book'],
+        ]);
+
         $this->validate();
 
 

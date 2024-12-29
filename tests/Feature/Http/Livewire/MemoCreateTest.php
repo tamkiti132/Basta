@@ -80,6 +80,19 @@ class MemoCreateTest extends TestCase
             ->assertSeeLivewire(MemoCreate::class);
 
         // Act（実行） & Assert（検証）
+        // typeのバリデーション
+        // 0:web, 1:book
+        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', '')
+            ->assertHasErrors(['type' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', 'hoge')
+            ->assertHasErrors(['type' => 'in']);
+
         // web_titleのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)
@@ -200,6 +213,20 @@ class MemoCreateTest extends TestCase
             ->assertSeeLivewire(MemoCreate::class);
 
         // Act（実行） & Assert（検証）
+        // Act（実行） & Assert（検証）
+        // typeのバリデーション
+        // 0:web, 1:book
+        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', '')
+            ->assertHasErrors(['type' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', 'hoge')
+            ->assertHasErrors(['type' => 'in']);
+
         // book_titleのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)

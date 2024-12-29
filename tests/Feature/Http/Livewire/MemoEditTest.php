@@ -124,6 +124,21 @@ class MemoEditTest extends TestCase
         ]);
 
         // Act（実行） & Assert（検証）
+        // typeのバリデーション
+        // 0:web, 1:book
+        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => ''])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', '')
+            ->call('update')
+            ->assertHasErrors(['type' => 'required']);
+
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'hoge'])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', 'hoge')
+            ->call('update')
+            ->assertHasErrors(['type' => 'in']);
+
         // titleのバリデーション
         Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'web'])
             ->assertSet('memo_id', $memo->id)
@@ -302,6 +317,21 @@ class MemoEditTest extends TestCase
         ]);
 
         // Act（実行） & Assert（検証）
+        // typeのバリデーション
+        // 0:web, 1:book
+        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => ''])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', '')
+            ->call('update')
+            ->assertHasErrors(['type' => 'required']);
+
+        Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'hoge'])
+            ->assertSet('memo_id', $memo->id)
+            ->assertSet('type', 'hoge')
+            ->call('update')
+            ->assertHasErrors(['type' => 'in']);
+
         // titleのバリデーション
         Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'book'])
             ->assertSet('memo_id', $memo->id)
