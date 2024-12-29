@@ -83,6 +83,10 @@ class MemoCreate extends Component
     {
         $this->type = $type;
 
+        $this->validate([
+            'type' => ['required', 'in:web,book'],
+        ]);
+
         if ($this->type === "web") {
 
             $this->rules = [
