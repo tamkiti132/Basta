@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('shortMemo', 512);
             $table->text('additionalMemo')->nullable();
-            $table->string('type', 32);
+            // 0:web, 1:book
+            $table->unsignedTinyInteger('type');
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });
