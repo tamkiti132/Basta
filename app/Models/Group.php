@@ -18,11 +18,6 @@ class Group extends Model
         'isTipEnabled',
     ];
 
-    public function user()
-    {
-        return $this->belongsToMany(User::class, 'group_user', 'group_id', 'user_id');
-    }
-
     public function userRoles()
     {
         return $this->belongsToMany(User::class, 'roles')->withPivot('role');
