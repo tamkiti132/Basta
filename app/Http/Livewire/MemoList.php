@@ -50,7 +50,7 @@ class MemoList extends Component
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
         if (!Auth::user()->can('admin-higher')) {
             // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!(Auth::user()->group()->where('id', $group_id)->exists())) {
+            if (!(Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
                 return redirect($this->previous_route);
             }

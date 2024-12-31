@@ -111,7 +111,6 @@ class MemberEdit extends Component
     public function quitUser($selected_user_id)
     {
         $group_data = Group::find($this->group_id);
-        $group_data->user()->detach($selected_user_id);
         $group_data->userRoles()->detach($selected_user_id);
 
         $this->resetPage('all_not_blocked_users_page');
@@ -143,15 +142,11 @@ class MemberEdit extends Component
         $this->group_data = Group::find($this->group_id);
 
 
-        $all_not_blocked_users_data = User::with(['memo' => function ($query) {
-            $query->where('group_id', $this->group_id);
-        }, 'groupRoles' => function ($query) {
+        $all_not_blocked_users_data = User::with(['groupRoles' => function ($query) {
             $query->where('group_id', $this->group_id);
         }])->withCount(['memo' => function ($query) {
             $query->where('group_id', $this->group_id);
-        }])->whereHas('group', function ($query) {
-            $query->where('groups.id', $this->group_id);
-        })->whereDoesntHave('blockedGroup', function ($query) {
+        }])->whereDoesntHave('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
         })->join('roles', function ($join) {
             $join->on('users.id', '=', 'roles.user_id')
@@ -161,18 +156,11 @@ class MemberEdit extends Component
             ->get();
 
 
-        // dd($all_not_blocked_users_data);
-
-
-        $all_blocked_users_data = User::with(['memo' => function ($query) {
-            $query->where('group_id', $this->group_id);
-        }, 'groupRoles' => function ($query) {
+        $all_blocked_users_data = User::with(['groupRoles' => function ($query) {
             $query->where('group_id', $this->group_id);
         }])->withCount(['memo' => function ($query) {
             $query->where('group_id', $this->group_id);
-        }])->whereHas('group', function ($query) {
-            $query->where('groups.id', $this->group_id);
-        })->whereHas('blockedGroup', function ($query) {
+        }])->whereHas('blockedGroup', function ($query) {
             $query->where('groups.id', $this->group_id);
         })->join('roles', function ($join) {
             $join->on('users.id', '=', 'roles.user_id')

@@ -38,7 +38,6 @@ class ReportCommentTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
         $memo = Memo::factory()->create([
@@ -91,7 +90,6 @@ class ReportCommentTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
         $memo = Memo::factory()->create([

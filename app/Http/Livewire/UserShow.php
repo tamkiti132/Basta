@@ -421,8 +421,8 @@ class UserShow extends Component
         $user_data = User::find($this->user_id);
 
 
-        $user_groups = Group::whereHas('user', function ($query) {
-            $query->where('users.id', $this->user_id);
+        $user_groups = Group::whereHas('userRoles', function ($query) {
+            $query->where('user_id', $this->user_id);
         })->orderBy('name')
             ->get();
 

@@ -130,7 +130,7 @@ class GroupEdit extends Component
 
         // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
         $hasUser = Group::where('id', $this->group_id)
-            ->whereHas('user', function ($query) {
+            ->whereHas('userRoles', function ($query) {
                 $query->where('email', $this->email);
             })->exists();
 

@@ -107,7 +107,6 @@ class QuitGroupForm extends Component
         } else {
             // 管理者以外の権限の場合
             $group_data = Group::find(session()->get('group_id'));
-            $group_data->user()->detach(Auth::user());
             $group_data->userRoles()->detach(Auth::user());
 
             return to_route('index');
@@ -123,7 +122,6 @@ class QuitGroupForm extends Component
             // →選択したサブ管理者を管理者にして自分はグループを退会する
             $this->group_data->userRoles()->updateExistingPivot($this->selectedUserId, ['role' => 10]);
 
-            $this->group_data->user()->detach(Auth::user());
             $this->group_data->userRoles()->detach(Auth::user());
 
             return to_route('index');
@@ -173,9 +171,6 @@ class QuitGroupForm extends Component
 
     public function render()
     {
-        // foreach ($this->group_data->userRoles as $user_data) {
-        //     dd($user_data->nickname);
-        // }
         return view('livewire.quit-group-form');
     }
 }

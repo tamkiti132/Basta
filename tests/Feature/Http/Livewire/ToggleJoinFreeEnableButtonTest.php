@@ -35,7 +35,6 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
             'suspension_state' => 0,
             'isJoinFreeEnabled' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
         // Act（実行） & Assert（検証）

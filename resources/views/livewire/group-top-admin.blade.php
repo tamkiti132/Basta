@@ -104,7 +104,7 @@
                                                         通報数　：{{ $group_data->reports_count }}
                                                     </p>
                                                     <p class="items-center pt-5 leading-none text-gray-700 lg:ml-3">
-                                                        メンバー：{{ $group_data->user_count }}
+                                                        メンバー：{{ $group_data->user_roles_count }}
                                                     </p>
                                                     <p class="items-center pt-5 leading-none text-gray-700 lg:ml-3">
                                                         メモ　　：{{ $group_data->memos_count }}
@@ -220,7 +220,7 @@
                                                         通報数　：{{ $group_data->reports_count }}
                                                     </p>
                                                     <p class="items-center pt-5 leading-none text-gray-700 lg:ml-3">
-                                                        メンバー：{{ $group_data->user_count }}
+                                                        メンバー：{{ $group_data->user_roles_count }}
                                                     </p>
                                                     <p class="items-center pt-5 leading-none text-gray-700 lg:ml-3">
                                                         メモ　　：{{ $group_data->memos_count }}

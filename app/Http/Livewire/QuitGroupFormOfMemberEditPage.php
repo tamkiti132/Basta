@@ -57,7 +57,6 @@ class QuitGroupFormOfMemberEditPage extends Component
 
     public function quitGroup()
     {
-        // dd(Auth::user());
         $this->validate();
 
         if (!Hash::check($this->password, Auth::user()->password)) {
@@ -67,7 +66,6 @@ class QuitGroupFormOfMemberEditPage extends Component
 
 
         $group_data = Group::find(session()->get('group_id'));
-        $group_data->user()->detach($this->user_id);
         $group_data->userRoles()->detach($this->user_id);
 
         $this->closeModal();

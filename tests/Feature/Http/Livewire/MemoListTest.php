@@ -32,7 +32,6 @@ class MemoListTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         $this->get('/group/top/1')

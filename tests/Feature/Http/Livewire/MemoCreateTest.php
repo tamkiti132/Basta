@@ -34,7 +34,6 @@ class MemoCreateTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // MemoCreateコンポーネントが存在するか確認
@@ -72,7 +71,6 @@ class MemoCreateTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // MemoCreateコンポーネントが存在するか確認
@@ -158,7 +156,6 @@ class MemoCreateTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // テスト用の画像を作成
@@ -204,7 +201,6 @@ class MemoCreateTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
 
@@ -212,7 +208,6 @@ class MemoCreateTest extends TestCase
         $this->get('/group/memo_create/' . $group->id)
             ->assertSeeLivewire(MemoCreate::class);
 
-        // Act（実行） & Assert（検証）
         // Act（実行） & Assert（検証）
         // typeのバリデーション
         // 0:web, 1:book

@@ -47,7 +47,6 @@ class MemoListMypage extends Component
         $this->user_id = $user_id;
         $authUserId = auth()->id();
 
-        // dd($this->user_id, $authUserId);
         // リクエストのユーザーIDと　自分のIDが一致しない場合、直前のページにリダイレクト
         if ($authUserId != $this->user_id) {
             session()->flash('error', '他のユーザーのマイページにはアクセスできません');
@@ -99,7 +98,6 @@ class MemoListMypage extends Component
         if ($label_id) {
             // $label_id の値のキーを検索
             $key = array_search($label_id, $this->selected_labels);
-            // dd($key);
 
             // 値が見つかった場合、そのキーを使用して値を削除
             if ($key !== false) {
@@ -113,7 +111,6 @@ class MemoListMypage extends Component
         if ($label_id) {
             // $label_id の値のキーを検索
             $key = array_search($label_id, $this->selected_labels);
-            // dd($key);
 
             // 値が見つかった場合、そのキーを使用して値を削除
             if ($key !== false) {
@@ -137,14 +134,11 @@ class MemoListMypage extends Component
 
     public function render()
     {
-        // dd($this->group_id);
-
-        $user_groups = Group::whereHas('user', function ($query) {
-            $query->where('users.id', $this->user_id);
+        $user_groups = Group::whereHas('userRoles', function ($query) {
+            $query->where('user_id', $this->user_id);
         })->orderBy('name')
             ->get();
 
-        // dd($user_groups);
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
@@ -357,7 +351,6 @@ class MemoListMypage extends Component
             }
         } else {
             //自分が作成したメモ
-            // dd($this->user_id);
             if (in_array('web', $this->selected_web_book_labels)) {
                 $web_memos_data = Memo::with('labels')
                     ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')

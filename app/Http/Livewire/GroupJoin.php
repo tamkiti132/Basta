@@ -25,7 +25,6 @@ class GroupJoin extends Component
         $group = Group::find($group_id);
 
         if ($group->isJoinFreeEnabled) {
-            $group->user()->syncWithoutDetaching(Auth::id());
             $group->userRoles()->syncWithoutDetaching([
                 Auth::id() => ['role' => 100]
             ]);
@@ -48,12 +47,13 @@ class GroupJoin extends Component
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-        $all_groups_data = Group::whereDoesntHave('user', function ($query) {
-            $query->where('group_user.user_id', Auth::id());
-        })->with(['userRoles' => function ($query) {
-            $query->where('roles.role', 10);
-        }])
-            ->withCount('user')
+        $all_groups_data = Group::whereDoesntHave('userRoles', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
+            ->with(['userRoles' => function ($query) {
+                $query->wherePivot('role', 10);
+            }])
+            ->withCount('userRoles')
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {

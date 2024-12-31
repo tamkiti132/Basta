@@ -71,7 +71,7 @@
                                                     管理者：{{ $group_data->userRoles->first()->nickname }}
                                                 </p>
                                                 <p class="items-center pt-5 ml-3 leading-none text-gray-700">
-                                                    メンバー：{{ $group_data->user_count }}人
+                                                    メンバー：{{ $group_data->user_roles_count }}人
                                                 </p>
                                             </div>
                                         </div>

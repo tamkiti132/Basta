@@ -36,14 +36,12 @@ class ReportUserTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // レポートを投稿する対象のユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
         session()->put('group_id', $group->id);
@@ -86,14 +84,12 @@ class ReportUserTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // レポートを投稿する対象のユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
         session()->put('group_id', $group->id);
