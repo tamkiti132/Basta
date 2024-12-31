@@ -22,7 +22,6 @@ class InviteController extends Controller
         }
 
 
-        $group->user()->syncWithoutDetaching($target_user_id);
         $group->userRoles()->syncWithoutDetaching([
             $target_user_id => ['role' => 100]
         ]);

@@ -35,7 +35,6 @@ class LabelEditorTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // Act（実行） & Assert（検証）
@@ -60,7 +59,6 @@ class LabelEditorTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
 
@@ -101,7 +99,6 @@ class LabelEditorTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         $label = Label::factory()->create([
@@ -136,7 +133,6 @@ class LabelEditorTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // 重複デスト用のデータを作成
@@ -180,7 +176,6 @@ class LabelEditorTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         $label = Label::factory()->create([

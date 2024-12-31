@@ -30,7 +30,6 @@ class LabelList extends Component
     {
         // $label_id の値のキーを検索
         $key = array_search($labelId, $this->selected_labels);
-        // dd($key);
 
         // 値が見つかった場合、そのキーを使用して値を削除
         if ($key !== false) {

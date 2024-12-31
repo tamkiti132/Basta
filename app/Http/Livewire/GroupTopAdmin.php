@@ -107,8 +107,8 @@ class GroupTopAdmin extends Component
         $user_data = User::find($this->user_id);
 
 
-        $user_groups = Group::whereHas('user', function ($query) {
-            $query->where('users.id', $this->user_id);
+        $user_groups = Group::whereHas('userRoles', function ($query) {
+            $query->where('user_id', $this->user_id);
         })->get();
 
 
@@ -125,7 +125,7 @@ class GroupTopAdmin extends Component
             ->with(['userRoles' => function ($query) {
                 $query->wherePivot('role', 10);
             }])
-            ->withCount(['reports', 'user', 'memos', 'comments'])
+            ->withCount(['reports', 'userRoles', 'memos', 'comments'])
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
@@ -139,7 +139,6 @@ class GroupTopAdmin extends Component
             })
             ->orderBy('name')
             ->get();
-        // dd($groups_data);
 
 
         //利用停止中グループ
@@ -148,7 +147,7 @@ class GroupTopAdmin extends Component
             ->with(['userRoles' => function ($query) {
                 $query->wherePivot('role', 10);
             }])
-            ->withCount(['reports', 'user', 'memos', 'comments'])
+            ->withCount(['reports', 'userRoles', 'memos', 'comments'])
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {

@@ -37,7 +37,6 @@ class GroupEditTest extends TestCase
             'suspension_state' => 0,
         ]);
 
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
 
@@ -113,7 +112,6 @@ class GroupEditTest extends TestCase
             'suspension_state' => 0,
         ]);
 
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
         // バリデーションに失敗するテスト用の画像を作成

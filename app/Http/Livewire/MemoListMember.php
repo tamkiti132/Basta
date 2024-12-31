@@ -73,7 +73,7 @@ class MemoListMember extends Component
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
         if (!Auth::user()->can('admin-higher')) {
             // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!$group->user()->where('user_id', Auth::id())->exists()) {
+            if (!$group->userRoles()->where('user_id', Auth::id())->exists()) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
                 redirect($this->previous_route);
             }
@@ -494,8 +494,8 @@ class MemoListMember extends Component
         $count_all_memos_data = count($all_memos_data);
 
         // 退会済みか確認
-        $exists = Group::where('id', $this->group_id)->whereHas('user', function ($query) {
-            $query->where('id', $this->user_id);
+        $exists = Group::where('id', $this->group_id)->whereHas('userRoles', function ($query) {
+            $query->where('user_id', $this->user_id);
         })->exists();
 
 

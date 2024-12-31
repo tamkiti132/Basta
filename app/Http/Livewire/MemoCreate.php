@@ -39,7 +39,7 @@ class MemoCreate extends Component
         $this->previous_route = url()->previous();
 
         // $group_idに一致するidのグループに自分が所属していなかった場合、直前のページにリダイレクト
-        if (!(Auth::user()->group()->where('id', $group_id)->exists())) {
+        if (!(Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
             session()->flash('error', '対象のグループに所属していないため、アクセスできません');
             redirect($this->previous_route);
         }

@@ -8,7 +8,6 @@ use App\Models\Label;
 class LabelAttachedToNewMemo extends Component
 {
     public $labels;
-    public $memoId;
 
     protected $listeners = [
         'labelSelected' => 'loadTempLabels'

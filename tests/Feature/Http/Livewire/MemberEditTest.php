@@ -34,14 +34,12 @@ class MemberEditTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // ブロックされるユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
 
@@ -77,14 +75,12 @@ class MemberEditTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // ブロック解除されるユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
         // ユーザーをブロック状態にしておく
@@ -123,21 +119,15 @@ class MemberEditTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // 強制退会される側のユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
-        // ユーザーがグループに参加状態であることを確認
-        $this->assertDatabaseHas('group_user', [
-            'user_id' => $user->id,
-            'group_id' => $group->id,
-        ]);
+
         // このグループに紐づくユーザーの権限情報が存在していることを確認
         $this->assertDatabaseHas('roles', [
             'user_id' => $user->id,
@@ -153,11 +143,6 @@ class MemberEditTest extends TestCase
         Livewire::test(MemberEdit::class, ['group_id' => $group->id])
             ->call('quitUser', $user->id);
 
-        // ユーザーがグループに参加していない状態であることを確認
-        $this->assertDatabaseMissing('group_user', [
-            'user_id' => $user->id,
-            'group_id' => $group->id
-        ]);
 
         // このグループに紐づくユーザーの権限情報が存在していないることを確認
         $this->assertDatabaseMissing('roles', [
@@ -179,14 +164,12 @@ class MemberEditTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // 権限切り替えされる側のユーザー
         $user = User::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 100]);
 
         // セッションにグループIDをセット

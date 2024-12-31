@@ -19,7 +19,6 @@
 
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="flex flex-wrap justify-center gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">                
-
                 @foreach ( $all_groups_data_paginated as $group_data )
                 <section class="w-full text-xs text-gray-600 body-font">
                     <div class="px-5 ">
@@ -53,7 +52,7 @@
                                                     管理者：{{ $group_data->userRoles->first()->nickname }}
                                                 </p>
                                                 <p class="items-center pt-5 ml-3 leading-none text-gray-700">
-                                                    メンバー：{{ $group_data->user_count }}人
+                                                    メンバー：{{ $group_data->user_roles_count }}人
                                                 </p>
                                             </div>
                                         </div>

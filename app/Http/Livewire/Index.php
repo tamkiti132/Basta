@@ -31,12 +31,13 @@ class Index extends Component
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-        $my_groups_data = Group::whereHas('user', function ($query) use ($my_user_id) {
-            $query->where('group_user.user_id', $my_user_id);
-        })->with(['userRoles' => function ($query) {
-            $query->where('roles.role', 10);
-        }])
-            ->withCount('user')
+        $my_groups_data = Group::whereHas('userRoles', function ($query) use ($my_user_id) {
+            $query->where('user_id', $my_user_id);
+        })
+            ->with(['userRoles' => function ($query) {
+                $query->wherePivot('role', 10);
+            }])
+            ->withCount('userRoles')
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {

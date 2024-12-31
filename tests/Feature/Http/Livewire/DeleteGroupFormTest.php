@@ -38,7 +38,6 @@ class DeleteGroupFormTest extends TestCase
             'suspension_state' => 0,
         ]);
 
-        $group->user()->attach($user);
         $group->userRoles()->attach($user, ['role' => 10]);
 
         // まず、管理者としてグループ編集画面にアクセスできるかテスト

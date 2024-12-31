@@ -47,7 +47,6 @@ class GroupJoinTest extends TestCase
             'isJoinFreeEnabled' => true,
         ]);
 
-        $group->user()->attach($createGroupUser);
         $group->userRoles()->attach($createGroupUser, ['role' => 10]);
 
         $testUser = User::factory()->create([
@@ -62,12 +61,6 @@ class GroupJoinTest extends TestCase
 
         Livewire::test(GroupJoin::class)
             ->call('joinGroup', $group->id);
-
-        // testUserがgroupに参加しているか
-        $this->assertDatabaseHas('group_user', [
-            'group_id' => $group->id,
-            'user_id' => $testUser->id,
-        ]);
 
         // testUserがメンバー権限を持っているか
         $this->assertDatabaseHas('roles', [

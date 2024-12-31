@@ -48,7 +48,6 @@ class GroupCreate extends Component
             ]);
         }
 
-        $group->user()->sync(Auth::id());
         $group->userRoles()->syncWithoutDetaching([
             Auth::id() => ['role' => 10]
         ]);

@@ -35,7 +35,6 @@ class QuitGroupFormTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->user()->attach($manager);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
         // メンバーを追加
@@ -45,7 +44,6 @@ class QuitGroupFormTest extends TestCase
             'password' => Hash::make($password),
         ]);
 
-        $group->user()->attach($member);
         $group->userRoles()->attach($member, ['role' => 100]);
 
         // メンバーとしてログイン
@@ -63,8 +61,8 @@ class QuitGroupFormTest extends TestCase
             ->call('quitGroup')
             ->assertRedirect('/');
 
-        // メンバーが退会したか確認（group_userテーブルから削除されているか）
-        $this->assertDatabaseMissing('group_user', [
+        // メンバーが退会したか確認（rolesテーブルから削除されているか）
+        $this->assertDatabaseMissing('roles', [
             'user_id' => $member->id,
             'group_id' => $group->id,
         ]);

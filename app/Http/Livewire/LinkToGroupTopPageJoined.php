@@ -29,8 +29,8 @@ class LinkToGroupTopPageJoined extends Component
     {
         if (Auth::check()) {
             $my_user_id = Auth::id();
-            $this->user_groups = Group::whereHas('user', function ($query) use ($my_user_id) {
-                $query->where('group_user.user_id', $my_user_id);
+            $this->user_groups = Group::whereHas('userRoles', function ($query) use ($my_user_id) {
+                $query->where('user_id', $my_user_id);
             })->orderBy('name')
                 ->get();
         }

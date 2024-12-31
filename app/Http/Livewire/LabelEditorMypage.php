@@ -132,8 +132,6 @@ class LabelEditorMypage extends Component
 
     public function setGroupId($group_id = null)
     {
-        // dd($group_id);
-
         $this->group_id = $group_id;
 
         if ($group_id !== null) {

@@ -22,14 +22,27 @@ class UserTopAdminTest extends TestCase
     {
         // Arrange（準備）
 
-        // テスト用のユーザーと関連データを作成
-        $user = User::factory()->create();
+        // 運営ユーザー（ユーザーを削除する側）
+        $admin = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 運営ユーザーの権限を設定
+        // 運営ユーザーの場合、グループに所属していないので、group_idはnullとなる
+        $admin->groupRoles()->attach($admin, [
+            'role' => 5,
+            'group_id' => null,
+        ]);
+        $this->actingAs($admin);
 
-        $group = Group::factory()->create();
-
-
-        // ユーザーをグループに追加
-        $group->user()->attach($user->id);
+        // 一般ユーザー（削除されるユーザー）
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 一般ユーザーの権限を設定
+        $group->userRoles()->attach($user, ['role' => 10]);
 
 
         $memo = Memo::factory()->create([

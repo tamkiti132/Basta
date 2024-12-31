@@ -24,15 +24,12 @@ class LabelAttachedToMemoList extends Component
     {
         $memo = Memo::find($this->memoId);  // $memoIdは取得したいメモのID
         $this->labels = $memo->labels;
-
-        // dd($this->labels);
     }
 
     public function loadTempLabels($checked)
     {
         $checkedLabels = array_filter($checked);
         $this->labels = Label::whereIn('id', array_keys($checkedLabels))->orderBy('name')->get();
-        // dd($checked, $this->labels);
     }
 
     public function render()

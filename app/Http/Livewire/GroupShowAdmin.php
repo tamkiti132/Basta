@@ -190,7 +190,6 @@ class GroupShowAdmin extends Component
                 ->where('role', 10);
         })->exists();
 
-        // dd($hasManagedGroup);
 
         // 管理者であるグループがあるかどうかによる分岐
         if ($hasManagedGroup) {
@@ -198,7 +197,6 @@ class GroupShowAdmin extends Component
             $this->getManagedGroups($this->deleteTargetUserId);
         } else {
             // 管理者の権限のグループがない場合
-            // dd('管理者の権限のグループがない場合');
             $this->deleteUser();
         }
     }
@@ -212,14 +210,9 @@ class GroupShowAdmin extends Component
                 ->where('role', 10);
         })->get();
 
-        // dd($managedGroups);
-
         // 取得したグループのIDを取得
         $this->managedGroupIds = $managedGroups->pluck('id');
         $this->totalManagedGroupCount = $this->managedGroupIds->count();
-
-        // dd($this->managedGroupIds);
-        // dd(($this->selectedNextManagerCount + 1) . "/" . $this->totalManagedGroupCount);
 
         $this->setTargetGroupWithSubManagers($this->managedGroupIds[0]);
     }
@@ -246,7 +239,6 @@ class GroupShowAdmin extends Component
             $this->showNextManagerModal = true;
         } else {
             // サブ管理者がいない場合
-            // dd('サブ管理者がいない場合');
             $this->setTargetGroupWithMembers($this->targetGroup->id);
         }
     }
@@ -260,8 +252,6 @@ class GroupShowAdmin extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-        // dd($this->targetGroup);
-
         $this->hasMember();
     }
 
@@ -270,12 +260,10 @@ class GroupShowAdmin extends Component
     {
         if ($this->targetGroup->userRoles->isNotEmpty()) {
             // メンバーがいる場合
-            // dd('メンバーがいる場合');
             $this->fragSubManagerOrMember = 'member';
             $this->showNextManagerModal = true;
         } else {
             // メンバーがいない場合
-            // dd('メンバーがいない場合');
             $this->showNextManagerModal = false;
             $this->showModalNobodyMember = true;
         }
@@ -301,7 +289,6 @@ class GroupShowAdmin extends Component
 
     public function addDeleteGroupFlag()
     {
-        // dd('addDeleteGroupFlag');
         $this->selectedNextManagerIds[$this->targetGroup->id] = 0;
 
         $this->selectedNextManagerCount++;
@@ -355,9 +342,6 @@ class GroupShowAdmin extends Component
                 }
             }
         }
-
-
-        // dd('ユーザーとそれに関連するデータの削除を実行します');
 
 
 
@@ -519,8 +503,8 @@ class GroupShowAdmin extends Component
 
         //ユーザー
         $users_data = User::where('suspension_state', 0)
-            ->whereHas('group', function ($query) {
-                $query->where('id', $this->group_id);
+            ->whereHas('groupRoles', function ($query) {
+                $query->where('group_id', $this->group_id);
             })
             ->with(['groupRoles' => function ($query) {
                 $query->where('group_id', $this->group_id)
@@ -569,8 +553,8 @@ class GroupShowAdmin extends Component
 
         //利用停止中ユーザー
         $suspension_users_data = User::where('suspension_state', 1)
-            ->whereHas('group', function ($query) {
-                $query->where('id', $this->group_id);
+            ->whereHas('groupRoles', function ($query) {
+                $query->where('group_id', $this->group_id);
             })
             ->with(['groupRoles' => function ($query) {
                 $query->where('group_id', $this->group_id)
@@ -616,8 +600,8 @@ class GroupShowAdmin extends Component
 
 
 
-        $user_groups = Group::whereHas('user', function ($query) {
-            $query->where('users.id', $this->user_id);
+        $user_groups = Group::whereHas('userRoles', function ($query) {
+            $query->where('user_id', $this->user_id);
         })->get();
 
 
