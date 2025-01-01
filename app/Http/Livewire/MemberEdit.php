@@ -108,16 +108,6 @@ class MemberEdit extends Component
     }
 
 
-    public function quitUser($selected_user_id)
-    {
-        $group_data = Group::find($this->group_id);
-        $group_data->userRoles()->detach($selected_user_id);
-
-        $this->resetPage('all_not_blocked_users_page');
-        $this->resetPage('all_blocked_users_page');
-    }
-
-
     public function blockMember($user_id)
     {
         $user = User::find($user_id);
