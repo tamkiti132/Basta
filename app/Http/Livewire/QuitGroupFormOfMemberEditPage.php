@@ -19,7 +19,7 @@ class QuitGroupFormOfMemberEditPage extends Component
 
 
     protected $rules = [
-        'password' => ['required'],
+        'password' => ['required', 'current_password'],
     ];
 
 
@@ -28,8 +28,6 @@ class QuitGroupFormOfMemberEditPage extends Component
         $this->group_data = Group::with(['userRoles' => function ($query) {
             $query->wherePivot('role', 50);
         }])->find(session()->get('group_id'));
-
-        // dd($this->group_data);
     }
 
 
@@ -57,13 +55,8 @@ class QuitGroupFormOfMemberEditPage extends Component
 
     public function quitGroup()
     {
+        // パスワードのバリデーション
         $this->validate();
-
-        if (!Hash::check($this->password, Auth::user()->password)) {
-            $this->addError('password', 'パスワードが一致しません。');
-            return;
-        }
-
 
         $group_data = Group::find(session()->get('group_id'));
         $group_data->userRoles()->detach($this->user_id);
