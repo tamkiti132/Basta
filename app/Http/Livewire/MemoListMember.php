@@ -8,7 +8,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Memo;
-use App\Models\Label;
 use App\Models\Group;
 use App\Models\Group_type_report_link;
 use App\Models\Memo_type_report_link;

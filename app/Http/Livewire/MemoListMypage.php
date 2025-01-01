@@ -4,9 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\User;
 use App\Models\Memo;
-use App\Models\Label;
 use App\Models\Group;
 use Illuminate\Pagination\LengthAwarePaginator;
 

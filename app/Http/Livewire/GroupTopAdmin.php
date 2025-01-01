@@ -2,11 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Comment;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
-use App\Models\Memo;
 use App\Models\Group;
 use App\Models\Group_type_report_link;
 use App\Models\Report;

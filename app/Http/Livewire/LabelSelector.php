@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Label;
 use App\Models\Memo;
-use Illuminate\Support\Facades\Auth;
 
 class LabelSelector extends Component
 {

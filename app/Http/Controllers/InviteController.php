@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
