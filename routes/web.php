@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\GroupEditController;
 use App\Http\Controllers\InviteController;
 use App\Http\Livewire\MemoCreate;
 use App\Http\Livewire\MemoEdit;
@@ -116,7 +115,6 @@ Route::middleware(['auth', CheckSuspensionState::class])
                 Route::prefix('group_edit')
                     ->group(function () {
                         Route::get('/{group_id}', GroupEdit::class)->name('group_edit');
-                        Route::get('mail', [GroupEditController::class, 'sendMail'])->name('group_edit.sendMail');
                     });
 
                 Route::prefix('member_show')

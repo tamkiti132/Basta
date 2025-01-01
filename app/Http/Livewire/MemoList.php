@@ -7,8 +7,6 @@ use Livewire\WithPagination;
 use App\Models\Memo;
 use App\Models\Group;
 use App\Models\Group_type_report_link;
-use App\Models\Label;
-use App\Models\GroupTypeReportLink;
 use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;

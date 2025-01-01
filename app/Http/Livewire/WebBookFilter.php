@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Memo;
 
 class WebBookFilter extends Component
 {
@@ -17,7 +16,5 @@ class WebBookFilter extends Component
         $this->emit('filteredMemos', $type); // イベントを発火して、新しいフィルタリングタイプを送信します
     }
 
-    public function render()
-    {
-    }
+    public function render() {}
 }
