@@ -57,4 +57,42 @@ class DeleteGroupFormTest extends TestCase
             'name' => $group->name,
         ]);
     }
+
+    public function test_validation_deleteGroup()
+    {
+        // Arrange（準備）
+        $password = 'secure-password';
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make($password),
+        ]);
+        $this->actingAs($user);
+
+        $group = Group::factory()->create([
+            'name' => 'テストグループ',
+            'suspension_state' => 0,
+        ]);
+
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+        // まず、管理者としてグループ編集画面にアクセスできるかテスト
+        $this->get('group/group_edit/' . $group->id)
+            ->assertSeeLivewire(DeleteGroupForm::class);
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(DeleteGroupForm::class)
+            ->set('password', '')
+            ->call('deleteGroup')
+            ->assertHasErrors(['password' => 'required']);
+
+        Livewire::test(DeleteGroupForm::class)
+            ->set('password', 'aaaa')
+            ->call('deleteGroup')
+            ->assertHasErrors(['password' => 'current_password']);
+
+        // Assert（検証）
+        $this->assertDatabaseHas('groups', [
+            'name' => $group->name,
+        ]);
+    }
 }
