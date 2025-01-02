@@ -21,7 +21,7 @@ class QuitGroupForm extends Component
 
 
     protected $rules = [
-        'password' => ['required'],
+        'password' => ['required', 'current_password'],
     ];
 
 
@@ -69,11 +69,6 @@ class QuitGroupForm extends Component
     public function quitGroup()
     {
         $this->validate();
-
-        if (!Hash::check($this->password, Auth::user()->password)) {
-            $this->addError('password', 'パスワードが一致しません。');
-            return;
-        }
 
         $this->password = "";
 
