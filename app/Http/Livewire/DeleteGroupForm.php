@@ -16,7 +16,7 @@ class DeleteGroupForm extends Component
     public $showModal = false;
 
     protected $rules = [
-        'password' => ['required'],
+        'password' => ['required', 'current_password'],
     ];
 
     public function mount()
@@ -27,11 +27,6 @@ class DeleteGroupForm extends Component
     public function deleteGroup()
     {
         $this->validate();
-
-        if (!Hash::check($this->password, Auth::user()->password)) {
-            $this->addError('password', 'パスワードが一致しません。');
-            return;
-        }
 
         // 以下、パスワードが一致したときの処理
         // グループに関連する通報リンクを取得
