@@ -15,9 +15,21 @@ use App\Models\User_type_report_link;
 use App\Models\Group_type_report_link;
 use Livewire\Livewire;
 use App\Http\Livewire\UserTopAdmin;
+use Illuminate\Support\Facades\Storage;
 
 class UserTopAdminTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+
+        // テスト用のストレージを設定
+        Storage::fake('public');
+    }
+
     public function test_deleteUser()
     {
         // Arrange（準備）

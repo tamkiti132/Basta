@@ -12,9 +12,21 @@ use Tests\TestCase;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+
+        // テスト用のストレージを設定
+        Storage::fake('public');
+    }
+
     public function test_ユーザー登録画面が表示できる(): void
     {
         if (! Features::enabled(Features::registration())) {
@@ -142,9 +154,6 @@ class RegisteredUserControllerTest extends TestCase
         ]);
 
         $url = '/register';
-
-        // テスト用のロケールを設定
-        app()->setLocale('testing');
 
 
         // Act（実行）  &  Assert（検証）

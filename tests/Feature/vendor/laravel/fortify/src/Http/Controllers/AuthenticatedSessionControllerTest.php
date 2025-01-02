@@ -7,11 +7,23 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 
 class AuthenticatedSessionControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // テスト用のロケールを設定
+        app()->setLocale('testing');
+
+        // テスト用のストレージを設定
+        Storage::fake('public');
+    }
+
     public function test_ログイン画面が表示できる(): void
     {
         // Act（実行）
@@ -103,10 +115,6 @@ class AuthenticatedSessionControllerTest extends TestCase
         ]);
 
         $url = '/login';
-
-        // テスト用のロケールを設定
-        app()->setLocale('testing');
-
 
 
         // Act（実行）  &  Assert（検証）
