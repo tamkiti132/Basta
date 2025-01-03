@@ -33,7 +33,6 @@ class UserTopAdminTest extends TestCase
     public function test_deleteUser()
     {
         // Arrange（準備）
-
         // 運営ユーザー（ユーザーを削除する側）
         $admin = User::factory()->create([
             'suspension_state' => 0,
@@ -78,5 +77,84 @@ class UserTopAdminTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
         $this->assertDatabaseMissing('memos', ['id' => $memo->id]);
         $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
+    }
+
+
+    public function test_suspendUser()
+    {
+        // Arrange（準備）
+        // 運営ユーザー（ユーザーを利用停止する側）
+        $admin = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 運営ユーザーの権限を設定
+        // 運営ユーザーの場合、グループに所属していないので、group_idはnullとなる
+        $admin->groupRoles()->attach($admin, [
+            'role' => 5,
+            'group_id' => null,
+        ]);
+        $this->actingAs($admin);
+
+        // 一般ユーザー（利用停止されるユーザー）
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 一般ユーザーの権限を設定
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+
+        // ユーザーのsuspension_stateが0になっていることを確認
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'suspension_state' => 0]);
+
+
+        // Act（実行）
+        Livewire::test(UserTopAdmin::class)
+            ->call('suspendUser', $user->id);
+
+        // Assert（検証）
+        // ユーザーのsuspension_stateが1になっていることを確認
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'suspension_state' => 1]);
+    }
+
+    public function test_liftSuspendUser()
+    {
+        // Arrange（準備）
+        // 運営ユーザー（ユーザーを利用停止解除する側）
+        $admin = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 運営ユーザーの権限を設定
+        // 運営ユーザーの場合、グループに所属していないので、group_idはnullとなる
+        $admin->groupRoles()->attach($admin, [
+            'role' => 5,
+            'group_id' => null,
+        ]);
+        $this->actingAs($admin);
+
+        // 一般ユーザー（利用停止されるユーザー）
+        $user = User::factory()->create([
+            'suspension_state' => 1,
+        ]);
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        // 一般ユーザーの権限を設定
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+
+        // ユーザーのsuspension_stateが1になっていることを確認
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'suspension_state' => 1]);
+
+
+        // Act（実行）
+        Livewire::test(UserTopAdmin::class)
+            ->call('liftSuspendUser', $user->id);
+
+        // Assert（検証）
+        // ユーザーのsuspension_stateが0になっていることを確認
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'suspension_state' => 0]);
     }
 }
