@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -34,22 +35,19 @@ class SendRequestMail extends Mailable
     public function envelope()
     {
         if ($this->request_type === 'type_1') {
-            return new Envelope(
-                subject: 'サービスの不具合の報告',
-            );
+            $subject = 'サービスの不具合の報告';
         } elseif ($this->request_type === 'type_2') {
-            return new Envelope(
-                subject: 'サービス機能の追加・改善リクエスト',
-            );
+            $subject = 'サービス機能の追加・改善リクエスト';
         } elseif ($this->request_type === 'type_3') {
-            return new Envelope(
-                subject: 'セキュリティ脆弱性の報告',
-            );
+            $subject = 'セキュリティ脆弱性の報告';
         } elseif ($this->request_type === 'type_4') {
-            return new Envelope(
-                subject: 'その他お問い合わせ',
-            );
+            $subject = 'その他お問い合わせ';
         }
+
+        return new Envelope(
+            subject: $subject,
+            to: 'basta.h.a.132@gmail.com',
+        );
     }
 
     /**
@@ -101,26 +99,47 @@ class SendRequestMail extends Mailable
      */
     public function attachments()
     {
-        $attachments = [];
-
         if ($this->request_type === 'type_1') {
             if (isset($this->report_data['uploaded_photo_1']) && is_object($this->report_data['uploaded_photo_1'])) {
-                $attachments[] = $this->report_data['uploaded_photo_1']->getRealPath();
+
+                $uploaded_photo_1 = $this->report_data['uploaded_photo_1'];
+
+                return [
+                    Attachment::fromPath($uploaded_photo_1->getRealPath())
+                        ->as($uploaded_photo_1->getClientOriginalName())
+                        ->withMime($uploaded_photo_1->getMimeType())
+                ];
             }
         } elseif ($this->request_type === 'type_2') {
             if (isset($this->report_data['uploaded_photo_2']) && is_object($this->report_data['uploaded_photo_2'])) {
-                $attachments[] = $this->report_data['uploaded_photo_2']->getRealPath();
+                $uploaded_photo_2 = $this->report_data['uploaded_photo_2'];
+
+                return [
+                    Attachment::fromPath($uploaded_photo_2->getRealPath())
+                        ->as($uploaded_photo_2->getClientOriginalName())
+                        ->withMime($uploaded_photo_2->getMimeType())
+                ];
             }
         } elseif ($this->request_type === 'type_3') {
             if (isset($this->report_data['uploaded_photo_3']) && is_object($this->report_data['uploaded_photo_3'])) {
-                $attachments[] = $this->report_data['uploaded_photo_3']->getRealPath();
+                $uploaded_photo_3 = $this->report_data['uploaded_photo_3'];
+
+                return [
+                    Attachment::fromPath($uploaded_photo_3->getRealPath())
+                        ->as($uploaded_photo_3->getClientOriginalName())
+                        ->withMime($uploaded_photo_3->getMimeType())
+                ];
             }
         } elseif ($this->request_type === 'type_4') {
             if (isset($this->report_data['uploaded_photo_4']) && is_object($this->report_data['uploaded_photo_4'])) {
-                $attachments[] = $this->report_data['uploaded_photo_4']->getRealPath();
+                $uploaded_photo_4 = $this->report_data['uploaded_photo_4'];
+
+                return [
+                    Attachment::fromPath($uploaded_photo_4->getRealPath())
+                        ->as($uploaded_photo_4->getClientOriginalName())
+                        ->withMime($uploaded_photo_4->getMimeType())
+                ];
             }
         }
-
-        return $attachments;
     }
 }

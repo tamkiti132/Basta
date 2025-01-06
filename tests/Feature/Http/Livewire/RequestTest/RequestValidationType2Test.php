@@ -3,9 +3,11 @@
 namespace Tests\Feature\Http\Livewire\RequestTest;
 
 use App\Http\Livewire\Request;
+use App\Mail\SendRequestMail;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,6 +24,40 @@ class RequestValidationType2Test extends TestCase
         Storage::fake('public');
     }
 
+    public function test_sendRequest_check_send_mail_type_2()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+
+        $this->actingAs($user);
+
+        // テスト用の画像を作成
+        $image = UploadedFile::fake()->image('test.png')->size(2048);
+
+        Mail::fake();
+
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(Request::class)
+            ->set('email_2', 'test@example.com')
+            ->set('function_request_type', '0')
+            ->set('title_2', 'テストタイトル')
+            ->set('detail_2', 'テスト詳細')
+            ->set('environment_2', 1)
+            ->set('reference_url_2', 'https://example.com')
+            ->set('uploaded_photo_2', $image)
+            ->call('sendRequest', 'type_2')
+            ->assertRedirect('request');
+
+        // 宛先のメールアドレスは app/Mail/SendRequestMail.php に記載
+        Mail::assertSent(SendRequestMail::class, function ($mail) {
+            return $mail->hasTo('basta.h.a.132@gmail.com') &&
+                $mail->hasSubject('サービス機能の追加・改善リクエスト');
+        });
+    }
+
     public function test_validation_request_type_2_成功()
     {
         // Arrange（準備）
@@ -31,6 +67,9 @@ class RequestValidationType2Test extends TestCase
 
         $this->actingAs($user);
 
+        // テスト用の画像を作成
+        $image = UploadedFile::fake()->image('test.png')->size(2048);
+
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
             ->set('email_2', 'test@example.com')
@@ -39,6 +78,7 @@ class RequestValidationType2Test extends TestCase
             ->set('detail_2', 'テスト詳細')
             ->set('environment_2', 1)
             ->set('reference_url_2', 'https://example.com')
+            ->set('uploaded_photo_2', $image)
             ->call('sendRequest', 'type_2')
             ->assertHasNoErrors()
             ->assertRedirect('request');
@@ -125,5 +165,20 @@ class RequestValidationType2Test extends TestCase
             ->set('reference_url_2', 'not_url')
             ->call('sendRequest', "type_2")
             ->assertHasErrors(['reference_url_2' => 'url']);
+
+        // uploaded_photo_2のバリデーション
+        $notImage = UploadedFile::fake()->create('notImage.txt', 100);
+
+        Livewire::test(Request::class)
+            ->set('uploaded_photo_2', $notImage)
+            ->call('sendRequest', "type_2")
+            ->assertHasErrors(['uploaded_photo_2' => 'image']);
+
+        $largeKilobyteImage = UploadedFile::fake()->image('test.png')->size(2049);
+
+        Livewire::test(Request::class)
+            ->set('uploaded_photo_2', $largeKilobyteImage)
+            ->call('sendRequest', "type_2")
+            ->assertHasErrors(['uploaded_photo_2' => 'max']);
     }
 }

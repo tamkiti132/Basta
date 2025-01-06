@@ -3,9 +3,11 @@
 namespace Tests\Feature\Http\Livewire\RequestTest;
 
 use App\Http\Livewire\Request;
+use App\Mail\SendRequestMail;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,6 +24,43 @@ class RequestValidationType3Test extends TestCase
         Storage::fake('public');
     }
 
+    public function test_sendRequest_check_send_mail_type_3()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+
+        $this->actingAs($user);
+
+        // テスト用の画像を作成
+        $image = UploadedFile::fake()->image('test.png')->size(2048);
+
+        Mail::fake();
+
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(Request::class)
+            ->set('email_3', 'test@example.com')
+            ->set('title_3', 'テストタイトル')
+            ->set('detail_3', 'テスト詳細')
+            ->set('explanation', 'テスト技術的説明')
+            ->set('steps_to_reproduce', 'テスト再現手順')
+            ->set('abuse_method', 'テスト悪用方法')
+            ->set('workaround', 'テスト回避策')
+            ->set('environment_3', 1)
+            ->set('reference_url_3', 'https://example.com')
+            ->set('uploaded_photo_3', $image)
+            ->call('sendRequest', 'type_3')
+            ->assertRedirect('request');
+
+        // 宛先のメールアドレスは app/Mail/SendRequestMail.php に記載
+        Mail::assertSent(SendRequestMail::class, function ($mail) {
+            return $mail->hasTo('basta.h.a.132@gmail.com') &&
+                $mail->hasSubject('セキュリティ脆弱性の報告');
+        });
+    }
+
     public function test_validation_request_type_3_成功()
     {
         // Arrange（準備）
@@ -31,17 +70,21 @@ class RequestValidationType3Test extends TestCase
 
         $this->actingAs($user);
 
+        // テスト用の画像を作成
+        $image = UploadedFile::fake()->image('test.png')->size(2048);
+
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
             ->set('email_3', 'test@example.com')
             ->set('title_3', 'テストタイトル')
             ->set('detail_3', 'テスト詳細')
-            ->set('explanation', '対象の脆弱性の再現手順')
-            ->set('steps_to_reproduce', '対象の脆弱性の再現手順')
-            ->set('abuse_method', '対象の脆弱性の悪用方法')
-            ->set('workaround', '対象の脆弱性の回避策')
+            ->set('explanation', 'テスト技術的説明')
+            ->set('steps_to_reproduce', 'テスト再現手順')
+            ->set('abuse_method', 'テスト悪用方法')
+            ->set('workaround', 'テスト回避策')
             ->set('environment_3', 1)
             ->set('reference_url_3', 'https://example.com')
+            ->set('uploaded_photo_3', $image)
             ->call('sendRequest', 'type_3')
             ->assertHasNoErrors()
             ->assertRedirect('request');
@@ -154,5 +197,20 @@ class RequestValidationType3Test extends TestCase
             ->set('reference_url_3', 'not_url')
             ->call('sendRequest', "type_3")
             ->assertHasErrors(['reference_url_3' => 'url']);
+
+        // uploaded_photo_3のバリデーション
+        $notImage = UploadedFile::fake()->create('notImage.txt', 100);
+
+        Livewire::test(Request::class)
+            ->set('uploaded_photo_3', $notImage)
+            ->call('sendRequest', "type_3")
+            ->assertHasErrors(['uploaded_photo_3' => 'image']);
+
+        $largeKilobyteImage = UploadedFile::fake()->image('test.png')->size(2049);
+
+        Livewire::test(Request::class)
+            ->set('uploaded_photo_3', $largeKilobyteImage)
+            ->call('sendRequest', "type_3")
+            ->assertHasErrors(['uploaded_photo_3' => 'max']);
     }
 }
