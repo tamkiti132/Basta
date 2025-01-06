@@ -28,6 +28,7 @@ class RequestValidationType3Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -41,7 +42,6 @@ class RequestValidationType3Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_3', 'test@example.com')
             ->set('title_3', 'テストタイトル')
             ->set('detail_3', 'テスト詳細')
             ->set('explanation', 'テスト技術的説明')
@@ -54,9 +54,10 @@ class RequestValidationType3Test extends TestCase
             ->call('sendRequest', 'type_3')
             ->assertRedirect('request');
 
-        // 宛先のメールアドレスは app/Mail/SendRequestMail.php に記載
+        // 送信元 ・ 送信先のメールアドレスは app/Mail/SendRequestMail.php に記載
         Mail::assertSent(SendRequestMail::class, function ($mail) {
             return $mail->hasTo('basta.h.a.132@gmail.com') &&
+                $mail->hasFrom('test@example.com') &&
                 $mail->hasSubject('セキュリティ脆弱性の報告');
         });
     }
@@ -65,6 +66,7 @@ class RequestValidationType3Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -75,7 +77,6 @@ class RequestValidationType3Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_3', 'test@example.com')
             ->set('title_3', 'テストタイトル')
             ->set('detail_3', 'テスト詳細')
             ->set('explanation', 'テスト技術的説明')
@@ -94,6 +95,7 @@ class RequestValidationType3Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -101,28 +103,6 @@ class RequestValidationType3Test extends TestCase
 
         // Act（実行） & Assert（検証）
         // type_3のバリデーションテスト
-        // email_3のバリデーション
-        Livewire::test(Request::class)
-            ->set('email_3', '')
-            ->call('sendRequest', "type_3")
-            ->assertHasErrors(['email_3' => 'required']);
-
-        Livewire::test(Request::class)
-            ->set('email_3', 123)
-            ->call('sendRequest', "type_3")
-            ->assertHasErrors(['email_3' => 'string']);
-
-        Livewire::test(Request::class)
-            ->set('email_3', 'not_email')
-            ->call('sendRequest', "type_3")
-            ->assertHasErrors(['email_3' => 'email']);
-
-        Livewire::test(Request::class)
-            ->set('email_3', str_repeat('a', 256))
-            ->call('sendRequest', "type_3")
-            ->assertHasErrors(['email_3' => 'max']);
-
-
         // title_3のバリデーション
         Livewire::test(Request::class)
             ->set('title_3', '')

@@ -14,7 +14,6 @@ class Request extends Component
     public $request_type;
 
     // サービスの不具合の報告
-    public $email_1;
     public $title_1;
     public $detail_1;
     public $environment_1;
@@ -23,7 +22,6 @@ class Request extends Component
     public $uploaded_photo_1;
 
     // サービス機能の追加・改善リクエスト
-    public $email_2;
     public $function_request_type;
     public $title_2;
     public $detail_2;
@@ -32,7 +30,6 @@ class Request extends Component
     public $uploaded_photo_2;
 
     // セキュリティ脆弱性の報告
-    public $email_3;
     public $title_3;
     public $detail_3;
     public $explanation;
@@ -44,7 +41,6 @@ class Request extends Component
     public $uploaded_photo_3;
 
     // その他お問い合わせ
-    public $email_4;
     public $title_4;
     public $detail_4;
     public $environment_4;
@@ -63,7 +59,6 @@ class Request extends Component
 
 
             $this->rules = [
-                'email_1' => ['required', 'string', 'email', 'max:255'],
                 'title_1' => ['required', 'string', 'max:100'],
                 'detail_1' => ['required', 'string'],
                 'environment_1' => ['required'],
@@ -74,7 +69,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_2") {
 
             $this->rules = [
-                'email_2' => ['required', 'string', 'email', 'max:255'],
                 'function_request_type' => ['required'],
                 'title_2' => ['required', 'string', 'max:100'],
                 'detail_2' => ['required', 'string'],
@@ -85,7 +79,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_3") {
 
             $this->rules = [
-                'email_3' => ['required', 'string', 'email', 'max:255'],
                 'title_3' => ['required', 'string', 'max:100'],
                 'detail_3' => ['required', 'string'],
                 'explanation' => ['nullable', 'string'],
@@ -99,7 +92,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_4") {
 
             $this->rules = [
-                'email_4' => ['required', 'string', 'email', 'max:255'],
                 'title_4' => ['required', 'string', 'max:100'],
                 'detail_4' => ['required', 'string'],
                 'environment_4' => ['required'],
@@ -113,7 +105,6 @@ class Request extends Component
         if ($this->request_type === "type_1") {
 
             $report_data = [
-                'email_1' => $this->email_1,
                 'title_1' => $this->title_1,
                 'detail_1' => $this->detail_1,
                 'environment_1' => $this->environment_1,
@@ -124,7 +115,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_2") {
 
             $report_data = [
-                'email_2' => $this->email_2,
                 'function_request_type' => $this->function_request_type,
                 'title_2' => $this->title_2,
                 'detail_2' => $this->detail_2,
@@ -135,7 +125,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_3") {
 
             $report_data = [
-                'email_3' => $this->email_3,
                 'title_3' => $this->title_3,
                 'detail_3' => $this->detail_3,
                 'explanation' => $this->explanation,
@@ -149,7 +138,6 @@ class Request extends Component
         } elseif ($this->request_type === "type_4") {
 
             $report_data = [
-                'email_4' => $this->email_4,
                 'title_4' => $this->title_4,
                 'detail_4' => $this->detail_4,
                 'environment_4' => $this->environment_4,

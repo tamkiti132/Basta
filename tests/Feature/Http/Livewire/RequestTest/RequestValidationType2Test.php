@@ -28,6 +28,7 @@ class RequestValidationType2Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -41,7 +42,6 @@ class RequestValidationType2Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_2', 'test@example.com')
             ->set('function_request_type', '0')
             ->set('title_2', 'テストタイトル')
             ->set('detail_2', 'テスト詳細')
@@ -51,9 +51,10 @@ class RequestValidationType2Test extends TestCase
             ->call('sendRequest', 'type_2')
             ->assertRedirect('request');
 
-        // 宛先のメールアドレスは app/Mail/SendRequestMail.php に記載
+        // 送信元 ・ 送信先のメールアドレスは app/Mail/SendRequestMail.php に記載
         Mail::assertSent(SendRequestMail::class, function ($mail) {
             return $mail->hasTo('basta.h.a.132@gmail.com') &&
+                $mail->hasFrom('test@example.com') &&
                 $mail->hasSubject('サービス機能の追加・改善リクエスト');
         });
     }
@@ -62,6 +63,7 @@ class RequestValidationType2Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -72,7 +74,6 @@ class RequestValidationType2Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_2', 'test@example.com')
             ->set('function_request_type', 1)
             ->set('title_2', 'テストタイトル')
             ->set('detail_2', 'テスト詳細')
@@ -88,6 +89,7 @@ class RequestValidationType2Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -95,28 +97,6 @@ class RequestValidationType2Test extends TestCase
 
         // Act（実行） & Assert（検証）
         // type_2のバリデーションテスト
-        // email_2のバリデーション
-        Livewire::test(Request::class)
-            ->set('email_2', '')
-            ->call('sendRequest', "type_2")
-            ->assertHasErrors(['email_2' => 'required']);
-
-        Livewire::test(Request::class)
-            ->set('email_2', 123)
-            ->call('sendRequest', "type_2")
-            ->assertHasErrors(['email_2' => 'string']);
-
-        Livewire::test(Request::class)
-            ->set('email_2', 'not_email')
-            ->call('sendRequest', "type_2")
-            ->assertHasErrors(['email_2' => 'email']);
-
-        Livewire::test(Request::class)
-            ->set('email_2', str_repeat('a', 256))
-            ->call('sendRequest', "type_2")
-            ->assertHasErrors(['email_2' => 'max']);
-
-
         // function_request_typeのバリデーション
         Livewire::test(Request::class)
             ->set('function_request_type', '')
