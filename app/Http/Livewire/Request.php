@@ -159,7 +159,7 @@ class Request extends Component
         }
 
 
-        Mail::to('basta.h.a.132@gmail.com')->send(new SendRequestMail($this->request_type, $report_data));
+        Mail::send(new SendRequestMail($this->request_type, $report_data));
 
         session()->flash('success', 'リクエストを送信しました。');
 

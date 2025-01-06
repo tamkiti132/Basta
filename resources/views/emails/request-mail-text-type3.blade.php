@@ -37,7 +37,7 @@
 パソコンWindowsブラウザ
 @break
 @case(1)
-パソコン
+パソコンMacブラウザ
 @break
 @case(2)
 スマートフォンiPhoneブラウザ
@@ -55,3 +55,11 @@
 その他の環境
 @break
 @endswitch
+
+
+@if($report_data['reference_url_3'])
+【参考】
+{{ $report_data['reference_url_3'] }}
+@endif
+
+
