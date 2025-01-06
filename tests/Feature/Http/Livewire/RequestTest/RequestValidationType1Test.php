@@ -28,6 +28,7 @@ class RequestValidationType1Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -41,7 +42,6 @@ class RequestValidationType1Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_1', 'test@example.com')
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
@@ -51,9 +51,10 @@ class RequestValidationType1Test extends TestCase
             ->call('sendRequest', 'type_1')
             ->assertRedirect('request');
 
-        // 宛先のメールアドレスは app/Mail/SendRequestMail.php に記載
+        // 送信元 ・ 送信先のメールアドレスは app/Mail/SendRequestMail.php に記載
         Mail::assertSent(SendRequestMail::class, function ($mail) {
             return $mail->hasTo('basta.h.a.132@gmail.com') &&
+                $mail->hasFrom('test@example.com') &&
                 $mail->hasSubject('サービスの不具合の報告');
         });
     }
@@ -62,6 +63,7 @@ class RequestValidationType1Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -72,7 +74,6 @@ class RequestValidationType1Test extends TestCase
 
         // Act（実行） & Assert（検証）
         Livewire::test(Request::class)
-            ->set('email_1', 'test@example.com')
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
@@ -88,6 +89,7 @@ class RequestValidationType1Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -95,28 +97,6 @@ class RequestValidationType1Test extends TestCase
 
         // Act（実行） & Assert（検証）
         // type_1のバリデーションテスト
-        // email_1のバリデーション
-        Livewire::test(Request::class)
-            ->set('email_1', '')
-            ->call('sendRequest', "type_1")
-            ->assertHasErrors(['email_1' => 'required']);
-
-        Livewire::test(Request::class)
-            ->set('email_1', 123)
-            ->call('sendRequest', "type_1")
-            ->assertHasErrors(['email_1' => 'string']);
-
-        Livewire::test(Request::class)
-            ->set('email_1', 'not_email')
-            ->call('sendRequest', "type_1")
-            ->assertHasErrors(['email_1' => 'email']);
-
-        Livewire::test(Request::class)
-            ->set('email_1', str_repeat('a', 256))
-            ->call('sendRequest', "type_1")
-            ->assertHasErrors(['email_1' => 'max']);
-
-
         // title_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', '')

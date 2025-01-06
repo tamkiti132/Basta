@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class SendRequestMail extends Mailable
 {
@@ -46,6 +47,7 @@ class SendRequestMail extends Mailable
 
         return new Envelope(
             subject: $subject,
+            from: Auth::user()->email,
             to: 'basta.h.a.132@gmail.com',
         );
     }

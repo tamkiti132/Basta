@@ -36,7 +36,6 @@ class SendRequestMailType4Test extends TestCase
     $image = UploadedFile::fake()->image('test.png')->size(2048);
 
     $mailable = new SendRequestMail('type_4', [
-      'email_4' => 'test@example.com',
       'title_4' => 'テストタイトル',
       'detail_4' => 'テスト詳細',
       'environment_4' => 0,

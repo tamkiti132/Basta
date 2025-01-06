@@ -34,19 +34,7 @@
                                 {{-- サービスの不具合の報告 の場合 --}}
                                 <li class="w-full" x-show="selectedType === 'show_type_1'">
                                     <form id="form1" wire:submit.prevent='sendRequest'>
-                                        <div class="grid gap-8">
-                                            {{-- メールアドレス --}}
-                                            <div class="">
-                                                <div>
-                                                    @error('email_1')
-                                                    <p class="text-xs text-left text-red-600">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                <label for="email_1" class="block mb-2 text-left">メールアドレス<span
-                                                        class="required">*</span></label>
-                                                <input type="email" id="email_1" size="50" wire:model.defer="email_1"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
-                                            </div>
+                                        <div class="grid gap-8">                                            
                                             {{-- 件名（お問い合わせのタイトル） --}}
                                             <div>
                                                 @error('title_1')
@@ -134,18 +122,6 @@
                                 <li class="w-full" x-show="selectedType === 'show_type_2'">
                                     <form id="form2" wire:submit.prevent='sendRequest'>
                                         <div class="grid gap-8">
-                                            <div>
-                                                {{-- メールアドレス --}}
-                                                <div>
-                                                    @error('email_2')
-                                                    <p class="text-xs text-left text-red-600">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                <label for="email_2" class="block mb-2 text-left">メールアドレス<span
-                                                        class="required">*</span></label>
-                                                <input type="email" id="email_2" size="50" wire:model.defer="email_2"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
-                                            </div>
                                             {{-- ご要望のタイプ --}}
                                             <div>
                                                 @error('function_request_type')
@@ -241,18 +217,6 @@
                                 <li class="w-full" x-show="selectedType === 'show_type_3'">
                                     <form id="form3" wire:submit.prevent='sendRequest'>
                                         <div class="grid gap-8">
-                                            {{-- メールアドレス --}}
-                                            <div>
-                                                <div>
-                                                    @error('email_3')
-                                                    <p class="text-xs text-left text-red-600">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                <label for="email_3" class="block mb-2 text-left">メールアドレス<span
-                                                        class="required">*</span></label>
-                                                <input type="email" id="email_3" size="50" wire:model.defer="email_3"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
-                                            </div>
                                             {{-- 件名（お問い合わせのタイトル） --}}
                                             <div>
                                                 @error('title_3')
@@ -370,18 +334,6 @@
                                 <li class="w-full" x-show="selectedType === 'show_type_4'">
                                     <form id="form4" wire:submit.prevent='sendRequest'>
                                         <div class="grid gap-8">
-                                            <div>
-                                                <div>
-                                                    @error('email_4')
-                                                    <p class="text-xs text-left text-red-600">{{ $message }}</p>
-                                                    @enderror
-                                                </div>
-                                                {{-- メールアドレス --}}
-                                                <label for="email_4" class="block mb-2 text-left">メールアドレス<span
-                                                        class="required">*</span></label>
-                                                <input type="email" id="email_4" size="50" wire:model.defer="email_4"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
-                                            </div>
                                             {{-- 件名（お問い合わせのタイトル） --}}
                                             <div>
                                                 @error('title_4')

@@ -36,7 +36,6 @@ class SendRequestMailType2Test extends TestCase
     $image = UploadedFile::fake()->image('test.png')->size(2048);
 
     $mailable = new SendRequestMail('type_2', [
-      'email_2' => 'test@example.com',
       'function_request_type' => 0,
       'title_2' => 'テストタイトル',
       'detail_2' => 'テスト詳細',
