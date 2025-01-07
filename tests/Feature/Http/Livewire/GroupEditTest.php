@@ -206,6 +206,7 @@ class GroupEditTest extends TestCase
         // 送信元 ・ 送信先のメールアドレスは app/Mail/InviteMail.php に記載
         Mail::assertSent(InviteMail::class, function ($mail) {
             return $mail->hasTo('target@example.com') &&
+                $mail->hasFrom('test@example.com') &&
                 $mail->hasSubject('Basta グループ招待');
         });
     }
