@@ -13,7 +13,6 @@ class InviteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $email;
     protected $group_data;
     protected $target_user;
     protected $url;
@@ -23,11 +22,12 @@ class InviteMail extends Mailable
      *
      * @return void
      */
-    public function __construct($email, $group_data, $target_user)
+    public function __construct($group_data, $target_user)
     {
-        $this->email = $email;
         $this->group_data = $group_data;
         $this->target_user = $target_user;
+
+        // 24時間の有効期限のあるメールアドレス
         $this->url = URL::temporarySignedRoute('invite.joinGroup', now()->addHours(24), ['group_id' => $group_data->id, 'target_user_id' => $target_user->id, 'expire' => now()->addHours(24)->timestamp]);
     }
 
@@ -40,6 +40,7 @@ class InviteMail extends Mailable
     {
         return new Envelope(
             subject: 'Basta グループ招待',
+            to: $this->target_user->email,
         );
     }
 
@@ -54,7 +55,6 @@ class InviteMail extends Mailable
             html: 'emails.invite-mail',
             text: 'emails.invite-mail-text',
             with: [
-                'email' => $this->email,
                 'group_data' => $this->group_data,
                 'target_user' => $this->target_user,
                 'url' => $this->url,

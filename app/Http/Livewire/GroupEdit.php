@@ -125,7 +125,7 @@ class GroupEdit extends Component
     public function sendInviteToGroupMail()
     {
         $this->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
+            'email' => ['required', 'string', 'email', 'exists:users,email'],
         ]);
 
         // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
@@ -139,11 +139,10 @@ class GroupEdit extends Component
             session()->flash('error', "指定のメールアドレスのユーザーは\nすでにグループに参加しています");
             return;
         } else {
-            // $this->emailをもつユーザーを取得
             $target_user = User::where('email', $this->email)->first();
 
             // メール送信
-            Mail::to($this->email)->send(new InviteMail($this->email, $this->group_data, $target_user));
+            Mail::send(new InviteMail($this->group_data, $target_user));
 
             session()->flash('success', '招待メールを送信しました');
 
