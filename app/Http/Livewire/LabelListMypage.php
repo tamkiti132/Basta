@@ -2,24 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
+use App\Http\Livewire\LabelList;
 use App\Models\Label;
 
-class LabelListMypage extends Component
+class LabelListMypage extends LabelList
 {
     public $group_id;
-    public $labels;
-    public $selected_labels = [];
 
     protected $listeners = [
-        'labelUpdated' => 'loadLabels',
         'setGroupId',
     ];
-
-    public function mount()
-    {
-        $this->loadLabels();
-    }
 
     public function setGroupId($group_id = null)
     {
@@ -39,30 +31,6 @@ class LabelListMypage extends Component
         }
     }
 
-    public function deleteLabel($labelId)
-    {
-        // $label_id の値のキーを検索
-        $key = array_search($labelId, $this->selected_labels);
-
-        // 値が見つかった場合、そのキーを使用して値を削除
-        if ($key !== false) {
-            unset($this->selected_labels[$key]);
-        }
-
-        $this->emit('filterByLabels', $this->selected_labels);
-    }
-
-
-    public function toggleLabel($labelId)
-    {
-        if (in_array($labelId, $this->selected_labels)) {
-            $this->selected_labels = array_diff($this->selected_labels, [$labelId]);
-        } else {
-            $this->selected_labels[] = $labelId;
-        }
-
-        $this->emit('filterByLabels', $this->selected_labels);
-    }
 
     public function render()
     {
