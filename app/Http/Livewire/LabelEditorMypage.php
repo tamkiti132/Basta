@@ -2,39 +2,30 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\LabelEditor;
 use App\Models\Group;
-use Livewire\Component;
 use App\Models\Label;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
-class LabelEditorMypage extends Component
+class LabelEditorMypage extends LabelEditor
 {
     public $group_id;
-    public $showLabelEditModal = false;
-    public $labelName;
-    public $labelNames = [];
-    public $labels;
 
-    protected $listeners = [
-        'deleteLabel',
-        'setGroupId',
-    ];
-
+    // 親クラスのリスナーを継承するためには、
+    // $listenersプロパティではなく、getListenersメソッドを使う必要がある
+    // （親クラスでは、$listenersプロパティでリスナーを設定する）
+    public function getListeners()
+    {
+        // 親クラスのlistenersを継承するための記述
+        return $this->listeners + [
+            'setGroupId' => 'setGroupId',
+        ];
+    }
 
     public function mount()
     {
         $this->loadLabels();
     }
 
-    public function getListeners()
-    {
-        return [
-            'showLabelEditModal' => 'showLabelEditModal',
-            'setGroupId' => 'setGroupId',
-            'deleteLabel' => 'deleteLabel',
-        ];
-    }
 
     public function loadLabels()
     {
@@ -42,58 +33,6 @@ class LabelEditorMypage extends Component
         foreach ($this->labels as $label) {
             $this->labelNames[$label->id] = $label->name;
         }
-    }
-
-    public function createLabel()
-    {
-        $this->validate([
-            'labelName' => [
-                'required',
-                'string',
-                'max:30',
-                Rule::unique('labels', 'name')->where(function ($query) {
-                    return $query->where('group_id', $this->group_id);
-                }),
-            ],
-        ]);
-
-        $label_data = [
-            'group_id' => $this->group_id,
-            'name' => $this->labelName,
-        ];
-
-        Label::create($label_data);
-
-        $this->loadLabels();
-        $this->reset('labelName');
-
-        $this->emit('labelUpdated');
-    }
-
-    // TODO:バリデーションを加える
-    public function updateLabel($labelId, $newName)
-    {
-        $label = Label::find($labelId);
-
-        $rules = [
-            'newName' => [
-                'required',
-                'string',
-                'max:30',
-                Rule::unique('labels', 'name')->ignore($labelId)->where(function ($query) {
-                    return $query->where('group_id', $this->group_id);
-                }),
-            ],
-        ];
-
-        $validatedData = Validator::make(['newName' => $newName], $rules)->validate();
-
-        $label->name = $validatedData['newName'];
-        $label->save();
-
-        $this->loadLabels();
-
-        $this->emit('labelUpdated');
     }
 
     public function showLabelEditModal()
@@ -113,22 +52,6 @@ class LabelEditorMypage extends Component
         $this->showLabelEditModal = true;
     }
 
-    public function closeLabelEditModal()
-    {
-        $this->showLabelEditModal = false;
-        $this->labelName = '';
-        $this->resetErrorBag();
-    }
-
-    public function deleteLabel($labelId)
-    {
-        Label::find($labelId)->delete();
-
-        $this->loadLabels();
-
-        $this->emit('labelDeleted', $labelId);
-        $this->emit('labelUpdated');
-    }
 
     public function setGroupId($group_id = null)
     {
