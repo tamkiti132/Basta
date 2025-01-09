@@ -92,7 +92,7 @@
                                                     </div>
 
                                                     {{-- タグ --}}
-                                                    @livewire('label-attached-to-new-memo')
+                                                    @livewire('label-attached')
 
 
                                                 </div>
@@ -176,7 +176,7 @@
 
                                                         {{-- タグ --}}
                                                         <div class="mt-12 lg:mt-32">
-                                                            @livewire('label-attached-to-new-memo')
+                                                            @livewire('label-attached')
                                                         </div>
                                                     </div>
                                                 </div>

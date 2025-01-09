@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Label;
 
-class LabelAttachedToNewMemo extends Component
+class LabelAttached extends Component
 {
     public $labels;
 
@@ -23,6 +23,6 @@ class LabelAttachedToNewMemo extends Component
 
     public function render()
     {
-        return view('livewire.label-attached-to-new-memo');
+        return view('livewire.label-attached');
     }
 }
