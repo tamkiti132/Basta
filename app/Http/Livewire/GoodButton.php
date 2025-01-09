@@ -16,10 +16,6 @@ class GoodButton extends Component
 
     public function toggleGood()
     {
-        if (Auth::guest()) {
-            return;
-        }
-
         $this->memo->goods()->toggle(Auth::id());
 
 
