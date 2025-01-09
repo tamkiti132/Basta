@@ -10,6 +10,7 @@ class LabelListMypage extends LabelList
     public $group_id;
 
     protected $listeners = [
+        'labelUpdated' => 'loadLabels',
         'setGroupId',
     ];
 
