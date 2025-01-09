@@ -19,9 +19,11 @@ class LabelEditor extends Component
     public $labelName;
     public $labelNames = [];
     public $labels;
-    protected $listeners = ['deleteLabel' => 'deleteLabel'];
 
-
+    protected $listeners = [
+        'deleteLabel' => 'deleteLabel',
+        'showLabelEditModal' => 'showLabelEditModal'
+    ];
 
 
     public function mount()
@@ -31,13 +33,6 @@ class LabelEditor extends Component
         $this->group_id = session()->get('group_id');
     }
 
-    public function getListeners()
-    {
-        return [
-            'showLabelEditModal' => 'showLabelEditModal',
-            'deleteLabel' => 'deleteLabel'
-        ];
-    }
 
     public function loadLabels()
     {
