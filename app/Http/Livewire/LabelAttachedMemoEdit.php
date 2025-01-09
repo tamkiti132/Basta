@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\Label;
 use App\Models\Memo;
 
-class LabelAttachedToMemoList extends Component
+class LabelAttachedMemoEdit extends Component
 {
     public $labels;
     public $memoId;
@@ -34,6 +34,6 @@ class LabelAttachedToMemoList extends Component
 
     public function render()
     {
-        return view('livewire.label-attached-to-memo-list');
+        return view('livewire.label-attached-memo-edit');
     }
 }
