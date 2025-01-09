@@ -16,10 +16,6 @@ class LaterReadButton extends Component
 
     public function toggleLaterRead()
     {
-        if (Auth::guest()) {
-            return;
-        }
-
         $this->memo->laterReads()->toggle(Auth::id());
 
         // Memoモデルをリフレッシュして、laterReadの数を更新する
