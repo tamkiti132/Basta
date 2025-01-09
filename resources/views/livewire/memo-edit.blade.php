@@ -65,7 +65,7 @@
                                             </div>
 
                                             {{-- ラベル --}}
-                                            @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id ])
+                                            @livewire('label-attached-memo-edit', ['memoId' => $memo_data->id ])
                                         </div>
                                         {{-- 真ん中 --}}
                                         <div class="mt-6 lg:col-span-3 lg:mt-0">
@@ -147,7 +147,7 @@
 
                                             {{-- ラベル --}}
                                             <div class="mt-12 lg:mt-32">
-                                                @livewire('label-attached-to-memo-list', ['memoId' => $memo_data->id])
+                                                @livewire('label-attached-memo-edit', ['memoId' => $memo_data->id])
                                             </div>
                                         </div>
                                         {{-- 真ん中 --}}
