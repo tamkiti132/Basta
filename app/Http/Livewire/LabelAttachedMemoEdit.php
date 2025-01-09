@@ -2,16 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use App\Models\Label;
 use App\Models\Memo;
+use App\Http\Livewire\LabelAttached;
 
-class LabelAttachedMemoEdit extends Component
+class LabelAttachedMemoEdit extends LabelAttached
 {
-    public $labels;
     public $memoId;
 
-    protected $listeners = ['labelSelected' => 'loadLabels', 'labelSelected' => 'loadTempLabels'];
+    public function getListeners()
+    {
+        return $this->listeners + [
+            'labelSelected' => 'loadLabels',
+        ];
+    }
 
 
     public function mount($memoId)
@@ -24,12 +27,6 @@ class LabelAttachedMemoEdit extends Component
     {
         $memo = Memo::find($this->memoId);  // $memoIdは取得したいメモのID
         $this->labels = $memo->labels;
-    }
-
-    public function loadTempLabels($checked)
-    {
-        $checkedLabels = array_filter($checked);
-        $this->labels = Label::whereIn('id', array_keys($checkedLabels))->orderBy('name')->get();
     }
 
     public function render()
