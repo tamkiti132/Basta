@@ -38,10 +38,12 @@
                                     グループを通報
                                 </button>
 
+                                @can('member-to-manager', $group_data)
                                 <button onclick="Livewire.emit('showModal')"
                                     class="block w-full p-2 text-left hover:bg-slate-100">
                                     退会
                                 </button>
+                                @endcan
 
                                 @can('admin-higher')
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
