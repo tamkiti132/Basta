@@ -94,8 +94,15 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         //指定グループの 管理者 ・ サブ管理者 ・ メンバー
-        Gate::define('member-to-manager', function ($user) {
-            return $user->role >= 10 && $user->role <= 100;
+        Gate::define('member-to-manager', function ($user, $group_data) {
+            $group_role = $user->groupRoles()->where('group_id', $group_data->id)->first();
+
+            if ($group_role) {
+                $role = $group_role->pivot->role;
+                return $role >= 10 && $role <= 100;
+            } else {
+                return false;
+            }
         });
 
         //指定グループの メンバー 以上　
