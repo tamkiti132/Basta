@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_type_report_links', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id');
-            $table->foreignId('user_id');
+            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });
     }
 
