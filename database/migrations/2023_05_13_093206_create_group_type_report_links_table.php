@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('group_type_report_links', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id');
-            $table->foreignId('group_id');
+            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_reports');
+        Schema::dropIfExists('report_groups');
     }
 };

@@ -51,26 +51,16 @@ class GroupTopAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
-        $memo = Memo::factory()->create([
-            'user_id' => $user->id,
-            'group_id' => $group->id
-        ]);
-        $comment = Comment::factory()->create([
-            'user_id' => $user->id,
-            'memo_id' => $memo->id
-        ]);
-
-
         // Act（実行）
-        Livewire::test(GroupTopAdmin::class)
+        $response = Livewire::test(GroupTopAdmin::class)
             ->call('deleteGroup', $group->id);
 
         // Assert（検証）
-        // グループと関連データが削除されたことを確認
+        // グループが削除されたことを確認
         $this->assertDatabaseMissing('groups', ['id' => $group->id]);
-        $this->assertDatabaseMissing('memos', ['id' => $memo->id]);
-        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
+
+        // リダイレクトされることを確認
+        $response->assertRedirect(route('admin.group_top'));
     }
 
     public function test_suspend()

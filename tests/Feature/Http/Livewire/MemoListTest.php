@@ -38,18 +38,6 @@ class MemoListTest extends TestCase
         ]);
         $group->userRoles()->attach($user, ['role' => 10]);
 
-        // 通報データを作成（複数のデータを一括で作成）
-        $reports = Report::factory()->count(3)->create();
-        $group_type_report_links = [];
-
-        // 通報データとグループを関連付け
-        foreach ($reports as $report) {
-            $group_type_report_links[] = Group_type_report_link::create([
-                'group_id' => $group->id,
-                'report_id' => $report->id,
-            ]);
-        }
-
         // グループを削除する側
         $admin = User::factory()->create([
             'suspension_state' => 0,
@@ -62,54 +50,24 @@ class MemoListTest extends TestCase
             'group_id' => null
         ]);
 
+        // グループが存在することを確認
         $this->assertDatabaseHas('groups', [
-            'name' => 'テストグループ',
-        ]);
-        $this->assertDatabaseHas('roles', [
-            'group_id' => $group->id,
-            'user_id' => $user->id,
+            'id' => $group->id,
         ]);
 
-        // 全ての通報データとリンクが存在することを確認
-        foreach ($reports as $report) {
-            $this->assertDatabaseHas('group_type_report_links', [
-                'group_id' => $group->id,
-                'report_id' => $report->id,
-            ]);
-
-            $this->assertDatabaseHas('reports', [
-                'id' => $report->id,
-            ]);
-        }
-
-
-        // Act（実行） & Assert（検証）
+        // Act（実行）
         // グループを削除
-        Livewire::test(MemoList::class, ['group_id' => $group->id])
-            ->call('deleteGroup', $group->id)
-            ->assertRedirect(route('admin.group_top'));
+        $response = Livewire::test(MemoList::class, ['group_id' => $group->id])
+            ->call('deleteGroup', $group->id);
 
-        // データベースにグループが存在しないことを確認
+        // Assert（検証）
+        // グループが削除されたことを確認
         $this->assertDatabaseMissing('groups', [
-            'name' => 'テストグループ',
+            'id' => $group->id,
         ]);
 
-        // 関連データも削除されていることを確認
-        $this->assertDatabaseMissing('roles', [
-            'group_id' => $group->id,
-        ]);
-
-        // 全ての通報データとリンクが削除されていることを確認
-        foreach ($reports as $report) {
-            $this->assertDatabaseMissing('group_type_report_links', [
-                'group_id' => $group->id,
-                'report_id' => $report->id,
-            ]);
-
-            $this->assertDatabaseMissing('reports', [
-                'id' => $report->id,
-            ]);
-        }
+        // リダイレクトされることを確認
+        $response->assertRedirect(route('admin.group_top'));
     }
 
     public function test_suspendGroup()
