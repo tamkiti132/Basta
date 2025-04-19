@@ -43,16 +43,6 @@ class RoleSeeder extends Seeder
             ],
             [
                 'user_id' => '1',
-                'group_id' => '4',
-                'role' => '100',
-            ],
-            [
-                'user_id' => '1',
-                'group_id' => '5',
-                'role' => '100',
-            ],
-            [
-                'user_id' => '1',
                 'group_id' => '6',
                 'role' => '100',
             ],
