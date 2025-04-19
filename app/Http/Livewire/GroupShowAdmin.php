@@ -221,6 +221,8 @@ class GroupShowAdmin extends Component
         if ($this->targetGroup->userRoles->isNotEmpty()) {
             // サブ管理者がいる場合
             $this->fragSubManagerOrMember = 'subManager';
+            // モーダルフラグをリセットしてから新しいフラグをセット
+            $this->showModalNobodyMember = false;
             $this->showNextManagerModal = true;
         } else {
             // サブ管理者がいない場合
@@ -246,9 +248,12 @@ class GroupShowAdmin extends Component
         if ($this->targetGroup->userRoles->isNotEmpty()) {
             // メンバーがいる場合
             $this->fragSubManagerOrMember = 'member';
+            // モーダルフラグをリセットしてから新しいフラグをセット
+            $this->showModalNobodyMember = false;
             $this->showNextManagerModal = true;
         } else {
             // メンバーがいない場合
+            // モーダルフラグをリセットしてから新しいフラグをセット
             $this->showNextManagerModal = false;
             $this->showModalNobodyMember = true;
         }
@@ -262,6 +267,10 @@ class GroupShowAdmin extends Component
         $this->selectedNextManagerCount++;
         $this->nextManagerId = '';
         $this->fragSubManagerOrMember = '';
+
+        // モーダルフラグをリセット
+        $this->showNextManagerModal = false;
+        $this->showModalNobodyMember = false;
 
         if ($this->selectedNextManagerCount != $this->totalManagedGroupCount) {
             $this->setTargetGroupWithSubManagers($this->managedGroupIds[$this->selectedNextManagerCount]);
@@ -279,6 +288,10 @@ class GroupShowAdmin extends Component
         $this->selectedNextManagerCount++;
         $this->nextManagerId = '';
         $this->fragSubManagerOrMember = '';
+
+        // モーダルフラグをリセット
+        $this->showNextManagerModal = false;
+        $this->showModalNobodyMember = false;
 
         if ($this->selectedNextManagerCount != $this->totalManagedGroupCount) {
             $this->setTargetGroupWithSubManagers($this->managedGroupIds[$this->selectedNextManagerCount]);
