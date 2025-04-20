@@ -330,7 +330,7 @@
 
             <form wire:submit.prevent="selectNextManager" class="flex flex-col p-2">
 
-                <select class="w-full p-2 mb-4 border border-gray-300 rounded" required wire:model="nextManagerId">
+                <select class="w-full p-2 mb-4 border border-gray-300 rounded" required wire:model.defer="nextManagerId">
                     <option value="" disabled>次の管理者を選択してください</option>
                     @foreach ($targetGroup->userRoles as $user_data)
                     <option value="{{ $user_data->id }}" wire:key="user_role_option_{{ $user_data->id }}">
