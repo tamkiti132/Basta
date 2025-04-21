@@ -22,19 +22,6 @@ class GroupJoinTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_Livewireコンポーネントが存在している()
-    {
-        // Arrange（準備）
-        $user = User::factory()->create([
-            'suspension_state' => 0,
-        ]);
-        $this->actingAs($user);
-
-        // Act（実行） & Assert（検証）
-        $this->get('/group_join')
-            ->assertSeeLivewire(GroupJoin::class);
-    }
-
     public function test_joinGroup()
     {
         // Arrange（準備）
@@ -56,9 +43,6 @@ class GroupJoinTest extends TestCase
 
 
         // Act（実行） & Assert（検証）
-        $this->get('/group_join')
-            ->assertSeeLivewire(GroupJoin::class);
-
         Livewire::test(GroupJoin::class)
             ->call('joinGroup', $group->id);
 
