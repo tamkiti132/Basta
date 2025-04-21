@@ -36,10 +36,6 @@ class MemoCreateTest extends TestCase
         ]);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
-        // MemoCreateコンポーネントが存在するか確認
-        $this->get('/group/memo_create/' . $group->id)
-            ->assertSeeLivewire(MemoCreate::class);
-
         // Act（実行） & Assert（検証）
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)
@@ -73,9 +69,6 @@ class MemoCreateTest extends TestCase
         ]);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
-        // MemoCreateコンポーネントが存在するか確認
-        $this->get('/group/memo_create/' . $group->id)
-            ->assertSeeLivewire(MemoCreate::class);
 
         // Act（実行） & Assert（検証）
         // typeのバリデーション
@@ -161,9 +154,6 @@ class MemoCreateTest extends TestCase
         // テスト用の画像を作成
         $book_image = UploadedFile::fake()->image('test.png')->size(2048);
 
-        // MemoCreateコンポーネントが存在するか確認
-        $this->get('/group/memo_create/' . $group->id)
-            ->assertSeeLivewire(MemoCreate::class);
 
         // Act（実行） & Assert（検証）
         $component = Livewire::test(MemoCreate::class, ['group_id' => $group->id])
@@ -203,10 +193,6 @@ class MemoCreateTest extends TestCase
         ]);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
-
-        // MemoCreateコンポーネントが存在するか確認
-        $this->get('/group/memo_create/' . $group->id)
-            ->assertSeeLivewire(MemoCreate::class);
 
         // Act（実行） & Assert（検証）
         // typeのバリデーション

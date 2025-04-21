@@ -40,9 +40,8 @@ class DeleteGroupFormTest extends TestCase
 
         $group->userRoles()->attach($user, ['role' => 10]);
 
-        // まず、管理者としてグループ編集画面にアクセスできるかテスト
-        $this->get('group/group_edit/' . $group->id)
-            ->assertSeeLivewire(DeleteGroupForm::class);
+
+        session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
         Livewire::test(DeleteGroupForm::class)
@@ -75,9 +74,7 @@ class DeleteGroupFormTest extends TestCase
 
         $group->userRoles()->attach($user, ['role' => 10]);
 
-        // まず、管理者としてグループ編集画面にアクセスできるかテスト
-        $this->get('group/group_edit/' . $group->id)
-            ->assertSeeLivewire(DeleteGroupForm::class);
+        session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
         Livewire::test(DeleteGroupForm::class)

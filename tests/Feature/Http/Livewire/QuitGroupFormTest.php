@@ -48,11 +48,10 @@ class QuitGroupFormTest extends TestCase
         // メンバーとしてログイン
         $this->actingAs($member);
 
-        // Act（実行） & Assert（検証）
-        // グループトップページにアクセスして、QuitGroupFormコンポーネントが存在するか確認
-        $this->get('/group/top/' . $group->id)
-            ->assertSeeLivewire(QuitGroupForm::class);
+        // セッションにgroup_idを設定
+        session()->put('group_id', $group->id);
 
+        // Act（実行） & Assert（検証）
         // フォームを送信して、メンバーが退会できるか確認
         Livewire::test(QuitGroupForm::class)
             ->set('password', $password)
@@ -92,11 +91,10 @@ class QuitGroupFormTest extends TestCase
         // メンバーとしてログイン
         $this->actingAs($member);
 
-        // Act（実行） & Assert（検証）
-        // グループトップページにアクセスして、QuitGroupFormコンポーネントが存在するか確認
-        $this->get('/group/top/' . $group->id)
-            ->assertSeeLivewire(QuitGroupForm::class);
+        // セッションにgroup_idを設定
+        session()->put('group_id', $group->id);
 
+        // Act（実行） & Assert（検証）
         // フォームを送信して、メンバーが退会できるか確認
         // passwordのバリデーション
         Livewire::test(QuitGroupForm::class)

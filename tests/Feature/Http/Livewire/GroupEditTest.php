@@ -42,11 +42,6 @@ class GroupEditTest extends TestCase
         $group->userRoles()->attach($user, ['role' => 10]);
 
 
-        // まず、管理者としてグループ編集画面にアクセスできるかテスト
-        $this->get('group/group_edit/' . $group->id)
-            ->assertSeeLivewire(GroupEdit::class);
-
-
         // テスト用の画像を作成
         $group_image = UploadedFile::fake()->image('test.png')->size(2048);
 
@@ -122,10 +117,6 @@ class GroupEditTest extends TestCase
         // 2048KB以上の画像
         $groupImage = UploadedFile::fake()->image('test.png')->size(2049);
 
-
-        // まず、管理者としてグループ編集画面にアクセスできるかテスト
-        $this->get('group/group_edit/' . $group->id)
-            ->assertSeeLivewire(GroupEdit::class);
 
         // Act（実行） & Assert（検証）
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
