@@ -60,19 +60,19 @@ class Request extends Component
 
             $this->rules = [
                 'title_1' => ['required', 'string', 'max:100'],
-                'detail_1' => ['required', 'string'],
-                'environment_1' => ['required'],
-                'additional_information' => ['nullable', 'string'],
+                'detail_1' => ['required', 'string', 'max:3000'],
+                'environment_1' => ['required', 'integer', 'between:0,6'],
+                'additional_information' => ['nullable', 'string', 'max:3000'],
                 'reference_url_1' => ['nullable', 'url'],
                 'uploaded_photo_1' => ['nullable', 'image', 'max:2048'],
             ];
         } elseif ($this->request_type === "type_2") {
 
             $this->rules = [
-                'function_request_type' => ['required'],
+                'function_request_type' => ['required', 'integer', 'between:0,3'],
                 'title_2' => ['required', 'string', 'max:100'],
-                'detail_2' => ['required', 'string'],
-                'environment_2' => ['required'],
+                'detail_2' => ['required', 'string', 'max:3000'],
+                'environment_2' => ['required', 'integer', 'between:0,6'],
                 'reference_url_2' => ['nullable', 'url'],
                 'uploaded_photo_2' => ['nullable', 'image', 'max:2048'],
             ];
@@ -80,12 +80,12 @@ class Request extends Component
 
             $this->rules = [
                 'title_3' => ['required', 'string', 'max:100'],
-                'detail_3' => ['required', 'string'],
-                'explanation' => ['nullable', 'string'],
-                'steps_to_reproduce' => ['required', 'string'],
-                'abuse_method' => ['nullable', 'string'],
-                'workaround' => ['nullable', 'string'],
-                'environment_3' => ['required'],
+                'detail_3' => ['required', 'string', 'max:3000'],
+                'explanation' => ['nullable', 'string', 'max:3000'],
+                'steps_to_reproduce' => ['required', 'string', 'max:3000'],
+                'abuse_method' => ['nullable', 'string', 'max:3000'],
+                'workaround' => ['nullable', 'string', 'max:3000'],
+                'environment_3' => ['required', 'integer', 'between:0,6'],
                 'reference_url_3' => ['nullable', 'url'],
                 'uploaded_photo_3' => ['nullable', 'image', 'max:2048'],
             ];
@@ -93,8 +93,8 @@ class Request extends Component
 
             $this->rules = [
                 'title_4' => ['required', 'string', 'max:100'],
-                'detail_4' => ['required', 'string'],
-                'environment_4' => ['required'],
+                'detail_4' => ['required', 'string', 'max:3000'],
+                'environment_4' => ['required', 'integer', 'between:0,6'],
                 'reference_url_4' => ['nullable', 'url'],
                 'uploaded_photo_4' => ['nullable', 'image', 'max:2048'],
             ];
