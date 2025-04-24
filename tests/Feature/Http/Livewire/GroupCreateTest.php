@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Livewire\Livewire;
 use App\Http\Livewire\GroupCreate;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -50,6 +51,45 @@ class GroupCreateTest extends TestCase
             'name' => 'Test Group',
             'introduction' => 'Test Introduction',
             'group_photo_path' => basename($storedImage),
+        ]);
+
+        // ユーザーが管理者として関連付けられていることを確認
+        $group = Group::where('name', 'Test Group')->first();
+        $this->assertDatabaseHas('roles', [
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'role' => 10,
+        ]);
+    }
+
+    public function test_storeGroup_without_image()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Act（実行）
+        Livewire::test(GroupCreate::class)
+            ->set('group_name', 'Test Group Without Image')
+            ->set('introduction', 'Test Introduction Without Image')
+            ->call('storeGroup');
+
+        // Assert（検証）
+        // データベースにデータが保存されていることを確認
+        $this->assertDatabaseHas('groups', [
+            'name' => 'Test Group Without Image',
+            'introduction' => 'Test Introduction Without Image',
+        ]);
+
+        // group_photo_pathがnullであることを確認
+        $group = Group::where('name', 'Test Group Without Image')->first();
+        $this->assertNull($group->group_photo_path);
+
+        // ユーザーが管理者として関連付けられていることを確認
+        $this->assertDatabaseHas('roles', [
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'role' => 10,
         ]);
     }
 

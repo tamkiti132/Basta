@@ -138,6 +138,11 @@ class MemoCreateTest extends TestCase
         $this->assertDatabaseEmpty('web_type_features');
     }
 
+    /**
+     * 本タイプのメモが保存できることをテスト（画像あり）
+     *
+     * @return void
+     */
     public function test_store_book()
     {
         // Arrange（準備）
@@ -178,6 +183,45 @@ class MemoCreateTest extends TestCase
         $this->assertDatabaseHas('book_type_features', [
             'book_photo_path' => basename($storedBookImage),
         ]);
+    }
+
+    /**
+     * 本タイプのメモが保存できることをテスト（画像なし）
+     *
+     * @return void
+     */
+    public function test_store_book_without_image()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('book_title', '画像なしの本のテストタイトル')
+            ->set('book_shortMemo', '画像なしの本のテストショートメモ')
+            ->set('book_additionalMemo', '画像なしの本のテスト追加メモ')
+            // book_imageはセットしない
+            ->call('store', 'book');
+
+        // データベースにメモが存在するか
+        $this->assertDatabaseHas('memos', [
+            'title' => '画像なしの本のテストタイトル',
+            'shortMemo' => '画像なしの本のテストショートメモ',
+            'additionalMemo' => '画像なしの本のテスト追加メモ',
+            'type' => 1, // 本タイプ
+        ]);
+
+        // book_type_featuresテーブルのレコード数が0（画像関連データがない）であることを確認
+        $this->assertDatabaseEmpty('book_type_features');
     }
 
     public function test_validation_失敗_store_book()

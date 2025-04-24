@@ -51,7 +51,8 @@ class ReportUserTest extends TestCase
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
             ->set('reason', 1)
             ->set('detail', "これはレポートのテスト詳細文です")
-            ->call('createReport');
+            ->call('createReport')
+            ->assertDispatchedBrowserEvent('flash-message');
 
         $this->assertDatabaseHas('reports', [
             'contribute_user_id' => $manager->id,
@@ -108,6 +109,19 @@ class ReportUserTest extends TestCase
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
             ->assertHasErrors(['reason' => 'integer']);
+
+        // reasonの範囲外バリデーション
+        Livewire::test(ReportUser::class, ['user_id' => $user->id])
+            ->set('reason', 0)  // 1未満
+            ->set('detail', "これはレポートのテスト詳細文です")
+            ->call('createReport')
+            ->assertHasErrors(['reason' => 'between']);
+
+        Livewire::test(ReportUser::class, ['user_id' => $user->id])
+            ->set('reason', 5)  // 4より大きい
+            ->set('detail', "これはレポートのテスト詳細文です")
+            ->call('createReport')
+            ->assertHasErrors(['reason' => 'between']);
 
         // detailのバリデーション
         Livewire::test(ReportUser::class, ['user_id' => $user->id])

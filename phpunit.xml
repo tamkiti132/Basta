@@ -27,5 +27,8 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        
+        <!-- テスト実行時にメモリ不足でエラーが出るため、メモリの上限を1GBに設定 -->
+        <ini name="memory_limit" value="1024M"/>
     </php>
 </phpunit>
