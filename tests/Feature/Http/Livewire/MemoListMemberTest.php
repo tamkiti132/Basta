@@ -195,4 +195,97 @@ class MemoListMemberTest extends TestCase
       'id' => $group->id,
     ]);
   }
+
+  public function test_suspendUser()
+  {
+    // Arrange（準備）
+    // 運営ユーザー（操作を行う側）
+    $admin = User::factory()->create([
+      'suspension_state' => 0,
+    ]);
+
+    $admin->groupRoles()->attach($admin, [
+      'role' => 5,
+      'group_id' => null
+    ]);
+
+    $this->actingAs($admin);
+
+    // 対象のユーザー（利用停止にされる側）
+    $targetUser = User::factory()->create([
+      'suspension_state' => 0, // 初期状態は利用可能
+    ]);
+
+    $group = Group::factory()->create([
+      'suspension_state' => 0,
+    ]);
+
+    $group->userRoles()->attach($targetUser, ['role' => 100]);
+
+    // 利用可能状態であることを確認
+    $this->assertDatabaseHas('users', [
+      'id' => $targetUser->id,
+      'suspension_state' => 0,
+    ]);
+
+    // Act（実行）
+    Livewire::test(MemoListMember::class, [
+      'group_id' => $group->id,
+      'user_id' => $targetUser->id
+    ])->call('suspendUser');
+
+    // Assert（検証）
+    // ユーザーが利用停止状態になっていることを確認
+    $this->assertDatabaseHas('users', [
+      'id' => $targetUser->id,
+      'suspension_state' => 1, // 利用停止状態に変更されている
+    ]);
+  }
+
+
+  public function test_liftSuspendUser()
+  {
+    // Arrange（準備）
+    // 運営ユーザー（操作を行う側）
+    $admin = User::factory()->create([
+      'suspension_state' => 0,
+    ]);
+
+    $admin->groupRoles()->attach($admin, [
+      'role' => 5,
+      'group_id' => null
+    ]);
+
+    $this->actingAs($admin);
+
+    // 対象のユーザー（利用停止を解除される側）
+    $targetUser = User::factory()->create([
+      'suspension_state' => 1, // 初期状態は利用停止中
+    ]);
+
+    $group = Group::factory()->create([
+      'suspension_state' => 0,
+    ]);
+
+    $group->userRoles()->attach($targetUser, ['role' => 100]);
+
+    // 利用停止状態であることを確認
+    $this->assertDatabaseHas('users', [
+      'id' => $targetUser->id,
+      'suspension_state' => 1,
+    ]);
+
+    // Act（実行）
+    Livewire::test(MemoListMember::class, [
+      'group_id' => $group->id,
+      'user_id' => $targetUser->id
+    ])->call('liftSuspendUser');
+
+    // Assert（検証）
+    // ユーザーが利用可能状態になっていることを確認
+    $this->assertDatabaseHas('users', [
+      'id' => $targetUser->id,
+      'suspension_state' => 0, // 利用可能状態に変更されている
+    ]);
+  }
 }

@@ -52,4 +52,46 @@ class GroupJoinTest extends TestCase
             'role' => 100,
         ]);
     }
+
+    /**
+     * 参加不可のグループに参加しようとした場合、参加できないことを確認する
+     * 
+     * @return void
+     */
+    public function test_joinGroup_not_allowed()
+    {
+        // Arrange（準備）
+        $createGroupUser = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+            'isJoinFreeEnabled' => false,
+        ]);
+
+        $group->userRoles()->attach($createGroupUser, ['role' => 10]);
+
+        $testUser = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($testUser);
+
+        // 参加前に関連がないことを確認
+        $this->assertDatabaseMissing('roles', [
+            'user_id' => $testUser->id,
+            'group_id' => $group->id,
+        ]);
+
+        // Act（実行）
+        $component = Livewire::test(GroupJoin::class)
+            ->call('joinGroup', $group->id);
+
+        // Assert（検証）
+        // 参加不可のため、テーブルには何も追加されていないことを確認
+        $this->assertDatabaseMissing('roles', [
+            'user_id' => $testUser->id,
+            'group_id' => $group->id,
+        ]);
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -58,6 +59,9 @@ class CustomDeleteUserFormTest extends TestCase
             'nickname' => $user->nickname,
         ]);
 
+        // ユーザーがログイン状態であることを確認
+        $this->assertAuthenticated();
+
         // Act（実行） & Assert（検証）
         Livewire::test(CustomDeleteUserForm::class)
             ->set('password', $password)
@@ -65,8 +69,12 @@ class CustomDeleteUserFormTest extends TestCase
             ->call('deleteUser')
             ->assertRedirect(route('index'));
 
+        // ユーザーがデータベースから削除されたことを確認
         $this->assertDatabaseMissing('users', [
             'nickname' => $user->nickname,
         ]);
+
+        // ユーザーがログアウトしていることを確認
+        $this->assertGuest();
     }
 }

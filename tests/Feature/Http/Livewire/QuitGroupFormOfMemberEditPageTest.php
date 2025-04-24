@@ -60,13 +60,13 @@ class QuitGroupFormOfMemberEditPageTest extends TestCase
         Livewire::test(QuitGroupFormOfMemberEditPage::class)
             ->set('password', 'password')
             ->set('user_id', $user->id)
-            ->call('quitGroup');
+            ->call('quitGroup')
+            ->assertEmitted('quitGroupMember');  // イベントが発火されたことを確認
 
         // このグループに紐づくユーザーの権限情報が存在していないことを確認
         $this->assertDatabaseMissing('roles', [
             'user_id' => $user->id,
             'group_id' => $group->id,
-            'role' => 100,
         ]);
     }
 
