@@ -27,6 +27,7 @@ class SendRequestMailType1Test extends TestCase
     {
         // Arrange（準備）
         $user = User::factory()->create([
+            'email' => 'test@example.com',
             'suspension_state' => 0,
         ]);
 
@@ -45,6 +46,12 @@ class SendRequestMailType1Test extends TestCase
         ]);
 
         // Act（実行） && Assert（検証）
+        // エンベロープ（件名、送信元、宛先）の検証
+        $mailable->assertHasSubject('サービスの不具合の報告');
+        $mailable->assertFrom('test@example.com');
+        $mailable->assertTo('basta.h.a.132@gmail.com');
+
+        // HTML版の検証
         $mailable->assertSeeInHtml('サービスの不具合の報告');
         $mailable->assertSeeInHtml('テストタイトル');
         $mailable->assertSeeInHtml('テスト詳細');
@@ -52,6 +59,7 @@ class SendRequestMailType1Test extends TestCase
         $mailable->assertSeeInHtml('テスト追加情報');
         $mailable->assertSeeInHtml('https://example.com');
 
+        // テキスト版の検証
         $mailable->assertSeeInText('サービスの不具合の報告');
         $mailable->assertSeeInText('テストタイトル');
         $mailable->assertSeeInText('テスト詳細');
@@ -59,6 +67,7 @@ class SendRequestMailType1Test extends TestCase
         $mailable->assertSeeInText('テスト追加情報');
         $mailable->assertSeeInText('https://example.com');
 
+        // 添付ファイルの検証
         $mailable->assertHasAttachment(
             Attachment::fromPath($image->getRealPath())
                 ->as($image->getClientOriginalName())
