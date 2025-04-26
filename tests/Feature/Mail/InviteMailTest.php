@@ -22,7 +22,7 @@ class InviteMailTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_sendRequest_check_mail_content_type_1()
+    public function test_invite_mail_check_mail_content()
     {
         // Arrange（準備）
         // 招待メールを送信するユーザー
@@ -50,12 +50,30 @@ class InviteMailTest extends TestCase
         $mailable = new InviteMail($group, $target_user);
 
         // Act（実行） && Assert（検証）
+        // 件名の検証
+        $mailable->assertHasSubject('Basta グループ招待');
+
+        // 送信者と受信者の検証
+        $mailable->assertFrom('test@example.com');
+        $mailable->assertTo('target@example.com');
+
+        // コンテンツの検証（HTML版）
         $mailable->assertSeeInHtml('テストニックネーム');
         $mailable->assertSeeInHtml('テストグループ名');
         $mailable->assertSeeInHtml('テストグループ紹介文');
+        $mailable->assertSeeInHtml('グループに参加する');
+        $mailable->assertSeeInHtml('/invite/join-group');
 
+        // コンテンツの検証（テキスト版）
         $mailable->assertSeeInText('テストニックネーム');
         $mailable->assertSeeInText('テストグループ名');
         $mailable->assertSeeInText('テストグループ紹介文');
+        $mailable->assertSeeInText('グループの管理者から招待を受けています');
+
+        // 一時的なURLの検証
+        $mailable->assertSeeInHtml('signature=');
+        $mailable->assertSeeInHtml('expires=');
+        $mailable->assertSeeInText('signature=');
+        $mailable->assertSeeInText('expires=');
     }
 }
