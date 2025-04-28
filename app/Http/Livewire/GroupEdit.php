@@ -125,7 +125,7 @@ class GroupEdit extends Component
     public function sendInviteToGroupMail()
     {
         $this->validate([
-            'email' => ['required', 'string', 'email', 'exists:users,email'],
+            'email' => ['required', 'email', 'exists:users,email'],
         ]);
 
         // 指定のメールアドレスのユーザーがすでに$this->group_idにあたるグループに参加しているか確認
