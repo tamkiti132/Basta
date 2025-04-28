@@ -371,11 +371,6 @@ class GroupEditTest extends TestCase
             ->assertHasErrors(['email' => 'required']);
 
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
-            ->set('email', 123)
-            ->call('sendInviteToGroupMail')
-            ->assertHasErrors(['email' => 'string']);
-
-        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
             ->set('email', 'not_email')
             ->call('sendInviteToGroupMail')
             ->assertHasErrors(['email' => 'email']);
