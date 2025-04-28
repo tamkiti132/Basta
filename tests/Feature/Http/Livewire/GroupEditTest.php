@@ -69,7 +69,7 @@ class GroupEditTest extends TestCase
         // ストレージにファイルが保存されていることを確認
         Storage::disk('public')->assertExists($storedImage);
 
-        // データベースにデータが保存されていることを確認
+        // データベース検証
         $this->assertDatabaseHas('groups', [
             'name' => '更新後のグループ名',
             'introduction' => '更新後のグループ紹介文',
@@ -78,22 +78,109 @@ class GroupEditTest extends TestCase
 
 
         // ここから、画像を削除するテスト
+        // Act（実行）
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
             ->set('group_image_preview', null)
             ->set('group_image_delete_flag', true)
             ->call('updateGroupInfo');
 
-
+        // Assert（検証）
         // ストレージにファイルが削除されていることを確認
         Storage::disk('public')->assertMissing($storedImage);
 
-        // データベースにデータが削除されていることを確認
+        // データベース検証
         $this->assertDatabaseMissing('groups', [
             'group_photo_path' => basename($storedImage),
         ]);
     }
 
+    public function test_validation_成功_updateGroupInfo()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($user);
 
+        $group = Group::factory()->create([
+            'name' => '更新前のグループ名',
+            'introduction' => '更新前のグループ紹介文',
+            'suspension_state' => 0,
+        ]);
+
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+        // Act（実行） & Assert（検証）
+        // 基本ケース - 全フィールド入力
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_image_preview', UploadedFile::fake()->image('test.png')->size(1024))
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors();
+
+        // group_image_previewのバリデーション
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->set('group_image_preview', null)
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_image_preview' => 'nullable']);
+
+        $Image = UploadedFile::fake()->image('test.png');
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->set('group_image_preview', $Image)
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_image_preview' => 'image']);
+
+        $maxImage = UploadedFile::fake()->image('max.png')->size(2048);
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->set('group_image_preview', $maxImage)
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_image_preview' => 'max']);
+
+        // group_data.nameのバリデーション
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.name' => 'required']);
+
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', '文字列123')
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.name' => 'string']);
+
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', str_repeat('あ', 50))
+            ->set('group_data.introduction', 'テストグループ紹介文')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.name' => 'max']);
+
+        // group_data.introductionのバリデーション
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', 'テスト紹介文')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.introduction' => 'required']);
+
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', '文字列と記号!@#')
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.introduction' => 'string']);
+
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('group_data.name', 'テストグループ名')
+            ->set('group_data.introduction', str_repeat('あ', 200))
+            ->call('updateGroupInfo')
+            ->assertHasNoErrors(['group_data.introduction' => 'max']);
+    }
 
     public function test_validation_失敗_updateGroupInfo()
     {
@@ -112,9 +199,7 @@ class GroupEditTest extends TestCase
         $group->userRoles()->attach($user, ['role' => 10]);
 
         // バリデーションに失敗するテスト用の画像を作成
-        // テキストファイル
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
-        // 2048KB以上の画像
         $groupImage = UploadedFile::fake()->image('test.png')->size(2049);
 
 
@@ -131,7 +216,6 @@ class GroupEditTest extends TestCase
             ->call('updateGroupInfo')
             ->assertHasErrors(['group_image_preview' => 'image'])
 
-            // 2048KB以上の画像
             ->set('group_image_preview', $groupImage)
             ->call('updateGroupInfo')
             ->assertHasErrors(['group_image_preview' => 'max'])
@@ -157,13 +241,65 @@ class GroupEditTest extends TestCase
 
 
         // Assert（検証）
+        // データベース検証
         $this->assertDatabaseHas('groups', [
             'name' => '更新前のグループ名',
             'introduction' => '更新前のグループ紹介文',
         ]);
     }
 
-    public function test_sendInviteToGroupMail_check_send_mail()
+    public function test_validation_成功_sendInviteToGroupMail()
+    {
+        // Arrange（準備）
+        // 招待メールを送信するユーザー
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($user);
+
+        $group = Group::factory()->create([
+            'name' => 'テストグループ名',
+            'introduction' => 'テストグループ紹介文',
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+        Mail::fake();
+
+        // 招待されるユーザー（基本テスト用）
+        $target_user = User::factory()->create([
+            'email' => 'target@example.com',
+            'suspension_state' => 0,
+        ]);
+
+        // Act（実行） & Assert（検証）
+        // emailのバリデーション
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('email', $target_user->email)
+            ->call('sendInviteToGroupMail')
+            ->assertHasNoErrors(['email' => 'required']);
+
+        $special_user = User::factory()->create([
+            'email' => 'valid.email+format@example.co.jp',
+            'suspension_state' => 0,
+        ]);
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('email', $special_user->email)
+            ->call('sendInviteToGroupMail')
+            ->assertHasNoErrors(['email' => 'email']);
+
+        $exists_user = User::factory()->create([
+            'email' => 'exists-test@example.com',
+            'suspension_state' => 0,
+        ]);
+        Livewire::test(GroupEdit::class, ['group_id' => $group->id])
+            ->set('email', $exists_user->email)
+            ->call('sendInviteToGroupMail')
+            ->assertHasNoErrors(['email' => 'exists:users,email']);
+    }
+
+    public function test_sendInviteToGroupMail_メール送信確認()
     {
         // Arrange（準備）
         // 招待メールを送信するユーザー
@@ -227,7 +363,7 @@ class GroupEditTest extends TestCase
 
         Mail::fake();
 
-        // Act（実行）  & Assert（検証）
+        // Act（実行） & Assert（検証）
         // emailのバリデーション
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
             ->set('email', '')

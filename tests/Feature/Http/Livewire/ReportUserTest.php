@@ -73,6 +73,50 @@ class ReportUserTest extends TestCase
         ]);
     }
 
+    public function test_validation_成功_createReport()
+    {
+        // Arrange（準備）
+        // レポートを投稿する側のユーザー
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // レポートを投稿する対象のユーザー
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($user, ['role' => 100]);
+
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // reasonのバリデーション
+        Livewire::test(ReportUser::class, ['user_id' => $user->id])
+            ->set('reason', 1)
+            ->call('createReport')
+            ->assertHasNoErrors(['reason' => 'required'])
+            ->assertHasNoErrors(['reason' => 'integer'])
+            ->assertHasNoErrors(['reason' => 'between']);
+
+        Livewire::test(ReportUser::class, ['user_id' => $user->id])
+            ->set('reason', 4)
+            ->call('createReport')
+            ->assertHasNoErrors(['reason' => 'between']);
+
+        // detailのバリデーション
+        Livewire::test(ReportUser::class, ['user_id' => $user->id])
+            ->set('detail', "これはレポートのテスト詳細文です")
+            ->call('createReport')
+            ->assertHasNoErrors(['detail' => 'required'])
+            ->assertHasNoErrors(['detail' => 'string']);
+    }
+
     public function test_validation_失敗_createReport()
     {
         // Arrange（準備）
@@ -110,15 +154,14 @@ class ReportUserTest extends TestCase
             ->call('createReport')
             ->assertHasErrors(['reason' => 'integer']);
 
-        // reasonの範囲外バリデーション
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
-            ->set('reason', 0)  // 1未満
+            ->set('reason', 0)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);
 
         Livewire::test(ReportUser::class, ['user_id' => $user->id])
-            ->set('reason', 5)  // 4より大きい
+            ->set('reason', 5)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);

@@ -79,6 +79,54 @@ class ReportCommentTest extends TestCase
         ]);
     }
 
+    public function test_validation_成功_createReport()
+    {
+        // Arrange（準備）        
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($user);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+        $memo = Memo::factory()->create([
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+        ]);
+
+        $comment = Comment::factory()->create([
+            'comment' => 'テストコメントです',
+            'user_id' => $user->id,
+            'memo_id' => $memo->id,
+        ]);
+
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // reasonのバリデーション
+        Livewire::test(ReportComment::class, ['comment_id' => $comment->id])
+            ->set('reason', 1)
+            ->call('createReport')
+            ->assertHasNoErrors(['reason' => 'required'])
+            ->assertHasNoErrors(['reason' => 'integer'])
+            ->assertHasNoErrors(['reason' => 'between']);
+
+        Livewire::test(ReportComment::class, ['comment_id' => $comment->id])
+            ->set('reason', 4)
+            ->call('createReport')
+            ->assertHasNoErrors(['reason' => 'between']);
+
+        // detailのバリデーション
+        Livewire::test(ReportComment::class, ['comment_id' => $comment->id])
+            ->set('detail', "これはレポートのテスト詳細文です")
+            ->call('createReport')
+            ->assertHasNoErrors(['detail' => 'required'])
+            ->assertHasNoErrors(['detail' => 'string']);
+    }
+
     public function test_validation_失敗_createReport()
     {
         // Arrange（準備）        
@@ -120,15 +168,14 @@ class ReportCommentTest extends TestCase
             ->call('createReport')
             ->assertHasErrors(['reason' => 'integer']);
 
-        // reasonの範囲外バリデーション
         Livewire::test(ReportComment::class, ['comment_id' => $comment->id])
-            ->set('reason', 0)  // 1未満
+            ->set('reason', 0)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);
 
         Livewire::test(ReportComment::class, ['comment_id' => $comment->id])
-            ->set('reason', 5)  // 4より大きい
+            ->set('reason', 5)
             ->set('detail', "これはレポートのテスト詳細文です")
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);
