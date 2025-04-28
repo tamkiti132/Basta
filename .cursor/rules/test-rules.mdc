@@ -1,0 +1,147 @@
+---
+description: 
+globs: *Test.php
+alwaysApply: false
+---
+# テスト作成のルール
+
+## 命名規則
+
+1. テストメソッド名は以下の形式に従う
+   - 正常系: `test_メソッド名`または`test_validation_成功_メソッド名`
+   - 異常系: `test_validation_失敗_メソッド名`
+   - テスト対象のメソッド名は日本語にせず、元のメソッド名をそのまま扱う
+   - バリデーションに対するテストの際、『成功』『失敗』は日本語にする
+
+## コードの構造
+
+1. メソッドごとのテストのグループ化
+   - 各メソッドに関連するテストは一つのグループとしてまとめて配置する
+   - 例: `deleteMemo`メソッドに関するすべてのテストを連続して配置する
+
+2. テストの配置の順番は、各メソッドごとに以下のようにする
+   1. テスト対象のメソッドの動作を確認するテスト (`test_メソッド名`)
+   2. 対象メソッドの中のバリデーションの正常系 (`test_validation_成功_メソッド名`)
+   3. 対象メソッドの中のバリデーションの異常系 (`test_validation_失敗_メソッド名`)
+   
+3. 複数のメソッドに対するテストがある場合、上記の順序を各メソッドごとに繰り返す
+   - 例:
+     - `test_deleteMemo_web`、`test_deleteMemo_book`（動作確認）
+     - `test_validation_成功_deleteMemo`（もしあれば）
+     - `test_validation_失敗_deleteMemo`（もしあれば）
+     - `test_storeComment`（動作確認）
+     - `test_validation_成功_storeComment`（バリデーション正常系）
+     - `test_validation_失敗_storeComment`（バリデーション異常系）
+     - `test_deleteComment`（動作確認）
+     - ...以下同様
+
+4. セクションごとのコメントを付ける
+   - 例: `// typeのバリデーション`、`// web_titleのバリデーション`
+   - テストの目的を明確にするためのセクション分けを行う
+
+5. テストの構造は「Arrange（準備）」「Act（実行）」「Assert（検証）」の順に記述する
+   【重要】
+   - 準備部分にはコメントで`// Arrange（準備）`と記載する
+   - 実行部分にはコメントで`// Act（実行）`と記載する
+   - 検証部分にはコメントで`// Assert（検証）`と記載する
+   - 実行と検証部分が明確に分けられない場合は、コメントで`// Act（実行） & Assert（検証）`と記載する
+
+6. 冗長なコメントを避ける
+   - テストメソッド名や実装で明らかな内容は冗長なコメントや説明用のドキュメントコメントで繰り返さない
+   - バリデーションのセクションコメントは項目名のみとする（例: `// パスワードのバリデーション`）
+
+## バリデーションのテスト方法
+
+1. 境界値があれば、全ての境界値をテストする。なければ同値クラス値をテストする
+
+2. バリデーションルールを明示的に記述する（重要: lang/testing/validation.phpを参照する）
+   - 例: `->assertHasNoErrors(['web_title' => 'string'])`
+   - 例: `->assertHasErrors(['web_title' => 'required'])`
+
+3. 行末コメントは不要
+   - `// string`のような行末コメントは使用しない
+   - バリデーションルールはアサーションの引数で明示する
+
+4. 各バリデーションを同一メソッド内で検証する
+   - 【重要】各カラムごとに分け、さらにカラム内のバリデーションルールごとに分ける
+      - 例: 
+            // バリデーションルール
+            $this->rules = [
+                'memo_data.title' => ['required', 'string', 'max:50'],
+                'memo_data.shortMemo' => ['required', 'string', 'max:200'],
+            ];
+            
+            // テスト
+            // titleのバリデーション
+            Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'web'])
+                ->set('memo_data.title', '有効なタイトル')
+                ->call('update')
+                ->assertHasNoErrors(['memo_data.title' => 'required']);
+
+            Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'web'])
+                ->set('memo_data.title', str_repeat('あ', 50))
+                ->call('update')
+                ->assertHasNoErrors(['memo_data.title' => 'max']);
+
+            // shortMemoのバリデーション
+            Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'web'])
+                ->set('memo_data.shortMemo', '有効なショートメモ')
+                ->call('update')
+                ->assertHasNoErrors(['memo_data.shortMemo' => 'required']);
+
+            Livewire::test(MemoEdit::class, ['memo_id' => $memo->id, 'type' => 'web'])
+                ->set('memo_data.shortMemo', str_repeat('あ', 200))
+                ->call('update')
+                ->assertHasNoErrors(['memo_data.shortMemo' => 'max']);
+
+            
+   - 関連するバリデーションチェックは、一つのテストメソッド内で複数のLivewireテストインスタンスを作成して検証する
+   - 過度のメソッド分割は避け、関連性の高いテストはまとめる
+
+## アサーションの書き方
+
+1. 冗長なアサーションを避ける
+   - 値のセット直後に同じ値をassertSetで検証するのは避ける
+   - 例: `->set('password', $password)->assertSet('password', $password)` は不要
+
+2. データベース検証のコメントは統一する
+   - データベース検証前には `// データベース検証` とコメントする
+   - その後の具体的な内容は個別コメントではなくコード自体で表現する
+
+## データベース確認
+
+1. データベース確認は明示的なアサーションで行う
+   - 例: `$this->assertDatabaseHas('labels', ['name' => 'テストラベル'])`
+   - 例: `$this->assertDatabaseEmpty('web_type_features')`
+
+2. 複数の属性を確認する場合は、関連する属性をまとめて検証する
+   - 例: 
+   ```php
+   $this->assertDatabaseHas('memos', [
+       'title' => '画像なしの本のテストタイトル',
+       'shortMemo' => '画像なしの本のテストショートメモ',
+       'additionalMemo' => '画像なしの本のテスト追加メモ',
+       'type' => 1, // 本タイプ
+   ]);
+   ```
+
+## ファイル処理のテスト
+
+1. ファイルアップロードのテストではFake使用
+   - 例: `$book_image = UploadedFile::fake()->image('test.png')->size(2048);`
+
+2. ストレージの検証は明示的に行う
+   - 例: `Storage::disk('public')->assertExists($storedBookImage);`
+
+## その他
+
+1. テストファイル内ではRefreshDatabaseを読み込まない。
+   - 上位の、tests/TestCase.php内で読み込ませることで不要になる。
+
+2. テスト用の環境設定はsetUp()メソッドで行う
+   - 例: `app()->setLocale('testing');`
+   - 例: `Storage::fake('public');`
+
+3. テストデータは必要最小限に抑える
+   - テストに必要なデータのみを設定する
+   - 不要なデータは含めない

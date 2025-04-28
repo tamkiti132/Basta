@@ -56,88 +56,6 @@ class MemoCreateTest extends TestCase
         ]);
     }
 
-    public function test_validation_失敗_store_web()
-    {
-        // Arrange（準備）
-        $manager = User::factory()->create([
-            'suspension_state' => 0,
-        ]);
-        $this->actingAs($manager);
-
-        $group = Group::factory()->create([
-            'suspension_state' => 0,
-        ]);
-        $group->userRoles()->attach($manager, ['role' => 10]);
-
-
-        // Act（実行） & Assert（検証）
-        // typeのバリデーション
-        // 0:web, 1:book
-        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->call('store', '')
-            ->assertHasErrors(['type' => 'required']);
-
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->call('store', 'hoge')
-            ->assertHasErrors(['type' => 'in']);
-
-        // web_titleのバリデーション
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('web_title', '')
-            ->call('store', 'web')
-            ->assertHasErrors(['web_title' => 'required']);
-
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('web_title', str_repeat('a', 51))
-            ->call('store', 'web')
-            ->assertHasErrors(['web_title' => 'max']);
-
-        // web_shortMemoのバリデーション
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('web_shortMemo', '')
-            ->call('store', 'web')
-            ->assertHasErrors(['web_shortMemo' => 'required']);
-
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('web_shortMemo', str_repeat('a', 201))
-            ->call('store', 'web')
-            ->assertHasErrors(['web_shortMemo' => 'max']);
-
-
-        // web_additionalMemoのバリデーション
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('web_additionalMemo', 123)
-            ->call('store', 'web')
-            ->assertHasErrors(['web_additionalMemo' => 'string']);
-
-        // urlのバリデーション
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('url', '')
-            ->call('store', 'web')
-            ->assertHasErrors(['url' => 'required']);
-
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->set('url', 'not_url')
-            ->call('store', 'web')
-            ->assertHasErrors(['url' => 'url']);
-
-        // データベースにメモが存在しないことを確認
-        $this->assertDatabaseEmpty('memos');
-
-        // web_type_featureが存在しないことを確認
-        $this->assertDatabaseEmpty('web_type_features');
-    }
-
     /**
      * 本タイプのメモが保存できることをテスト（画像あり）
      *
@@ -224,6 +142,329 @@ class MemoCreateTest extends TestCase
         $this->assertDatabaseEmpty('book_type_features');
     }
 
+    public function test_validation_成功_store_type()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // typeのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->call('store', 'web')
+            ->assertHasNoErrors(['type' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->call('store', 'book')
+            ->assertHasNoErrors(['type' => 'required']);
+    }
+
+    public function test_validation_失敗_store_type()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // Act（実行） & Assert（検証）
+        // typeのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', '')
+            ->assertHasErrors(['type' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->call('store', 'hoge')
+            ->assertHasErrors(['type' => 'in']);
+
+        // データベースにメモが存在しないことを確認
+        $this->assertDatabaseEmpty('memos');
+    }
+
+    public function test_validation_成功_store_web()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // 基本ケース
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('web_additionalMemo', 'webのテスト追加メモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors();
+
+        // web_titleのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'タイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_title' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'タイトル123!@#')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_title' => 'string']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', str_repeat('あ', 50))
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_title' => 'max']);
+
+        // web_shortMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'ショートメモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_shortMemo' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'ショートメモ123!@#')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_shortMemo' => 'string']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', str_repeat('あ', 200))
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_shortMemo' => 'max']);
+
+        // web_additionalMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('web_additionalMemo', null)
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_additionalMemo' => 'nullable']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('web_additionalMemo', '追加メモ123!@#')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['web_additionalMemo' => 'string']);
+
+        // urlのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('url', 'https://example.com')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['url' => 'url']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('web_title', 'webのテストタイトル')
+            ->set('web_shortMemo', 'webのテストショートメモ')
+            ->set('url', 'http://localhost:8000/test?param=1')
+            ->call('store', 'web')
+            ->assertHasNoErrors(['url' => 'url']);
+    }
+
+    public function test_validation_成功_store_book()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // テスト用の画像
+        $book_image = UploadedFile::fake()->image('test.png')->size(1024);
+
+        // 基本ケース
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_additionalMemo', '本のテスト追加メモ')
+            ->set('book_image', $book_image)
+            ->call('store', 'book')
+            ->assertHasNoErrors();
+
+        // book_titleのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_title' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のタイトル123!@#')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_title' => 'string']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', str_repeat('あ', 50))
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_title' => 'max']);
+
+        // book_shortMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', 'ショートメモ')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_shortMemo' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', 'ショートメモ123!@#')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_shortMemo' => 'string']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', str_repeat('あ', 200))
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_shortMemo' => 'max']);
+
+        // book_additionalMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_additionalMemo', null)
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_additionalMemo' => 'nullable']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_additionalMemo', '追加メモ123!@#')
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_additionalMemo' => 'string']);
+
+        // book_imageのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_image', null)
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_image' => 'nullable']);
+
+        $jpgImage = UploadedFile::fake()->image('test.jpg')->size(1024);
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_image', $jpgImage)
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_image' => 'image']);
+
+        $maxImage = UploadedFile::fake()->image('max.png')->size(2048);
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->set('book_title', '本のテストタイトル')
+            ->set('book_shortMemo', '本のテストショートメモ')
+            ->set('book_image', $maxImage)
+            ->call('store', 'book')
+            ->assertHasNoErrors(['book_image' => 'max']);
+    }
+
+    public function test_validation_失敗_store_web()
+    {
+        // Arrange（準備）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+
+        // Act（実行） & Assert（検証）
+        // web_titleのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('web_title', '')
+            ->call('store', 'web')
+            ->assertHasErrors(['web_title' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('web_title', str_repeat('a', 51))
+            ->call('store', 'web')
+            ->assertHasErrors(['web_title' => 'max']);
+
+        // web_shortMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('web_shortMemo', '')
+            ->call('store', 'web')
+            ->assertHasErrors(['web_shortMemo' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('web_shortMemo', str_repeat('a', 201))
+            ->call('store', 'web')
+            ->assertHasErrors(['web_shortMemo' => 'max']);
+
+
+        // web_additionalMemoのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('web_additionalMemo', 123)
+            ->call('store', 'web')
+            ->assertHasErrors(['web_additionalMemo' => 'string']);
+
+        // urlのバリデーション
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('url', '')
+            ->call('store', 'web')
+            ->assertHasErrors(['url' => 'required']);
+
+        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
+            ->assertSet('group_id', $group->id)
+            ->set('url', 'not_url')
+            ->call('store', 'web')
+            ->assertHasErrors(['url' => 'url']);
+
+        // データベースにメモが存在しないことを確認
+        $this->assertDatabaseEmpty('memos');
+
+        // web_type_featureが存在しないことを確認
+        $this->assertDatabaseEmpty('web_type_features');
+    }
+
     public function test_validation_失敗_store_book()
     {
         // Arrange（準備）
@@ -239,19 +480,6 @@ class MemoCreateTest extends TestCase
 
 
         // Act（実行） & Assert（検証）
-        // typeのバリデーション
-        // 0:web, 1:book
-        // 実際にデータベースに保存されるtypeは数字。 0:web, 1:book
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->call('store', '')
-            ->assertHasErrors(['type' => 'required']);
-
-        Livewire::test(MemoCreate::class, ['group_id' => $group->id])
-            ->assertSet('group_id', $group->id)
-            ->call('store', 'hoge')
-            ->assertHasErrors(['type' => 'in']);
-
         // book_titleのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)
@@ -277,6 +505,7 @@ class MemoCreateTest extends TestCase
             ->set('book_shortMemo', str_repeat('a', 201))
             ->call('store', 'book')
             ->assertHasErrors(['book_shortMemo' => 'max']);
+
 
         // book_additionalMemoのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])

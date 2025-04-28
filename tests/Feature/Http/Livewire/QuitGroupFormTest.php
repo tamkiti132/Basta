@@ -42,7 +42,6 @@ class QuitGroupFormTest extends TestCase
             'suspension_state' => 0,
             'password' => Hash::make($password),
         ]);
-
         $group->userRoles()->attach($member, ['role' => 100]);
 
         // メンバーとしてログイン
@@ -52,7 +51,6 @@ class QuitGroupFormTest extends TestCase
         session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
-        // フォームを送信して、メンバーが退会できるか確認
         Livewire::test(QuitGroupForm::class)
             ->set('password', $password)
             ->assertSet('password', $password)
@@ -85,7 +83,6 @@ class QuitGroupFormTest extends TestCase
             'suspension_state' => 0,
             'password' => Hash::make($password),
         ]);
-
         $group->userRoles()->attach($submanager, ['role' => 50]);
 
         // サブ管理者としてログイン
@@ -95,7 +92,6 @@ class QuitGroupFormTest extends TestCase
         session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
-        // フォームを送信して、サブ管理者が退会できるか確認
         Livewire::test(QuitGroupForm::class)
             ->set('password', $password)
             ->assertSet('password', $password)
@@ -195,6 +191,43 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
+    public function test_validation_成功_quitGroup()
+    {
+        // Arrange（準備）
+        // 管理者を追加
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // メンバーを追加
+        $password = 'member-password';
+        $member = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make($password),
+        ]);
+
+        $group->userRoles()->attach($member, ['role' => 100]);
+
+        // メンバーとしてログイン
+        $this->actingAs($member);
+
+        // セッションにgroup_idを設定
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // passwordのバリデーション
+        Livewire::test(QuitGroupForm::class)
+            ->set('password', $password)
+            ->call('quitGroup')
+            ->assertHasNoErrors(['password' => 'required'])
+            ->assertHasNoErrors(['password' => 'current_password']);
+    }
+
     public function test_validation_失敗_quitGroup()
     {
         // Arrange（準備）
@@ -232,7 +265,7 @@ class QuitGroupFormTest extends TestCase
             ->assertHasErrors(['password' => 'required']);
 
         Livewire::test(QuitGroupForm::class)
-            ->set('password', 'aaaa')
+            ->set('password', 'wrong-password')
             ->call('quitGroup')
             ->assertHasErrors(['password' => 'current_password']);
 
@@ -412,6 +445,42 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
+    public function test_validation_成功_deleteGroup()
+    {
+        // Arrange（準備）
+        // 管理者を追加
+        $password = 'manager-password';
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make($password),
+        ]);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // 一般メンバーを追加
+        $member = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($member, ['role' => 100]);
+
+        // 管理者としてログイン
+        $this->actingAs($manager);
+
+        // セッションにgroup_idを設定
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // passwordのバリデーション
+        Livewire::test(QuitGroupForm::class)
+            ->set('password', $password)
+            ->call('deleteGroup')
+            ->assertHasNoErrors(['password' => 'required'])
+            ->assertHasNoErrors(['password' => 'current_password']);
+    }
+
     public function test_quitGroupWhenNobodySubManager()
     {
         // Arrange（準備）
@@ -454,6 +523,42 @@ class QuitGroupFormTest extends TestCase
         $this->assertDatabaseMissing('roles', [
             'group_id' => $group->id,
         ]);
+    }
+
+    public function test_validation_成功_quitGroupWhenNobodySubManager()
+    {
+        // Arrange（準備）
+        // 管理者を追加
+        $password = 'manager-password';
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make($password),
+        ]);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // 一般メンバーを追加
+        $member = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($member, ['role' => 100]);
+
+        // 管理者としてログイン
+        $this->actingAs($manager);
+
+        // セッションにgroup_idを設定
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // passwordのバリデーション
+        Livewire::test(QuitGroupForm::class)
+            ->set('password', $password)
+            ->call('quitGroupWhenNobodySubManager')
+            ->assertHasNoErrors(['password' => 'required'])
+            ->assertHasNoErrors(['password' => 'current_password']);
     }
 
     public function test_validation_失敗_quitGroupWhenNobodySubManager()

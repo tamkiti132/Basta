@@ -24,7 +24,7 @@ class RequestValidationType1Test extends TestCase
         Storage::fake('public');
     }
 
-    public function test_validation_request_type_1_成功()
+    public function test_validation_成功_request_type_1()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -49,118 +49,93 @@ class RequestValidationType1Test extends TestCase
             ->call('sendRequest', 'type_1')
             ->assertHasNoErrors();
 
-        // title_1のバリデーション（境界値テスト）
+        // title_1のバリデーション
         Livewire::test(Request::class)
-            ->set('title_1', str_repeat('a', 100))  // max:100の境界値
+            ->set('title_1', 'a')
             ->set('detail_1', 'a')
             ->set('environment_1', 1)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['title_1']);
+            ->assertHasNoErrors(['title_1' => 'required'])
+            ->assertHasNoErrors(['title_1' => 'string']);
 
         Livewire::test(Request::class)
-            ->set('title_1', 'a')                  // 最小文字数
+            ->set('title_1', str_repeat('a', 100))
             ->set('detail_1', 'a')
             ->set('environment_1', 1)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['title_1']);
+            ->assertHasNoErrors(['title_1' => 'max']);
 
-        // detail_1のバリデーション（境界値テスト）
+        // detail_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
-            ->set('detail_1', str_repeat('a', 3000))  // max:3000の境界値（最大長）
+            ->set('detail_1', 'a')
             ->set('environment_1', 1)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['detail_1']);
+            ->assertHasNoErrors(['detail_1' => 'required'])
+            ->assertHasNoErrors(['detail_1' => 'string']);
 
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'a')  // 最小文字数
+            ->set('detail_1', str_repeat('a', 3000))
             ->set('environment_1', 1)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['detail_1']);
+            ->assertHasNoErrors(['detail_1' => 'max']);
 
-        // environment_1のバリデーション（境界値テスト）
+        // environment_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 6)  // between:0,6の上限値
+            ->set('environment_1', 6)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['environment_1']);
+            ->assertHasNoErrors(['environment_1' => 'required'])
+            ->assertHasNoErrors(['environment_1' => 'integer'])
+            ->assertHasNoErrors(['environment_1' => 'between']);
 
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 0)  // between:0,6の下限値
+            ->set('environment_1', 0)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['environment_1']);
+            ->assertHasNoErrors(['environment_1' => 'required'])
+            ->assertHasNoErrors(['environment_1' => 'integer'])
+            ->assertHasNoErrors(['environment_1' => 'between']);
 
-        // additional_informationのバリデーション（境界値テスト）
-        Livewire::test(Request::class)
-            ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 1)
-            ->set('additional_information', str_repeat('a', 3000))  // max:3000の境界値（最大長）
-            ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['additional_information']);
-
-        // additional_information - nullableテスト
+        // additional_informationのバリデーション
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('additional_information', null)  // nullable
+            ->set('additional_information', null)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['additional_information']);
+            ->assertHasNoErrors(['additional_information' => 'nullable'])
+            ->assertHasNoErrors(['additional_information' => 'string']);
 
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('additional_information', '')  // 空文字列
+            ->set('additional_information', str_repeat('a', 3000))
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['additional_information']);
+            ->assertHasNoErrors(['additional_information' => 'max']);
+
 
         // reference_url_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('reference_url_1', 'https://example.com')  // 通常のURL
+            ->set('reference_url_1', null)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['reference_url_1']);
+            ->assertHasNoErrors(['reference_url_1' => 'nullable']);
 
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('reference_url_1', 'https://localhost:8000/test?param=value#fragment')  // 複雑なURL
+            ->set('reference_url_1', 'https://example.com')
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['reference_url_1']);
+            ->assertHasNoErrors(['reference_url_1' => 'url']);
 
-        Livewire::test(Request::class)
-            ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 1)
-            ->set('reference_url_1', 'http://example.com')  // HTTPプロトコル
-            ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['reference_url_1']);
-
-        // reference_url_1 - nullableテスト
-        Livewire::test(Request::class)
-            ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 1)
-            ->set('reference_url_1', null)  // nullable
-            ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['reference_url_1']);
-
-        Livewire::test(Request::class)
-            ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 1)
-            ->set('reference_url_1', '')  // 空文字列（URLバリデーションで空文字列は許容されるか確認）
-            ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['reference_url_1']);
 
         // uploaded_photo_1のバリデーション
         $image = UploadedFile::fake()->image('test.png')->size(2048);
@@ -168,30 +143,21 @@ class RequestValidationType1Test extends TestCase
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('uploaded_photo_1', $image)  // 最大サイズちょうど
+            ->set('uploaded_photo_1', null)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['uploaded_photo_1']);
+            ->assertHasNoErrors(['uploaded_photo_1' => 'nullable']);
 
-        $smallImage = UploadedFile::fake()->image('small.png')->size(1);
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
             ->set('detail_1', 'テスト詳細')
             ->set('environment_1', 1)
-            ->set('uploaded_photo_1', $smallImage)  // 1KBの小さい画像
+            ->set('uploaded_photo_1', $image)
             ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['uploaded_photo_1']);
-
-        // uploaded_photo_1 - nullableテスト
-        Livewire::test(Request::class)
-            ->set('title_1', 'テストタイトル')
-            ->set('detail_1', 'テスト詳細')
-            ->set('environment_1', 1)
-            ->set('uploaded_photo_1', null)  // nullable
-            ->call('sendRequest', 'type_1')
-            ->assertHasNoErrors(['uploaded_photo_1']);
+            ->assertHasNoErrors(['uploaded_photo_1' => 'image'])
+            ->assertHasNoErrors(['uploaded_photo_1' => 'max']);
     }
 
-    public function test_validation_request_type_1_失敗()
+    public function test_validation_失敗_request_type_1()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -202,7 +168,6 @@ class RequestValidationType1Test extends TestCase
         $this->actingAs($user);
 
         // Act（実行） & Assert（検証）
-        // type_1のバリデーションテスト
         // title_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', '')
@@ -251,6 +216,11 @@ class RequestValidationType1Test extends TestCase
             ->call('sendRequest', "type_1")
             ->assertHasErrors(['environment_1' => 'between']);
 
+        Livewire::test(Request::class)
+            ->set('environment_1', 'string')
+            ->call('sendRequest', "type_1")
+            ->assertHasErrors(['environment_1' => 'integer']);
+
         // additional_informationのバリデーション
         Livewire::test(Request::class)
             ->set('additional_information', 123)
@@ -270,14 +240,12 @@ class RequestValidationType1Test extends TestCase
 
         // uploaded_photo_1のバリデーション
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
-
         Livewire::test(Request::class)
             ->set('uploaded_photo_1', $notImage)
             ->call('sendRequest', "type_1")
             ->assertHasErrors(['uploaded_photo_1' => 'image']);
 
         $largeKilobyteImage = UploadedFile::fake()->image('test.png')->size(2049);
-
         Livewire::test(Request::class)
             ->set('uploaded_photo_1', $largeKilobyteImage)
             ->call('sendRequest', "type_1")

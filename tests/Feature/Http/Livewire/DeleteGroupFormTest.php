@@ -10,6 +10,7 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteGroupFormTest extends TestCase
 {
@@ -40,24 +41,22 @@ class DeleteGroupFormTest extends TestCase
 
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
         Livewire::test(DeleteGroupForm::class)
             ->assertSet('group_data.name', $group->name)
             ->set('password', $password)
-            ->assertSet('password', $password)
             ->call('deleteGroup')
             ->assertRedirect(route('index'));
 
-        // Assert（検証）
+        // データベース検証
         $this->assertDatabaseMissing('groups', [
             'name' => $group->name,
         ]);
     }
 
-    public function test_validation_deleteGroup()
+    public function test_validation_成功_deleteGroup()
     {
         // Arrange（準備）
         $password = 'secure-password';
@@ -77,17 +76,45 @@ class DeleteGroupFormTest extends TestCase
         session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
+        // パスワードのバリデーション
+        Livewire::test(DeleteGroupForm::class)
+            ->set('password', $password)
+            ->call('deleteGroup')
+            ->assertHasNoErrors(['password' => 'current_password']);
+    }
+
+    public function test_validation_失敗_deleteGroup()
+    {
+        // Arrange（準備）
+        $password = 'secure-password';
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make($password),
+        ]);
+        $this->actingAs($user);
+
+        $group = Group::factory()->create([
+            'name' => 'テストグループ',
+            'suspension_state' => 0,
+        ]);
+
+        $group->userRoles()->attach($user, ['role' => 10]);
+
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // パスワードのバリデーション
         Livewire::test(DeleteGroupForm::class)
             ->set('password', '')
             ->call('deleteGroup')
             ->assertHasErrors(['password' => 'required']);
 
         Livewire::test(DeleteGroupForm::class)
-            ->set('password', 'aaaa')
+            ->set('password', 'wrong-password')
             ->call('deleteGroup')
             ->assertHasErrors(['password' => 'current_password']);
 
-        // Assert（検証）
+        // データベース検証
         $this->assertDatabaseHas('groups', [
             'name' => $group->name,
         ]);

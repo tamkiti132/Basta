@@ -70,6 +70,47 @@ class QuitGroupFormOfMemberEditPageTest extends TestCase
         ]);
     }
 
+    public function test_validation_成功_quitGroup()
+    {
+        // Arrange（準備）
+        // 管理者（強制退会させる側のユーザー）
+        $manager = User::factory()->create([
+            'suspension_state' => 0,
+            'password' => Hash::make('password'),
+        ]);
+        $this->actingAs($manager);
+
+        $group = Group::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($manager, ['role' => 10]);
+
+        // 強制退会される側のユーザー
+        $user = User::factory()->create([
+            'suspension_state' => 0,
+        ]);
+        $group->userRoles()->attach($user, ['role' => 100]);
+
+        // このグループに紐づくユーザーの権限情報が存在していることを確認
+        $this->assertDatabaseHas('roles', [
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'role' => 100,
+        ]);
+
+        // セッションにグループIDをセット
+        session()->put('group_id', $group->id);
+
+        // Act（実行） & Assert（検証）
+        // passwordのバリデーション
+        Livewire::test(QuitGroupFormOfMemberEditPage::class)
+            ->set('password', 'password')
+            ->set('user_id', $user->id)
+            ->call('quitGroup')
+            ->assertHasNoErrors(['password' => 'required'])
+            ->assertHasNoErrors(['password' => 'current_password']);
+    }
+
     public function test_validation_失敗_quitGroup()
     {
         // Arrange（準備）
