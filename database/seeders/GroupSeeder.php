@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class GroupSeeder extends Seeder
 {
@@ -22,6 +23,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'はなこの料理教室',
@@ -29,6 +32,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => '二郎の仲間たち',
@@ -36,6 +41,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'eeeee',
@@ -43,6 +50,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ5',
@@ -50,6 +59,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ6',
@@ -57,6 +68,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ7',
@@ -64,6 +77,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ8',
@@ -71,6 +86,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 0,
                 'suspension_state' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ9',
@@ -78,6 +95,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ10',
@@ -85,6 +104,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ11',
@@ -92,6 +113,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ12',
@@ -99,6 +122,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ13',
@@ -106,6 +131,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ14',
@@ -113,6 +140,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ15',
@@ -120,6 +149,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ16',
@@ -127,6 +158,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ17',
@@ -134,6 +167,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ18',
@@ -141,6 +176,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 0,
                 'suspension_state' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ19',
@@ -148,6 +185,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ20',
@@ -155,6 +194,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ21',
@@ -162,6 +203,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 0,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ22',
@@ -169,6 +212,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ23',
@@ -176,6 +221,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 0,
                 'suspension_state' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ24',
@@ -183,6 +230,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 1,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'name' => 'グループ25',
@@ -190,6 +239,8 @@ class GroupSeeder extends Seeder
                 'isJoinFreeEnabled' => 0,
                 'isTipEnabled' => 1,
                 'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }
