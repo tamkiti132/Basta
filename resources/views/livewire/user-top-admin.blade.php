@@ -113,8 +113,10 @@
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                    onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' "></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
 
                                                 <button
@@ -200,8 +202,10 @@
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                    onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' "></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 <button
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">

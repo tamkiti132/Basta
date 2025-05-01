@@ -48,13 +48,15 @@
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
-                                                    <img class="object-fill w-10 h-10 rounded-full"
+                                                    <img class="object-cover w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' ">
@@ -154,13 +156,15 @@
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
                                                     class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
-                                                    <img class="object-fill w-10 h-10 rounded-full"
+                                                    <img class="object-cover w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' ">
