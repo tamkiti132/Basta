@@ -34,7 +34,9 @@
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
@@ -211,7 +213,10 @@
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 {{-- メモ作成者情報 --}}
                                                 <div>
@@ -395,8 +400,10 @@
                                                     </button>
                                                     @else
                                                     <button
-                                                        class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                        onclick="location.href='{{ route('admin.user_show',['user_id' => $memo_report_data->contribute_user_id]) }}' "></button>
+                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                        onclick="location.href='{{ route('admin.user_show',['user_id' => $memo_report_data->contribute_user_id]) }}' ">
+                                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                    </button>
                                                     @endif
                                                     {{-- コメント作成者情報 --}}
                                                     <div>
@@ -474,8 +481,10 @@
                                             </button>
                                             @else
                                             <button
-                                                class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' "></button>
+                                                class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' ">
+                                                <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                            </button>
                                             @endif
                                             {{-- コメント作成者情報 --}}
                                             <div>
@@ -587,8 +596,10 @@
                                                         </button>
                                                         @else
                                                         <button
-                                                            class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                            onclick="location.href='{{ route('admin.user_show',['user_id' => $comment_report->contribute_user_id]) }}' "></button>
+                                                            class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                            onclick="location.href='{{ route('admin.user_show',['user_id' => $comment_report->contribute_user_id]) }}' ">
+                                                            <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                        </button>
                                                         @endif
                                                         {{-- コメント作成者情報 --}}
                                                         <div>
@@ -667,9 +678,13 @@
                                         <div class="flex items-center sm:items-start sm:content-center">
                                             {{-- photo --}}
                                             <div class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                @if (Auth::user()->profile_photo_path)
                                                 <img class="object-fill w-10 h-10 rounded-full"
                                                     src="{{ Auth::user()->profile_photo_url }}"
                                                     alt="{{ Auth::user()->name }}" />
+                                                @else
+                                                <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                @endif
                                             </div>
 
                                             <div class="self-center text-sm">

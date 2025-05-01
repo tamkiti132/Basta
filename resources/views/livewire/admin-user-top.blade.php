@@ -63,7 +63,8 @@
                                                 </div>
                                                 @else
                                                 <div
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </div>
                                                 @endif
                                                 <p>{{ $user_data->nickname }}</p>
@@ -132,7 +133,8 @@
                                                 </div>
                                                 @else
                                                 <div
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </div>
                                                 @endif
                                                 <p>{{ $user_data->nickname }}</p>

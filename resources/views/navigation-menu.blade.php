@@ -67,8 +67,14 @@
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button
                                     class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                                    @if (Auth::user()->profile_photo_path)
                                     <img class="object-cover w-8 h-8 rounded-full"
                                         src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                    @else
+                                    <div class="flex items-center justify-center w-8 h-8 rounded-full">
+                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                    </div>
+                                    @endif
                                 </button>
                                 @else
                                 <span class="inline-flex rounded-md">
@@ -149,8 +155,14 @@
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                 <div class="mr-3 shrink-0">
+                    @if (Auth::user()->profile_photo_path)
                     <img class="object-cover w-10 h-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
                         alt="{{ Auth::user()->name }}" />
+                    @else
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full">
+                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                    </div>
+                    @endif
                 </div>
                 @endif
 

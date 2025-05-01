@@ -332,7 +332,9 @@
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->memo_user_id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                    </button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
@@ -457,7 +459,9 @@
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->memo_user_id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                    </button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
@@ -591,7 +595,9 @@
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->memo_user_id]) }}' "
-                                                        class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                    </button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
@@ -716,7 +722,9 @@
                                                     @else
                                                     <button
                                                         onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->memo_user_id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"></button>
+                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                    </button>
                                                     @endif
                                                     {{-- メモ作成者情報 --}}
                                                     <div>

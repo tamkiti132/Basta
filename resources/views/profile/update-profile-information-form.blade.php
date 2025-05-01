@@ -25,8 +25,13 @@
 
             <!-- Current Profile Photo -->
             <div class="mt-2" x-show="! photoPreview">
-                <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
-                    class="object-cover w-20 h-20 rounded-full">
+                @if($this->user->profile_photo_path)
+                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
+                        class="object-cover w-20 h-20 rounded-full">
+                @else
+                    <img src="{{ asset('images/svg/default-user.svg') }}" alt="{{ $this->user->name }}"
+                        class="object-cover w-20 h-20 rounded-full">
+                @endif
             </div>
 
             <!-- New Profile Photo Preview -->

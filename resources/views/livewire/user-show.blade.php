@@ -15,7 +15,8 @@
                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                 </div>
                 @else
-                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full lg:w-10 lg:h-10">
+                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10">
+                    <img src="{{ asset('images/svg/default-user.svg') }}" />
                 </div>
                 @endif
                 <div class="flex flex-col max-w-full">
@@ -178,8 +179,10 @@
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full"
-                                                    onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' "></button>
+                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' ">
+                                                    <img src="{{ asset('images/svg/default-user.svg') }}" />
+                                                </button>
                                                 @endif
                                                 {{-- コメント作成者情報 --}}
                                                 <div>

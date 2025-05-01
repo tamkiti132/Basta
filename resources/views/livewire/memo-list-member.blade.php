@@ -12,7 +12,8 @@
                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                 </div>
                 @else
-                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full lg:w-10 lg:h-10">
+                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10">
+                    <img src="{{ asset('images/svg/default-user.svg') }}" />
                 </div>
                 @endif
                 <div class="w-full">
