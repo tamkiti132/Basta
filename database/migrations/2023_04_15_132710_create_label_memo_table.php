@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('label_memo', function (Blueprint $table) {
             $table->foreignId('memo_id')->constrained()->onDelete('cascade');
             $table->foreignId('label_id')->constrained()->onDelete('cascade');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
         });
     }
 

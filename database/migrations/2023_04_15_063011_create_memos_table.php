@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->string('shortMemo', 512);
+            $table->string('title', 50);
+            $table->string('shortMemo', 200);
             $table->text('additionalMemo')->nullable();
             // 0:web, 1:book
             $table->unsignedTinyInteger('type');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

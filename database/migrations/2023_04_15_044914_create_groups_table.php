@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('group_photo_path')->nullable();
-            $table->string('name');
-            $table->string('introduction', 512);
+            $table->string('group_photo_path', 2048)->nullable();
+            $table->string('name', 50);
+            $table->string('introduction', 200);
             $table->boolean('isJoinFreeEnabled')->default(0);
             $table->boolean('isTipEnabled')->default(0);
             $table->boolean('suspension_state')->default(0);
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

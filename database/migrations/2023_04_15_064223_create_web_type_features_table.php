@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('memo_id')->unique()->constrained()->onDelete('cascade');
             $table->text('url');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

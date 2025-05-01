@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('type');
             $table->unsignedTinyInteger('reason');
             $table->text('detail');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 
