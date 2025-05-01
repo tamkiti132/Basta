@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Carbon\Carbon;
 
 class LaterReadButtonTest extends TestCase
 {
@@ -35,8 +36,13 @@ class LaterReadButtonTest extends TestCase
         $group = Group::factory()->create([
             'suspension_state' => 0,
         ]);
-        $group->userRoles()->attach($user, ['role' => 10]);
 
+        $now = Carbon::now();
+        $group->userRoles()->attach($user, [
+            'role' => 10,
+            'created_at' => $now,
+            'updated_at' => $now
+        ]);
         $memo = Memo::factory()->create([
             'user_id' => $user->id,
             'group_id' => $group->id,
