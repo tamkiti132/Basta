@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('book_type_features', function (Blueprint $table) {
             $table->id();
             $table->foreignId('memo_id')->unique()->constrained()->onDelete('cascade');
-            $table->string('book_photo_path')->nullable();
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->string('book_photo_path', 2048)->nullable();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

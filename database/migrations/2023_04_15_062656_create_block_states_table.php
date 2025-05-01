@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
             $table->primary(['group_id', 'user_id']);
-            // $table->dateTime('created_at')->nullable();
-            // $table->dateTime('updated_at')->nullable();
         });
     }
 

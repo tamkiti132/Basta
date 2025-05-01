@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('labels', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 30);
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
+            $table->unique(['group_id', 'name']);
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 
