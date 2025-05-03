@@ -124,7 +124,7 @@ class User extends Authenticatable
 
     public function groupRoles()
     {
-        return $this->belongsToMany(Group::class, 'roles')->withPivot('role');
+        return $this->belongsToMany(Group::class, 'roles')->withPivot('role')->withTimestamps();
     }
 
     public function blockedGroup()

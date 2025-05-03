@@ -19,7 +19,7 @@ class Group extends Model
 
     public function userRoles()
     {
-        return $this->belongsToMany(User::class, 'roles')->withPivot('role');
+        return $this->belongsToMany(User::class, 'roles')->withPivot('role')->withTimestamps();
     }
 
     //グループの管理者ユーザーのデータだけを返す
