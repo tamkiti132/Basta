@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
-use Carbon\Carbon;
 
 class GoodButtonTest extends TestCase
 {
@@ -37,12 +36,8 @@ class GoodButtonTest extends TestCase
             'suspension_state' => 0,
         ]);
 
-        $now = Carbon::now();
-        $group->userRoles()->attach($user, [
-            'role' => 10,
-            'created_at' => $now,
-            'updated_at' => $now
-        ]);
+        $group->userRoles()->attach($user, ['role' => 10]);
+
 
         $memo = Memo::factory()->create([
             'user_id' => $user->id,

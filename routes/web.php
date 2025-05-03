@@ -181,4 +181,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
-require_once __DIR__ . '/fortify.php';
+// 複数のテストを同時に実行した際に、うまくルートを読み込まないことによるエラーを防ぐために、
+// ここではrequireを使わずに、直接ファイルを読み込む
+require __DIR__ . '/fortify.php';
+require __DIR__ . '/jetstream.php';

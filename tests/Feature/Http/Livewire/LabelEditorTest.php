@@ -281,7 +281,11 @@ class LabelEditorTest extends TestCase
         Livewire::test(LabelEditor::class)
             ->set('group_id', $group->id)
             ->call('updateLabel', $label->id, '')
-            ->assertHasErrors(['newName' => 'required'])
+            ->assertHasErrors(['newName' => 'required']);
+
+        Livewire::test(LabelEditor::class)
+            ->set('group_id', $group->id)
+            ->call('updateLabel', $label->id, 123)
             ->assertHasErrors(['newName' => 'string']);
 
         Livewire::test(LabelEditor::class)

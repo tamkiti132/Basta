@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
@@ -11,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserControllerTest extends TestCase
@@ -43,21 +41,22 @@ class RegisteredUserControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_ユーザー登録機能が無効の場合、ユーザー登録画面にアクセスすると404が返る(): void
-    {
-        // Arrange（準備）
-        if (Features::enabled(Features::registration())) {
-            $this->markTestSkipped('Registration support is enabled.');
+    // 現在、ユーザー登録機能を有効にしているため、このテストは不要なので、コメントアウトしておきます。
+    // public function test_ユーザー登録機能が無効の場合、ユーザー登録画面にアクセスすると404が返る(): void
+    // {
+    //     // Arrange（準備）
+    //     if (Features::enabled(Features::registration())) {
+    //         $this->markTestSkipped('Registration support is enabled.');
 
-            return;
-        }
+    //         return;
+    //     }
 
-        // Act（実行）
-        $response = $this->get('/register');
+    //     // Act（実行）
+    //     $response = $this->get('/register');
 
-        // Assert（検証）
-        $response->assertStatus(404);
-    }
+    //     // Assert（検証）
+    //     $response->assertStatus(404);
+    // }
 
     public function test_store(): void
     {
