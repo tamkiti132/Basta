@@ -52,6 +52,65 @@ class UpdateProfileInformationFormTest extends TestCase
         $this->assertEquals('test@example.com', $user->fresh()->email);
     }
 
+    public function test_バリデーション_成功_プロフィール情報更新(): void
+    {
+        // Arrange（準備）
+        $this->actingAs($user = User::factory()->create());
+
+        // Act（実行）  &  Assert（検証）
+        // nicknameのバリデーション
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => str_repeat('a', 13),
+                'email' => 'test@example.com'
+            ])
+            ->call('updateProfileInformation')
+            ->assertHasNoErrors(['nickname' => 'required'])
+            ->assertHasNoErrors(['nickname' => 'string'])
+            ->assertHasNoErrors(['nickname' => 'max']);
+
+        // emailのバリデーション
+        $existingUser = User::factory()->create(['email' => 'existing@example.com']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => 'ValidName',
+                'email' => 'test@example.com'
+            ])
+            ->call('updateProfileInformation')
+            ->assertHasNoErrors(['email' => 'required'])
+            ->assertHasNoErrors(['email' => 'string'])
+            ->assertHasNoErrors(['email' => 'email'])
+            ->assertHasNoErrors(['email' => 'unique']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => 'ValidName',
+                'email' => str_repeat('a', 255)
+            ])
+            ->call('updateProfileInformation')
+            ->assertHasNoErrors(['email' => 'max']);
+
+        // photoのバリデーション
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => 'ValidName',
+                'email' => 'test@example.com'
+            ])
+            ->set('photo', null)
+            ->call('updateProfileInformation')
+            ->assertHasNoErrors(['photo' => 'nullable']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => 'ValidName',
+                'email' => 'test@example.com'
+            ])
+            ->set('photo', UploadedFile::fake()->image('photo.jpg')->size(2048))
+            ->call('updateProfileInformation')
+            ->assertHasNoErrors(['photo' => 'max']);
+    }
+
     public function test_バリデーション_失敗_プロフィール情報更新(): void
     {
         // バリデーションルールは、
@@ -69,15 +128,45 @@ class UpdateProfileInformationFormTest extends TestCase
             ->assertHasErrors(['nickname' => 'required']);
 
         Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', ['nickname' => ['a', 'b', 'c'], 'email' => 'test@example.com'])
+            ->call('updateProfileInformation')
+            ->assertHasErrors(['nickname' => 'string']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
             ->set('state', ['nickname' => str_repeat('a', 14), 'email' => 'test@example.com'])
             ->call('updateProfileInformation')
             ->assertHasErrors(['nickname' => 'max']);
 
         // emailのバリデーション
         Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', ['nickname' => 'ValidName', 'email' => ''])
+            ->call('updateProfileInformation')
+            ->assertHasErrors(['email' => 'required']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', ['nickname' => 'ValidName', 'email' => ['a', 'b', 'c']])
+            ->call('updateProfileInformation')
+            ->assertHasErrors(['email' => 'string']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
             ->set('state', ['nickname' => 'ValidName', 'email' => 'invalid-email'])
             ->call('updateProfileInformation')
             ->assertHasErrors(['email' => 'email']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', ['nickname' => 'ValidName', 'email' => str_repeat('a', 256)])
+            ->call('updateProfileInformation')
+            ->assertHasErrors(['email' => 'max']);
+
+        $existingUser = User::factory()->create(['email' => 'existing@example.com']);
+
+        Livewire::test(UpdateProfileInformationForm::class)
+            ->set('state', [
+                'nickname' => 'ValidName',
+                'email' => $existingUser->email
+            ])
+            ->call('updateProfileInformation')
+            ->assertHasErrors(['email' => 'unique']);
 
         // photoのバリデーション
         Livewire::test(UpdateProfileInformationForm::class)
@@ -88,7 +177,7 @@ class UpdateProfileInformationFormTest extends TestCase
 
         Livewire::test(UpdateProfileInformationForm::class)
             ->set('state', ['nickname' => 'ValidName', 'email' => 'test@example.com'])
-            ->set('photo', UploadedFile::fake()->image('photo.jpg')->size(3000))
+            ->set('photo', UploadedFile::fake()->image('photo.jpg')->size(2049))
             ->call('updateProfileInformation')
             ->assertHasErrors(['photo' => 'max']);
     }
