@@ -179,17 +179,17 @@
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
 
-                                                    <div class="flex justify-center">
+                                                    <div class="flex justify-center mt-5">
                                                         @if ($book_image_preview?->isPreviewable())
-                                                        <img class="h-36 lg:h-auto"
+                                                        <img class="w-1/3 lg:w-3/4"
                                                             src="{{ $book_image_preview->temporaryUrl() }}">
                                                         @elseif ($book_image_delete_flag)
-                                                        <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
+                                                        <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
                                                         @elseif($memo_data?->book_type_feature?->book_photo_path)
-                                                        <img class="h-36 lg:h-auto"
+                                                        <img class="w-1/3 lg:w-3/4"
                                                             src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                                                         @else
-                                                        <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
+                                                        <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
                                                         @endif
                                                     </div>
                                                 </div>

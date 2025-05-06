@@ -206,12 +206,12 @@
                                                 {{-- 右側 --}}
                                                 <div class="grid grid-cols-5">
                                                     <div class="col-span-5">
-                                                        <div class="flex justify-center max-w-xs m-auto">
+                                                        <div class="flex justify-center max-w-xs mx-auto mt-5">
                                                             @if ($book_image?->isPreviewable())
-                                                            <img class="h-36 lg:h-auto"
+                                                            <img class="w-1/3 lg:w-3/4"
                                                                 src="{{ $book_image->temporaryUrl() }}">
                                                             @else
-                                                            <img class="h-36 lg:h-auto" src="/images/本の画像（青）.png">
+                                                            <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
                                                             @endif
                                                         </div>
                                                         <div class="flex justify-center mt-3">
