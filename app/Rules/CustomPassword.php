@@ -6,6 +6,13 @@ use Laravel\Fortify\Rules\Password as FortifyPassword;
 
 class CustomPassword extends FortifyPassword
 {
+  public function __construct()
+  {
+    // パスワードの最小文字数を15文字に設定（オーバーライド）
+    $this->length = 15;
+  }
+
+
   /**
    * Get the validation error message.
    * 

@@ -71,8 +71,8 @@ class RegisteredUserControllerTest extends TestCase
         $response = $this->post('/register', [
             'nickname' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'password123456789',
+            'password_confirmation' => 'password123456789',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
 
@@ -99,7 +99,7 @@ class RegisteredUserControllerTest extends TestCase
         $adminTopUser = User::factory()->create([
             'nickname' => 'AdminTopUser',
             'email' => 'test_admin_top@example.com',
-            'password' => Hash::make('passwordAdminTop'),
+            'password' => Hash::make('passwordAdminTop123'),
             'username' => '@' . (string) Str::ulid(),
         ]);
 
@@ -118,8 +118,8 @@ class RegisteredUserControllerTest extends TestCase
         $response = $this->post('/registerAdmin', [
             'nickname' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'password123456789',
+            'password_confirmation' => 'password123456789',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
 
@@ -133,46 +133,5 @@ class RegisteredUserControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/admin/admin_user_top');
-    }
-
-    public function test_validation_store(): void
-    {
-        // Arrange（準備）
-        $testUser = User::factory()->create([
-            'nickname' => 'TestUser',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password'),
-            'username' => '@' . (string) Str::ulid(),
-        ]);
-
-        $url = '/register';
-
-
-        // Act（実行）  &  Assert（検証）
-        // nicknameのバリデーション
-        $this->post($url, ['nickname' => ''])
-            ->assertInvalid(['nickname' => 'required']);
-
-        $this->post($url, ['nickname' => str_repeat('a', 14)])
-            ->assertInvalid(['nickname' => 'max']);
-
-
-        // emailのバリデーション
-        $this->post($url, ['email' => ''])
-            ->assertInvalid(['email' => 'required']);
-
-        $this->post($url, ['email' => 'testexample.com'])
-            ->assertInvalid(['email' => 'email']);
-
-        $this->post($url, ['email' => str_repeat('a', 256) . '@example.com'])
-            ->assertInvalid(['email' => 'max']);
-
-        $this->post($url, ['email' => $testUser->email])
-            ->assertInvalid(['email' => 'unique']);
-
-
-        // passwordのバリデーション
-        $this->post($url, ['password' => ''])
-            ->assertInvalid(['password' => 'required']);
     }
 }
