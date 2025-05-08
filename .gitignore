@@ -17,6 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-.DS_STORE
+.DS_Store
 .cursor/
 .cursorignore
+.vite/
