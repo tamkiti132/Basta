@@ -16,7 +16,7 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Comments')->insert([
+        DB::table('comments')->insert([
             [
                 'comment' => '特におすすめのレシピはどれですか？',
                 'user_id' => 1,
