@@ -8,32 +8,51 @@
     <title>サービス機能の追加・改善リクエスト</title>
     <style type="text/css">
         html { width: 100%; height: 100%; }
-        body { font-family: Arial, sans-serif; }
-        .container { width: 100%; max-width: 600px; justify-items: center;}
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 0; }
         .header { text-align: center; padding-bottom: 20px; }
-        .section { padding-bottom: 40px; }
+        .section { padding-bottom: 40px; width: 100%; }
         .section-title { font-weight: bold; }
-        .content { padding-left: 20px; word-break: break-all;}
+        .content { padding-left: 20px; word-break: break-all; width: 100%; box-sizing: border-box; }
+        .content-wrapper { width: 100%; max-width: 600px; }
         
         @media only screen and (max-width: 480px) {
             .container {
-                width: 100% !important;
-                display: block !important;
-                box-sizing: border-box !important;
+                width: 92% !important;
+                max-width: 92% !important;
+                margin: 0 auto !important;
+                padding: 10px 0 !important;
             }
             .content {
                 padding-left: 5px !important;
                 padding-right: 5px !important;
+                width: 100% !important;
+            }
+            .content-wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .section {
+                width: 100% !important;
             }
             img {
                 width: 100% !important;
                 height: auto !important;
             }
         }
+
+        /* Gmail用のスタイル */
+        @media screen and (max-width: 480px) {
+            u + .body .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+        }
     </style>
 
     <!--[if mso]>
-    <style type="text/css"> /* Outlook専用のcss */
+    <style type="text/css">
       table,td {
         border-collapse:collapse;
         mso-table-lspace:0;
@@ -42,11 +61,14 @@
       table tr td {
         line-height: 1.4;
       }
+      .content-wrapper {
+        width: 600px !important;
+      }
     </style>
     <![endif]-->
 
 </head>
-<body>
+<body class="body">
     <table class="container" width="100%" align="center" cellpadding="0" cellspacing="0">
         <tr>
             <td class="header" align="center">
@@ -64,16 +86,22 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            @if ($report_data['function_request_type'] == 0)
-                                新機能のリクエスト
-                            @elseif ($report_data['function_request_type'] == 1)
-                                機能の改善案
-                            @elseif ($report_data['function_request_type'] == 2)
-                                既存機能のバグ
-                            @elseif ($report_data['function_request_type'] == 3)
-                                サービス全般
-                            @endif
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        @if ($report_data['function_request_type'] == 0)
+                                            新機能のリクエスト
+                                        @elseif ($report_data['function_request_type'] == 1)
+                                            機能の改善案
+                                        @elseif ($report_data['function_request_type'] == 2)
+                                            既存機能のバグ
+                                        @elseif ($report_data['function_request_type'] == 3)
+                                            サービス全般
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -90,8 +118,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            {!! nl2br(e($report_data['title_2'])) !!}
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        {!! nl2br(e($report_data['title_2'])) !!}
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -108,8 +142,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            {!! nl2br(e($report_data['detail_2'])) !!}
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        {!! nl2br(e($report_data['detail_2'])) !!}
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -126,22 +166,28 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            @if ($report_data['environment_2'] == 0)
-                                パソコンWindowsブラウザ
-                            @elseif ($report_data['environment_2'] == 1)
-                                パソコンMacブラウザ
-                            @elseif ($report_data['environment_2'] == 2)
-                                スマートフォンiPhoneブラウザ
-                            @elseif ($report_data['environment_2'] == 3)
-                                スマートフォンAndroidブラウザ
-                            @elseif ($report_data['environment_2'] == 4)
-                                タブレットAndroidブラウザ
-                            @elseif ($report_data['environment_2'] == 5)
-                                タブレットiPhoneブラウザ
-                            @elseif ($report_data['environment_2'] == 6)
-                                その他の環境
-                            @endif
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        @if ($report_data['environment_2'] == 0)
+                                            パソコンWindowsブラウザ
+                                        @elseif ($report_data['environment_2'] == 1)
+                                            パソコンMacブラウザ
+                                        @elseif ($report_data['environment_2'] == 2)
+                                            スマートフォンiPhoneブラウザ
+                                        @elseif ($report_data['environment_2'] == 3)
+                                            スマートフォンAndroidブラウザ
+                                        @elseif ($report_data['environment_2'] == 4)
+                                            タブレットAndroidブラウザ
+                                        @elseif ($report_data['environment_2'] == 5)
+                                            タブレットiPhoneブラウザ
+                                        @elseif ($report_data['environment_2'] == 6)
+                                            その他の環境
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -159,8 +205,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            <a href="{{ $report_data['reference_url_2'] }}">{{ $report_data['reference_url_2'] }}</a>
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        <a href="{{ $report_data['reference_url_2'] }}">{{ $report_data['reference_url_2'] }}</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>

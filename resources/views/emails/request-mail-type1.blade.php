@@ -8,32 +8,51 @@
     <title>サービスの不具合の報告</title>
     <style type="text/css">
         html { width: 100%; height: 100%; }
-        body { font-family: Arial, sans-serif; }
-        .container { width: 100%; max-width: 600px; justify-items: center; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 15px 0; }
         .header { text-align: center; padding-bottom: 20px; }
-        .section { padding-bottom: 40px; }
+        .section { padding-bottom: 40px; width: 100%; }
         .section-title { font-weight: bold; }
-        .content { padding-left: 20px; word-break: break-all;}
+        .content { padding-left: 20px; word-break: break-all; width: 100%; box-sizing: border-box; }
+        .content-wrapper { width: 100%; max-width: 600px; }
         
         @media only screen and (max-width: 480px) {
             .container {
-                width: 100% !important;
-                display: block !important;
-                box-sizing: border-box !important;
+                width: 92% !important;
+                max-width: 92% !important;
+                margin: 0 auto !important;
+                padding: 10px 0 !important;
             }
             .content {
                 padding-left: 5px !important;
                 padding-right: 5px !important;
+                width: 100% !important;
+            }
+            .content-wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .section {
+                width: 100% !important;
             }
             img {
                 width: 100% !important;
                 height: auto !important;
             }
         }
+
+        /* Gmail用のスタイル */
+        @media screen and (max-width: 480px) {
+            u + .body .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+        }
     </style>
 
     <!--[if mso]>
-    <style type="text/css"> /* Outlook専用のcss */
+    <style type="text/css">
       table,td {
         border-collapse:collapse;
         mso-table-lspace:0;
@@ -42,11 +61,14 @@
       table tr td {
         line-height: 1.4;
       }
+      .content-wrapper {
+        width: 600px !important;
+      }
     </style>
     <![endif]-->
 
 </head>
-<body>
+<body class="body">
     <table class="container" width="100%" align="center" cellpadding="0" cellspacing="0">
         <tr>
             <td class="header" align="center">
@@ -64,8 +86,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            {!! nl2br(e($report_data['title_1'])) !!}
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        {!! nl2br(e($report_data['title_1'])) !!}
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -82,8 +110,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            {!! nl2br(e($report_data['detail_1'])) !!}
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        {!! nl2br(e($report_data['detail_1'])) !!}
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -100,22 +134,28 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            @if ($report_data['environment_1'] == 0)
-                                パソコンWindowsブラウザ
-                            @elseif ($report_data['environment_1'] == 1)
-                                パソコンMacブラウザ
-                            @elseif ($report_data['environment_1'] == 2)
-                                スマートフォンiPhoneブラウザ
-                            @elseif ($report_data['environment_1'] == 3)
-                                スマートフォンAndroidブラウザ
-                            @elseif ($report_data['environment_1'] == 4)
-                                タブレットAndroidブラウザ
-                            @elseif ($report_data['environment_1'] == 5)
-                                タブレットiPhoneブラウザ
-                            @elseif ($report_data['environment_1'] == 6)
-                                その他の環境
-                            @endif
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        @if ($report_data['environment_1'] == 0)
+                                            パソコンWindowsブラウザ
+                                        @elseif ($report_data['environment_1'] == 1)
+                                            パソコンMacブラウザ
+                                        @elseif ($report_data['environment_1'] == 2)
+                                            スマートフォンiPhoneブラウザ
+                                        @elseif ($report_data['environment_1'] == 3)
+                                            スマートフォンAndroidブラウザ
+                                        @elseif ($report_data['environment_1'] == 4)
+                                            タブレットAndroidブラウザ
+                                        @elseif ($report_data['environment_1'] == 5)
+                                            タブレットiPhoneブラウザ
+                                        @elseif ($report_data['environment_1'] == 6)
+                                            その他の環境
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -133,8 +173,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            {!! nl2br(e($report_data['additional_information'])) !!}
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        {!! nl2br(e($report_data['additional_information'])) !!}
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
@@ -153,8 +199,14 @@
                         <td><hr></td>
                     </tr>
                     <tr>
-                        <td class="content">
-                            <a href="{{ $report_data['reference_url_1'] }}" >{{ $report_data['reference_url_1'] }}</a>
+                        <td>
+                            <table class="content-wrapper" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="content">
+                                        <a href="{{ $report_data['reference_url_1'] }}" >{{ $report_data['reference_url_1'] }}</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
