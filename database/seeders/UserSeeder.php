@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'email' => 'test1@test.com',
-                'password' => Hash::make('password1'),
+                'password' => Hash::make('password0000001'),
                 'nickname' => 'たろう',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'test2@test.com',
-                'password' => Hash::make('password2'),
+                'password' => Hash::make('password0000002'),
                 'nickname' => 'はなこ',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'test3@test.com',
-                'password' => Hash::make('password3'),
+                'password' => Hash::make('password0000003'),
                 'nickname' => '二郎さん',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'admin0@admin.com',
-                'password' => Hash::make('password_admin0'),
+                'password' => Hash::make('password_admin0000000'),
                 'nickname' => '運営トップ太郎',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'admin1@admin.com',
-                'password' => Hash::make('password_admin1'),
+                'password' => Hash::make('password_admin0000001'),
                 'nickname' => '運営太郎',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'admin2@admin.com',
-                'password' => Hash::make('password_admin2'),
+                'password' => Hash::make('password_admin0000002'),
                 'nickname' => 'うんえい子',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'admin88@admin.com',
-                'password' => Hash::make('password_admin88'),
+                'password' => Hash::make('password_admin0000088'),
                 'nickname' => '運営悪男',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -77,7 +77,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'admin321@admin.com',
-                'password' => Hash::make('password_admin321'),
+                'password' => Hash::make('password_admin0000321'),
                 'nickname' => 'うんえい悪子',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -85,7 +85,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'test333@test.com',
-                'password' => Hash::make('password333'),
+                'password' => Hash::make('password0000333'),
                 'nickname' => 'テスト333',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -93,7 +93,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user10@test.com',
-                'password' => Hash::make('password10'),
+                'password' => Hash::make('password0000010'),
                 'nickname' => 'ユーザー10',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -101,7 +101,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user11@test.com',
-                'password' => Hash::make('password11'),
+                'password' => Hash::make('password0000011'),
                 'nickname' => 'ユーザー11',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -109,7 +109,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user12@test.com',
-                'password' => Hash::make('password12'),
+                'password' => Hash::make('password0000012'),
                 'nickname' => 'ユーザー12',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user13@test.com',
-                'password' => Hash::make('password13'),
+                'password' => Hash::make('password0000013'),
                 'nickname' => 'ユーザー13',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -125,7 +125,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user14@test.com',
-                'password' => Hash::make('password14'),
+                'password' => Hash::make('password0000014'),
                 'nickname' => 'ユーザー14',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user15@test.com',
-                'password' => Hash::make('password15'),
+                'password' => Hash::make('password0000015'),
                 'nickname' => 'ユーザー15',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -141,7 +141,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user16@test.com',
-                'password' => Hash::make('password16'),
+                'password' => Hash::make('password0000016'),
                 'nickname' => 'ユーザー16',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -149,7 +149,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user17@test.com',
-                'password' => Hash::make('password17'),
+                'password' => Hash::make('password0000017'),
                 'nickname' => 'ユーザー17',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -157,7 +157,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user18@test.com',
-                'password' => Hash::make('password18'),
+                'password' => Hash::make('password0000018'),
                 'nickname' => 'ユーザー18',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -165,7 +165,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user19@test.com',
-                'password' => Hash::make('password19'),
+                'password' => Hash::make('password0000019'),
                 'nickname' => 'ユーザー19',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -173,7 +173,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user20@test.com',
-                'password' => Hash::make('password20'),
+                'password' => Hash::make('password0000020'),
                 'nickname' => 'ユーザー20',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -181,7 +181,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user21@test.com',
-                'password' => Hash::make('password21'),
+                'password' => Hash::make('password0000021'),
                 'nickname' => 'ユーザー21',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -189,7 +189,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user22@test.com',
-                'password' => Hash::make('password22'),
+                'password' => Hash::make('password0000022'),
                 'nickname' => 'ユーザー22',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -197,7 +197,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user23@test.com',
-                'password' => Hash::make('password23'),
+                'password' => Hash::make('password0000023'),
                 'nickname' => 'ユーザー23',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -205,7 +205,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user24@test.com',
-                'password' => Hash::make('password24'),
+                'password' => Hash::make('password0000024'),
                 'nickname' => 'ユーザー24',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -213,7 +213,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user25@test.com',
-                'password' => Hash::make('password25'),
+                'password' => Hash::make('password0000025'),
                 'nickname' => 'ユーザー25',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -221,7 +221,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user26@test.com',
-                'password' => Hash::make('password26'),
+                'password' => Hash::make('password0000026'),
                 'nickname' => 'ユーザー26',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -229,7 +229,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user27@test.com',
-                'password' => Hash::make('password27'),
+                'password' => Hash::make('password0000027'),
                 'nickname' => 'ユーザー27',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -237,7 +237,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user28@test.com',
-                'password' => Hash::make('password28'),
+                'password' => Hash::make('password0000028'),
                 'nickname' => 'ユーザー28',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -245,7 +245,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user29@test.com',
-                'password' => Hash::make('password29'),
+                'password' => Hash::make('password0000029'),
                 'nickname' => 'ユーザー29',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -253,7 +253,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user30@test.com',
-                'password' => Hash::make('password30'),
+                'password' => Hash::make('password0000030'),
                 'nickname' => 'ユーザー30',
                 'suspension_state' => 1,
                 'created_at' => Carbon::now(),
@@ -261,7 +261,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user31@test.com',
-                'password' => Hash::make('admin_password31'),
+                'password' => Hash::make('admin_password0000031'),
                 'nickname' => 'ユーザー31',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -269,7 +269,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user32@test.com',
-                'password' => Hash::make('admin_password32'),
+                'password' => Hash::make('admin_password0000032'),
                 'nickname' => 'ユーザー32',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -277,7 +277,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user33@test.com',
-                'password' => Hash::make('admin_password33'),
+                'password' => Hash::make('admin_password0000033'),
                 'nickname' => 'ユーザー33',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -285,7 +285,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user34@test.com',
-                'password' => Hash::make('admin_password34'),
+                'password' => Hash::make('admin_password0000034'),
                 'nickname' => 'ユーザー34',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -293,7 +293,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user35@test.com',
-                'password' => Hash::make('admin_password35'),
+                'password' => Hash::make('admin_password0000035'),
                 'nickname' => 'ユーザー35',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -301,7 +301,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user36@test.com',
-                'password' => Hash::make('admin_password36'),
+                'password' => Hash::make('admin_password0000036'),
                 'nickname' => 'ユーザー36',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -309,7 +309,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user37@test.com',
-                'password' => Hash::make('admin_password37'),
+                'password' => Hash::make('admin_password0000037'),
                 'nickname' => 'ユーザー37',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -317,7 +317,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user38@test.com',
-                'password' => Hash::make('admin_password38'),
+                'password' => Hash::make('admin_password0000038'),
                 'nickname' => 'ユーザー38',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -325,7 +325,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user39@test.com',
-                'password' => Hash::make('admin_password39'),
+                'password' => Hash::make('admin_password0000039'),
                 'nickname' => 'ユーザー39',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -333,7 +333,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user40@test.com',
-                'password' => Hash::make('admin_password40'),
+                'password' => Hash::make('admin_password0000040'),
                 'nickname' => 'ユーザー40',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -341,7 +341,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user41@test.com',
-                'password' => Hash::make('admin_password41'),
+                'password' => Hash::make('admin_password0000041'),
                 'nickname' => 'ユーザー41',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -349,7 +349,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user42@test.com',
-                'password' => Hash::make('admin_password42'),
+                'password' => Hash::make('admin_password0000042'),
                 'nickname' => 'ユーザー42',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -357,7 +357,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user43@test.com',
-                'password' => Hash::make('admin_password43'),
+                'password' => Hash::make('admin_password0000043'),
                 'nickname' => 'ユーザー43',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -365,7 +365,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user44@test.com',
-                'password' => Hash::make('admin_password44'),
+                'password' => Hash::make('admin_password0000044'),
                 'nickname' => 'ユーザー44',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -373,7 +373,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user45@test.com',
-                'password' => Hash::make('admin_password45'),
+                'password' => Hash::make('admin_password0000045'),
                 'nickname' => 'ユーザー45',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -381,7 +381,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user46@test.com',
-                'password' => Hash::make('admin_password46'),
+                'password' => Hash::make('admin_password0000046'),
                 'nickname' => 'ユーザー46',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -389,7 +389,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user47@test.com',
-                'password' => Hash::make('admin_password47'),
+                'password' => Hash::make('admin_password0000047'),
                 'nickname' => 'ユーザー47',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -397,7 +397,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user48@test.com',
-                'password' => Hash::make('admin_password48'),
+                'password' => Hash::make('admin_password0000048'),
                 'nickname' => 'ユーザー48',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -405,7 +405,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user49@test.com',
-                'password' => Hash::make('admin_password49'),
+                'password' => Hash::make('admin_password0000049'),
                 'nickname' => 'ユーザー49',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -413,7 +413,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user50@test.com',
-                'password' => Hash::make('admin_password50'),
+                'password' => Hash::make('admin_password0000050'),
                 'nickname' => 'ユーザー50',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -421,7 +421,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user51@test.com',
-                'password' => Hash::make('password51'),
+                'password' => Hash::make('password0000051'),
                 'nickname' => 'ユーザー51',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -429,7 +429,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user52@test.com',
-                'password' => Hash::make('password52'),
+                'password' => Hash::make('password0000052'),
                 'nickname' => 'ユーザー52',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -437,7 +437,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user53@test.com',
-                'password' => Hash::make('password53'),
+                'password' => Hash::make('password0000053'),
                 'nickname' => 'ユーザー53',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -445,7 +445,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user54@test.com',
-                'password' => Hash::make('password54'),
+                'password' => Hash::make('password0000054'),
                 'nickname' => 'ユーザー54',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -453,7 +453,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user55@test.com',
-                'password' => Hash::make('password55'),
+                'password' => Hash::make('password0000055'),
                 'nickname' => 'ユーザー55',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -461,7 +461,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user56@test.com',
-                'password' => Hash::make('password56'),
+                'password' => Hash::make('password0000056'),
                 'nickname' => 'ユーザー56',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -469,7 +469,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user57@test.com',
-                'password' => Hash::make('password57'),
+                'password' => Hash::make('password0000057'),
                 'nickname' => 'ユーザー57',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -477,7 +477,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user58@test.com',
-                'password' => Hash::make('password58'),
+                'password' => Hash::make('password0000058'),
                 'nickname' => 'ユーザー58',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -485,7 +485,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user59@test.com',
-                'password' => Hash::make('password59'),
+                'password' => Hash::make('password0000059'),
                 'nickname' => 'ユーザー59',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
@@ -493,7 +493,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'email' => 'user60@test.com',
-                'password' => Hash::make('password60'),
+                'password' => Hash::make('password0000060'),
                 'nickname' => 'ユーザー60',
                 'suspension_state' => 0,
                 'created_at' => Carbon::now(),
