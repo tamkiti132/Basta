@@ -6,6 +6,8 @@
 
 ## ▫️ アプリ URL
 
+[https://basta.x0.com](https://basta.x0.com)
+
 ## ▫️ サービス概要
 
 ## ▫️ サービスへの想い
