@@ -36,11 +36,12 @@
 データベース
 
 -   開発環境: MySQL 5.7.39（MAMP）
--   本番環境: MariaDB 10.6.19
+-   本番環境: MySQL 8.0
 
 インフラ
 
--   Apache
+-   開発環境: Apache 2.4.54
+-   本番環境: Apache 2.4.62
 
 デザイン
 
@@ -48,7 +49,7 @@
 
 その他
 
--   Git, GitHub
+-   PHPUnit, Git, GitHub
 
 ## ▫️ ER 図
 
