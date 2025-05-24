@@ -4,11 +4,17 @@
     <img src="public/images/logo.png" alt="Logo" width="100">
 </p>
 
-## ▫️ アプリ URL
+## ▫️ アプリURL
 
 [https://basta.x0.com](https://basta.x0.com)
 
 ## ▫️ サービス概要
+
+Basta は、
+Webページや本から学んだことなどをメモとして管理し、グループで共有できるアプリケーションです。
+（自分専用のグループを作ることで、個人での使用も可能です。）
+
+## ▫️ サービスへの想い
 
 ## ▫️ サービスへの想い
 
@@ -51,11 +57,11 @@
 
 -   PHPUnit, Git, GitHub
 
-## ▫️ ER 図
+## ▫️ ER図
 
-![ER 図（レポート以外）](docs/ERD/ERD（2025_05_12）-non-report.png)
+![ER図（レポート以外）](docs/ERD/ERD（2025_05_12）-non-report.png)
 
-![ER 図（レポート関係）](docs/ERD/ERD（2025_05_12）-report-related.png)
+![ER図（レポート関係）](docs/ERD/ERD（2025_05_12）-report-related.png)
 
 ## ▫️ こだわった点
 
