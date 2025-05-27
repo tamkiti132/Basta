@@ -57,9 +57,9 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 ## ▫️ ER図
 
-![ER図（レポート以外）](docs/ERD/ERD（2025_05_12）-non-report.png)
+![ER図（レポート以外）](docs/ERD/ERD_2025_05_12-non-report.png)
 
-![ER図（レポート関係）](docs/ERD/ERD（2025_05_12）-report-related.png)
+![ER図（レポート関係）](docs/ERD/ERD_2025_05_12-report-related.png)
 
 ## ▫️ こだわった点
 
