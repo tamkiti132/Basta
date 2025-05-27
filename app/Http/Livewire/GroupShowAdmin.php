@@ -110,7 +110,7 @@ class GroupShowAdmin extends Component
     }
 
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage('group_reports_page');
         $this->resetPage('users_data_page');

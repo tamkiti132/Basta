@@ -73,14 +73,9 @@
     <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
-            <form wire:submit.prevent=" executeSearch">
-                <input type="text" wire:model.defer="search" :placeholder="user ? 'ニックネームか本文のワードで検索' : 
-                            (memo ? 'タイトルかメモ概要のワードで検索' : 
-                            (comment ? '本文のワードで検索' : '検索'))" class="w-64 text-sm rounded-xl sm:w-96">
-                <button class="px-3 py-2 font-bold" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <input type="text" wire:model.debounce.100ms="search" :placeholder="user ? 'ニックネームか本文のワードで検索' :
+                        (memo ? 'タイトルかメモ概要のワードで検索' :
+                        (comment ? '本文のワードで検索' : '検索'))" class="w-64 text-sm rounded-xl sm:w-96">
         </div>
 
         <select wire:change="setReportReason($event.target.value)" class="max-w-xs text-sm rounded-xl"
@@ -505,9 +500,9 @@
             >
 
             @if($targetGroup)
-            
+
             <p>{{ $selectedNextManagerCount + 1 }} / {{ $totalManagedGroupCount }}</p>
-            
+
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
                     <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
@@ -552,7 +547,7 @@
                 </div>
             </form>
             @endif
-            
+
         </div>
     </div>
 
@@ -561,7 +556,7 @@
         class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
         <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
-            >            
+            >
 
             @if($targetGroup)
 
@@ -578,7 +573,7 @@
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
-            
+
             <div class="flex justify-center mb-6 text-sm font-bold text-center">
                 <p class="leading-relaxed">
                     このグループにはメンバーがいません。<br>
@@ -596,7 +591,7 @@
                 </div>
             </div>
             @endif
-            
+
         </div>
     </div>
 
@@ -606,7 +601,7 @@
                     const selectElement = document.querySelector('select.max-w-xs');
                     const inputElements = document.querySelectorAll('input:not([name="_token"])');
                     const textareaElements = document.querySelectorAll('textarea');
-                    
+
                     if (selectElement) {
                     selectElement.value = '';
                     }
@@ -617,12 +612,12 @@
                     textarea.value = '';
                     });
                 }
-                
+
                 window.addEventListener('load', function() {
                         document.querySelectorAll('select.max-w-xs').forEach(select => {
                         select.selectedIndex = 0;
                     });
-                });               
+                });
     </script>
 
     <script>
@@ -634,7 +629,7 @@
                 } else {
                     Livewire.emit('closeModal');
                 }
-            });            
+            });
         });
     </script>
 

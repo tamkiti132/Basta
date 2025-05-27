@@ -14,8 +14,7 @@ class GroupJoin extends Component
 
     public $search = '';
 
-
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage();
     }

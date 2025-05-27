@@ -14,12 +14,10 @@ class Index extends Component
 
     public $search = '';
 
-
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage();
     }
-
 
     public function render()
     {

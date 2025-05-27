@@ -21,9 +21,7 @@ class AdminUserTop extends Component
 
 
 
-    public function mount()
-    {
-    }
+    public function mount() {}
 
 
     public function showMember()
@@ -41,7 +39,7 @@ class AdminUserTop extends Component
     }
 
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage('all_not_suspended_users_page');
         $this->resetPage('all_suspended_users_page');

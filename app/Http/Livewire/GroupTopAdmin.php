@@ -41,7 +41,7 @@ class GroupTopAdmin extends Component
     }
 
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage('groups_page');
         $this->resetPage('suspension_groups_page');
