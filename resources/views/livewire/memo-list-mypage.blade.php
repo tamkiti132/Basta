@@ -14,13 +14,8 @@
 
     <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
         <div>
-            <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索"
-                    class="w-64 text-sm rounded-xl sm:w-96">
-                <button class="px-3 py-2 font-bold" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <input type="text" wire:model.debounce.100ms="search" placeholder="タイトルかメモ概要のワードで検索"
+                class="w-64 text-sm rounded-xl sm:w-96">
         </div>
 
         <select wire:change="setGroupId($event.target.value)" class="max-w-xs text-sm rounded-xl">
@@ -858,7 +853,7 @@
                     const selectElement = document.querySelector('select.max-w-xs');
                     const inputElements = document.querySelectorAll('input:not([name="_token"])');
                     const textareaElements = document.querySelectorAll('textarea');
-                    
+
                     if (selectElement) {
                     selectElement.value = '';
                     }
@@ -869,18 +864,18 @@
                     textarea.value = '';
                     });
                 }
-                
+
                 window.addEventListener('load', resetFormElements);
 
 
             //ラベル一覧モーダルにカーソルがある間、その他の部分がスクロールしないようにするための処理
             document.addEventListener('DOMContentLoaded', function() {
                 const labelList = document.querySelector('.label-list-container');
-                
+
                 labelList.addEventListener('mouseenter', function() {
                     document.body.style.overflow = 'hidden';
                 });
-                
+
                 labelList.addEventListener('mouseleave', function() {
                     document.body.style.overflow = 'auto';
                 });

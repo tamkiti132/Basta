@@ -120,7 +120,7 @@ class MemoListMember extends Component
         $this->resetPage();
     }
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage();
     }

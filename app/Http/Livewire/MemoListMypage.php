@@ -121,7 +121,7 @@ class MemoListMypage extends Component
         $this->resetPage('all_later_read_memos_page');
     }
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage('all_my_memos_page');
         $this->resetPage('all_good_memos_page');

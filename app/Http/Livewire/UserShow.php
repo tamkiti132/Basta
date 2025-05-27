@@ -126,10 +126,8 @@ class UserShow extends Component
         $this->resetPage('all_my_memos_page');
     }
 
-    public function executeSearch()
+    public function updatingSearch()
     {
-        $this->resetPage();
-
         $this->resetPage('all_user_reports_page');
         $this->resetPage('all_my_memos_page');
         $this->resetPage('comments_page');

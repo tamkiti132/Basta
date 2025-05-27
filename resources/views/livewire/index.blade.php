@@ -26,13 +26,8 @@
     </x-slot>
 
     <div class="px-6 pt-12 mx-auto max-w-7xl lg:px-8">
-        <form wire:submit.prevent="executeSearch">
-            <input type="text" wire:model.defer="search" placeholder="グループ名か紹介文のワードで検索"
-                class="w-64 text-sm rounded-xl sm:w-96">
-            <button class="px-3 py-2 font-bold" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+        <input type="text" wire:model.debounce.100ms="search" placeholder="グループ名か紹介文のワードで検索"
+            class="w-64 text-sm rounded-xl sm:w-96">
     </div>
 
     <div class="py-12"> <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -110,7 +105,7 @@
             const selectElement = document.querySelector('select.max-w-xs');
             const inputElements = document.querySelectorAll('input:not([name="_token"])');
             const textareaElements = document.querySelectorAll('textarea');
-            
+
             if (selectElement) {
             selectElement.value = '';
             }
@@ -121,7 +116,7 @@
             textarea.value = '';
             });
         }
-        
+
         window.addEventListener('load', resetFormElements);
     </script>
 

@@ -55,7 +55,7 @@ class UserTopAdmin extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-    public function executeSearch()
+    public function updatingSearch()
     {
         $this->resetPage('all_not_suspended_users_page');
         $this->resetPage('all_suspended_users_page');

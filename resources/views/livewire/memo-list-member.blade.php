@@ -51,7 +51,7 @@
                                     ユーザーを通報
                                 </button>
 
-                                @can('admin-higher')                                
+                                @can('admin-higher')
                                 <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('isManager', {{ $user_data->id }}) }">ユーザーを削除</button>
 
@@ -68,12 +68,12 @@
                                     ユーザーを利用停止解除
                                 </button>
                                 {{-- @endif --}}
-                                
+
 
                                 @endcan
 
                                 <!-- TODO: 投げ銭機能（あとでやる） -->
-                                {{-- @if (auth()->id() !== $user_data->id)                                    
+                                {{-- @if (auth()->id() !== $user_data->id)
                                     <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
                                     onclick="if (confirm('100円の投げ銭をしますか？')) {  }">
                                     投げ銭する
@@ -95,13 +95,8 @@
 
     <div class="lg:grid lg:grid-cols-12">
         <div class="w-full px-6 pt-12 mx-auto max-w-7xl lg:px-8 lg:col-start-3 lg:col-end-10">
-            <form wire:submit.prevent="executeSearch">
-                <input type="text" wire:model.defer="search" placeholder="タイトルかメモ概要のワードで検索"
-                    class="w-64 text-sm rounded-xl lg:w-96">
-                <button class="px-3 py-2 font-bold" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <input type="text" wire:model.debounce.100ms="search" placeholder="タイトルかメモ概要のワードで検索"
+                class="w-64 text-sm rounded-xl lg:w-96">
         </div>
     </div>
 
@@ -369,9 +364,9 @@
             >
 
             @if($targetGroup)
-            
+
             <p>{{ $selectedNextManagerCount + 1 }} / {{ $totalManagedGroupCount }}</p>
-            
+
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
                     <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
@@ -416,7 +411,7 @@
                 </div>
             </form>
             @endif
-            
+
         </div>
     </div>
 
@@ -425,7 +420,7 @@
         class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
         <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
-            >            
+            >
 
             @if($targetGroup)
 
@@ -442,7 +437,7 @@
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
-            
+
             <div class="flex justify-center mb-6 text-sm font-bold text-center">
                 <p class="leading-relaxed">
                     このグループにはメンバーがいません。<br>
@@ -460,7 +455,7 @@
                 </div>
             </div>
             @endif
-            
+
         </div>
     </div>
 
@@ -471,7 +466,7 @@
                     const selectElement = document.querySelector('select.max-w-xs');
                     const inputElements = document.querySelectorAll('input:not([name="_token"])');
                     const textareaElements = document.querySelectorAll('textarea');
-                    
+
                     if (selectElement) {
                     selectElement.value = '';
                     }
@@ -482,18 +477,18 @@
                     textarea.value = '';
                     });
                 }
-                
+
                 window.addEventListener('load', resetFormElements);
-                
+
 
             //ラベル一覧モーダルにカーソルがある間、その他の部分がスクロールしないようにするための処理
             document.addEventListener('DOMContentLoaded', function() {
                 const labelList = document.querySelector('.label-list-container');
-            
+
                 labelList.addEventListener('mouseenter', function() {
                     document.body.style.overflow = 'hidden';
                 });
-            
+
                 labelList.addEventListener('mouseleave', function() {
                     document.body.style.overflow = 'auto';
                 });
@@ -509,7 +504,7 @@
                 } else {
                     Livewire.emit('closeModal');
                 }
-            });            
+            });
         });
     </script>
 
