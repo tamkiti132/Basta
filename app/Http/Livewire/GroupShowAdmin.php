@@ -2,14 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Comment_type_report_link;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Group;
-use App\Models\Memo_type_report_link;
-use App\Models\Report;
+use App\Models\Memo;
+use App\Models\Comment;
 use App\Models\User_type_report_link;
+use App\Models\Memo_type_report_link;
+use App\Models\Comment_type_report_link;
+use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
@@ -461,17 +463,34 @@ class GroupShowAdmin extends Component
             ->orderByRaw('MIN(roles.role) ASC')
             ->orderBy('users.nickname', 'ASC')
             ->select('users.*')
-            ->get()
-            ->each(function ($user) {
-                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+            ->get();
 
-                $memoIds = $user->memo()->pluck('id');
-                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+        // N+1対策: ユーザーIDリストを取得
+        $userIds = $users_data->pluck('id');
+        $memoIdsByUser = Memo::whereIn('user_id', $userIds)->get()->groupBy('user_id');
+        $commentIdsByUser = Comment::whereIn('user_id', $userIds)->get()->groupBy('user_id');
+        $userReportCounts = User_type_report_link::whereIn('user_id', $userIds)
+            ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+        $memoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $userIds)->pluck('id'))
+            ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+        $commentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $userIds)->pluck('id'))
+            ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
 
-                $commentIds = $user->comment()->pluck('id');
-                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
-            });
-
+        $users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $commentReportCounts, $memoIdsByUser, $commentIdsByUser) {
+            $user->userReportsCount = $userReportCounts[$user->id] ?? 0;
+            $user->memoReportsCount = 0;
+            $user->commentReportsCount = 0;
+            if (isset($memoIdsByUser[$user->id])) {
+                foreach ($memoIdsByUser[$user->id] as $memo) {
+                    $user->memoReportsCount += $memoReportCounts[$memo->id] ?? 0;
+                }
+            }
+            if (isset($commentIdsByUser[$user->id])) {
+                foreach ($commentIdsByUser[$user->id] as $comment) {
+                    $user->commentReportsCount += $commentReportCounts[$comment->id] ?? 0;
+                }
+            }
+        });
 
 
 
@@ -511,16 +530,34 @@ class GroupShowAdmin extends Component
             ->orderByRaw('MIN(roles.role) ASC')
             ->orderBy('users.nickname', 'ASC')
             ->select('users.*')
-            ->get()
-            ->each(function ($user) {
-                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+            ->get();
 
-                $memoIds = $user->memo()->pluck('id');
-                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+        // N+1対策: 停止ユーザーIDリストを取得
+        $suspUserIds = $suspension_users_data->pluck('id');
+        $suspMemoIdsByUser = Memo::whereIn('user_id', $suspUserIds)->get()->groupBy('user_id');
+        $suspCommentIdsByUser = Comment::whereIn('user_id', $suspUserIds)->get()->groupBy('user_id');
+        $suspUserReportCounts = User_type_report_link::whereIn('user_id', $suspUserIds)
+            ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+        $suspMemoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $suspUserIds)->pluck('id'))
+            ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+        $suspCommentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $suspUserIds)->pluck('id'))
+            ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
 
-                $commentIds = $user->comment()->pluck('id');
-                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
-            });
+        $suspension_users_data->each(function ($user) use ($suspUserReportCounts, $suspMemoReportCounts, $suspCommentReportCounts, $suspMemoIdsByUser, $suspCommentIdsByUser) {
+            $user->userReportsCount = $suspUserReportCounts[$user->id] ?? 0;
+            $user->memoReportsCount = 0;
+            $user->commentReportsCount = 0;
+            if (isset($suspMemoIdsByUser[$user->id])) {
+                foreach ($suspMemoIdsByUser[$user->id] as $memo) {
+                    $user->memoReportsCount += $suspMemoReportCounts[$memo->id] ?? 0;
+                }
+            }
+            if (isset($suspCommentIdsByUser[$user->id])) {
+                foreach ($suspCommentIdsByUser[$user->id] as $comment) {
+                    $user->commentReportsCount += $suspCommentReportCounts[$comment->id] ?? 0;
+                }
+            }
+        });
 
 
 

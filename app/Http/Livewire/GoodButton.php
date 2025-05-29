@@ -9,10 +9,12 @@ use Carbon\Carbon;
 class GoodButton extends Component
 {
     public $memo;
+    public $isGood = false;
 
-    public function mount($memo)
+    public function mount($memo, $isGood = false)
     {
         $this->memo = $memo;
+        $this->isGood = $isGood;
     }
 
     public function toggleGood()
@@ -26,6 +28,7 @@ class GoodButton extends Component
         if ($exists) {
             // 既に「いいね」がある場合は削除
             $this->memo->goods()->detach(Auth::id());
+            $this->isGood = false;
         } else {
             // 「いいね」を追加する場合はタイムスタンプを明示的に指定
             $now = Carbon::now();
@@ -33,6 +36,7 @@ class GoodButton extends Component
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
+            $this->isGood = true;
         }
 
         // Memoモデルをリフレッシュして、goodの数を更新する

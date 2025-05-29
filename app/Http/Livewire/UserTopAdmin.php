@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Comment_type_report_link;
 use App\Models\Group;
-use App\Models\Memo_type_report_link;
 use App\Models\User;
+use App\Models\Memo;
+use App\Models\Comment;
 use App\Models\User_type_report_link;
+use App\Models\Memo_type_report_link;
+use App\Models\Comment_type_report_link;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -285,7 +287,8 @@ class UserTopAdmin extends Component
         $keywords = explode(' ', $search);
 
         // 利用停止されていないユーザー情報一覧取得
-        $all_not_suspended_users_data = User::where('suspension_state', 0)
+        $all_not_suspended_users_data = User::with(['memo', 'comment'])
+            ->where('suspension_state', 0)
             ->whereDoesntHave('roles', function ($query) {
                 $query->whereNull('group_id');
             })
@@ -297,18 +300,37 @@ class UserTopAdmin extends Component
                     });
                 }
             })
-            ->get()
-            ->each(function ($user) {
-                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+            ->get();
 
-                $memoIds = $user->memo()->pluck('id');
-                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+        // メモ・コメントIDをまとめて取得
+        $userIds = $all_not_suspended_users_data->pluck('id');
+        $memoIdsByUser = Memo::whereIn('user_id', $userIds)->get()->groupBy('user_id');
+        $commentIdsByUser = Comment::whereIn('user_id', $userIds)->get()->groupBy('user_id');
 
-                $commentIds = $user->comment()->pluck('id');
-                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+        // 通報数をまとめて取得
+        $userReportCounts = User_type_report_link::whereIn('user_id', $userIds)
+            ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+        $memoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $userIds)->pluck('id'))
+            ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+        $commentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $userIds)->pluck('id'))
+            ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
 
-                $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
-            });
+        $all_not_suspended_users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $commentReportCounts, $memoIdsByUser, $commentIdsByUser) {
+            $user->userReportsCount = $userReportCounts[$user->id] ?? 0;
+            $user->memoReportsCount = 0;
+            $user->commentReportsCount = 0;
+            if (isset($memoIdsByUser[$user->id])) {
+                foreach ($memoIdsByUser[$user->id] as $memo) {
+                    $user->memoReportsCount += $memoReportCounts[$memo->id] ?? 0;
+                }
+            }
+            if (isset($commentIdsByUser[$user->id])) {
+                foreach ($commentIdsByUser[$user->id] as $comment) {
+                    $user->commentReportsCount += $commentReportCounts[$comment->id] ?? 0;
+                }
+            }
+            $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
+        });
 
         // ソート基準に応じて並び替え
         switch ($this->sortCriteria) {
@@ -356,7 +378,8 @@ class UserTopAdmin extends Component
         }
 
         // 利用停中のユーザー情報一覧取得
-        $all_suspended_users_data = User::where('suspension_state', 1)
+        $all_suspended_users_data = User::with(['memo', 'comment'])
+            ->where('suspension_state', 1)
             ->whereDoesntHave('roles', function ($query) {
                 $query->whereNull('group_id');
             })
@@ -368,18 +391,35 @@ class UserTopAdmin extends Component
                     });
                 }
             })
-            ->get()
-            ->each(function ($user) {
-                $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+            ->get();
 
-                $memoIds = $user->memo()->pluck('id');
-                $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+        $suspendedUserIds = $all_suspended_users_data->pluck('id');
+        $suspendedMemoIdsByUser = Memo::whereIn('user_id', $suspendedUserIds)->get()->groupBy('user_id');
+        $suspendedCommentIdsByUser = Comment::whereIn('user_id', $suspendedUserIds)->get()->groupBy('user_id');
 
-                $commentIds = $user->comment()->pluck('id');
-                $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+        $suspendedUserReportCounts = User_type_report_link::whereIn('user_id', $suspendedUserIds)
+            ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+        $suspendedMemoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $suspendedUserIds)->pluck('id'))
+            ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+        $suspendedCommentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $suspendedUserIds)->pluck('id'))
+            ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
 
-                $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
-            });
+        $all_suspended_users_data->each(function ($user) use ($suspendedUserReportCounts, $suspendedMemoReportCounts, $suspendedCommentReportCounts, $suspendedMemoIdsByUser, $suspendedCommentIdsByUser) {
+            $user->userReportsCount = $suspendedUserReportCounts[$user->id] ?? 0;
+            $user->memoReportsCount = 0;
+            $user->commentReportsCount = 0;
+            if (isset($suspendedMemoIdsByUser[$user->id])) {
+                foreach ($suspendedMemoIdsByUser[$user->id] as $memo) {
+                    $user->memoReportsCount += $suspendedMemoReportCounts[$memo->id] ?? 0;
+                }
+            }
+            if (isset($suspendedCommentIdsByUser[$user->id])) {
+                foreach ($suspendedCommentIdsByUser[$user->id] as $comment) {
+                    $user->commentReportsCount += $suspendedCommentReportCounts[$comment->id] ?? 0;
+                }
+            }
+            $user->allReportsCount = $user->userReportsCount + $user->memoReportsCount + $user->commentReportsCount;
+        });
 
         // ソート基準に応じて並び替え
         switch ($this->sortCriteria) {
@@ -442,6 +482,9 @@ class UserTopAdmin extends Component
             'pageName' => 'all_suspended_users_page'
         ]);
 
-        return view('livewire.user-top-admin', compact('all_not_suspended_users_data_paginated', 'all_suspended_users_data_paginated'));
+        return view('livewire.user-top-admin', compact(
+            'all_not_suspended_users_data_paginated',
+            'all_suspended_users_data_paginated'
+        ));
     }
 }

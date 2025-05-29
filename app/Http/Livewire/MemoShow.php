@@ -11,6 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class MemoShow extends Component
 {
@@ -165,7 +166,15 @@ class MemoShow extends Component
                 ->find($this->memo_id);
         }
 
-
+        // N+1対策: いいね・あとで読むIDを一括取得
+        $goodMemoIds = DB::table('goods')
+            ->where('user_id', Auth::id())
+            ->where('memo_id', $memo_data->id)
+            ->pluck('memo_id');
+        $laterReadMemoIds = DB::table('later_reads')
+            ->where('user_id', Auth::id())
+            ->where('memo_id', $memo_data->id)
+            ->pluck('memo_id');
 
         //メモ通報情報
         $all_memo_reports_data = Report::whereIn('id', function ($query) {
@@ -184,7 +193,7 @@ class MemoShow extends Component
             'memo' => function ($query) {
                 $query->select('id', 'group_id');
             },
-            'reports'
+            'reports.contribute_user'
         ])
             ->where('memo_id', $this->memo_id)
             ->withCount('reports')
@@ -219,6 +228,12 @@ class MemoShow extends Component
 
 
 
-        return view('livewire.memo-show', compact('memo_data', 'comments_data_paginated', 'all_memo_reports_data_paginated'));
+        return view('livewire.memo-show', compact(
+            'memo_data',
+            'comments_data_paginated',
+            'all_memo_reports_data_paginated',
+            'goodMemoIds',
+            'laterReadMemoIds',
+        ));
     }
 }

@@ -1,5 +1,5 @@
 <div class="inline">
-    @if($memo->laterReads()->where('user_id', Auth::id())->exists())
+    @if($isLaterRead)
     <button wire:click="toggleLaterRead">
         <i class="inline text-sm fa-solid fa-file"></i>
     </button>
