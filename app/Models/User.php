@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function comment()
     {
-        return $this->HasMany(comment::class);
+        return $this->HasMany(Comment::class);
     }
 
     public function target_report()
