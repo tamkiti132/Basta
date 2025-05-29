@@ -73,12 +73,10 @@
                                             {{-- 『いいね』 『あとでよむ』 --}}
                                             <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
                                                 <div class="w-20">
-                                                    @livewire('good-button', ['memo' => $memo_data],
-                                                    key('good-button-'.microtime(true)))
+                                                    @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
                                                 <div class="w-20">
-                                                    @livewire('later-read-button', ['memo' => $memo_data],
-                                                    key('later-read-button-'.microtime(true)))
+                                                    @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-'.microtime(true)))
                                                 </div>
                                             </div>
                                             {{-- タグ --}}
@@ -155,14 +153,14 @@
                                                             メモを通報
                                                         </button>
 
-                                                        @if (auth()->id() === $memo_data->user_id)                                                            
+                                                        @if (auth()->id() === $memo_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを削除
                                                             </button>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </x-slot>
                                             </x-dropdown>
@@ -253,12 +251,10 @@
                                             {{-- 『いいね』 『あとでよむ』 --}}
                                             <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
                                                 <div class="w-20">
-                                                    @livewire('good-button', ['memo' => $memo_data],
-                                                    key('good-button-'.microtime(true)))
+                                                    @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
                                                 <div class="w-20">
-                                                    @livewire('later-read-button', ['memo' => $memo_data],
-                                                    key('later-read-button-'.microtime(true)))
+                                                    @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-'.microtime(true)))
                                                 </div>
                                             </div>
                                             {{-- タグ --}}
@@ -335,15 +331,15 @@
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを通報
                                                         </button>
-                                                        
-                                                        @if (auth()->id() === $memo_data->user_id)                                                            
+
+                                                        @if (auth()->id() === $memo_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
                                                             メモを削除
                                                             </button>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </x-slot>
                                             </x-dropdown>
@@ -462,7 +458,7 @@
 
                 <h2 class="px-5 text-base font-bold">コメント</h2>
                 {{-- コメントセクション --}}
-                @foreach ($comments_data_paginated as $comment_data)                
+                @foreach ($comments_data_paginated as $comment_data)
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
                         <div class="-m-4">
@@ -532,7 +528,7 @@
                                                             コメントを通報
                                                         </button>
 
-                                                        @if (auth()->id() === $comment_data->user_id)                                                            
+                                                        @if (auth()->id() === $comment_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteComment', {{ $comment_data->id }}) }"
                                                             class="block w-full p-2 text-left hover:bg-slate-100">
@@ -571,12 +567,14 @@
                     @can('admin-higher')
                     @if ($comment_data->reports->isNotEmpty())
                     {{-- 通報（コメント）セクション --}}
+                    @php
+                        $reports = $comment_data->reports()->with('contribute_user')->paginate(5, ['*'], 'commentReportPage' . $comment_data->id);
+                    @endphp
                     <div x-show="$wire.show_reports_comments[{{ $comment_data->id }}]" x-cloak
                         class="py-10 bg-orange-100">
                         <h2 class="px-5 pb-10 text-base font-bold">通報（コメント）</h2>
                         <div class="grid gap-10">
-                            @foreach ($comment_data->reports()->paginate(5, ['*'], 'commentReportPage' .
-                            $comment_data->id) as $comment_report)
+                            @foreach ($reports as $comment_report)
                             <section class="text-gray-600 body-font">
                                 <div class="px-5 mx-auto">
                                     <div class="-m-4">
@@ -650,8 +648,7 @@
                         </div>
                         {{-- 通報（コメント） の ページネーション --}}
                         <div class="flex justify-center mt-10">
-                            {{ $comment_data->reports()->paginate(5, ['*'], 'commentReportPage' .
-                            $comment_data->id)->links() }}
+                            {{ $reports->links() }}
                         </div>
                     </div>
                     @endif
@@ -730,7 +727,7 @@
         const selectElements = document.querySelectorAll('select.max-w-xs');
         const inputElements = document.querySelectorAll('input:not([name="_token"])');
         const textareaElements = document.querySelectorAll('textarea');
-        
+
         selectElements.forEach(select => {
             select.value = '';
         });
@@ -745,7 +742,7 @@
             textarea.value = '';
         });
         }
-        
+
         window.addEventListener('load', resetFormElements);
     </script>
 

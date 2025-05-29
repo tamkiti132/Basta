@@ -8,6 +8,7 @@ use App\Models\Memo;
 use App\Models\Group;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemoList extends Component
 {
@@ -152,10 +153,7 @@ class MemoList extends Component
 
 
         if (in_array('web', $this->selected_web_book_labels)) {
-            $web_memos_data = Memo::with('labels')
-                ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')
-                ->join('users', 'memos.user_id', '=', 'users.id')
-                ->select('memos.*', 'web_type_features.url', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
+            $web_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
                 ->where('group_id', session()->get('group_id'))
                 ->when($this->selected_labels, function ($query) { // 選択されたラベルがある場合のみフィルタリング
                     $query->whereHas('labels', function ($query) {
@@ -165,28 +163,17 @@ class MemoList extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('memos.title', 'like', '%' . $keyword . '%')
-                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%' . $keyword . '%')
+                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
                         });
                     }
                 })
+                ->where('type', 0)
                 ->get();
         }
 
         if (in_array('book', $this->selected_web_book_labels)) {
-            $book_memos_data = Memo::with('labels')
-                ->leftJoin('book_type_features', function ($join) {
-                    $join->on('memos.id', '=', 'book_type_features.memo_id');
-                })
-                ->join('users', 'memos.user_id', '=', 'users.id')
-                ->select('memos.*', 'book_type_features.book_photo_path', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
-                ->where(function ($query) {
-                    $query->whereNotNull('book_type_features.memo_id')
-                        ->orWhere(function ($query) {
-                            $query->where('memos.type', 1)
-                                ->whereNull('book_type_features.memo_id');
-                        });
-                })
+            $book_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'book_type_feature'])
                 ->where('group_id', session()->get('group_id'))
                 ->when($this->selected_labels, function ($query) { // 選択されたラベルがある場合のみフィルタリング
                     $query->whereHas('labels', function ($query) {
@@ -196,20 +183,38 @@ class MemoList extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('memos.title', 'like', '%' . $keyword . '%')
-                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%' . $keyword . '%')
+                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
                         });
                     }
                 })
+                ->where('type', 1)
                 ->get();
         }
 
-        $all_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('created_at')->values()->all();
+        $all_memos_data = $web_memos_data->concat($book_memos_data)->sortByDesc('created_at')->values();
+
+        // N+1対策: いいね・あとで読むIDを一括取得
+        $all_memo_ids = $all_memos_data->pluck('id');
+        $goodMemoIds = DB::table('goods')
+            ->where('user_id', Auth::id())
+            ->whereIn('memo_id', $all_memo_ids)
+            ->pluck('memo_id');
+        $laterReadMemoIds = DB::table('later_reads')
+            ->where('user_id', Auth::id())
+            ->whereIn('memo_id', $all_memo_ids)
+            ->pluck('memo_id');
+
         $perPage = 20;
         $page = LengthAwarePaginator::resolveCurrentPage();
-        $items = array_slice($all_memos_data, ($page - 1) * $perPage, $perPage);
+        $items = $all_memos_data->slice(($page - 1) * $perPage, $perPage);
         $all_memos_data_paginated = new LengthAwarePaginator($items, count($all_memos_data), $perPage, $page, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
 
-        return view('livewire.memo-list', compact('group_data', 'all_memos_data_paginated'));
+        return view('livewire.memo-list', compact(
+            'group_data',
+            'all_memos_data_paginated',
+            'goodMemoIds',
+            'laterReadMemoIds',
+        ));
     }
 }

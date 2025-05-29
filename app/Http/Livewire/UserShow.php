@@ -11,6 +11,7 @@ use App\Models\Group;
 use App\Models\Report;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserShow extends Component
 {
@@ -401,7 +402,7 @@ class UserShow extends Component
 
         //メモ
         if (in_array('web', $this->selected_web_book_labels)) {
-            $web_memos_data = Memo::with('labels')
+            $web_memos_data = Memo::with(['labels', 'goods', 'laterReads'])
                 ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')
                 ->join('users', 'memos.user_id', '=', 'users.id')
                 ->select('memos.*', 'web_type_features.url', 'users.id as memo_user_id', 'users.email', 'users.nickname', 'users.username', 'users.profile_photo_path')
@@ -427,7 +428,7 @@ class UserShow extends Component
         }
 
         if (in_array('book', $this->selected_web_book_labels)) {
-            $book_memos_data = Memo::with('labels')
+            $book_memos_data = Memo::with(['labels', 'goods', 'laterReads'])
                 ->leftJoin('book_type_features', function ($join) {
                     $join->on(
                         'memos.id',
@@ -467,6 +468,17 @@ class UserShow extends Component
 
 
         $all_my_memos_data = $web_memos_data->concat($book_memos_data);
+
+        // いいね・あとで読むIDを一括取得
+        $all_memo_ids = $all_my_memos_data->pluck('id');
+        $goodMemoIds = DB::table('goods')
+            ->where('user_id', Auth::id())
+            ->whereIn('memo_id', $all_memo_ids)
+            ->pluck('memo_id');
+        $laterReadMemoIds = DB::table('later_reads')
+            ->where('user_id', Auth::id())
+            ->whereIn('memo_id', $all_memo_ids)
+            ->pluck('memo_id');
 
 
         if ($this->sortCriteria === 'report') {
@@ -539,6 +551,8 @@ class UserShow extends Component
             'all_user_reports_data_paginated',
             'all_my_memos_data_paginated',
             'comments_data_paginated',
+            'goodMemoIds',
+            'laterReadMemoIds',
         ));
     }
 }

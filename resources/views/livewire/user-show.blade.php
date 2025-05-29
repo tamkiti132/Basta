@@ -273,12 +273,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="w-20">
-                                                        @livewire('good-button', ['memo' => $memo_data],
-                                                        key('good-button-created1-'.microtime(true)))
+                                                        @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-user-'.microtime(true)))
                                                     </div>
                                                     <div class="w-20">
-                                                        @livewire('later-read-button', ['memo' => $memo_data],
-                                                        key('later-read-button-created1-'.microtime(true)))
+                                                        @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-user-'.microtime(true)))
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}
@@ -369,12 +367,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="w-20">
-                                                        @livewire('good-button', ['memo' => $memo_data],
-                                                        key('good-button-created2-'.microtime(true)))
+                                                        @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-user-'.microtime(true)))
                                                     </div>
                                                     <div class="w-20">
-                                                        @livewire('later-read-button', ['memo' => $memo_data],
-                                                        key('later-read-button-created2-'.microtime(true)))
+                                                        @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-user-'.microtime(true)))
                                                     </div>
                                                 </div>
                                                 {{-- タグ --}}

@@ -126,6 +126,9 @@
             <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
 
                 @foreach ($all_memos_data_paginated as $memo_data)
+                {{-- @php
+                    dd($memo_data);
+                @endphp --}}
                 @if ($memo_data['type'] == 0 )
                 {{-- Webタイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
@@ -139,16 +142,16 @@
                                         <div class="xl:col-span-3">
                                             <div class="flex items-center content-center">
                                                 {{-- photo --}}
-                                                @if($memo_data->profile_photo_path)
+                                                @if($memo_data->user->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id]) }}' "
                                                     class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
-                                                        src="{{ asset('storage/'. $memo_data->profile_photo_path) }}" />
+                                                        src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                     class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
@@ -157,14 +160,14 @@
                                                 <div>
                                                     <div class="mb-1 lg:mb-0">
                                                         <button
-                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="block ml-3 text-black">
-                                                            {{ $memo_data['nickname'] }}
+                                                            {{ $memo_data->user->nickname }}
                                                         </button>
                                                         <button
-                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="ml-5 text-gray-500">
-                                                            {{ $memo_data['username'] }}
+                                                            {{ $memo_data->user->username }}
                                                         </button>
                                                     </div>
                                                     <div class="inline mt-1 ml-5 text-gray-500">
@@ -192,12 +195,10 @@
                                             {{-- 『いいね』 『あとでよむ』 --}}
                                             <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
                                                 <div class="w-20">
-                                                    @livewire('good-button', ['memo' => $memo_data],
-                                                    key('good-button-'.microtime(true)))
+                                                    @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
                                                 <div class="w-20">
-                                                    @livewire('later-read-button', ['memo' => $memo_data],
-                                                    key('later-read-button-'.microtime(true)))
+                                                    @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-'.microtime(true)))
                                                 </div>
                                             </div>
                                             {{-- タグ --}}
@@ -266,16 +267,16 @@
                                         <div class="xl:col-span-3">
                                             <div class="flex items-center content-center">
                                                 {{-- photo --}}
-                                                @if($memo_data->profile_photo_path)
+                                                @if($memo_data->user->profile_photo_path)
                                                 <button
-                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                     class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
-                                                        src="{{ asset('storage/'. $memo_data->profile_photo_path) }}" />
+                                                        src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                    onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                     class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
@@ -284,12 +285,12 @@
                                                 <div>
                                                     <div class="mb-1 lg:mb-0">
                                                         <button
-                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="block ml-3 text-black">
                                                             {{ $memo_data['nickname'] }}
                                                         </button>
                                                         <button
-                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['memo_user_id']]) }}' "
+                                                            onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="ml-5 text-gray-500">
                                                             {{ $memo_data['username'] }}
                                                         </button>
@@ -319,12 +320,10 @@
                                             {{-- 『いいね』 『あとでよむ』 --}}
                                             <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
                                                 <div class="w-20">
-                                                    @livewire('good-button', ['memo' => $memo_data],
-                                                    key('good-button-'.microtime(true)))
+                                                    @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
                                                 <div class="w-20">
-                                                    @livewire('later-read-button', ['memo' => $memo_data],
-                                                    key('later-read-button-'.microtime(true)))
+                                                    @livewire('later-read-button', ['memo' => $memo_data, 'isLaterRead' => $laterReadMemoIds->contains($memo_data->id)], key('later-read-button-'.microtime(true)))
                                                 </div>
                                             </div>
                                             {{-- タグ --}}

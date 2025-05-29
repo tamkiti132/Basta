@@ -17,6 +17,7 @@
     },
     "require-dev": {
         "askdkc/breezejp": "^1.6",
+        "beyondcode/laravel-query-detector": "^2.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

@@ -9,10 +9,12 @@ use Carbon\Carbon;
 class LaterReadButton extends Component
 {
     public $memo;
+    public $isLaterRead = false;
 
-    public function mount($memo)
+    public function mount($memo, $isLaterRead = false)
     {
         $this->memo = $memo;
+        $this->isLaterRead = $isLaterRead;
     }
 
     public function toggleLaterRead()
@@ -26,6 +28,7 @@ class LaterReadButton extends Component
         if ($exists) {
             // 既に「あとで読む」に追加されている場合は削除
             $this->memo->laterReads()->detach(Auth::id());
+            $this->isLaterRead = false;
         } else {
             // 「あとで読む」に追加する場合はタイムスタンプを明示的に指定
             $now = Carbon::now();
@@ -33,6 +36,7 @@ class LaterReadButton extends Component
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
+            $this->isLaterRead = true;
         }
 
         // Memoモデルをリフレッシュして、laterReadの数を更新する
