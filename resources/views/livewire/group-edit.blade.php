@@ -141,7 +141,7 @@
                         </div>
                     </div>
                 </section>
-                
+
                 {{-- グループの自由参加 --}}
                 @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
@@ -157,7 +157,7 @@
                                         </div>
                                         {{-- 右側 --}}
                                         {{-- ボタン --}}
-                                        @livewire('toggle-join-free-enable-button', ['groupId' => $group_data['id']])
+                                        @livewire('toggle-join-free-enable-button', ['group_data' => $group_data])
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                                     <form wire:submit.prevent="sendInviteToGroupMail"
                                         class="items-center sm:grid sm:grid-cols-5">
                                         {{-- 左側 --}}
-                                        
+
                                         <div class="flex justify-center sm:justify-start sm:text-left sm:col-span-3">
                                             <div>
                                                 @error('email')
@@ -189,7 +189,7 @@
                                                 <label for="email" class="block">グループに招待する<span
                                                         class="required">*</span></label>
                                                 <input id="email" type="text" name="email" wire:model.defer="email"
-                                                    class="rounded-lg" placeholder="Eメールアドレス" size="30">                                                
+                                                    class="rounded-lg" placeholder="Eメールアドレス" size="30">
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
@@ -208,7 +208,7 @@
                 </section>
 
                 <!-- TODO: グループ内投げ銭許可スイッチ機能 （この機能自体は完成しているが、クレカ・投げ銭機能ができてからコメントアウトを外す） -->
-                {{-- グループ内投げ銭 --}}                
+                {{-- グループ内投げ銭 --}}
                 {{-- @can('manager', $group_data)
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 mx-auto">
@@ -230,7 +230,7 @@
                             </div>
                         </div>
                     </div>
-                </section>                    
+                </section>
                 @endcan --}}
 
                 {{-- グループを削除 --}}
@@ -264,7 +264,7 @@
             </div>
 
             {{-- グループ削除確認モーダル --}}
-            @livewire('delete-group-form')
+            @livewire('delete-group-form', ['group_data' => $group_data])
         </div>
     </div>
 </div>

@@ -17,6 +17,11 @@ class GoodButton extends Component
         $this->isGood = $isGood;
     }
 
+    public function hydrate($memo, $isGood = false)
+    {
+        $this->isGood = $isGood;
+    }
+
     public function toggleGood()
     {
         // なぜ、$this->memo->goods()->toggle(Auth::id());
@@ -39,8 +44,8 @@ class GoodButton extends Component
             $this->isGood = true;
         }
 
-        // Memoモデルをリフレッシュして、goodの数を更新する
-        $this->memo->refresh();
+        // goodsモデルを再度読み込んで、good数の表示を更新する
+        $this->memo->load('goods');
     }
 
     public function render()

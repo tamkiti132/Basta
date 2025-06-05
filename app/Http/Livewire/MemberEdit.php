@@ -18,6 +18,8 @@ class MemberEdit extends Component
     public $group_id;
     public $group_data;
 
+    public $is_manager = false;
+
     // 各タブの表示状態を管理するプロパティ
     public $show_members = true;
     public $show_block_members = false;
@@ -53,16 +55,18 @@ class MemberEdit extends Component
         }
 
         $this->group_id = $group_id;
+        $this->group_data = $group;
+
+        // 自分が管理者かどうかをチェック
+        $this->is_manager = auth()->user()->can('manager', $this->group_data);
 
         $this->checkSuspensionGroup();
     }
 
     public function checkSuspensionGroup()
     {
-        $group = Group::find($this->group_id);
-
         // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
-        if ($group && $group->suspension_state == 1) {
+        if ($this->group_data && $this->group_data->suspension_state == 1) {
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません。');
 
             $this->previous_route = url()->previous();
@@ -99,7 +103,7 @@ class MemberEdit extends Component
         if ($role == 10) {
             // 自分自身のユーザーデータを取得
             $self_user_data = User::find(Auth::id());
-            // 自分自身の権限をサブ管理者に変更する            
+            // 自分自身の権限をサブ管理者に変更する
             $self_user_data->groupRoles()->updateExistingPivot($this->group_id, ['role' => 50]);
 
             // グループトップページにリダイレクト
@@ -129,9 +133,6 @@ class MemberEdit extends Component
 
     public function render()
     {
-        $this->group_data = Group::find($this->group_id);
-
-
         $all_not_blocked_users_data = User::with(['groupRoles' => function ($query) {
             $query->where('group_id', $this->group_id);
         }])->withCount(['memo' => function ($query) {

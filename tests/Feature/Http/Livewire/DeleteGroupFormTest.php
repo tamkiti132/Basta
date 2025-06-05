@@ -44,7 +44,7 @@ class DeleteGroupFormTest extends TestCase
         session()->put('group_id', $group->id);
 
         // Act（実行） & Assert（検証）
-        Livewire::test(DeleteGroupForm::class)
+        Livewire::test(DeleteGroupForm::class, ['group_data' => $group])
             ->assertSet('group_data.name', $group->name)
             ->set('password', $password)
             ->call('deleteGroup')
@@ -77,7 +77,7 @@ class DeleteGroupFormTest extends TestCase
 
         // Act（実行） & Assert（検証）
         // パスワードのバリデーション
-        Livewire::test(DeleteGroupForm::class)
+        Livewire::test(DeleteGroupForm::class, ['group_data' => $group])
             ->set('password', $password)
             ->call('deleteGroup')
             ->assertHasNoErrors(['password' => 'current_password']);
@@ -104,12 +104,12 @@ class DeleteGroupFormTest extends TestCase
 
         // Act（実行） & Assert（検証）
         // パスワードのバリデーション
-        Livewire::test(DeleteGroupForm::class)
+        Livewire::test(DeleteGroupForm::class, ['group_data' => $group])
             ->set('password', '')
             ->call('deleteGroup')
             ->assertHasErrors(['password' => 'required']);
 
-        Livewire::test(DeleteGroupForm::class)
+        Livewire::test(DeleteGroupForm::class, ['group_data' => $group])
             ->set('password', 'wrong-password')
             ->call('deleteGroup')
             ->assertHasErrors(['password' => 'current_password']);

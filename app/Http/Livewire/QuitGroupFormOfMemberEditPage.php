@@ -18,11 +18,9 @@ class QuitGroupFormOfMemberEditPage extends Component
     ];
 
 
-    public function mount()
+    public function mount($group_data)
     {
-        $this->group_data = Group::with(['userRoles' => function ($query) {
-            $query->wherePivot('role', 50);
-        }])->find(session()->get('group_id'));
+        $this->group_data = $group_data;
     }
 
 
@@ -53,8 +51,7 @@ class QuitGroupFormOfMemberEditPage extends Component
         // パスワードのバリデーション
         $this->validate();
 
-        $group_data = Group::find(session()->get('group_id'));
-        $group_data->userRoles()->detach($this->user_id);
+        $this->group_data->userRoles()->detach($this->user_id);
 
         $this->closeModal();
 

@@ -15,9 +15,9 @@ class DeleteGroupForm extends Component
         'password' => ['required', 'current_password'],
     ];
 
-    public function mount()
+    public function mount($group_data)
     {
-        $this->group_data = Group::find(session()->get('group_id'));
+        $this->group_data = $group_data;
     }
 
     public function deleteGroup()
@@ -25,8 +25,7 @@ class DeleteGroupForm extends Component
         $this->validate();
 
         // グループを削除
-        $group_data = Group::find(session()->get('group_id'));
-        $group_data->delete();
+        $this->group_data->delete();
 
         return to_route('index');
     }

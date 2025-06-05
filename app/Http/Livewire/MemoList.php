@@ -17,6 +17,7 @@ class MemoList extends Component
     public $previous_route;
 
     public $group_id;
+    public $group_data;
     public $show_web = true;
     public $show_book = true;
     public $selected_web_book_labels = ['web', 'book'];
@@ -37,10 +38,10 @@ class MemoList extends Component
     {
         $this->previous_route = url()->previous();
 
-        $group = Group::find($group_id);
+        $this->group_data = Group::find($group_id);
 
         // グループが存在しない場合に 404 エラーを返す
-        if (!$group) {
+        if (!$this->group_data) {
             abort(404);
         }
 
@@ -119,23 +120,19 @@ class MemoList extends Component
 
     public function suspendGroup()
     {
-        $user_data = Group::find($this->group_id);
-
-        $user_data->suspension_state = 1;
-        $user_data->save();
+        $this->group_data->suspension_state = 1;
+        $this->group_data->save();
     }
 
     public function liftSuspendGroup()
     {
-        $user_data = Group::find($this->group_id);
-
-        $user_data->suspension_state = 0;
-        $user_data->save();
+        $this->group_data->suspension_state = 0;
+        $this->group_data->save();
     }
 
     public function render()
     {
-        $group_data = Group::find($this->group_id);
+        $group_data = $this->group_data;
         session()->put('group_id', $this->group_id);
 
         $web_memos_data = collect([]);
