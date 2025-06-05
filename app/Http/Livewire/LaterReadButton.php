@@ -17,6 +17,11 @@ class LaterReadButton extends Component
         $this->isLaterRead = $isLaterRead;
     }
 
+    public function hydrate($memo, $isLaterRead = false)
+    {
+        $this->isLaterRead = $isLaterRead;
+    }
+
     public function toggleLaterRead()
     {
         // なぜ、$this->memo->laterReads()->toggle(Auth::id());
@@ -39,8 +44,8 @@ class LaterReadButton extends Component
             $this->isLaterRead = true;
         }
 
-        // Memoモデルをリフレッシュして、laterReadの数を更新する
-        $this->memo->refresh();
+        // laterReadsモデルを再度読み込んで、laterRead数の表示を更新する
+        $this->memo->load('laterReads');
     }
 
     public function render()

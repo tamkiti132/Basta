@@ -18,7 +18,9 @@ class MemoListMember extends Component
     public $previous_route;
 
     public $user_id;
+    public $user_data;
     public $group_id;
+    public $group_data;
     public $show_web = true;
     public $show_book = true;
     public $selected_web_book_labels = ['web', 'book'];
@@ -60,14 +62,15 @@ class MemoListMember extends Component
 
     public function mount($group_id, $user_id)
     {
-        $group = Group::find($group_id);
+        $this->group_data = Group::find($group_id);
+        $this->user_data = User::find($user_id);
 
         $this->previous_route = url()->previous();
 
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
         if (!Auth::user()->can('admin-higher')) {
             // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!$group->userRoles()->where('user_id', Auth::id())->exists()) {
+            if (!$this->group_data->userRoles()->where('user_id', Auth::id())->exists()) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
                 redirect($this->previous_route);
             }
@@ -323,24 +326,20 @@ class MemoListMember extends Component
 
     public function suspendUser()
     {
-        $user_data = User::find($this->user_id);
-
-        $user_data->suspension_state = 1;
-        $user_data->save();
+        $this->user_data->suspension_state = 1;
+        $this->user_data->save();
     }
 
     public function liftSuspendUser()
     {
-        $user_data = User::find($this->user_id);
-
-        $user_data->suspension_state = 0;
-        $user_data->save();
+        $this->user_data->suspension_state = 0;
+        $this->user_data->save();
     }
 
     public function render()
     {
-        $group_data = Group::find($this->group_id);
-        $user_data = User::find($this->user_id);
+        $group_data = $this->group_data;
+        $user_data = $this->user_data;
 
 
         $web_memos_data = collect([]);

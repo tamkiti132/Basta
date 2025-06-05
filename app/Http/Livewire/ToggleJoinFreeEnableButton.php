@@ -8,24 +8,18 @@ use App\Models\Group;
 class ToggleJoinFreeEnableButton extends Component
 {
     public $isJoinFreeEnabled;
-    public $groupId;
+    public $group_data;
 
-    public function mount($groupId)
+    public function mount($group_data)
     {
-        $this->groupId = $groupId;
-        $group = Group::find($groupId);
-        if ($group) {
-            $this->isJoinFreeEnabled = $group->isJoinFreeEnabled;
-        }
+        $this->group_data = $group_data;
+        $this->isJoinFreeEnabled = $group_data->isJoinFreeEnabled;
     }
 
     public function updatedIsJoinFreeEnabled()
     {
-        $group = Group::find($this->groupId);
-        if ($group) {
-            $group->isJoinFreeEnabled = $this->isJoinFreeEnabled;
-            $group->save();
-        }
+        $this->group_data->isJoinFreeEnabled = $this->isJoinFreeEnabled;
+        $this->group_data->save();
     }
 
     public function render()

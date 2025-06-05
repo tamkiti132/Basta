@@ -330,7 +330,7 @@ class UserShow extends Component
     public function suspend()
     {
 
-        $user_data = User::find($this->user_id);
+        $user_data = $this->user_data;
 
         $user_data->suspension_state = 1;
         $user_data->save();
@@ -340,7 +340,7 @@ class UserShow extends Component
 
     public function liftSuspend()
     {
-        $user_data = User::find($this->user_id);
+        $user_data = $this->user_data;
 
         $user_data->suspension_state = 0;
         $user_data->save();
@@ -352,7 +352,7 @@ class UserShow extends Component
 
     public function render()
     {
-        $user_data = User::find($this->user_id);
+        $user_data = $this->user_data;
 
 
         $user_groups = Group::whereHas('userRoles', function ($query) {

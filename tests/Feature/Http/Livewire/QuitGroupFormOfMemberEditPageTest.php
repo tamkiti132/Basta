@@ -57,7 +57,7 @@ class QuitGroupFormOfMemberEditPageTest extends TestCase
 
 
         // Act（実行） & Assert（検証）
-        Livewire::test(QuitGroupFormOfMemberEditPage::class)
+        Livewire::test(QuitGroupFormOfMemberEditPage::class, ['group_data' => $group])
             ->set('password', 'password')
             ->set('user_id', $user->id)
             ->call('quitGroup')
@@ -103,7 +103,7 @@ class QuitGroupFormOfMemberEditPageTest extends TestCase
 
         // Act（実行） & Assert（検証）
         // passwordのバリデーション
-        Livewire::test(QuitGroupFormOfMemberEditPage::class)
+        Livewire::test(QuitGroupFormOfMemberEditPage::class, ['group_data' => $group])
             ->set('password', 'password')
             ->set('user_id', $user->id)
             ->call('quitGroup')
@@ -146,12 +146,12 @@ class QuitGroupFormOfMemberEditPageTest extends TestCase
 
         // Act（実行） & Assert（検証）
         // password
-        Livewire::test(QuitGroupFormOfMemberEditPage::class)
+        Livewire::test(QuitGroupFormOfMemberEditPage::class, ['group_data' => $group])
             ->set('password', '')
             ->call('quitGroup')
             ->assertHasErrors(['password' => 'required']);
 
-        Livewire::test(QuitGroupFormOfMemberEditPage::class)
+        Livewire::test(QuitGroupFormOfMemberEditPage::class, ['group_data' => $group])
             ->set('password', 'aaaa')
             ->call('quitGroup')
             ->assertHasErrors(['password' => 'current_password']);

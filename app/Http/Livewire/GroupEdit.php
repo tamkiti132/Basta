@@ -55,17 +55,15 @@ class GroupEdit extends Component
         session()->put('group_id', $group_id);
         $this->group_id = $group_id;
 
-        $this->group_data = Group::find($this->group_id);
+        $this->group_data = $group;
 
         $this->checkSuspensionGroup();
     }
 
     public function checkSuspensionGroup()
     {
-        $group = Group::find($this->group_id);
-
         // グループが存在し、suspension_stateが1の場合にエラーメッセージを出す
-        if ($group && $group->suspension_state == 1) {
+        if ($this->group_data && $this->group_data->suspension_state == 1) {
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();

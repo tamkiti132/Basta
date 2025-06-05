@@ -84,7 +84,8 @@
                                                 $role = $user_data->groupRoles->first()->pivot->role;
                                                 @endphp
 
-                                                @can('manager', $group_data)
+                                                @if($is_manager)
+                                                {{-- 自分が管理者の場合 --}}
                                                 <div class="mt-3 lg:mt-0">
                                                     @if ($role == 10)
                                                     <p class="self-end text-xs">管理者</p>
@@ -105,6 +106,8 @@
                                                     @endif
                                                 </div>
                                                 @else
+                                                {{-- 自分が管理者でない場合 --}}
+                                                {{-- （管理者以外は権限を変更できない） --}}
                                                     @if ($role == 10)
                                                     <p class="self-end text-xs">管理者</p>
                                                     @elseif ($role == 50)
@@ -112,7 +115,7 @@
                                                     @elseif ($role == 100)
                                                     メンバー
                                                     @endif
-                                                @endcan
+                                                @endif
                                                 <!-- 三点リーダー（モーダル） -->
                                                 @if(auth()->id() != $user_data->id)
                                                 <div class="flex items-end justify-end">
@@ -193,7 +196,8 @@
                                                         $role = $user_data->groupRoles->first()->pivot->role;
                                                         @endphp
 
-                                                        @if(auth()->id() != $user_data->id)
+                                                    @if($is_manager)
+                                                    {{-- 自分が管理者の場合 --}}
                                                     <div class="mt-3 lg:mt-0">
                                                         <select
                                                             wire:change="updateRole({{ $user_data->id }}, $event.target.value)"
@@ -206,6 +210,8 @@
                                                         </select>
                                                     </div>
                                                     @else
+                                                    {{-- 自分が管理者でない場合 --}}
+                                                    {{-- （管理者以外は権限を変更できない） --}}
                                                     @if ($role == 10)
                                                     <p class="text-xs">管理者</p>
                                                     @elseif ($role == 50)
@@ -259,8 +265,7 @@
         </div>
 
         {{-- 退会確認モーダル --}}
-        @livewire('quit-group-form-of-member-edit-page', ['modalId' =>
-        $user_data->id])
+        @livewire('quit-group-form-of-member-edit-page', ['group_data' => $group_data])
 
     </div>
 
