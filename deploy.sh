@@ -28,8 +28,10 @@ echo "🧹 キャッシュをクリアします..."
 php artisan optimize:clear
 
 # データベースマイグレーション実行
+# 実運用開始後は以下に変更
+# php artisan migrate --force
 echo "🗄️ データベースマイグレーションを実行します..."
-php artisan migrate --force
+php artisan migrate:fresh --seed --force
 
 # キャッシュを最適化
 echo "⚡ キャッシュを最適化します..."
