@@ -224,7 +224,7 @@
 
                                                 <button
                                                     class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
-                                                    onclick="window.open('{{ $memo_data['url'] }}') ">リンクを開く</button>
+                                                    onclick="window.open('{{ $memo_data->web_type_feature->url }}') ">リンクを開く</button>
                                             </div>
                                         </div>
                                         {{-- 右側 --}}
