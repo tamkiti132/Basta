@@ -287,12 +287,12 @@
                                                         <button
                                                             onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="block ml-3 text-black">
-                                                            {{ $memo_data['nickname'] }}
+                                                            {{ $memo_data->user->nickname }}
                                                         </button>
                                                         <button
                                                             onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
                                                             class="ml-5 text-gray-500">
-                                                            {{ $memo_data['username'] }}
+                                                            {{ $memo_data->user->username }}
                                                         </button>
                                                     </div>
                                                     <div class="inline mt-1 ml-5 text-gray-500">
@@ -367,9 +367,9 @@
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
                                                     <div class="flex justify-center">
-                                                        @if($memo_data['book_photo_path'])
+                                                        @if($memo_data->book_type_feature?->book_photo_path)
                                                         <img class="h-36 xl:h-auto"
-                                                            src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                            src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                                                         @endif
                                                     </div>
                                                 </div>

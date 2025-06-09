@@ -403,9 +403,9 @@
                                                             <i class="text-xl fas fa-book-open"></i>
                                                         </div>
                                                         <div class="flex justify-center">
-                                                            @if($memo_data['book_photo_path'])
+                                                            @if($memo_data->book_type_feature?->book_photo_path)
                                                             <img class="h-36 xl:h-auto"
-                                                                src="{{ asset('storage/book-image/'. basename($memo_data['book_photo_path'])) }}" />
+                                                                src="{{ asset('storage/book-image/'. basename($memo_data->book_type_feature->book_photo_path)) }}" />
                                                             @endif
                                                         </div>
                                                     </div>
