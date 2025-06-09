@@ -93,8 +93,15 @@
         <form wire:submit.prevent="deleteGroup" x-on:click.away="$wire.closeModal"
             class="flex flex-col justify-center w-full h-auto max-w-sm px-3 py-2 bg-white rounded-xl">
             <div class="flex flex-col items-center pb-2 mb-6">
-                <div class="object-cover w-8 h-8 bg-blue-200 rounded-full"></div>
-                <p>グループ名</p>
+                @if($group_data->group_photo_path)
+                <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <img class="object-fill w-8 h-8 rounded-full"
+                        src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
+                </div>
+                @else
+                <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                @endif
+                <p>{{ $group_data->name }}</p>
             </div>
 
             <div class="flex justify-center mb-6 text-sm font-bold text-center">
@@ -127,14 +134,23 @@
         <form wire:submit.prevent="quitGroupWhenNobodySubManager" x-on:click.away="$wire.closeModal"
             class="flex flex-col justify-center w-full h-auto max-w-sm px-3 py-2 bg-white rounded-xl">
             <div class="flex flex-col items-center pb-2 mb-6">
-                <div class="object-cover w-8 h-8 bg-blue-200 rounded-full"></div>
-                <p>グループ名</p>
+                @if($group_data->group_photo_path)
+                <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <img class="object-fill w-8 h-8 rounded-full"
+                        src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
+                </div>
+                @else
+                <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                @endif
+                <p>{{ $group_data->name }}</p>
             </div>
 
             <div class="flex justify-center mb-6 text-sm font-bold text-center">
                 <p class="leading-relaxed">サブ管理者がいません。<br>
-                    管理者権限を継承するために、サブ管理者を<br>
-                    設定してください。<br>
+                    管理者権限を継承するために、<br>
+                    サブ管理者を設定してください。<br>
+                    （サブ管理者の中から、時期管理者を選択するため）<br>
+                    <br>
                     管理者権限を継承しなかった場合、<br>
                     このグループは削除され、<br>
                     元に戻すことはできません。
@@ -149,7 +165,7 @@
 
                 <div class="flex flex-col items-center justify-center gap-5 pt-2 text-sm sm:flex-row sm:gap-2">
                     <button class="w-48 px-1 py-2 text-red-500 border border-red-500 hover:bg-red-50"
-                        x-on:click="">サブ管理者を設定しない</button>                        
+                        x-on:click="">サブ管理者を設定しない</button>
                     <button type="button" class="w-48 px-1 py-2 border border-gray-300 hover:bg-slate-100"
                         onclick="location.href='{{ route('group.member_edit', ['group_id' => $group_data->id]) }}' ">サブ管理者を設定する</button>
                 </div>
