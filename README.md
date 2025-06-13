@@ -162,6 +162,99 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 ## ▫️ こだわった点
 
+### 1. パフォーマンス
+
+#### Eloquent クエリ最適化
+
+**Livewireコンポーネントの効率化**
+```php
+// resources/views/livewire/good-button.blade.php
+
+// 最適化前：各ボタンで毎回データベースクエリを実行
+@if($memo->goods()->where('user_id', Auth::id())->exists())
+
+// 最適化後：事前に計算したフラグを利用
+@if($isGood)
+```
+
+いいね・あとでよむボタンにおいて、各コンポーネントが個別にクエリを実行していたところを、\
+親コンポーネントで事前に一括取得した結果をフラグとして渡すことで改善しました。
+
+**Eager Loadingによる関連データ一括取得**
+```php
+// app/Http/Livewire/MemoList.php
+
+// 最適化前：複雑なJOINとSELECT文
+Memo::with('labels')
+    ->join('users', 'memos.user_id', '=', 'users.id')
+    ->select('memos.*', 'users.nickname', 'users.username', ...)
+
+// 最適化後：リレーションによる一括取得
+Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
+```
+
+メモ表示時のクエリを、\
+Eager Loadingを活用して関連データを一括取得することで改善しました。
+
+**管理画面でのバルククエリ最適化**
+```php
+// app/Http/Livewire/GroupShowAdmin.php
+
+// 最適化前：各ユーザーごとに通報数を個別クエリで取得
+$users_data->each(function ($user) {
+    $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+
+    $memoIds = $user->memo()->pluck('id');
+    $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+
+    $commentIds = $user->comment()->pluck('id');
+    $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+});
+
+// 最適化後：バルククエリで一括取得
+$userIds = $users_data->pluck('id');
+$userReportCounts = User_type_report_link::whereIn('user_id', $userIds)
+    ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+$memoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $userIds)->pluck('id'))
+    ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+$commentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $userIds)->pluck('id'))
+    ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
+
+$users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $commentReportCounts) {
+    $user->userReportsCount = $userReportCounts[$user->id] ?? 0;
+    $user->memoReportsCount = 0;
+    $user->commentReportsCount = 0;
+    // 事前取得したデータから効率的に集計
+});
+```
+
+管理画面でのユーザー通報数表示において、\
+個別クエリからバルククエリへの変更により改善しました。
+
+### 2. ユーザビリティ重視の設計
+#### Ajaxによるスムーズな操作体験
+![Ajax操作のGIF](gyazo_url)
+
+Livewireを活用し、いいね・コメント・ラベル絞り込みなどの操作で
+ページリロードを発生させず、快適な操作体験を実現しました。
+特に学習記録という継続的な作業において、ストレスのない操作感を重視...
+
+#### SNSログイン
+![ログイン画面のスクリーンショット](gyazo_url)
+
+プロフィール画面で、ご自身のGoogleアカウントと連携していただくことにより、\
+次回以降のログインが非常にスムーズになります。
+
+### 3. 健全性・品質向上のためのユーザー・運営連携
+#### 【一般ユーザー側】
+- 通報機能
+- サービス自体の問題の報告やリクエスト、その他問い合わせができるフォーム
+
+#### 【運営ユーザー側】
+- 一般ユーザーの監視や利用停止、削除機能
+
+
+
 <br/>
 
 ## ▫️ 今後の展望
