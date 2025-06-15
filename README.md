@@ -46,6 +46,10 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 <br/>
 
 ## ▫️ デモ手順
+
+<details>
+<summary>デモ手順を見る</summary>
+
 - [https://basta.x0.com](https://basta.x0.com)にアクセス（別タブで開いてください）
 
 ### Step 1: アカウント作成 & ログイン
@@ -107,6 +111,8 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 - 画面右上の、プロフィール画像をクリック
 - ログアウトをクリック
 
+</details>
+
 <br/>
 
 ## ▫️ 主なページと機能
@@ -152,6 +158,20 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 <br/>
 
+### 技術選定理由
+
+今回Laravel Jetstreamというパッケージを採用した理由は、開発コストを抑えつつ非同期処理が実装できそうだと判断したためです。
+
+このパッケージに含まれている主な要素について説明します。
+
+**Livewire**は、PHPやLaravelのコードを使って非同期処理を実装できるライブラリです。Livewire独自の構文や設計に慣れる必要はありますが、Bladeファイルとそれに対応するバックエンド側の処理を担うコンポーネントファイルをセットで管理できるため、整理して開発できると判断し採用しました。
+
+**Alpine.js**は、Jetstream導入時に付属するJavaScriptフレームワークで、Blade内に記述でき、シンプルな構文が特徴です。Livewireとデータの連携がしやすく、そのデータの状態に応じてUIの表示/非表示などを切り替えるのに使いました。
+
+**Tailwind CSS**は、以前使ったことがあり、クラス名を考える手間を省けたり直感的にCSSを管理できたので採用しました。
+
+
+
 ## ▫️ ER図
 
 ![ER図（レポート以外）](docs/ERD/ERD_2025_05_12-non-report.png)
@@ -161,6 +181,101 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 <br/>
 
 ## ▫️ こだわった点
+
+### 1. N+1問題の解消によるパフォーマンス改善
+
+#### コンポーネント間データ共有による最適化
+```php
+// resources/views/livewire/good-button.blade.php
+
+// 最適化前：各ボタンで毎回データベースクエリを実行
+@if($memo->goods()->where('user_id', Auth::id())->exists())
+
+// 最適化後：事前に計算したフラグを利用
+@if($isGood)
+```
+
+いいね・あとでよむボタンにおいて、各コンポーネントが個別にクエリを実行していたところを、\
+親コンポーネントで事前に一括取得した結果をフラグとして渡すことで改善しました。
+
+#### Eager Loadingによる関連データ一括取得
+```php
+// app/Http/Livewire/MemoList.php
+
+// 最適化前：複雑なJOINとSELECT文
+Memo::with('labels')
+    ->join('users', 'memos.user_id', '=', 'users.id')
+    ->select('memos.*', 'users.nickname', 'users.username', ...)
+
+// 最適化後：リレーションによる一括取得
+Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
+```
+
+メモ表示時のクエリを、\
+Eager Loadingを活用して関連データを一括取得することで改善しました。
+
+#### 集約クエリによる集計処理の最適化
+```php
+// app/Http/Livewire/GroupShowAdmin.php
+
+// 最適化前：各ユーザーごとに通報数を個別クエリで取得
+$users_data->each(function ($user) {
+    $user->userReportsCount = User_type_report_link::where('user_id', $user->id)->count();
+
+    $memoIds = $user->memo()->pluck('id');
+    $user->memoReportsCount = Memo_type_report_link::whereIn('memo_id', $memoIds)->count();
+
+    $commentIds = $user->comment()->pluck('id');
+    $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
+});
+
+// 最適化後：集約クエリで一括取得
+$userIds = $users_data->pluck('id');
+$userReportCounts = User_type_report_link::whereIn('user_id', $userIds)
+    ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
+$memoReportCounts = Memo_type_report_link::whereIn('memo_id', Memo::whereIn('user_id', $userIds)->pluck('id'))
+    ->selectRaw('memo_id, count(*) as count')->groupBy('memo_id')->pluck('count', 'memo_id');
+$commentReportCounts = Comment_type_report_link::whereIn('comment_id', Comment::whereIn('user_id', $userIds)->pluck('id'))
+    ->selectRaw('comment_id, count(*) as count')->groupBy('comment_id')->pluck('count', 'comment_id');
+
+$users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $commentReportCounts) {
+    $user->userReportsCount = $userReportCounts[$user->id] ?? 0;
+    $user->memoReportsCount = 0;
+    $user->commentReportsCount = 0;
+    // 事前取得したデータから効率的に集計
+});
+```
+
+管理画面でのユーザー通報数表示において、\
+個別クエリから集約クエリへの変更により改善しました。
+
+### 2. ユーザビリティ重視の設計
+#### Ajaxによるスムーズな操作体験
+![Ajax操作のGIF](gyazo_url)
+
+Livewireを活用し、いいね・コメント・ラベル絞り込みなどの操作で
+ページリロードを発生させず、快適な操作体験を実現しました。
+特に学習記録という継続的な作業において、ストレスのない操作感を重視...
+
+#### SNSログイン
+![SNSログイン操作のGIF](gyazo_url)
+
+プロフィール画面で、ご自身のGoogleアカウントと連携していただくことにより、\
+次回以降のログインが非常にスムーズになります。
+
+### 3. 健全性・品質向上のためのユーザー・運営連携
+#### 【一般ユーザー側】
+**通報機能**
+![通報操作のGIF](gyazo_url)
+
+**サービス自体の問題の報告やリクエスト、その他問い合わせができるフォーム**
+![リクエスト操作のGIF](gyazo_url)
+
+#### 【運営ユーザー側】
+**一般ユーザーの監視や利用停止、削除機能**
+![運営ユーザー側の操作のGIF](gyazo_url)
+
+
 
 <br/>
 
