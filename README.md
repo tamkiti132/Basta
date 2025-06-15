@@ -162,11 +162,9 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 ## ▫️ こだわった点
 
-### 1. パフォーマンス
+### 1. N+1問題の解消によるパフォーマンス改善
 
-#### Eloquent クエリ最適化
-
-**Livewireコンポーネントの効率化**
+#### コンポーネント間データ共有による最適化
 ```php
 // resources/views/livewire/good-button.blade.php
 
@@ -180,7 +178,7 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 いいね・あとでよむボタンにおいて、各コンポーネントが個別にクエリを実行していたところを、\
 親コンポーネントで事前に一括取得した結果をフラグとして渡すことで改善しました。
 
-**Eager Loadingによる関連データ一括取得**
+#### Eager Loadingによる関連データ一括取得
 ```php
 // app/Http/Livewire/MemoList.php
 
@@ -196,7 +194,7 @@ Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
 メモ表示時のクエリを、\
 Eager Loadingを活用して関連データを一括取得することで改善しました。
 
-**管理画面でのバルククエリ最適化**
+#### 集約クエリによる集計処理の最適化
 ```php
 // app/Http/Livewire/GroupShowAdmin.php
 
@@ -211,7 +209,7 @@ $users_data->each(function ($user) {
     $user->commentReportsCount = Comment_type_report_link::whereIn('comment_id', $commentIds)->count();
 });
 
-// 最適化後：バルククエリで一括取得
+// 最適化後：集約クエリで一括取得
 $userIds = $users_data->pluck('id');
 $userReportCounts = User_type_report_link::whereIn('user_id', $userIds)
     ->selectRaw('user_id, count(*) as count')->groupBy('user_id')->pluck('count', 'user_id');
@@ -229,7 +227,7 @@ $users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $c
 ```
 
 管理画面でのユーザー通報数表示において、\
-個別クエリからバルククエリへの変更により改善しました。
+個別クエリから集約クエリへの変更により改善しました。
 
 ### 2. ユーザビリティ重視の設計
 #### Ajaxによるスムーズな操作体験
