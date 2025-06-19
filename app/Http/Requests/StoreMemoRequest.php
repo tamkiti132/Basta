@@ -36,8 +36,12 @@ class StoreMemoRequest extends FormRequest
                 'book_shortMemo' => ['required', 'string', 'max:200'],
                 'book_additionalMemo' => ['string', 'nullable'],
                 'book_image' => ['image', 'max:2048'],
-
             ];
         }
+
+        // 無効なmemo_typeの場合、必ず失敗するルールを返す
+        return [
+            'memo_type' => ['required', 'in:web,book'],
+        ];
     }
 }

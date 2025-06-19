@@ -52,7 +52,7 @@ class CustomDeleteUserForm extends Component
     /**
      * Check if the current user is any group manager.
      *
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|void
      */
     public function isManager(Request $request, DeletesUsers $deleter, StatefulGuard $auth)
     {
@@ -69,9 +69,11 @@ class CustomDeleteUserForm extends Component
         if (User::find($userId)->groupRoles()->where('role', 10)->exists()) {
             // ユーザーがいずれかのグループの管理者である場合は、削除処理を実行せず、警告文を表示する
             session()->flash('error', "このユーザーは管理者です。\nグループごとの時期管理者を設定してください");
+
+            return;
         } else {
             // ユーザーがいずれかのグループの管理者でない場合は、削除処理を実行する
-            $this->deleteUser($request, $deleter, $auth);
+            return $this->deleteUser($request, $deleter, $auth);
         }
     }
 

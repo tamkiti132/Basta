@@ -8,9 +8,6 @@ parameters:
 
     level: 0
 
-    ignoreErrors:
-        - '#Relation .* is not found in App\\Models\\.*#'
-
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
 #

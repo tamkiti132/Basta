@@ -60,7 +60,7 @@ class SendRequestMail extends Mailable
     public function content()
     {
         if ($this->request_type === 'type_1') {
-            return new Content(
+            $content = new Content(
                 html: 'emails.request-mail-type1',
                 text: 'emails.request-mail-text-type1',
                 with: [
@@ -68,7 +68,7 @@ class SendRequestMail extends Mailable
                 ],
             );
         } elseif ($this->request_type === 'type_2') {
-            return new Content(
+            $content = new Content(
                 html: 'emails.request-mail-type2',
                 text: 'emails.request-mail-text-type2',
                 with: [
@@ -76,7 +76,7 @@ class SendRequestMail extends Mailable
                 ],
             );
         } elseif ($this->request_type === 'type_3') {
-            return new Content(
+            $content = new Content(
                 html: 'emails.request-mail-type3',
                 text: 'emails.request-mail-text-type3',
                 with: [
@@ -84,7 +84,7 @@ class SendRequestMail extends Mailable
                 ],
             );
         } elseif ($this->request_type === 'type_4') {
-            return new Content(
+            $content = new Content(
                 html: 'emails.request-mail-type4',
                 text: 'emails.request-mail-text-type4',
                 with: [
@@ -92,6 +92,8 @@ class SendRequestMail extends Mailable
                 ],
             );
         }
+
+        return $content;
     }
 
     /**
@@ -143,5 +145,8 @@ class SendRequestMail extends Mailable
                 ];
             }
         }
+
+        // デフォルトの場合は空の配列を返す
+        return [];
     }
 }
