@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class ReportComment extends Component
 {
@@ -13,30 +13,24 @@ class ReportComment extends Component
     public $reason;
     public $detail;
 
-
-
     protected $rules = [
         'reason' => ['required', 'integer', 'between:1,4'],
-        'detail' => ['required', 'string']
+        'detail' => ['required', 'string'],
     ];
-
 
     protected $listeners = [
         'showModalReportComment',
-        'closeModalReportComment'
+        'closeModalReportComment',
     ];
-
 
     public function mount($comment_id)
     {
         $this->comment_id = $comment_id;
     }
 
-
-
     public function showModalReportComment($comment_id)
     {
-        //複数のレポート（コメント）がいっぺんに表示されないようにするためのif文
+        // 複数のレポート（コメント）がいっぺんに表示されないようにするためのif文
         if ($this->comment_id == $comment_id) {
             $this->showModalReportComment = true;
         }
@@ -50,12 +44,11 @@ class ReportComment extends Component
         $this->resetErrorBag();
     }
 
-
     public function createReport()
     {
         $this->validate();
 
-        //レポートを保存
+        // レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
             'type' => 3,
@@ -63,7 +56,7 @@ class ReportComment extends Component
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとcommentsテーブルの紐付けをする
+        // reportsテーブルとcommentsテーブルの紐付けをする
         $report->comments()->sync([$this->comment_id]);
 
         $this->reset(['reason', 'detail']);

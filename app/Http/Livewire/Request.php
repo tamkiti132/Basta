@@ -49,14 +49,11 @@ class Request extends Component
 
     public $rules = [];
 
-
-
     public function sendRequest($request_type)
     {
         $this->request_type = $request_type;
 
-        if ($this->request_type === "type_1") {
-
+        if ($this->request_type === 'type_1') {
 
             $this->rules = [
                 'title_1' => ['required', 'string', 'max:100'],
@@ -66,7 +63,7 @@ class Request extends Component
                 'reference_url_1' => ['nullable', 'url'],
                 'uploaded_photo_1' => ['nullable', 'image', 'max:2048'],
             ];
-        } elseif ($this->request_type === "type_2") {
+        } elseif ($this->request_type === 'type_2') {
 
             $this->rules = [
                 'function_request_type' => ['required', 'integer', 'between:0,3'],
@@ -76,7 +73,7 @@ class Request extends Component
                 'reference_url_2' => ['nullable', 'url'],
                 'uploaded_photo_2' => ['nullable', 'image', 'max:2048'],
             ];
-        } elseif ($this->request_type === "type_3") {
+        } elseif ($this->request_type === 'type_3') {
 
             $this->rules = [
                 'title_3' => ['required', 'string', 'max:100'],
@@ -89,7 +86,7 @@ class Request extends Component
                 'reference_url_3' => ['nullable', 'url'],
                 'uploaded_photo_3' => ['nullable', 'image', 'max:2048'],
             ];
-        } elseif ($this->request_type === "type_4") {
+        } elseif ($this->request_type === 'type_4') {
 
             $this->rules = [
                 'title_4' => ['required', 'string', 'max:100'],
@@ -102,7 +99,7 @@ class Request extends Component
 
         $this->validate();
 
-        if ($this->request_type === "type_1") {
+        if ($this->request_type === 'type_1') {
 
             $report_data = [
                 'title_1' => $this->title_1,
@@ -112,7 +109,7 @@ class Request extends Component
                 'reference_url_1' => $this->reference_url_1,
                 'uploaded_photo_1' => $this->uploaded_photo_1,
             ];
-        } elseif ($this->request_type === "type_2") {
+        } elseif ($this->request_type === 'type_2') {
 
             $report_data = [
                 'function_request_type' => $this->function_request_type,
@@ -122,7 +119,7 @@ class Request extends Component
                 'reference_url_2' => $this->reference_url_2,
                 'uploaded_photo_2' => $this->uploaded_photo_2,
             ];
-        } elseif ($this->request_type === "type_3") {
+        } elseif ($this->request_type === 'type_3') {
 
             $report_data = [
                 'title_3' => $this->title_3,
@@ -135,7 +132,7 @@ class Request extends Component
                 'reference_url_3' => $this->reference_url_3,
                 'uploaded_photo_3' => $this->uploaded_photo_3,
             ];
-        } elseif ($this->request_type === "type_4") {
+        } elseif ($this->request_type === 'type_4') {
 
             $report_data = [
                 'title_4' => $this->title_4,
@@ -145,7 +142,6 @@ class Request extends Component
                 'uploaded_photo_4' => $this->uploaded_photo_4,
             ];
         }
-
 
         Mail::send(new SendRequestMail($this->request_type, $report_data));
 

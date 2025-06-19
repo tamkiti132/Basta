@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\Memo;
 use App\Models\Group;
+use App\Models\Memo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class MemoListMypage extends Component
 {
@@ -30,8 +30,6 @@ class MemoListMypage extends Component
     public $show_good_memos = false;
     public $show_later_read_memos = false;
 
-
-
     protected $listeners = [
         'setGroupId',
         'filterByWebBookLabels',
@@ -39,7 +37,6 @@ class MemoListMypage extends Component
         'labelUpdated',
         'labelDeleted',
     ];
-
 
     public function mount($user_id)
     {
@@ -56,7 +53,6 @@ class MemoListMypage extends Component
         $this->group_id = '';
     }
 
-
     public function setGroupId($group_id)
     {
         $this->group_id = $group_id;
@@ -70,7 +66,6 @@ class MemoListMypage extends Component
         $this->resetPage('all_good_memos_page');
         $this->resetPage('all_later_read_memos_page');
     }
-
 
     public function filterByWebBookLabels($selected_web_book_labels)
     {
@@ -129,15 +124,12 @@ class MemoListMypage extends Component
         $this->resetPage('all_later_read_memos_page');
     }
 
-
-
     public function render()
     {
         $user_groups = Group::whereHas('userRoles', function ($query) {
             $query->where('user_id', $this->user_id);
         })->orderBy('name')
             ->get();
-
 
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
@@ -148,14 +140,13 @@ class MemoListMypage extends Component
         $later_read_web_memos_data = collect([]);
         $later_read_book_memos_data = collect([]);
 
-
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-        //自分が作成したメモ
+        // 自分が作成したメモ
         if (in_array('web', $this->selected_web_book_labels)) {
             $web_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
                 ->where('user_id', $this->user_id)
@@ -170,8 +161,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -193,8 +184,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -202,15 +193,14 @@ class MemoListMypage extends Component
                 ->get();
         }
 
-
-        //いいねしたメモ
+        // いいねしたメモ
         if (in_array('web', $this->selected_web_book_labels)) {
             $good_web_memos_data = Memo::with([
                 'labels',
                 'user',
                 'goods',
                 'laterReads',
-                'web_type_feature'
+                'web_type_feature',
             ])
                 ->withCount([
                     'goods as is_good' => function ($q) {
@@ -218,7 +208,7 @@ class MemoListMypage extends Component
                     },
                     'laterReads as is_later_read' => function ($q) {
                         $q->where('user_id', $this->user_id);
-                    }
+                    },
                 ])
                 ->whereHas('goods', function ($query) {
                     $query->where('user_id', $this->user_id);
@@ -234,8 +224,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -249,7 +239,7 @@ class MemoListMypage extends Component
                 'user',
                 'goods',
                 'laterReads',
-                'book_type_feature'
+                'book_type_feature',
             ])
                 ->withCount([
                     'goods as is_good' => function ($q) {
@@ -257,7 +247,7 @@ class MemoListMypage extends Component
                     },
                     'laterReads as is_later_read' => function ($q) {
                         $q->where('user_id', $this->user_id);
-                    }
+                    },
                 ])
                 ->whereHas('goods', function ($query) {
                     $query->where('user_id', $this->user_id);
@@ -273,8 +263,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -282,8 +272,7 @@ class MemoListMypage extends Component
                 ->get();
         }
 
-
-        //あとでよむしたメモ
+        // あとでよむしたメモ
         if (in_array('web', $this->selected_web_book_labels)) {
             $later_read_web_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
                 ->whereHas('laterReads', function ($query) {
@@ -300,8 +289,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -325,8 +314,8 @@ class MemoListMypage extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -363,25 +352,24 @@ class MemoListMypage extends Component
         $items = $all_my_memos_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_my_memos_data_paginated = new LengthAwarePaginator($items, count($all_my_memos_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_my_memos_page'
+            'pageName' => 'all_my_memos_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_good_memos_page');
         $items = $all_good_memos_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_good_memos_data_paginated = new LengthAwarePaginator($items, count($all_good_memos_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_good_memos_page'
+            'pageName' => 'all_good_memos_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_later_read_memos_page');
         $items = $all_later_read_memos_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_later_read_memos_data_paginated = new LengthAwarePaginator($items, count($all_later_read_memos_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_later_read_memos_page'
+            'pageName' => 'all_later_read_memos_page',
         ]);
 
         $count_all_my_memos_data = count($all_my_memos_data);
-
 
         return view('livewire.memo-list-mypage', compact(
             'user_groups',

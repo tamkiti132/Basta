@@ -2,18 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Label;
+use Livewire\Component;
 
 class LabelAttached extends Component
 {
     public $labels;
 
     protected $listeners = [
-        'labelSelected' => 'loadTempLabels'
+        'labelSelected' => 'loadTempLabels',
     ];
-
-
 
     public function loadTempLabels($checked)
     {

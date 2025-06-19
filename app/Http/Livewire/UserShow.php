@@ -3,15 +3,15 @@
 namespace App\Http\Livewire;
 
 use App\Models\Comment;
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\User;
-use App\Models\Memo;
 use App\Models\Group;
+use App\Models\Memo;
 use App\Models\Report;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserShow extends Component
 {
@@ -45,23 +45,21 @@ class UserShow extends Component
     public $totalManagedGroupCount;
     public $nextManagerId = '';
 
-
     protected $listeners = [
         'setGroupId',
         'filterByWebBookLabels',
         'filterByLabels',
         'deleteUser' => 'deleteUser',
-        'closeModal' => 'closeModal'
+        'closeModal' => 'closeModal',
     ];
 
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
-        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+        if (! $skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
     }
-
 
     public function mount($user_id)
     {
@@ -69,7 +67,7 @@ class UserShow extends Component
         $this->user_data = User::find($this->user_id);
 
         // ユーザーが存在しない場合に 404 エラーを返す
-        if (!$this->user_data) {
+        if (! $this->user_data) {
             abort(404);
         }
 
@@ -77,7 +75,6 @@ class UserShow extends Component
 
         $this->dispatchBrowserEvent('load');
     }
-
 
     public function setGroupId($group_id)
     {
@@ -93,7 +90,6 @@ class UserShow extends Component
         $this->resetPage('comments_page');
     }
 
-
     public function setSortCriteria($sortCriteria)
     {
         $this->sortCriteria = $sortCriteria;
@@ -102,14 +98,12 @@ class UserShow extends Component
         $this->resetPage('suspension_groups_page');
     }
 
-
     public function setReportReason($report_reason)
     {
         $this->report_reason = $report_reason;
 
         $this->resetPage('all_user_reports_page');
     }
-
 
     public function filterByWebBookLabels($selected_web_book_labels)
     {
@@ -133,7 +127,6 @@ class UserShow extends Component
         $this->resetPage('all_my_memos_page');
         $this->resetPage('comments_page');
     }
-
 
     public function closeModal()
     {
@@ -161,7 +154,6 @@ class UserShow extends Component
                 ->where('role', 10);
         })->exists();
 
-
         // 管理者であるグループがあるかどうかによる分岐
         if ($hasManagedGroup) {
             // 管理者権限のグループがある場合
@@ -187,7 +179,6 @@ class UserShow extends Component
         $this->setTargetGroupWithSubManagers($this->managedGroupIds[0]);
     }
 
-
     public function setTargetGroupWithSubManagers($group_id)
     {
         // グループのデータ（サブ管理者のデータも併せて取得）
@@ -196,10 +187,8 @@ class UserShow extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-
         $this->hasSubManager();
     }
-
 
     public function hasSubManager()
     {
@@ -215,7 +204,6 @@ class UserShow extends Component
         }
     }
 
-
     public function setTargetGroupWithMembers($group_id)
     {
         // グループのデータ（メンバーのデータも併せて取得）
@@ -226,7 +214,6 @@ class UserShow extends Component
 
         $this->hasMember();
     }
-
 
     public function hasMember()
     {
@@ -243,7 +230,6 @@ class UserShow extends Component
             $this->showModalNobodyMember = true;
         }
     }
-
 
     public function selectNextManager()
     {
@@ -265,7 +251,6 @@ class UserShow extends Component
         }
     }
 
-
     public function addDeleteGroupFlag()
     {
         $this->selectedNextManagerIds[$this->targetGroup->id] = 0;
@@ -285,7 +270,6 @@ class UserShow extends Component
             $this->emit('confirmDeletion');
         }
     }
-
 
     public function deleteUser()
     {
@@ -348,12 +332,9 @@ class UserShow extends Component
         $this->emit('userLiftSuspended');
     }
 
-
-
     public function render()
     {
         $user_data = $this->user_data;
-
 
         $user_groups = Group::whereHas('userRoles', function ($query) {
             $query->where('user_id', $this->user_id);
@@ -365,16 +346,13 @@ class UserShow extends Component
 
         $this->isSuspended = $user_data->suspension_state;
 
-
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-
-
-        //ユーザー通報情報
+        // ユーザー通報情報
         $all_user_reports_data = Report::whereIn('id', function ($query) {
             $query->select('report_id')
                 ->from('user_type_report_links')
@@ -385,9 +363,9 @@ class UserShow extends Component
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
                         $query->whereHas('contribute_user', function ($subQuery) use ($keyword) {
-                            $subQuery->where('nickname', 'like', '%' . $keyword . '%');
+                            $subQuery->where('nickname', 'like', '%'.$keyword.'%');
                         })
-                            ->orWhere('reports.detail', 'like', '%' . $keyword . '%');
+                            ->orWhere('reports.detail', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -397,10 +375,7 @@ class UserShow extends Component
             ->latest()
             ->get();
 
-
-
-
-        //メモ
+        // メモ
         if (in_array('web', $this->selected_web_book_labels)) {
             $web_memos_data = Memo::with(['labels', 'goods', 'laterReads'])
                 ->join('web_type_features', 'memos.id', '=', 'web_type_features.memo_id')
@@ -411,8 +386,8 @@ class UserShow extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('memos.title', 'like', '%' . $keyword . '%')
-                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('memos.title', 'like', '%'.$keyword.'%')
+                                ->orWhere('memos.shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -443,8 +418,8 @@ class UserShow extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('memos.title', 'like', '%' . $keyword . '%')
-                                ->orWhere('memos.shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('memos.title', 'like', '%'.$keyword.'%')
+                                ->orWhere('memos.shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -466,7 +441,6 @@ class UserShow extends Component
                 ->get();
         }
 
-
         $all_my_memos_data = $web_memos_data->concat($book_memos_data);
 
         // いいね・あとで読むIDを一括取得
@@ -480,7 +454,6 @@ class UserShow extends Component
             ->whereIn('memo_id', $all_memo_ids)
             ->pluck('memo_id');
 
-
         if ($this->sortCriteria === 'report') {
             $all_my_memos_data =
                 $all_my_memos_data->sortByDesc(function ($memo) {
@@ -492,17 +465,14 @@ class UserShow extends Component
 
         $all_my_memos_data = $all_my_memos_data->values()->all();
 
-
-
-
-        //コメント
+        // コメント
         $comments_data = Comment::where('user_id', $this->user_id)
             ->with('memo:id,group_id')
             ->withCount('reports')
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('comments.comment', 'like', '%' . $keyword . '%');
+                        $query->where('comments.comment', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -517,33 +487,28 @@ class UserShow extends Component
             ->orderByDesc('created_at')
             ->get();
 
-
-
         $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_user_reports_page');
         $items = $all_user_reports_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_user_reports_data_paginated = new LengthAwarePaginator($items, count($all_user_reports_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_user_reports_page'
+            'pageName' => 'all_user_reports_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_my_memos_page');
         $items = array_slice($all_my_memos_data, ($currentPage - 1) * $perPage, $perPage);
         $all_my_memos_data_paginated = new LengthAwarePaginator($items, count($all_my_memos_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_my_memos_page'
+            'pageName' => 'all_my_memos_page',
         ]);
-
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('comments_page');
         $items = $comments_data->slice(($currentPage - 1) * $perPage, $perPage);
         $comments_data_paginated = new LengthAwarePaginator($items, count($comments_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'comments_page'
+            'pageName' => 'comments_page',
         ]);
-
-
 
         return view('livewire.user-show', compact(
             'user_data',

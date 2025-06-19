@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        //利用停止中かどうかを判定する
+        // 利用停止中かどうかを判定する
         'check_suspension' => \App\Http\Middleware\CheckSuspensionState::class,
 
         // ユーザーがログインしていないか、admin-top権限を持っている場合にアクセスを許可

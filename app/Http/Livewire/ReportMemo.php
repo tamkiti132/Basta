@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class ReportMemo extends Component
 {
@@ -13,26 +13,20 @@ class ReportMemo extends Component
     public $reason;
     public $detail;
 
-
-
     protected $rules = [
         'reason' => ['required', 'integer', 'between:1,4'],
-        'detail' => ['required', 'string']
+        'detail' => ['required', 'string'],
     ];
-
 
     protected $listeners = [
         'showModalReportMemo',
-        'closeModalReportMemo'
+        'closeModalReportMemo',
     ];
-
 
     public function mount($memo_id)
     {
         $this->memo_id = $memo_id;
     }
-
-
 
     public function showModalReportMemo()
     {
@@ -47,12 +41,11 @@ class ReportMemo extends Component
         $this->resetErrorBag();
     }
 
-
     public function createReport()
     {
         $this->validate();
 
-        //レポートを保存
+        // レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
             'type' => 2,
@@ -60,7 +53,7 @@ class ReportMemo extends Component
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとmemosテーブルの紐付けをする
+        // reportsテーブルとmemosテーブルの紐付けをする
         $report->memos()->sync([$this->memo_id]);
 
         $this->reset(['reason', 'detail']);

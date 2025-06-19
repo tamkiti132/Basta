@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\User;
-use App\Models\Memo;
 use App\Models\Group;
+use App\Models\Memo;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class MemoListMember extends Component
 {
@@ -40,25 +40,22 @@ class MemoListMember extends Component
     public $totalManagedGroupCount;
     public $nextManagerId = '';
 
-
     protected $listeners = [
         'filterByWebBookLabels',
         'filterByLabels',
         'labelUpdated',
         'labelDeleted',
         'deleteUser' => 'deleteUser',
-        'closeModal' => 'closeModal'
+        'closeModal' => 'closeModal',
     ];
-
 
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
-        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+        if (! $skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
     }
-
 
     public function mount($group_id, $user_id)
     {
@@ -68,9 +65,9 @@ class MemoListMember extends Component
         $this->previous_route = url()->previous();
 
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
-        if (!Auth::user()->can('admin-higher')) {
+        if (! Auth::user()->can('admin-higher')) {
             // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!$this->group_data->userRoles()->where('user_id', Auth::id())->exists()) {
+            if (! $this->group_data->userRoles()->where('user_id', Auth::id())->exists()) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
                 redirect($this->previous_route);
             }
@@ -129,7 +126,6 @@ class MemoListMember extends Component
         $this->resetPage();
     }
 
-
     public function closeModal()
     {
         $this->deleteTargetUserId = 0;
@@ -143,7 +139,6 @@ class MemoListMember extends Component
         $this->totalManagedGroupCount = 0;
         $this->nextManagerId = '';
     }
-
 
     public function isManager($user_id)
     {
@@ -167,7 +162,6 @@ class MemoListMember extends Component
         }
     }
 
-
     public function getManagedGroups()
     {
         // ユーザーが管理者であるグループを全て取得
@@ -183,7 +177,6 @@ class MemoListMember extends Component
         $this->setTargetGroupWithSubManagers($this->managedGroupIds[0]);
     }
 
-
     public function setTargetGroupWithSubManagers($group_id)
     {
         // グループのデータ（サブ管理者のデータも併せて取得）
@@ -192,10 +185,8 @@ class MemoListMember extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-
         $this->hasSubManager();
     }
-
 
     public function hasSubManager()
     {
@@ -211,7 +202,6 @@ class MemoListMember extends Component
         }
     }
 
-
     public function setTargetGroupWithMembers($group_id)
     {
         // グループのデータ（メンバーのデータも併せて取得）
@@ -220,10 +210,8 @@ class MemoListMember extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-
         $this->hasMember();
     }
-
 
     public function hasMember()
     {
@@ -240,7 +228,6 @@ class MemoListMember extends Component
             $this->showModalNobodyMember = true;
         }
     }
-
 
     public function selectNextManager()
     {
@@ -262,7 +249,6 @@ class MemoListMember extends Component
         }
     }
 
-
     public function addDeleteGroupFlag()
     {
         $this->selectedNextManagerIds[$this->targetGroup->id] = 0;
@@ -282,7 +268,6 @@ class MemoListMember extends Component
             $this->emit('confirmDeletion');
         }
     }
-
 
     public function deleteUser()
     {
@@ -341,7 +326,6 @@ class MemoListMember extends Component
         $group_data = $this->group_data;
         $user_data = $this->user_data;
 
-
         $web_memos_data = collect([]);
         $book_memos_data = collect([]);
 
@@ -349,11 +333,10 @@ class MemoListMember extends Component
         $this->isSuspended = $user_data->suspension_state;
 
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
-
 
         if (in_array('web', $this->selected_web_book_labels)) {
             $web_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
@@ -367,8 +350,8 @@ class MemoListMember extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -388,8 +371,8 @@ class MemoListMember extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -420,8 +403,7 @@ class MemoListMember extends Component
             $query->where('user_id', $this->user_id);
         })->exists();
 
-
-        if (!$exists) {
+        if (! $exists) {
             session()->flash('not_member', 'このユーザーはグループに所属していません。');
             redirect($this->previous_route);
         }

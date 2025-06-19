@@ -6,10 +6,9 @@ use App\Http\Livewire\MemoCreate;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class MemoCreateTest extends TestCase
 {
@@ -76,7 +75,6 @@ class MemoCreateTest extends TestCase
 
         // テスト用の画像を作成
         $book_image = UploadedFile::fake()->image('test.png')->size(2048);
-
 
         // Act（実行） & Assert（検証）
         $component = Livewire::test(MemoCreate::class, ['group_id' => $group->id])
@@ -409,7 +407,6 @@ class MemoCreateTest extends TestCase
         ]);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
-
         // Act（実行） & Assert（検証）
         // web_titleのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
@@ -436,7 +433,6 @@ class MemoCreateTest extends TestCase
             ->set('web_shortMemo', str_repeat('a', 201))
             ->call('store', 'web')
             ->assertHasErrors(['web_shortMemo' => 'max']);
-
 
         // web_additionalMemoのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
@@ -478,7 +474,6 @@ class MemoCreateTest extends TestCase
         ]);
         $group->userRoles()->attach($manager, ['role' => 10]);
 
-
         // Act（実行） & Assert（検証）
         // book_titleのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
@@ -505,7 +500,6 @@ class MemoCreateTest extends TestCase
             ->set('book_shortMemo', str_repeat('a', 201))
             ->call('store', 'book')
             ->assertHasErrors(['book_shortMemo' => 'max']);
-
 
         // book_additionalMemoのバリデーション
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])

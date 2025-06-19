@@ -6,7 +6,6 @@ use App\Http\Livewire\ReportGroup;
 use App\Models\Group;
 use App\Models\Report;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -24,7 +23,7 @@ class ReportGroupTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_createReport()
+    public function test_create_report()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -39,11 +38,10 @@ class ReportGroupTest extends TestCase
 
         session()->put('group_id', $group->id);
 
-
         // Act（実行） & Assert（検証）
         Livewire::test(ReportGroup::class)
             ->set('reason', 1)
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertDispatchedBrowserEvent('flash-message');
 
@@ -51,13 +49,13 @@ class ReportGroupTest extends TestCase
             'contribute_user_id' => $user->id,
             'type' => 4,
             'reason' => 1,
-            'detail' => "これはレポートのテスト詳細文です",
+            'detail' => 'これはレポートのテスト詳細文です',
         ]);
 
         $report = Report::where('contribute_user_id', $user->id)
             ->where('type', 4)
             ->where('reason', 1)
-            ->where('detail', "これはレポートのテスト詳細文です")
+            ->where('detail', 'これはレポートのテスト詳細文です')
             ->first();
 
         $this->assertDatabaseHas('group_type_report_links', [
@@ -66,7 +64,7 @@ class ReportGroupTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_createReport()
+    public function test_validation_成功_create_report()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -97,13 +95,13 @@ class ReportGroupTest extends TestCase
 
         // detailのバリデーション
         Livewire::test(ReportGroup::class)
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertHasNoErrors(['detail' => 'required'])
             ->assertHasNoErrors(['detail' => 'string']);
     }
 
-    public function test_validation_失敗_createReport()
+    public function test_validation_失敗_create_report()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -121,33 +119,33 @@ class ReportGroupTest extends TestCase
         // Act（実行） & Assert（検証）
         // reasonのバリデーション
         Livewire::test(ReportGroup::class)
-            ->set('reason', "")
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('reason', '')
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertHasErrors(['reason' => 'required']);
 
         Livewire::test(ReportGroup::class)
             ->set('reason', ['aaaa'])
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertHasErrors(['reason' => 'integer']);
 
         Livewire::test(ReportGroup::class)
             ->set('reason', 0)
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);
 
         Livewire::test(ReportGroup::class)
             ->set('reason', 5)
-            ->set('detail', "これはレポートのテスト詳細文です")
+            ->set('detail', 'これはレポートのテスト詳細文です')
             ->call('createReport')
             ->assertHasErrors(['reason' => 'between']);
 
         // detailのバリデーション
         Livewire::test(ReportGroup::class)
             ->set('reason', 1)
-            ->set('detail', "")
+            ->set('detail', '')
             ->call('createReport')
             ->assertHasErrors(['detail' => 'required']);
 

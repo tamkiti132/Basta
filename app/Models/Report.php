@@ -17,13 +17,10 @@ class Report extends Model
         'detail',
     ];
 
-
-
     public function contribute_user()
     {
         return $this->belongsTo(User::class, 'contribute_user_id');
     }
-
 
     public function user()
     {

@@ -4,7 +4,6 @@ namespace Tests\Feature\Mail;
 
 use App\Mail\SendRequestMail;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +22,7 @@ class SendRequestMailType1Test extends TestCase
         Storage::fake('public');
     }
 
-    public function test_sendRequest_check_mail_content_type_1()
+    public function test_send_request_check_mail_content_type_1()
     {
         // Arrange（準備）
         $user = User::factory()->create([

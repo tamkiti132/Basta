@@ -71,10 +71,11 @@ class Memo extends Model
             $search_split2 = preg_split('/[\s]+/', $search_split);
 
             foreach ($search_split2 as $value) {
-                $query->where('title', 'like', '%' . $value . '%')
-                    ->orWhere('shortMemo', 'like', '%' . $value . '%');
+                $query->where('title', 'like', '%'.$value.'%')
+                    ->orWhere('shortMemo', 'like', '%'.$value.'%');
             }
         }
+
         return $query;
     }
 }

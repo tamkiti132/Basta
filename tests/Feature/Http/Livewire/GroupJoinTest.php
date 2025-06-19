@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use App\Http\Livewire\GroupJoin;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
-use App\Models\Group;
-use App\Http\Livewire\GroupJoin;
+use Tests\TestCase;
 
 class GroupJoinTest extends TestCase
 {
@@ -22,7 +21,7 @@ class GroupJoinTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_joinGroup()
+    public function test_join_group()
     {
         // Arrange（準備）
         $createGroupUser = User::factory()->create([
@@ -41,7 +40,6 @@ class GroupJoinTest extends TestCase
         ]);
         $this->actingAs($testUser);
 
-
         // Act（実行） & Assert（検証）
         Livewire::test(GroupJoin::class)
             ->call('joinGroup', $group->id);
@@ -55,10 +53,10 @@ class GroupJoinTest extends TestCase
 
     /**
      * 参加不可のグループに参加しようとした場合、参加できないことを確認する
-     * 
+     *
      * @return void
      */
-    public function test_joinGroup_not_allowed()
+    public function test_join_group_not_allowed()
     {
         // Arrange（準備）
         $createGroupUser = User::factory()->create([

@@ -9,9 +9,9 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\DB;
 
 class MemoShow extends Component
 {
@@ -30,11 +30,9 @@ class MemoShow extends Component
     public $show_reports_comments = [];
     public $commentsReportsPage = [];
 
-
     protected $rules = [
-        'comment' => ['required', 'string']
+        'comment' => ['required', 'string'],
     ];
-
 
     public function mount($memo_id, $type, $group_id = null)
     {
@@ -46,9 +44,9 @@ class MemoShow extends Component
         $this->group_id = $memo_posted_group_id;
 
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
-        if (!Auth::user()->can('admin-higher')) {
+        if (! Auth::user()->can('admin-higher')) {
             // メモが投稿されたグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!(Auth::user()->groupRoles()->where('group_id', $memo_posted_group_id)->exists())) {
+            if (! (Auth::user()->groupRoles()->where('group_id', $memo_posted_group_id)->exists())) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
                 redirect($this->previous_route);
             }
@@ -77,17 +75,15 @@ class MemoShow extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
     }
 
-
     public function toggleCommentReport($comment_id)
     {
-        $this->show_reports_comments[$comment_id] = !$this->show_reports_comments[$comment_id];
+        $this->show_reports_comments[$comment_id] = ! $this->show_reports_comments[$comment_id];
     }
-
-
 
     public function deleteMemo($memo_id)
     {
@@ -100,7 +96,6 @@ class MemoShow extends Component
 
         return to_route('group.index', ['group_id' => session()->get('group_id')]);
     }
-
 
     public function storeComment()
     {
@@ -117,9 +112,9 @@ class MemoShow extends Component
                 );
             })->exists();
 
-
         if ($isBlocked) {
             session()->flash('blockedUser', 'ブロックされているため、この機能は利用できません。');
+
             return redirect()->back();
         } else {
 
@@ -137,7 +132,6 @@ class MemoShow extends Component
         }
     }
 
-
     public function deleteComment($comment_id)
     {
         if ($this->checkSuspensionGroup()) {
@@ -148,11 +142,10 @@ class MemoShow extends Component
         $comment_data->delete();
     }
 
-
     public function render()
     {
         // メモ
-        if ($this->type === "web") {
+        if ($this->type === 'web') {
             $memo_data = Memo::with(['web_type_feature', 'user' => function ($query) {
                 $query->select('id', 'email', 'username', 'nickname', 'username', 'profile_photo_path');
             }, 'labels'])
@@ -176,7 +169,7 @@ class MemoShow extends Component
             ->where('memo_id', $memo_data->id)
             ->pluck('memo_id');
 
-        //メモ通報情報
+        // メモ通報情報
         $all_memo_reports_data = Report::whereIn('id', function ($query) {
             $query->select('report_id')
                 ->from('memo_type_report_links')
@@ -193,21 +186,18 @@ class MemoShow extends Component
             'memo' => function ($query) {
                 $query->select('id', 'group_id');
             },
-            'reports.contribute_user'
+            'reports.contribute_user',
         ])
             ->where('memo_id', $this->memo_id)
             ->withCount('reports')
             ->get();
 
-
         // 各コメントに対する表示状態を初期化
         foreach ($comments_data as $comment) {
-            if (!array_key_exists($comment->id, $this->show_reports_comments)) {
+            if (! array_key_exists($comment->id, $this->show_reports_comments)) {
                 $this->show_reports_comments[$comment->id] = false;
             }
         }
-
-
 
         $perPage = 10;
         $perPage_for_report = 5;
@@ -216,17 +206,15 @@ class MemoShow extends Component
         $items = $comments_data->slice(($currentPage - 1) * $perPage, $perPage);
         $comments_data_paginated = new LengthAwarePaginator($items, count($comments_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'comments_data_page'
+            'pageName' => 'comments_data_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_memo_reports_page');
         $items = $all_memo_reports_data->slice(($currentPage - 1) * $perPage_for_report, $perPage_for_report);
         $all_memo_reports_data_paginated = new LengthAwarePaginator($items, count($all_memo_reports_data), $perPage_for_report, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_memo_reports_page'
+            'pageName' => 'all_memo_reports_page',
         ]);
-
-
 
         return view('livewire.memo-show', compact(
             'memo_data',

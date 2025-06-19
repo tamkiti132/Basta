@@ -1,0 +1,7 @@
+{
+    "preset": "laravel",
+    "cache-file": ".pint.cache",
+    "rules": {
+        "class_attributes_separation": false
+    }
+}

@@ -3,12 +3,8 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\GroupTopAdmin;
-use App\Models\Comment;
 use App\Models\Group;
-use App\Models\Memo;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -26,7 +22,7 @@ class GroupTopAdminTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteGroup()
+    public function test_delete_group()
     {
         // Arrange（準備）
         // 運営ユーザー（グループを削除する側）
@@ -88,13 +84,11 @@ class GroupTopAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // グループの利用停止状態が0になっていることを確認
         $this->assertDatabaseHas('groups', [
             'id' => $group->id,
-            'suspension_state' => 0
+            'suspension_state' => 0,
         ]);
-
 
         // Act（実行）
         Livewire::test(GroupTopAdmin::class)
@@ -104,11 +98,11 @@ class GroupTopAdminTest extends TestCase
         // グループの利用停止状態が1になっていることを確認
         $this->assertDatabaseHas('groups', [
             'id' => $group->id,
-            'suspension_state' => 1
+            'suspension_state' => 1,
         ]);
     }
 
-    public function test_liftSuspend()
+    public function test_lift_suspend()
     {
         // Arrange（準備）
         // 運営ユーザー（グループを利用停止解除する側）
@@ -133,13 +127,11 @@ class GroupTopAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // グループの利用停止状態が1になっていることを確認
         $this->assertDatabaseHas('groups', [
             'id' => $group->id,
-            'suspension_state' => 1
+            'suspension_state' => 1,
         ]);
-
 
         // Act（実行）
         Livewire::test(GroupTopAdmin::class)
@@ -149,7 +141,7 @@ class GroupTopAdminTest extends TestCase
         // グループの利用停止状態が0になっていることを確認
         $this->assertDatabaseHas('groups', [
             'id' => $group->id,
-            'suspension_state' => 0
+            'suspension_state' => 0,
         ]);
     }
 }

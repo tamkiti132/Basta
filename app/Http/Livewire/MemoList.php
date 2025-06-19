@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\Memo;
 use App\Models\Group;
+use App\Models\Memo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class MemoList extends Component
 {
@@ -26,7 +26,6 @@ class MemoList extends Component
 
     public $isSuspended;
 
-
     protected $listeners = [
         'filterByWebBookLabels',
         'filterByLabels',
@@ -41,22 +40,22 @@ class MemoList extends Component
         $this->group_data = Group::find($group_id);
 
         // グループが存在しない場合に 404 エラーを返す
-        if (!$this->group_data) {
+        if (! $this->group_data) {
             abort(404);
         }
 
         // 運営ユーザー以上の権限を持つユーザーは常にアクセス可能
-        if (!Auth::user()->can('admin-higher')) {
+        if (! Auth::user()->can('admin-higher')) {
             // 指定のグループに自分が所属していない場合、直前のページにリダイレクト
-            if (!(Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
+            if (! (Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
                 session()->flash('error', '対象のグループに所属していないため、アクセスできません');
+
                 return redirect($this->previous_route);
             }
         }
 
         $this->group_id = $group_id;
     }
-
 
     public function filterByWebBookLabels($selected_web_book_labels)
     {
@@ -117,7 +116,6 @@ class MemoList extends Component
         return to_route('admin.group_top');
     }
 
-
     public function suspendGroup()
     {
         $this->group_data->suspension_state = 1;
@@ -140,14 +138,11 @@ class MemoList extends Component
 
         $this->isSuspended = $group_data->suspension_state;
 
-
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
-
-
 
         if (in_array('web', $this->selected_web_book_labels)) {
             $web_memos_data = Memo::with(['labels', 'user', 'goods', 'laterReads', 'web_type_feature'])
@@ -160,8 +155,8 @@ class MemoList extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })
@@ -180,8 +175,8 @@ class MemoList extends Component
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $query->where(function ($query) use ($keyword) {
-                            $query->where('title', 'like', '%' . $keyword . '%')
-                                ->orWhere('shortMemo', 'like', '%' . $keyword . '%');
+                            $query->where('title', 'like', '%'.$keyword.'%')
+                                ->orWhere('shortMemo', 'like', '%'.$keyword.'%');
                         });
                     }
                 })

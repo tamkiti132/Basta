@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Memo;
 use App\Models\User;
 use App\Models\Web_type_feature;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -24,7 +23,7 @@ class LaterReadButtonTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_toggleLaterRead()
+    public function test_toggle_later_read()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -46,13 +45,12 @@ class LaterReadButtonTest extends TestCase
 
         $web_type_feature = Web_type_feature::factory()->create([
             'memo_id' => $memo->id,
-            'url' => 'https://example.com'
+            'url' => 'https://example.com',
         ]);
 
         $this->assertDatabaseHas('memos', [
             'title' => 'テストタイトル',
         ]);
-
 
         // Act（実行）  && Assert（検証）
         // 『later_reads』テーブルにデータがないことを確認

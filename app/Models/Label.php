@@ -11,7 +11,7 @@ class Label extends Model
 
     protected $fillable = [
         'name',
-        'group_id'
+        'group_id',
     ];
 
     public function groups()

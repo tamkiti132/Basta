@@ -6,7 +6,6 @@ use App\Http\Livewire\LabelEditor;
 use App\Models\Group;
 use App\Models\Label;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -23,7 +22,7 @@ class LabelEditorTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_createLabel()
+    public function test_create_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -49,7 +48,7 @@ class LabelEditorTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_createLabel()
+    public function test_validation_成功_create_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -98,7 +97,7 @@ class LabelEditorTest extends TestCase
             ->assertHasNoErrors(['labelName' => 'unique']);
     }
 
-    public function test_validation_失敗_createLabel()
+    public function test_validation_失敗_create_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -137,7 +136,7 @@ class LabelEditorTest extends TestCase
             ->assertHasErrors(['labelName' => 'unique']);
     }
 
-    public function test_updateLabel()
+    public function test_update_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -173,7 +172,7 @@ class LabelEditorTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_updateLabel()
+    public function test_validation_成功_update_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -252,7 +251,7 @@ class LabelEditorTest extends TestCase
         ]);
     }
 
-    public function test_validation_失敗_updateLabel()
+    public function test_validation_失敗_update_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([
@@ -299,7 +298,7 @@ class LabelEditorTest extends TestCase
             ->assertHasErrors(['newName' => 'unique']);
     }
 
-    public function test_deleteLabel()
+    public function test_delete_label()
     {
         // Arrange（準備）
         $manager = User::factory()->create([

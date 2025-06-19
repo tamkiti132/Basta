@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
-use App\Models\Role;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class RegisteredUserController extends Controller
 {
@@ -25,7 +25,6 @@ class RegisteredUserController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -35,9 +34,6 @@ class RegisteredUserController extends Controller
 
     /**
      * Show the registration view.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\RegisterViewResponse
      */
     public function create(Request $request): RegisterViewResponse
     {
@@ -46,10 +42,6 @@ class RegisteredUserController extends Controller
 
     /**
      * Create a new registered user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Fortify\Contracts\CreatesNewUsers  $creator
-     * @return \Laravel\Fortify\Contracts\RegisterResponse
      */
     public function store(Request $request, CreatesNewUsers $creator): RegisterResponse
     {
@@ -63,14 +55,12 @@ class RegisteredUserController extends Controller
     /**
      * Create a new registered user（運営権限のユーザーとして登録）.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Fortify\Contracts\CreatesNewUsers  $creator
      * @return \Laravel\Fortify\Contracts\RegisterResponse
      */
     public function storeAdmin(Request $request, CreatesNewUsers $creator)
     {
         // 運営トップ権限ユーザーであることを確認（Gateで）
-        if (!Gate::allows('admin-top', Auth::user())) {
+        if (! Gate::allows('admin-top', Auth::user())) {
             return redirect()->route('admin.user_top');
         }
 

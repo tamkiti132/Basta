@@ -6,9 +6,9 @@ use App\Models\Book_type_feature;
 use App\Models\Group;
 use App\Models\Memo;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class MemoEdit extends Component
 {
@@ -26,10 +26,9 @@ class MemoEdit extends Component
 
     public $storedBookImage;
 
-    //TODO: protectedにすると、Missing [$rules/rules()] property/method on Livewire component: [memo-edit].のエラーが発生したため、publicにしたが、セキュリティ的な問題が懸念される。
+    // TODO: protectedにすると、Missing [$rules/rules()] property/method on Livewire component: [memo-edit].のエラーが発生したため、publicにしたが、セキュリティ的な問題が懸念される。
 
     public $rules = [];
-
 
     public function mount($memo_id, $type)
     {
@@ -44,7 +43,6 @@ class MemoEdit extends Component
             session()->flash('error', '他のユーザーのメモは編集できません');
             redirect($this->previous_route);
         }
-
 
         $this->memo_id = $memo_id;
         $this->type = $type;
@@ -66,7 +64,7 @@ class MemoEdit extends Component
             ];
         }
 
-        if ($this->type === "web") {
+        if ($this->type === 'web') {
             $this->memo_data = Memo::with('web_type_feature')->find($this->memo_id);
         } else {
             $this->memo_data = Memo::with('book_type_feature')->find($this->memo_id);
@@ -84,10 +82,10 @@ class MemoEdit extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
     }
-
 
     public function deleteBookImage()
     {
@@ -99,11 +97,10 @@ class MemoEdit extends Component
     public function updatedBookImagePreview($value)
     {
         // $book_image_preview に新しい値がセットされたときに呼ばれる
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             $this->book_image_delete_flag = false;
         }
     }
-
 
     public function update()
     {
@@ -113,8 +110,7 @@ class MemoEdit extends Component
 
         $this->validate();
 
-
-        if ($this->type === "web") {
+        if ($this->type === 'web') {
             $memo_data = Memo::with('web_type_feature')->find($this->memo_id);
 
             $memo_data->title = $this->memo_data['title'];
@@ -129,12 +125,11 @@ class MemoEdit extends Component
             $memo_data->shortMemo = $this->memo_data['shortMemo'];
             $memo_data->additionalMemo = $this->memo_data['additionalMemo'];
 
-
             if ($this->book_image_preview) {
                 $feature = $this->memo_data->book_type_feature;
 
-                if (!$feature) {
-                    $feature = new Book_type_feature();
+                if (! $feature) {
+                    $feature = new Book_type_feature;
                     $feature->memo_id = $this->memo_data->id;
                 }
 
@@ -143,14 +138,13 @@ class MemoEdit extends Component
                 $feature->save();
             }
 
-
             if ($this->book_image_delete_flag) {
 
                 // 関連するBookTypeFeatureモデルが存在するか確認
                 if ($memo_data && $memo_data->book_type_feature) {
                     // 関連する画像ファイルがストレージに存在する場合は削除
-                    if (Storage::disk('public')->exists('book-image/' . $memo_data->book_type_feature->book_photo_path)) {
-                        Storage::disk('public')->delete('book-image/' . $memo_data->book_type_feature->book_photo_path);
+                    if (Storage::disk('public')->exists('book-image/'.$memo_data->book_type_feature->book_photo_path)) {
+                        Storage::disk('public')->delete('book-image/'.$memo_data->book_type_feature->book_photo_path);
                     }
 
                     // book_type_featuresテーブルの関連レコードを削除
@@ -163,13 +157,10 @@ class MemoEdit extends Component
 
         $memo_data->save();
 
-        if ($this->type === "web") {
+        if ($this->type === 'web') {
             $memo_data->web_type_feature->save();
         }
     }
-
-
-
 
     public function render()
     {

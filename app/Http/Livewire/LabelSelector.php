@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Label;
 use App\Models\Memo;
+use Livewire\Component;
 
 class LabelSelector extends Component
 {
@@ -15,9 +15,8 @@ class LabelSelector extends Component
 
     protected $listeners = [
         'saveLabels',
-        'updated' => 'saveLabels'
+        'updated' => 'saveLabels',
     ];
-
 
     public function mount($memoId)
     {
@@ -61,7 +60,6 @@ class LabelSelector extends Component
 
         $this->dispatchBrowserEvent('flash-message', ['message' => '更新しました']);
     }
-
 
     public function render()
     {

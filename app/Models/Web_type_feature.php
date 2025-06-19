@@ -10,7 +10,7 @@ class Web_type_feature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'url'
+        'url',
     ];
 
     public function memo()

@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Group;
 use App\Models\User;
-use Livewire\Component;
-use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class MemberEdit extends Component
 {
@@ -24,7 +24,6 @@ class MemberEdit extends Component
     public $show_members = true;
     public $show_block_members = false;
 
-
     public function getListeners()
     {
         return [
@@ -33,24 +32,24 @@ class MemberEdit extends Component
         ];
     }
 
-
     public function mount($group_id)
     {
         $group = Group::find($group_id);
 
         // グループが存在しない場合に 404 エラーを返す
-        if (!$group) {
+        if (! $group) {
             abort(404);
         }
 
-        //グループの管理者 and サブ管理者のIDを取得
+        // グループの管理者 and サブ管理者のIDを取得
         $manager_user_ids =
             $group->managerAndSubManagerUser($group_id)->pluck('user_id')->toArray();
 
         // グループの管理者のIDと　自分のIDが一致しない場合、直前のページにリダイレクト
-        if (!in_array(Auth::id(), $manager_user_ids)) {
+        if (! in_array(Auth::id(), $manager_user_ids)) {
             session()->flash('error', '対象のグループの管理者 or サブ管理者ではないため、アクセスできません');
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
 
@@ -70,10 +69,10 @@ class MemberEdit extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません。');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
     }
-
 
     public function resetAllModal()
     {
@@ -90,7 +89,6 @@ class MemberEdit extends Component
             $this->updateRole($user_id, $role);
         }
     }
-
 
     public function updateRole($user_id, $role)
     {
@@ -111,7 +109,6 @@ class MemberEdit extends Component
         }
     }
 
-
     public function blockMember($user_id)
     {
         $user = User::find($user_id);
@@ -122,14 +119,12 @@ class MemberEdit extends Component
         $this->resetPage('all_blocked_users_page');
     }
 
-
     public function liftBlockMember($user_id)
     {
         $user = User::find($user_id);
 
         $user->blockedGroup()->detach($this->group_id);
     }
-
 
     public function render()
     {
@@ -146,7 +141,6 @@ class MemberEdit extends Component
             ->orderBy('nickname')
             ->get();
 
-
         $all_blocked_users_data = User::with(['groupRoles' => function ($query) {
             $query->where('group_id', $this->group_id);
         }])->withCount(['memo' => function ($query) {
@@ -160,21 +154,20 @@ class MemberEdit extends Component
             ->orderBy('nickname')
             ->get();
 
-
         $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_not_blocked_users_page');
         $items = $all_not_blocked_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $all_not_blocked_users_data_paginated = new LengthAwarePaginator($items, count($all_not_blocked_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_not_blocked_users_page'
+            'pageName' => 'all_not_blocked_users_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_blocked_users_page');
         $items = $all_blocked_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $all_blocked_users_data_paginated = new LengthAwarePaginator($items, count($all_blocked_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_blocked_users_page'
+            'pageName' => 'all_blocked_users_page',
         ]);
 
         return view('livewire.member-edit', compact(

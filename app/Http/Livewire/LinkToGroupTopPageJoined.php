@@ -11,9 +11,8 @@ class LinkToGroupTopPageJoined extends Component
     public $user_groups;
 
     protected $listeners = [
-        'joinedGroup' => 'refreshUserGroups'
+        'joinedGroup' => 'refreshUserGroups',
     ];
-
 
     public function mount()
     {
@@ -35,7 +34,6 @@ class LinkToGroupTopPageJoined extends Component
                 ->get();
         }
     }
-
 
     public function render()
     {

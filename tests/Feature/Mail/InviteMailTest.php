@@ -5,8 +5,6 @@ namespace Tests\Feature\Mail;
 use App\Mail\InviteMail;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -41,11 +39,10 @@ class InviteMailTest extends TestCase
 
         // 招待されるユーザー
         $target_user = User::factory()->create([
-            'nickname' =>  'テストニックネーム',
+            'nickname' => 'テストニックネーム',
             'email' => 'target@example.com',
             'suspension_state' => 0,
         ]);
-
 
         $mailable = new InviteMail($group, $target_user);
 

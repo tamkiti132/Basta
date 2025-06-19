@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Group;
+use Livewire\Component;
 
 class ToggleTipEnableButton extends Component
 {

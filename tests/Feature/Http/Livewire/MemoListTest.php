@@ -5,12 +5,9 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\MemoList;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
-use App\Models\Report;
-use App\Models\Group_type_report_link;
+use Tests\TestCase;
 
 class MemoListTest extends TestCase
 {
@@ -24,7 +21,7 @@ class MemoListTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteGroup()
+    public function test_delete_group()
     {
         // Arrange（準備）
         // グループを作る側
@@ -47,7 +44,7 @@ class MemoListTest extends TestCase
         // 運営ユーザー権限を設定
         $admin->groupRoles()->attach($admin, [
             'role' => 5, // 運営ユーザー権限
-            'group_id' => null
+            'group_id' => null,
         ]);
 
         // グループが存在することを確認
@@ -70,7 +67,7 @@ class MemoListTest extends TestCase
         $response->assertRedirect(route('admin.group_top'));
     }
 
-    public function test_suspendGroup()
+    public function test_suspend_group()
     {
         // Arrange（準備）
         // 通常のグループを作成
@@ -88,7 +85,7 @@ class MemoListTest extends TestCase
         // 運営ユーザー権限を設定
         $admin->groupRoles()->attach($admin, [
             'role' => 5, // 運営ユーザー権限
-            'group_id' => null
+            'group_id' => null,
         ]);
 
         // 利用可能状態であることを確認
@@ -97,7 +94,6 @@ class MemoListTest extends TestCase
             'name' => 'テスト利用停止グループ',
             'suspension_state' => 0,
         ]);
-
 
         // Act（実行）
         // グループを利用停止にする
@@ -113,7 +109,7 @@ class MemoListTest extends TestCase
         ]);
     }
 
-    public function test_liftSuspendGroup()
+    public function test_lift_suspend_group()
     {
         // Arrange（準備）
         // 利用停止されたグループを作成
@@ -131,7 +127,7 @@ class MemoListTest extends TestCase
         // 運営ユーザー権限を設定
         $admin->groupRoles()->attach($admin, [
             'role' => 5, // 運営ユーザー権限
-            'group_id' => null
+            'group_id' => null,
         ]);
 
         // 利用停止状態であることを確認

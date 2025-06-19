@@ -1,28 +1,27 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InviteController;
+use App\Http\Controllers\SocialLoginConnectController;
+use App\Http\Livewire\AdminUserTop;
+use App\Http\Livewire\GroupCreate;
+use App\Http\Livewire\GroupEdit;
+use App\Http\Livewire\GroupJoin;
+use App\Http\Livewire\GroupShowAdmin;
+use App\Http\Livewire\GroupTopAdmin;
+use App\Http\Livewire\Index;
+use App\Http\Livewire\MemberEdit;
 use App\Http\Livewire\MemoCreate;
 use App\Http\Livewire\MemoEdit;
 use App\Http\Livewire\MemoList;
 use App\Http\Livewire\MemoListMember;
 use App\Http\Livewire\MemoListMypage;
-use App\Http\Livewire\UserShow;
-use App\Http\Livewire\GroupTopAdmin;
-use App\Http\Livewire\GroupShowAdmin;
-use App\Http\Livewire\AdminUserTop;
-use App\Http\Livewire\Index;
-use App\Http\Livewire\GroupJoin;
-use App\Http\Livewire\GroupEdit;
-use App\Http\Livewire\GroupCreate;
-use App\Http\Livewire\MemberEdit;
-use App\Http\Livewire\UserTopAdmin;
 use App\Http\Livewire\MemoShow;
 use App\Http\Livewire\Request;
+use App\Http\Livewire\UserShow;
+use App\Http\Livewire\UserTopAdmin;
 use App\Http\Middleware\CheckSuspensionState;
-use App\Http\Livewire\SocialLoginConnect;
-use App\Http\Controllers\SocialLoginConnectController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,12 +65,11 @@ Route::middleware(['auth', CheckSuspensionState::class])
                     ->withoutMiddleware([CheckSuspensionState::class]);
             });
 
-        //TODO: クレジットカード関連のルーティング（あとでやる）
+        // TODO: クレジットカード関連のルーティング（あとでやる）
         // Route::get('creditcard', function () {
         //     return view('creditcard');
         // })->name('creditcard')
         //     ->withoutMiddleware([CheckSuspensionState::class]);
-
 
         Route::prefix('request')
             ->group(function () {
@@ -83,8 +81,6 @@ Route::middleware(['auth', CheckSuspensionState::class])
         Route::get('/social-login-connect/google', [SocialLoginConnectController::class, 'redirectToGoogle'])->name('social_login_connect.google');
         Route::get('/social-login-connect/google/disconnect', [SocialLoginConnectController::class, 'disconnectGoogle'])->name('social_login_connect.google.disconnect');
         Route::get('/social-login-connect/google/callback', [SocialLoginConnectController::class, 'handleGoogleCallback'])->name('social_login_connect.google.callback');
-
-
 
         Route::prefix('group')
             ->name('group.')
@@ -98,19 +94,16 @@ Route::middleware(['auth', CheckSuspensionState::class])
                         Route::get('/{group_id}', MemoCreate::class)->name('create');
                     });
 
-
                 Route::prefix('memo_edit')
                     ->name('memo_edit.')
                     ->group(function () {
                         Route::get('/{memo_id}/edit/{type}', MemoEdit::class)->name('edit');
                     });
 
-
                 Route::prefix('memo_show')
                     ->group(function () {
                         Route::get('/{memo_id}/show/{group_id?}', MemoShow::class)->name('memo_show');
                     });
-
 
                 Route::prefix('group_edit')
                     ->group(function () {
@@ -145,7 +138,7 @@ Route::middleware(['auth', CheckSuspensionState::class])
                         Route::get('/{user_id}/{group_id?}', UserShow::class)->name('user_show');
                     });
 
-                //TODO:このファイルのwithoutMiddlewareを外すのを忘れていたので、外して、かつそれが問題ないかテストして検討する
+                // TODO:このファイルのwithoutMiddlewareを外すのを忘れていたので、外して、かつそれが問題ないかテストして検討する
                 Route::prefix('group_top')
                     ->middleware('can:admin-higher')
                     ->group(function () {
@@ -153,13 +146,11 @@ Route::middleware(['auth', CheckSuspensionState::class])
                             ->withoutMiddleware([CheckSuspensionState::class]);
                     });
 
-
                 Route::prefix('group_show')
                     ->middleware('can:admin-higher')
                     ->group(function () {
                         Route::get('/{group_id}', GroupShowAdmin::class)->name('group_show');
                     });
-
 
                 Route::prefix('admin_user_top')
                     ->middleware('can:admin-top')
@@ -169,12 +160,10 @@ Route::middleware(['auth', CheckSuspensionState::class])
             });
     });
 
-
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -183,5 +172,5 @@ Route::middleware([
 
 // 複数のテストを同時に実行した際に、うまくルートを読み込まないことによるエラーを防ぐために、
 // ここではrequireを使わずに、直接ファイルを読み込む
-require __DIR__ . '/fortify.php';
-require __DIR__ . '/jetstream.php';
+require __DIR__.'/fortify.php';
+require __DIR__.'/jetstream.php';

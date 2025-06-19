@@ -12,17 +12,15 @@ class AllowRegisterPageAccess
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
         // ユーザーがログインしていないか、admin-top権限を持っている場合にアクセスを許可
-        if (!Auth::check() || (Auth::check() && Gate::allows('admin-top', Auth::user()))) {
+        if (! Auth::check() || (Auth::check() && Gate::allows('admin-top', Auth::user()))) {
             return $next($request);
         }
-
 
         return redirect()->back();
     }

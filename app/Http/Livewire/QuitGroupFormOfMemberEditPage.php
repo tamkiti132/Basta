@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Group;
 
 class QuitGroupFormOfMemberEditPage extends Component
 {
@@ -12,23 +11,19 @@ class QuitGroupFormOfMemberEditPage extends Component
     public $group_data;
     public $showMemberQuitModal = false;
 
-
     protected $rules = [
         'password' => ['required', 'current_password'],
     ];
-
 
     public function mount($group_data)
     {
         $this->group_data = $group_data;
     }
 
-
     public function getListeners()
     {
         return ['showMemberQuitModal' => 'showMemberQuitModal'];
     }
-
 
     public function showMemberQuitModal($user_id)
     {
@@ -37,14 +32,12 @@ class QuitGroupFormOfMemberEditPage extends Component
         $this->user_id = $user_id;
     }
 
-
     public function closeModal()
     {
         $this->showMemberQuitModal = false;
         $this->password = '';
         $this->resetErrorBag();
     }
-
 
     public function quitGroup()
     {
@@ -57,7 +50,6 @@ class QuitGroupFormOfMemberEditPage extends Component
 
         $this->emit('quitGroupMember');
     }
-
 
     public function render()
     {

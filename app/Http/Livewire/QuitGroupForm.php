@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
 
 class QuitGroupForm extends Component
 {
@@ -19,11 +18,9 @@ class QuitGroupForm extends Component
     public $showModalNobodySubManager = false;
     public $showModalFinalConfirmation = false;
 
-
     protected $rules = [
         'password' => ['required', 'current_password'],
     ];
-
 
     public function mount()
     {
@@ -32,13 +29,10 @@ class QuitGroupForm extends Component
         }])->find(session()->get('group_id'));
     }
 
-
-
     public function getListeners()
     {
         return ['showModal' => 'showModal'];
     }
-
 
     public function updatedShowNextManagerModal($value)
     {
@@ -47,12 +41,10 @@ class QuitGroupForm extends Component
         }
     }
 
-
     public function showModal()
     {
         $this->showModal = true;
     }
-
 
     public function closeModal()
     {
@@ -65,16 +57,15 @@ class QuitGroupForm extends Component
         $this->resetErrorBag();
     }
 
-
     public function quitGroup()
     {
         $this->validate();
 
-        $this->password = "";
+        $this->password = '';
 
         // パスワードが一致したときの処理
         if (Gate::allows('manager', $this->group_data)) {
-            //管理者権限の場合
+            // 管理者権限の場合
 
             // グループのデータ（サブ管理者のデータも併せて取得）
             $this->group_data = Group::with(['userRoles' => function ($query) {
@@ -82,16 +73,14 @@ class QuitGroupForm extends Component
                     ->orderBy('nickname');
             }])->find(session()->get('group_id'));
 
-
-
             if ($this->group_data->userRoles->isNotEmpty()) {
-                //サブ管理者がいる場合                
+                // サブ管理者がいる場合
 
                 // →「サブ管理者から次の管理者を選択するためのモーダル」を表示する
                 $this->showModal = false;
                 $this->showNextManagerModal = true;
             } else {
-                //サブ管理者がいない場合
+                // サブ管理者がいない場合
 
                 // →「サブ管理者いませんよモーダル」を表示する
                 $this->showModal = false;
@@ -105,7 +94,6 @@ class QuitGroupForm extends Component
             return to_route('index');
         }
     }
-
 
     public function quitGroupForManager()
     {
@@ -126,13 +114,13 @@ class QuitGroupForm extends Component
         }
     }
 
-
     public function deleteGroup()
     {
         $this->validate();
 
-        if (!Hash::check($this->password, Auth::user()->password)) {
+        if (! Hash::check($this->password, Auth::user()->password)) {
             $this->addError('password', 'パスワードが一致しません。');
+
             return;
         }
 
@@ -142,17 +130,16 @@ class QuitGroupForm extends Component
 
         return to_route('index');
     }
-
 
     public function quitGroupWhenNobodySubManager()
     {
         $this->validate();
 
-        if (!Hash::check($this->password, Auth::user()->password)) {
+        if (! Hash::check($this->password, Auth::user()->password)) {
             $this->addError('password', 'パスワードが一致しません。');
+
             return;
         }
-
 
         // →グループを削除する
         $group_data = Group::find(session()->get('group_id'));
@@ -160,7 +147,6 @@ class QuitGroupForm extends Component
 
         return to_route('index');
     }
-
 
     public function render()
     {

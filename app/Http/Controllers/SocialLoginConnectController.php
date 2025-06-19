@@ -30,7 +30,8 @@ class SocialLoginConnectController extends Controller
 
             return redirect()->intended('/social-login-connect');
         } catch (\Exception $e) {
-            Log::error('Google disconnect error: ' . $e->getMessage());
+            Log::error('Google disconnect error: '.$e->getMessage());
+
             return redirect()->route('social_login_connect')->with('error', 'Googleアカウントの連携解除に失敗しました。');
         }
     }
@@ -46,7 +47,8 @@ class SocialLoginConnectController extends Controller
 
             return redirect()->intended('/social-login-connect');
         } catch (\Exception $e) {
-            Log::error('Google login error: ' . $e->getMessage());
+            Log::error('Google login error: '.$e->getMessage());
+
             return redirect()->route('social_login_connect')->with('error', 'Googleアカウントの連携がキャンセルされました。');
         }
     }

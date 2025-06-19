@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Group;
-use Illuminate\Support\Facades\Auth;
-use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class GroupJoin extends Component
 {
@@ -25,10 +25,11 @@ class GroupJoin extends Component
 
         if ($group->isJoinFreeEnabled) {
             $group->userRoles()->syncWithoutDetaching([
-                Auth::id() => ['role' => 100]
+                Auth::id() => ['role' => 100],
             ]);
         } else {
             session()->flash('isNotJoinFreeEnabled', 'このグループへの参加は現在許可されていません。');
+
             return redirect()->back();
         }
 
@@ -37,11 +38,10 @@ class GroupJoin extends Component
         $this->resetPage();
     }
 
-
     public function render()
     {
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
@@ -56,8 +56,8 @@ class GroupJoin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('name', 'like', '%' . $keyword . '%')
-                            ->orWhere('introduction', 'like', '%' . $keyword . '%');
+                        $query->where('name', 'like', '%'.$keyword.'%')
+                            ->orWhere('introduction', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -69,7 +69,6 @@ class GroupJoin extends Component
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $items = $all_groups_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_groups_data_paginated = new LengthAwarePaginator($items, count($all_groups_data), $perPage, $currentPage, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
-
 
         return view('livewire.group-join', compact('all_groups_data_paginated'));
     }

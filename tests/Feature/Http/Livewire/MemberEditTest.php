@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\MemberEdit;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,7 +21,7 @@ class MemberEditTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_blockMember()
+    public function test_block_member()
     {
         // Arrange（準備）
         // 管理者（ブロックする側のユーザー）
@@ -42,7 +41,6 @@ class MemberEditTest extends TestCase
         ]);
         $group->userRoles()->attach($user, ['role' => 100]);
 
-
         // ブロックされるユーザーがブロックされていない状態であることを確認
         $this->assertDatabaseMissing('block_states', [
             'user_id' => $user->id,
@@ -52,7 +50,7 @@ class MemberEditTest extends TestCase
         // セッションにグループIDをセット
         session()->put('group_id', $group->id);
 
-        // Act（実行） & Assert（検証）        
+        // Act（実行） & Assert（検証）
         Livewire::test(MemberEdit::class, ['group_id' => $group->id])
             ->call('blockMember', $user->id);
 
@@ -63,7 +61,7 @@ class MemberEditTest extends TestCase
         ]);
     }
 
-    public function test_liftBlockMember()
+    public function test_lift_block_member()
     {
         // Arrange（準備）
         // 管理者（ブロック解除する側のユーザー）
@@ -86,7 +84,6 @@ class MemberEditTest extends TestCase
         // ユーザーをブロック状態にしておく
         $user->blockedGroup()->attach($group->id);
 
-
         // ブロックされるユーザーがブロックされている状態であることを確認
         $this->assertDatabaseHas('block_states', [
             'user_id' => $user->id,
@@ -107,7 +104,7 @@ class MemberEditTest extends TestCase
         ]);
     }
 
-    public function test_updateRole()
+    public function test_update_role()
     {
         // Arrange（準備）
         // 管理者（権限切り替えする側のユーザー）
@@ -129,7 +126,6 @@ class MemberEditTest extends TestCase
 
         // セッションにグループIDをセット
         session()->put('group_id', $group->id);
-
 
         // 権限切り替えされる側のユーザーの権限が100（メンバー権限）であることを確認
         $this->assertDatabaseHas('roles', [

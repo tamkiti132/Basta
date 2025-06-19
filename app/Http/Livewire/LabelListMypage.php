@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\LabelList;
 use App\Models\Label;
 
 class LabelListMypage extends LabelList
@@ -31,7 +30,6 @@ class LabelListMypage extends LabelList
             $this->deleteLabel($labelId);
         }
     }
-
 
     public function render()
     {

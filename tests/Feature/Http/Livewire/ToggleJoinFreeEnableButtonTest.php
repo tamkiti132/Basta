@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\ToggleJoinFreeEnableButton;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,7 +21,7 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_updatedIsJoinFreeEnabled()
+    public function test_updated_is_join_free_enabled()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -45,7 +44,6 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
             'isJoinFreeEnabled' => 0,
         ]);
 
-
         // ここから、自由参加を許可するテスト
 
         // updatedIsJoinFreeEnabledメソッドは、
@@ -60,7 +58,6 @@ class ToggleJoinFreeEnableButtonTest extends TestCase
             'name' => $group->name,
             'isJoinFreeEnabled' => 1,
         ]);
-
 
         // ここから、自由参加を制限するテスト
         Livewire::test(ToggleJoinFreeEnableButton::class, ['group_data' => $group])

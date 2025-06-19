@@ -3,16 +3,14 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\MemoEdit;
-use App\Models\Book_type_feature;
 use App\Models\Group;
 use App\Models\Memo;
 use App\Models\User;
 use App\Models\Web_type_feature;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class MemoEditTest extends TestCase
 {
@@ -143,7 +141,7 @@ class MemoEditTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('book_type_features', [
-            'book_photo_path' => basename($storedBookImage)
+            'book_photo_path' => basename($storedBookImage),
         ]);
 
         // ここから、画像を削除するテスト
@@ -159,7 +157,7 @@ class MemoEditTest extends TestCase
 
         // データベース検証
         $this->assertDatabaseMissing('book_type_features', [
-            'book_photo_path' => basename($storedBookImage)
+            'book_photo_path' => basename($storedBookImage),
         ]);
     }
 

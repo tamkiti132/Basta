@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Group;
-use Illuminate\Support\Facades\Auth;
-use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
@@ -24,7 +24,7 @@ class Index extends Component
         $my_user_id = Auth::id();
 
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
@@ -39,8 +39,8 @@ class Index extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('name', 'like', '%' . $keyword . '%')
-                            ->orWhere('introduction', 'like', '%' . $keyword . '%');
+                        $query->where('name', 'like', '%'.$keyword.'%')
+                            ->orWhere('introduction', 'like', '%'.$keyword.'%');
                     });
                 }
             })

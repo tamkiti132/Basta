@@ -5,12 +5,10 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\DeleteGroupForm;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Tests\TestCase;
 
 class DeleteGroupFormTest extends TestCase
 {
@@ -24,7 +22,7 @@ class DeleteGroupFormTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteGroup()
+    public function test_delete_group()
     {
         // Arrange（準備）
         $password = 'secure-password';
@@ -56,7 +54,7 @@ class DeleteGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_deleteGroup()
+    public function test_validation_成功_delete_group()
     {
         // Arrange（準備）
         $password = 'secure-password';
@@ -83,7 +81,7 @@ class DeleteGroupFormTest extends TestCase
             ->assertHasNoErrors(['password' => 'current_password']);
     }
 
-    public function test_validation_失敗_deleteGroup()
+    public function test_validation_失敗_delete_group()
     {
         // Arrange（準備）
         $password = 'secure-password';

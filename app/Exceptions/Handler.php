@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Session\TokenMismatchException;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
+use Illuminate\Session\TokenMismatchException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -74,6 +74,7 @@ class Handler extends ExceptionHandler
         // アクセス権限がない場合の処理
         if ($exception instanceof AuthorizationException) {
             session()->flash('role-access-error', 'アクセス権限がありません。');
+
             return redirect()->back();
         }
 

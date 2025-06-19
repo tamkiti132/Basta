@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Label;
 use App\Models\Memo;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -26,10 +25,10 @@ class LabelAdderTest extends TestCase
 
     /**
      * 単一のラベルをメモに保存するテスト
-     * 
+     *
      * @return void
      */
-    public function test_saveLabels()
+    public function test_save_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -76,10 +75,10 @@ class LabelAdderTest extends TestCase
     /**
      * 複数のラベルをメモに保存するテスト
      * 選択したラベルのみがメモに紐づけられ、選択していないラベルは紐づけられないことを確認する
-     * 
+     *
      * @return void
      */
-    public function test_saveLabels_with_multiple_labels()
+    public function test_save_labels_with_multiple_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -145,10 +144,10 @@ class LabelAdderTest extends TestCase
     /**
      * ラベルを選択せずにメモを保存するテスト
      * ラベルが選択されていない場合、メモにラベルが紐づけられないことを確認する
-     * 
+     *
      * @return void
      */
-    public function test_saveLabels_with_no_labels_selected()
+    public function test_save_labels_with_no_labels_selected()
     {
         // Arrange（準備）
         $user = User::factory()->create([

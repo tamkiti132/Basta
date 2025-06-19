@@ -3,11 +3,8 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\GroupShowAdmin;
-use App\Models\Comment;
 use App\Models\Group;
-use App\Models\Memo;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -25,7 +22,7 @@ class GroupShowAdminTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteGroup()
+    public function test_delete_group()
     {
         // Arrange（準備）
         // 運営ユーザー（グループを削除する側）
@@ -50,7 +47,6 @@ class GroupShowAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // Act（実行）
         Livewire::test(GroupShowAdmin::class, ['group_id' => $group->id])
             ->call('deleteGroup');
@@ -60,7 +56,7 @@ class GroupShowAdminTest extends TestCase
         $this->assertDatabaseMissing('groups', ['id' => $group->id]);
     }
 
-    public function test_suspendGroup()
+    public function test_suspend_group()
     {
         // Arrange（準備）
         // 運営ユーザー（グループを利用停止する側）
@@ -85,7 +81,6 @@ class GroupShowAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // Act（実行）
         Livewire::test(GroupShowAdmin::class, ['group_id' => $group->id])
             ->call('suspendGroup');
@@ -95,7 +90,7 @@ class GroupShowAdminTest extends TestCase
         $this->assertDatabaseHas('groups', ['id' => $group->id, 'suspension_state' => 1]);
     }
 
-    public function test_liftSuspendGroup()
+    public function test_lift_suspend_group()
     {
         // Arrange（準備）
         // 運営ユーザー（グループの利用停止を解除する側）
@@ -120,7 +115,6 @@ class GroupShowAdminTest extends TestCase
         // 一般ユーザーの権限を設定
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // Act（実行）
         Livewire::test(GroupShowAdmin::class, ['group_id' => $group->id])
             ->call('liftSuspendGroup');
@@ -130,7 +124,7 @@ class GroupShowAdminTest extends TestCase
         $this->assertDatabaseHas('groups', ['id' => $group->id, 'suspension_state' => 0]);
     }
 
-    public function test_deleteUser()
+    public function test_delete_user()
     {
         // Arrange（準備）
         // 運営ユーザー（ユーザーを削除する側）
@@ -164,7 +158,7 @@ class GroupShowAdminTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
 
-    public function test_suspendUser()
+    public function test_suspend_user()
     {
         // Arrange（準備）
         // 運営ユーザー（ユーザーを利用停止する側）
@@ -198,7 +192,7 @@ class GroupShowAdminTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $user->id, 'suspension_state' => 1]);
     }
 
-    public function test_liftSuspendUser()
+    public function test_lift_suspend_user()
     {
         // Arrange（準備）
         // 運営ユーザー（ユーザーの利用停止を解除する側）

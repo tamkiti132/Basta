@@ -7,9 +7,9 @@ use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class GroupEdit extends Component
 {
@@ -37,18 +37,19 @@ class GroupEdit extends Component
         $group = Group::find($group_id);
 
         // グループが存在しない場合に 404 エラーを返す
-        if (!$group) {
+        if (! $group) {
             abort(404);
         }
 
-        //グループの管理者 and サブ管理者のIDを取得
+        // グループの管理者 and サブ管理者のIDを取得
         $manager_user_ids =
             $group->managerAndSubManagerUser($group_id)->pluck('user_id')->toArray();
 
         // グループの管理者のIDと　自分のIDが一致しない場合、直前のページにリダイレクト
-        if (!in_array(Auth::id(), $manager_user_ids)) {
+        if (! in_array(Auth::id(), $manager_user_ids)) {
             session()->flash('error', '対象のグループの管理者 or サブ管理者ではないため、アクセスできません');
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
 
@@ -67,6 +68,7 @@ class GroupEdit extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
     }
@@ -81,11 +83,10 @@ class GroupEdit extends Component
     public function updatedGroupImagePreview($value)
     {
         // $book_image_preview に新しい値がセットされたときに呼ばれる
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             $this->group_image_delete_flag = false;
         }
     }
-
 
     public function updateGroupInfo()
     {
@@ -96,24 +97,21 @@ class GroupEdit extends Component
         $group_data->name = $this->group_data['name'];
         $group_data->introduction = $this->group_data['introduction'];
 
-
         if ($this->group_image_preview) {
             $this->storedImage = $this->group_image_preview->store('group-image', 'public');
             $group_data->group_photo_path = basename($this->storedImage);
         }
 
-
         if ($this->group_image_delete_flag) {
 
             // ストレージから画像ファイルが存在するか確認して、あれば削除
-            if ($group_data->group_photo_path && Storage::disk('public')->exists('group-image/' . $group_data->group_photo_path)) {
-                Storage::disk('public')->delete('group-image/' . $group_data->group_photo_path);
+            if ($group_data->group_photo_path && Storage::disk('public')->exists('group-image/'.$group_data->group_photo_path)) {
+                Storage::disk('public')->delete('group-image/'.$group_data->group_photo_path);
             }
 
             // デーベース上のグループ画像パスをnullに更新
             $group_data->group_photo_path = null;
         }
-
 
         $group_data->save();
 
@@ -132,9 +130,9 @@ class GroupEdit extends Component
                 $query->where('email', $this->email);
             })->exists();
 
-
         if ($hasUser) {
             session()->flash('error', "指定のメールアドレスのユーザーは\nすでにグループに参加しています");
+
             return;
         } else {
             $target_user = User::where('email', $this->email)->first();
@@ -150,7 +148,6 @@ class GroupEdit extends Component
             return redirect()->route('group.group_edit', ['group_id' => $this->group_id]);
         }
     }
-
 
     public function render()
     {

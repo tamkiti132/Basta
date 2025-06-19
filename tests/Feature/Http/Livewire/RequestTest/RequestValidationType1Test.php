@@ -3,11 +3,8 @@
 namespace Tests\Feature\Http\Livewire\RequestTest;
 
 use App\Http\Livewire\Request;
-use App\Mail\SendRequestMail;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -118,7 +115,6 @@ class RequestValidationType1Test extends TestCase
             ->call('sendRequest', 'type_1')
             ->assertHasNoErrors(['additional_information' => 'max']);
 
-
         // reference_url_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', 'テストタイトル')
@@ -135,7 +131,6 @@ class RequestValidationType1Test extends TestCase
             ->set('reference_url_1', 'https://example.com')
             ->call('sendRequest', 'type_1')
             ->assertHasNoErrors(['reference_url_1' => 'url']);
-
 
         // uploaded_photo_1のバリデーション
         $image = UploadedFile::fake()->image('test.png')->size(2048);
@@ -171,84 +166,84 @@ class RequestValidationType1Test extends TestCase
         // title_1のバリデーション
         Livewire::test(Request::class)
             ->set('title_1', '')
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['title_1' => 'required']);
 
         Livewire::test(Request::class)
             ->set('title_1', 123)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['title_1' => 'string']);
 
         Livewire::test(Request::class)
             ->set('title_1', str_repeat('a', 101))
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['title_1' => 'max']);
 
         // detail_1のバリデーション
         Livewire::test(Request::class)
             ->set('detail_1', '')
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['detail_1' => 'required']);
 
         Livewire::test(Request::class)
             ->set('detail_1', 123)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['detail_1' => 'string']);
 
         Livewire::test(Request::class)
             ->set('detail_1', str_repeat('a', 3001))
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['detail_1' => 'max']);
 
         // environment_1のバリデーション
         Livewire::test(Request::class)
             ->set('environment_1', '')
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['environment_1' => 'required']);
 
         Livewire::test(Request::class)
             ->set('environment_1', -1)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['environment_1' => 'between']);
 
         Livewire::test(Request::class)
             ->set('environment_1', 7)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['environment_1' => 'between']);
 
         Livewire::test(Request::class)
             ->set('environment_1', 'string')
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['environment_1' => 'integer']);
 
         // additional_informationのバリデーション
         Livewire::test(Request::class)
             ->set('additional_information', 123)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['additional_information' => 'string']);
 
         Livewire::test(Request::class)
             ->set('additional_information', str_repeat('a', 3001))
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['additional_information' => 'max']);
 
         // reference_url_1のバリデーション
         Livewire::test(Request::class)
             ->set('reference_url_1', 'not_url')
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['reference_url_1' => 'url']);
 
         // uploaded_photo_1のバリデーション
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
         Livewire::test(Request::class)
             ->set('uploaded_photo_1', $notImage)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['uploaded_photo_1' => 'image']);
 
         $largeKilobyteImage = UploadedFile::fake()->image('test.png')->size(2049);
         Livewire::test(Request::class)
             ->set('uploaded_photo_1', $largeKilobyteImage)
-            ->call('sendRequest', "type_1")
+            ->call('sendRequest', 'type_1')
             ->assertHasErrors(['uploaded_photo_1' => 'max']);
     }
 }
