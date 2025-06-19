@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -60,32 +62,32 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function memo()
+    public function memo(): HasMany
     {
         return $this->HasMany(Memo::class);
     }
 
-    public function goods()
+    public function goods(): BelongsToMany
     {
         return $this->belongsToMany(Memo::class, 'goods');
     }
 
-    public function laterReads()
+    public function laterReads(): BelongsToMany
     {
         return $this->belongsToMany(Memo::class, 'later_reads');
     }
 
-    public function comment()
+    public function comment(): HasMany
     {
         return $this->HasMany(Comment::class);
     }
 
-    public function target_report()
+    public function target_report(): HasMany
     {
         return $this->hasMany(Report::class, 'contribute_user_id');
     }
 
-    public function reports()
+    public function reports(): BelongsToMany
     {
         return $this->belongsToMany(
             Report::class,
@@ -95,37 +97,37 @@ class User extends Authenticatable
         );
     }
 
-    public function userReports()
+    public function userReports(): HasMany
     {
         return $this->hasMany(User_type_report_link::class, 'user_id');
     }
 
-    public function memoReports()
+    public function memoReports(): HasMany
     {
         return $this->hasMany(Memo_type_report_link::class, 'user_id');
     }
 
-    public function commentReports()
+    public function commentReports(): HasMany
     {
         return $this->hasMany(Comment_type_report_link::class, 'user_id');
     }
 
-    public function groupReports()
+    public function groupReports(): HasMany
     {
         return $this->hasMany(Group_type_report_link::class, 'user_id');
     }
 
-    public function roles()
+    public function roles(): HasMany
     {
         return $this->hasMany(Role::class, 'user_id');
     }
 
-    public function groupRoles()
+    public function groupRoles(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'roles')->withPivot('role')->withTimestamps();
     }
 
-    public function blockedGroup()
+    public function blockedGroup(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'block_states', 'user_id', 'group_id');
     }

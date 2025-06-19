@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Memo extends Model
 {
@@ -18,42 +22,42 @@ class Memo extends Model
         'type',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function goods()
+    public function goods(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'goods');
     }
 
-    public function laterReads()
+    public function laterReads(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'later_reads');
     }
 
-    public function labels()
+    public function labels(): BelongsToMany
     {
         return $this->belongsToMany(Label::class)->orderBy('name');
     }
 
-    public function web_type_feature()
+    public function web_type_feature(): HasOne
     {
         return $this->hasOne(Web_type_feature::class);
     }
 
-    public function book_type_feature()
+    public function book_type_feature(): HasOne
     {
         return $this->hasOne(Book_type_feature::class, 'memo_id');
     }
 
-    public function comment()
+    public function comment(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function reports()
+    public function reports(): BelongsToMany
     {
         return $this->belongsToMany(
             Report::class,

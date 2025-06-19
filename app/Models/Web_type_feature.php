@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Web_type_feature extends Model
 {
@@ -13,7 +14,7 @@ class Web_type_feature extends Model
         'url',
     ];
 
-    public function memo()
+    public function memo(): BelongsTo
     {
         return $this->belongsTo(Memo::class);
     }
