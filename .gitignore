@@ -22,3 +22,4 @@ yarn-error.log
 .cursor/
 .cursorignore
 .vite/
+.pint.cache

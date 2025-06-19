@@ -7,10 +7,9 @@ use App\Models\Group;
 use App\Models\Memo;
 use App\Models\User;
 use App\Models\Web_type_feature;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class GoodButtonTest extends TestCase
 {
@@ -24,7 +23,7 @@ class GoodButtonTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_toggleGood()
+    public function test_toggle_good()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -37,7 +36,6 @@ class GoodButtonTest extends TestCase
         ]);
 
         $group->userRoles()->attach($user, ['role' => 10]);
-
 
         $memo = Memo::factory()->create([
             'user_id' => $user->id,
@@ -54,7 +52,6 @@ class GoodButtonTest extends TestCase
             'title' => 'テストタイトル',
         ]);
 
-
         // Act（実行）  && Assert（検証）
         // 『goods』テーブルにデータがないことを確認
         $this->assertDatabaseMissing('goods', [
@@ -65,7 +62,6 @@ class GoodButtonTest extends TestCase
         // いいねを押す
         Livewire::test(GoodButton::class, ['memo' => $memo])
             ->call('toggleGood');
-
 
         // 『goods』テーブルにデータがあることを確認
         $this->assertDatabaseHas('goods', [

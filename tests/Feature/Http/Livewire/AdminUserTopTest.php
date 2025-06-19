@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\AdminUserTop;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,7 +21,7 @@ class AdminUserTopTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteUser()
+    public function test_delete_user()
     {
         // Arrange（準備）
         // 運営トップユーザー（ユーザーを削除する側）
@@ -50,7 +49,6 @@ class AdminUserTopTest extends TestCase
 
         // データベースに運営ユーザーが存在することを確認
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
-
 
         // Act（実行）
         // Livewireコンポーネントをテスト
@@ -62,7 +60,7 @@ class AdminUserTopTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $admin->id]);
     }
 
-    public function test_suspendUser()
+    public function test_suspend_user()
     {
         // Arrange（準備）
         // 運営トップユーザー（ユーザーを削除する側）
@@ -91,7 +89,6 @@ class AdminUserTopTest extends TestCase
         // データベースに運営ユーザーが存在することを確認
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
 
-
         // Act（実行）
         // Livewireコンポーネントをテスト
         Livewire::test(AdminUserTop::class)
@@ -101,11 +98,11 @@ class AdminUserTopTest extends TestCase
         // ユーザーと関連データが削除されたことを確認
         $this->assertDatabaseHas('users', [
             'id' => $admin->id,
-            'suspension_state' => 1
+            'suspension_state' => 1,
         ]);
     }
 
-    public function test_liftSuspendUser()
+    public function test_lift_suspend_user()
     {
         // Arrange（準備）
         // 運営トップユーザー（ユーザーを削除する側）
@@ -134,7 +131,6 @@ class AdminUserTopTest extends TestCase
         // データベースに運営ユーザーが存在することを確認
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
 
-
         // Act（実行）
         // Livewireコンポーネントをテスト
         Livewire::test(AdminUserTop::class)
@@ -144,7 +140,7 @@ class AdminUserTopTest extends TestCase
         // ユーザーと関連データが削除されたことを確認
         $this->assertDatabaseHas('users', [
             'id' => $admin->id,
-            'suspension_state' => 0
+            'suspension_state' => 0,
         ]);
     }
 }

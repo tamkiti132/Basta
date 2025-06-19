@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Label;
 use App\Models\Memo;
+use Livewire\Component;
 
 class LabelAdder extends Component
 {
@@ -14,9 +14,8 @@ class LabelAdder extends Component
 
     protected $listeners = [
         'saveLabels',
-        'memoCreated' => 'saveLabels'
+        'memoCreated' => 'saveLabels',
     ];
-
 
     public function mount()
     {
@@ -56,7 +55,6 @@ class LabelAdder extends Component
 
         $this->redirectRoute('group.index', ['group_id' => $this->group_id]);
     }
-
 
     public function render()
     {

@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Group;
-use App\Models\User;
-use App\Models\Memo;
 use App\Models\Comment;
-use App\Models\User_type_report_link;
-use App\Models\Memo_type_report_link;
 use App\Models\Comment_type_report_link;
+use App\Models\Group;
+use App\Models\Memo;
+use App\Models\Memo_type_report_link;
+use App\Models\User;
+use App\Models\User_type_report_link;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 
 class UserTopAdmin extends Component
 {
@@ -35,17 +35,15 @@ class UserTopAdmin extends Component
     public $totalManagedGroupCount;
     public $nextManagerId = '';
 
-
     public $listeners = [
         'deleteUser' => 'deleteUser',
-        'closeModal' => 'closeModal'
+        'closeModal' => 'closeModal',
     ];
-
 
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
-        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+        if (! $skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
     }
@@ -89,7 +87,6 @@ class UserTopAdmin extends Component
                 ->where('role', 10);
         })->exists();
 
-
         // 管理者であるグループがあるかどうかによる分岐
         if ($hasManagedGroup) {
             // 管理者権限のグループがある場合
@@ -100,7 +97,6 @@ class UserTopAdmin extends Component
         }
     }
 
-
     public function getManagedGroups()
     {
         // ユーザーが管理者であるグループを全て取得
@@ -109,15 +105,12 @@ class UserTopAdmin extends Component
                 ->where('role', 10);
         })->get();
 
-
         // 取得したグループのIDを取得
         $this->managedGroupIds = $managedGroups->pluck('id');
         $this->totalManagedGroupCount = $this->managedGroupIds->count();
 
-
         $this->setTargetGroupWithSubManagers($this->managedGroupIds[0]);
     }
-
 
     public function setTargetGroupWithSubManagers($group_id)
     {
@@ -127,10 +120,8 @@ class UserTopAdmin extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-
         $this->hasSubManager();
     }
-
 
     public function hasSubManager()
     {
@@ -173,7 +164,6 @@ class UserTopAdmin extends Component
         }
     }
 
-
     public function selectNextManager()
     {
         $this->selectedNextManagerIds[$this->targetGroup->id] = $this->nextManagerId;
@@ -214,7 +204,6 @@ class UserTopAdmin extends Component
         }
     }
 
-
     public function deleteUser()
     {
         $this->checkSuspension();
@@ -253,7 +242,6 @@ class UserTopAdmin extends Component
         $this->closeModal();
     }
 
-
     public function suspendUser($user_id)
     {
         $this->checkSuspension();
@@ -281,7 +269,7 @@ class UserTopAdmin extends Component
     public function render()
     {
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
@@ -295,8 +283,8 @@ class UserTopAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -340,6 +328,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -349,6 +338,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -358,6 +348,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -367,6 +358,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -386,8 +378,8 @@ class UserTopAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -429,6 +421,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -438,6 +431,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -447,6 +441,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -456,6 +451,7 @@ class UserTopAdmin extends Component
                     if ($result === 0) {
                         return mb_convert_kana($a->nickname, 'C') <=> mb_convert_kana($b->nickname, 'C');
                     }
+
                     return $result;
                 });
                 break;
@@ -472,14 +468,14 @@ class UserTopAdmin extends Component
         $items = $all_not_suspended_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $all_not_suspended_users_data_paginated = new LengthAwarePaginator($items, count($all_not_suspended_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_not_suspended_users_page'
+            'pageName' => 'all_not_suspended_users_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_suspended_users_page');
         $items = $all_suspended_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $all_suspended_users_data_paginated = new LengthAwarePaginator($items, count($all_suspended_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_suspended_users_page'
+            'pageName' => 'all_suspended_users_page',
         ]);
 
         return view('livewire.user-top-admin', compact(

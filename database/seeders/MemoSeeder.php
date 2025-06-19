@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use DateTime;
 
 class MemoSeeder extends Seeder
 {
@@ -23,8 +22,8 @@ class MemoSeeder extends Seeder
                 'title' => 'マイグレーションについて',
                 'shortMemo' => 'マイグレーションについてすごくわかりやすくまとめられてます!',
                 'type' => 0,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
             ],
             [
                 'user_id' => 2,
@@ -32,8 +31,8 @@ class MemoSeeder extends Seeder
                 'title' => 'リュウジ式至高のレシピ',
                 'shortMemo' => '初めての料理本におすすめです!!',
                 'type' => 1,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
             ],
             [
                 'user_id' => 3,
@@ -41,8 +40,8 @@ class MemoSeeder extends Seeder
                 'title' => 'プログラミングの教材として最もおすすめのサイト',
                 'shortMemo' => 'プログラミングのことは、ほぼこのサイトで学びました!!',
                 'type' => 0,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
             ],
             [
                 'user_id' => 1,
@@ -241,7 +240,7 @@ class MemoSeeder extends Seeder
                 'type' => 1,
                 'created_at' => new DateTime('-30 days'),
                 'updated_at' => new DateTime('-30 days'),
-            ]
+            ],
         ]);
     }
 }

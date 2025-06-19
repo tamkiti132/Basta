@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Livewire\RequestTest;
 
 use App\Http\Livewire\Request;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -218,122 +217,122 @@ class RequestValidationType3Test extends TestCase
         // title_3のバリデーション
         Livewire::test(Request::class)
             ->set('title_3', '')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['title_3' => 'required']);
 
         Livewire::test(Request::class)
             ->set('title_3', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['title_3' => 'string']);
 
         Livewire::test(Request::class)
             ->set('title_3', str_repeat('a', 101))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['title_3' => 'max']);
 
         // detail_3のバリデーション
         Livewire::test(Request::class)
             ->set('detail_3', '')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['detail_3' => 'required']);
 
         Livewire::test(Request::class)
             ->set('detail_3', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['detail_3' => 'string']);
 
         Livewire::test(Request::class)
             ->set('detail_3', str_repeat('a', 3001))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['detail_3' => 'max']);
 
         // explanationのバリデーション
         Livewire::test(Request::class)
             ->set('explanation', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['explanation' => 'string']);
 
         Livewire::test(Request::class)
             ->set('explanation', str_repeat('a', 3001))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['explanation' => 'max']);
 
         // steps_to_reproduceのバリデーション
         Livewire::test(Request::class)
             ->set('steps_to_reproduce', '')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['steps_to_reproduce' => 'required']);
 
         Livewire::test(Request::class)
             ->set('steps_to_reproduce', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['steps_to_reproduce' => 'string']);
 
         Livewire::test(Request::class)
             ->set('steps_to_reproduce', str_repeat('a', 3001))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['steps_to_reproduce' => 'max']);
 
         // abuse_methodのバリデーション
         Livewire::test(Request::class)
             ->set('abuse_method', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['abuse_method' => 'string']);
 
         Livewire::test(Request::class)
             ->set('abuse_method', str_repeat('a', 3001))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['abuse_method' => 'max']);
 
         // workaroundのバリデーション
         Livewire::test(Request::class)
             ->set('workaround', 123)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['workaround' => 'string']);
 
         Livewire::test(Request::class)
             ->set('workaround', str_repeat('a', 3001))
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['workaround' => 'max']);
 
         // environment_3のバリデーション
         Livewire::test(Request::class)
             ->set('environment_3', '')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['environment_3' => 'required']);
 
         Livewire::test(Request::class)
             ->set('environment_3', 'a')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['environment_3' => 'integer']);
 
         Livewire::test(Request::class)
             ->set('environment_3', -1)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['environment_3' => 'between']);
 
         Livewire::test(Request::class)
             ->set('environment_3', 7)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['environment_3' => 'between']);
 
         // reference_url_3のバリデーション
         Livewire::test(Request::class)
             ->set('reference_url_3', 'not_url')
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['reference_url_3' => 'url']);
 
         // uploaded_photo_3のバリデーション
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
         Livewire::test(Request::class)
             ->set('uploaded_photo_3', $notImage)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['uploaded_photo_3' => 'image']);
 
         $largeKilobyteImage = UploadedFile::fake()->image('test.png')->size(2049);
         Livewire::test(Request::class)
             ->set('uploaded_photo_3', $largeKilobyteImage)
-            ->call('sendRequest', "type_3")
+            ->call('sendRequest', 'type_3')
             ->assertHasErrors(['uploaded_photo_3' => 'max']);
     }
 }

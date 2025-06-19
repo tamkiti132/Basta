@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\User;
+use App\Models\Comment;
+use App\Models\Comment_type_report_link;
 use App\Models\Group;
 use App\Models\Memo;
-use App\Models\Comment;
-use App\Models\User_type_report_link;
 use App\Models\Memo_type_report_link;
-use App\Models\Comment_type_report_link;
 use App\Models\Report;
+use App\Models\User;
+use App\Models\User_type_report_link;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class GroupShowAdmin extends Component
 {
@@ -49,21 +49,18 @@ class GroupShowAdmin extends Component
     public $totalManagedGroupCount;
     public $nextManagerId = '';
 
-
     protected $listeners = [
         'deleteUser' => 'deleteUser',
-        'closeModal' => 'closeModal'
+        'closeModal' => 'closeModal',
     ];
-
 
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
-        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+        if (! $skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
     }
-
 
     public function mount($group_id)
     {
@@ -71,14 +68,12 @@ class GroupShowAdmin extends Component
         $this->group_data = Group::find($this->group_id);
 
         // グループが存在しない場合に 404 エラーを返す
-        if (!$this->group_data) {
+        if (! $this->group_data) {
             abort(404);
         }
 
         $this->dispatchBrowserEvent('load');
     }
-
-
 
     public function showMember()
     {
@@ -94,14 +89,12 @@ class GroupShowAdmin extends Component
         }
     }
 
-
     public function setReportReason($report_reason)
     {
         $this->report_reason = $report_reason;
 
         $this->resetPage('group_reports_page');
     }
-
 
     public function setUserBlockState($user_block_state)
     {
@@ -111,7 +104,6 @@ class GroupShowAdmin extends Component
         $this->resetPage('suspension_users_data_page');
     }
 
-
     public function updatingSearch()
     {
         $this->resetPage('group_reports_page');
@@ -119,14 +111,12 @@ class GroupShowAdmin extends Component
         $this->resetPage('suspension_users_data_page');
     }
 
-
     public function deleteGroup()
     {
         Group::find($this->group_id)->delete();
 
         return to_route('admin.group_top');
     }
-
 
     public function suspendGroup()
     {
@@ -138,7 +128,6 @@ class GroupShowAdmin extends Component
         $this->emit('suspendedGroup');
     }
 
-
     public function liftSuspendGroup()
     {
         $group_data = Group::find($this->group_id);
@@ -148,7 +137,6 @@ class GroupShowAdmin extends Component
 
         $this->emit('liftSuspendedGroup');
     }
-
 
     public function closeModal()
     {
@@ -164,7 +152,6 @@ class GroupShowAdmin extends Component
         $this->nextManagerId = '';
     }
 
-
     public function isManager($user_id)
     {
         $this->checkSuspension();
@@ -177,7 +164,6 @@ class GroupShowAdmin extends Component
                 ->where('role', 10);
         })->exists();
 
-
         // 管理者であるグループがあるかどうかによる分岐
         if ($hasManagedGroup) {
             // 管理者権限のグループがある場合
@@ -187,7 +173,6 @@ class GroupShowAdmin extends Component
             $this->deleteUser();
         }
     }
-
 
     public function getManagedGroups()
     {
@@ -204,7 +189,6 @@ class GroupShowAdmin extends Component
         $this->setTargetGroupWithSubManagers($this->managedGroupIds[0]);
     }
 
-
     public function setTargetGroupWithSubManagers($group_id)
     {
         // グループのデータ（サブ管理者のデータも併せて取得）
@@ -213,10 +197,8 @@ class GroupShowAdmin extends Component
                 ->orderBy('nickname');
         }])->find($group_id);
 
-
         $this->hasSubManager();
     }
-
 
     public function hasSubManager()
     {
@@ -232,7 +214,6 @@ class GroupShowAdmin extends Component
         }
     }
 
-
     public function setTargetGroupWithMembers($group_id)
     {
         // グループのデータ（メンバーのデータも併せて取得）
@@ -243,7 +224,6 @@ class GroupShowAdmin extends Component
 
         $this->hasMember();
     }
-
 
     public function hasMember()
     {
@@ -260,7 +240,6 @@ class GroupShowAdmin extends Component
             $this->showModalNobodyMember = true;
         }
     }
-
 
     public function selectNextManager()
     {
@@ -282,7 +261,6 @@ class GroupShowAdmin extends Component
         }
     }
 
-
     public function addDeleteGroupFlag()
     {
         $this->selectedNextManagerIds[$this->targetGroup->id] = 0;
@@ -302,7 +280,6 @@ class GroupShowAdmin extends Component
             $this->emit('confirmDeletion');
         }
     }
-
 
     public function deleteUser()
     {
@@ -352,7 +329,6 @@ class GroupShowAdmin extends Component
         }
     }
 
-
     public function suspendUser($userId)
     {
         $user_data = User::find($userId);
@@ -365,7 +341,6 @@ class GroupShowAdmin extends Component
         $this->resetPage('users_data_page');
         $this->resetPage('suspension_users_data_page');
     }
-
 
     public function liftSuspendUser($userId)
     {
@@ -380,8 +355,6 @@ class GroupShowAdmin extends Component
         $this->resetPage('suspension_users_data_page');
     }
 
-
-
     public function render()
     {
         $this->group_data = Group::where('id', $this->group_id)
@@ -390,19 +363,15 @@ class GroupShowAdmin extends Component
             }])
             ->first();
 
-
-
         $this->isSuspended = $this->group_data->suspension_state;
 
-
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-
-        //グループ通報情報
+        // グループ通報情報
         $group_reports_data = Report::whereIn('id', function ($query) {
             $query->select('report_id')
                 ->from('group_type_report_links')
@@ -413,10 +382,10 @@ class GroupShowAdmin extends Component
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
                         $query->whereHas('contribute_user', function ($subQuery) use ($keyword) {
-                            $subQuery->where('nickname', 'like', '%' . $keyword . '%')
-                                ->orWhere('username', 'like', '%' . $keyword . '%');
+                            $subQuery->where('nickname', 'like', '%'.$keyword.'%')
+                                ->orWhere('username', 'like', '%'.$keyword.'%');
                         })
-                            ->orWhere('reports.detail', 'like', '%' . $keyword . '%');
+                            ->orWhere('reports.detail', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -426,9 +395,7 @@ class GroupShowAdmin extends Component
             ->latest()
             ->get();
 
-
-
-        //ユーザー
+        // ユーザー
         $users_data = User::where('suspension_state', 0)
             ->whereHas('groupRoles', function ($query) {
                 $query->where('group_id', $this->group_id);
@@ -440,8 +407,8 @@ class GroupShowAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -492,10 +459,7 @@ class GroupShowAdmin extends Component
             }
         });
 
-
-
-
-        //利用停止中ユーザー
+        // 利用停止中ユーザー
         $suspension_users_data = User::where('suspension_state', 1)
             ->whereHas('groupRoles', function ($query) {
                 $query->where('group_id', $this->group_id);
@@ -507,8 +471,8 @@ class GroupShowAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -559,15 +523,9 @@ class GroupShowAdmin extends Component
             }
         });
 
-
-
-
         $user_groups = Group::whereHas('userRoles', function ($query) {
             $query->where('user_id', $this->user_id);
         })->get();
-
-
-
 
         $perPage = 20;
 
@@ -575,24 +533,22 @@ class GroupShowAdmin extends Component
         $items = $group_reports_data->slice(($currentPage - 1) * $perPage, $perPage);
         $group_reports_data_paginated = new LengthAwarePaginator($items, count($group_reports_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'group_reports_page'
+            'pageName' => 'group_reports_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('users_data_page');
         $items = $users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $users_data_paginated = new LengthAwarePaginator($items, count($users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'users_data_page'
+            'pageName' => 'users_data_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('suspension_users_data_page');
         $items = $suspension_users_data->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $suspension_users_data_paginated = new LengthAwarePaginator($items, count($suspension_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'suspension_users_data_page'
+            'pageName' => 'suspension_users_data_page',
         ]);
-
-
 
         return view('livewire.group-show-admin', compact(
             'users_data_paginated',

@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\User;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class GroupTopAdmin extends Component
 {
@@ -22,15 +22,13 @@ class GroupTopAdmin extends Component
     public $show_groups = true;
     public $show_suspension_groups = false;
 
-
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない
-        if (!$skip && Auth::check() && Auth::user()->suspension_state == 1) {
+        if (! $skip && Auth::check() && Auth::user()->suspension_state == 1) {
             abort(403, '利用停止中のため、この機能は利用できません。');
         }
     }
-
 
     public function setSortCriteria($sortCriteria)
     {
@@ -39,7 +37,6 @@ class GroupTopAdmin extends Component
         $this->resetPage('groups_page');
         $this->resetPage('suspension_groups_page');
     }
-
 
     public function updatingSearch()
     {
@@ -84,26 +81,21 @@ class GroupTopAdmin extends Component
         $this->resetPage('suspension_groups_page');
     }
 
-
-
     public function render()
     {
         $user_data = User::find($this->user_id);
-
 
         $user_groups = Group::whereHas('userRoles', function ($query) {
             $query->where('user_id', $this->user_id);
         })->get();
 
-
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-
-        //グループ
+        // グループ
         $groups_data = Group::select('id', 'name', 'introduction', 'group_photo_path')
             ->where('suspension_state', 0)
             ->with(['userRoles' => function ($query) {
@@ -113,8 +105,8 @@ class GroupTopAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('groups.name', 'like', '%' . $keyword . '%')
-                            ->orWhere('groups.introduction', 'like', '%' . $keyword . '%');
+                        $query->where('groups.name', 'like', '%'.$keyword.'%')
+                            ->orWhere('groups.introduction', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -124,8 +116,7 @@ class GroupTopAdmin extends Component
             ->orderBy('name')
             ->get();
 
-
-        //利用停止中グループ
+        // 利用停止中グループ
         $suspension_groups_data = Group::select('id', 'name', 'introduction', 'group_photo_path')
             ->where('suspension_state', 1)
             ->with(['userRoles' => function ($query) {
@@ -135,8 +126,8 @@ class GroupTopAdmin extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('groups.name', 'like', '%' . $keyword . '%')
-                            ->orWhere('groups.introduction', 'like', '%' . $keyword . '%');
+                        $query->where('groups.name', 'like', '%'.$keyword.'%')
+                            ->orWhere('groups.introduction', 'like', '%'.$keyword.'%');
                     });
                 }
             })
@@ -146,26 +137,21 @@ class GroupTopAdmin extends Component
             ->orderBy('name')
             ->get();
 
-
-
         $perPage = 20;
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('groups_page');
         $items = $groups_data->slice(($currentPage - 1) * $perPage, $perPage);
         $groups_data_paginated = new LengthAwarePaginator($items, count($groups_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'groups_page'
+            'pageName' => 'groups_page',
         ]);
-
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('suspension_groups_page');
         $items = $suspension_groups_data->slice(($currentPage - 1) * $perPage, $perPage);
         $suspension_groups_data_paginated = new LengthAwarePaginator($items, count($suspension_groups_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'suspension_groups_page'
+            'pageName' => 'suspension_groups_page',
         ]);
-
-
 
         return view('livewire.group-top-admin', compact(
             'user_groups',

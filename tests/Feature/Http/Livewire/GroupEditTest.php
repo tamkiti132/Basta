@@ -6,12 +6,11 @@ use App\Http\Livewire\GroupEdit;
 use App\Mail\InviteMail;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class GroupEditTest extends TestCase
 {
@@ -25,7 +24,7 @@ class GroupEditTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_updateGroupInfo()
+    public function test_update_group_info()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -41,10 +40,8 @@ class GroupEditTest extends TestCase
 
         $group->userRoles()->attach($user, ['role' => 10]);
 
-
         // テスト用の画像を作成
         $group_image = UploadedFile::fake()->image('test.png')->size(2048);
-
 
         // Act（実行）  & Assert（検証）
         $component = Livewire::test(GroupEdit::class, ['group_id' => $group->id])
@@ -63,7 +60,6 @@ class GroupEditTest extends TestCase
             // 各データを更新する
             ->call('updateGroupInfo');
 
-
         $storedImage = $component->get('storedImage');
 
         // ストレージにファイルが保存されていることを確認
@@ -75,7 +71,6 @@ class GroupEditTest extends TestCase
             'introduction' => '更新後のグループ紹介文',
             'group_photo_path' => basename($storedImage),
         ]);
-
 
         // ここから、画像を削除するテスト
         // Act（実行）
@@ -94,7 +89,7 @@ class GroupEditTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_updateGroupInfo()
+    public function test_validation_成功_update_group_info()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -182,7 +177,7 @@ class GroupEditTest extends TestCase
             ->assertHasNoErrors(['group_data.introduction' => 'max']);
     }
 
-    public function test_validation_失敗_updateGroupInfo()
+    public function test_validation_失敗_update_group_info()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -201,7 +196,6 @@ class GroupEditTest extends TestCase
         // バリデーションに失敗するテスト用の画像を作成
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
         $groupImage = UploadedFile::fake()->image('test.png')->size(2049);
-
 
         // Act（実行） & Assert（検証）
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
@@ -236,9 +230,7 @@ class GroupEditTest extends TestCase
 
             ->set('group_data.introduction', str_repeat('a', 201))
             ->call('updateGroupInfo')
-            ->assertHasErrors(['group_data.introduction' => 'max'])
-        ;
-
+            ->assertHasErrors(['group_data.introduction' => 'max']);
 
         // Assert（検証）
         // データベース検証
@@ -248,7 +240,7 @@ class GroupEditTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_sendInviteToGroupMail()
+    public function test_validation_成功_send_invite_to_group_mail()
     {
         // Arrange（準備）
         // 招待メールを送信するユーザー
@@ -299,7 +291,7 @@ class GroupEditTest extends TestCase
             ->assertHasNoErrors(['email' => 'exists:users,email']);
     }
 
-    public function test_sendInviteToGroupMail_メール送信確認()
+    public function test_send_invite_to_group_mail_メール送信確認()
     {
         // Arrange（準備）
         // 招待メールを送信するユーザー
@@ -328,7 +320,7 @@ class GroupEditTest extends TestCase
         Livewire::test(GroupEdit::class, ['group_id' => $group->id])
             ->set('email', $target_user->email)
             ->call('sendInviteToGroupMail')
-            ->assertRedirect('group/group_edit/' . $group->id);
+            ->assertRedirect('group/group_edit/'.$group->id);
 
         // 送信元 ・ 送信先のメールアドレスは app/Mail/InviteMail.php に記載
         Mail::assertSent(InviteMail::class, function ($mail) {
@@ -338,7 +330,7 @@ class GroupEditTest extends TestCase
         });
     }
 
-    public function test_validation_失敗_sendInviteToGroupMail()
+    public function test_validation_失敗_send_invite_to_group_mail()
     {
         // Arrange（準備）
         // 招待メールを送信するユーザー

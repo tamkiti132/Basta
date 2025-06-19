@@ -2,15 +2,14 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
-use Illuminate\Support\Str;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserControllerTest extends TestCase
 {
@@ -85,7 +84,7 @@ class RegisteredUserControllerTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-    public function test_storeAdmin(): void
+    public function test_store_admin(): void
     {
         // Arrange（準備）
         if (! Features::enabled(Features::registration())) {
@@ -94,13 +93,12 @@ class RegisteredUserControllerTest extends TestCase
             return;
         }
 
-
         // 運営トップ権限ユーザーを用意
         $adminTopUser = User::factory()->create([
             'nickname' => 'AdminTopUser',
             'email' => 'test_admin_top@example.com',
             'password' => Hash::make('passwordAdminTop123'),
-            'username' => '@' . (string) Str::ulid(),
+            'username' => '@'.(string) Str::ulid(),
         ]);
 
         $adminTopUser->groupRoles()->attach($adminTopUser, [

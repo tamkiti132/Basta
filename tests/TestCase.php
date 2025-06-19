@@ -2,11 +2,11 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Console\CliDumper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Foundation\Console\CliDumper;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
     protected function dumpdb(): void
     {
         if (class_exists(CliDumper::class)) {
-            CliDumper::resolveDumpSourceUsing(fn() => null); // ファイル名や行数の出力を消す
+            CliDumper::resolveDumpSourceUsing(fn () => null); // ファイル名や行数の出力を消す
         }
 
         // Laravel Ver.11 以上は、Schema::getTables() として下さい

@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class ReportGroup extends Component
 {
@@ -13,26 +13,20 @@ class ReportGroup extends Component
     public $reason;
     public $detail;
 
-
-
     protected $rules = [
         'reason' => ['required', 'integer', 'between:1,4'],
-        'detail' => ['required', 'string']
+        'detail' => ['required', 'string'],
     ];
-
 
     protected $listeners = [
         'showModalReportGroup',
-        'closeModalReportGroup'
+        'closeModalReportGroup',
     ];
-
 
     public function mount()
     {
         $this->group_id = session()->get('group_id');
     }
-
-
 
     public function showModalReportGroup()
     {
@@ -47,12 +41,11 @@ class ReportGroup extends Component
         $this->resetErrorBag();
     }
 
-
     public function createReport()
     {
         $this->validate();
 
-        //レポートを保存
+        // レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
             'type' => 4,
@@ -60,7 +53,7 @@ class ReportGroup extends Component
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとgroupsテーブルの紐付けをする
+        // reportsテーブルとgroupsテーブルの紐付けをする
         $report->groups()->sync([$this->group_id]);
 
         $this->reset(['reason', 'detail']);

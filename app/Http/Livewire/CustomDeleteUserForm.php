@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 use Livewire\Component;
-use App\Models\User;
 
 class CustomDeleteUserForm extends Component
 {
@@ -49,13 +49,9 @@ class CustomDeleteUserForm extends Component
         $this->confirmingUserDeletion = true;
     }
 
-
     /**
      * Check if the current user is any group manager.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Jetstream\Contracts\DeletesUsers  $deleter
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function isManager(Request $request, DeletesUsers $deleter, StatefulGuard $auth)
@@ -79,13 +75,9 @@ class CustomDeleteUserForm extends Component
         }
     }
 
-
     /**
      * Delete the current user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Jetstream\Contracts\DeletesUsers  $deleter
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth)

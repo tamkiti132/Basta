@@ -10,7 +10,7 @@ class Book_type_feature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'book_photo_path'
+        'book_photo_path',
     ];
 
     public function memo()

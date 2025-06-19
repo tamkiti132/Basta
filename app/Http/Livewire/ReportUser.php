@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class ReportUser extends Component
 {
@@ -13,26 +13,20 @@ class ReportUser extends Component
     public $reason;
     public $detail;
 
-
-
     protected $rules = [
         'reason' => ['required', 'integer', 'between:1,4'],
-        'detail' => ['required', 'string']
+        'detail' => ['required', 'string'],
     ];
-
 
     protected $listeners = [
         'showModalReportUser',
-        'closeModalReportUser'
+        'closeModalReportUser',
     ];
-
 
     public function mount($user_id)
     {
         $this->user_id = $user_id;
     }
-
-
 
     public function showModalReportUser()
     {
@@ -47,12 +41,11 @@ class ReportUser extends Component
         $this->resetErrorBag();
     }
 
-
     public function createReport()
     {
         $this->validate();
 
-        //レポートを保存
+        // レポートを保存
         $report = Report::create([
             'contribute_user_id' => Auth::id(),
             'type' => 1,
@@ -60,7 +53,7 @@ class ReportUser extends Component
             'detail' => $this->detail,
         ]);
 
-        //reportsテーブルとusersテーブルの紐付けをする
+        // reportsテーブルとusersテーブルの紐付けをする
         $report->users()->sync([$this->user_id]);
 
         $this->reset(['reason', 'detail']);

@@ -109,7 +109,7 @@ class SendRequestMail extends Mailable
                 return [
                     Attachment::fromPath($uploaded_photo_1->getRealPath())
                         ->as($uploaded_photo_1->getClientOriginalName())
-                        ->withMime($uploaded_photo_1->getMimeType())
+                        ->withMime($uploaded_photo_1->getMimeType()),
                 ];
             }
         } elseif ($this->request_type === 'type_2') {
@@ -119,7 +119,7 @@ class SendRequestMail extends Mailable
                 return [
                     Attachment::fromPath($uploaded_photo_2->getRealPath())
                         ->as($uploaded_photo_2->getClientOriginalName())
-                        ->withMime($uploaded_photo_2->getMimeType())
+                        ->withMime($uploaded_photo_2->getMimeType()),
                 ];
             }
         } elseif ($this->request_type === 'type_3') {
@@ -129,7 +129,7 @@ class SendRequestMail extends Mailable
                 return [
                     Attachment::fromPath($uploaded_photo_3->getRealPath())
                         ->as($uploaded_photo_3->getClientOriginalName())
-                        ->withMime($uploaded_photo_3->getMimeType())
+                        ->withMime($uploaded_photo_3->getMimeType()),
                 ];
             }
         } elseif ($this->request_type === 'type_4') {
@@ -139,7 +139,7 @@ class SendRequestMail extends Mailable
                 return [
                     Attachment::fromPath($uploaded_photo_4->getRealPath())
                         ->as($uploaded_photo_4->getClientOriginalName())
-                        ->withMime($uploaded_photo_4->getMimeType())
+                        ->withMime($uploaded_photo_4->getMimeType()),
                 ];
             }
         }

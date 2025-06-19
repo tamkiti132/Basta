@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Group;
 
 class ToggleJoinFreeEnableButton extends Component
 {

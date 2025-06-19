@@ -18,13 +18,11 @@ class GroupCreate extends Component
 
     public $storedImage;
 
-
     protected $rules = [
         'group_image' => ['nullable', 'image', 'max:2048'],
         'group_name' => ['required', 'string', 'max:50'],
         'introduction' => ['required', 'string', 'max:200'],
     ];
-
 
     public function mount() {}
 
@@ -49,19 +47,16 @@ class GroupCreate extends Component
         }
 
         $group->userRoles()->syncWithoutDetaching([
-            Auth::id() => ['role' => 10]
+            Auth::id() => ['role' => 10],
         ]);
-
 
         return to_route('index');
     }
-
 
     public function deleteGroupImagePreview()
     {
         $this->group_image = null;
     }
-
 
     public function render()
     {

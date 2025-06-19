@@ -4,12 +4,8 @@ namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\CustomDeleteUserForm;
 use App\Models\User;
-use App\Models\Group;
-use App\Models\Role;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -25,7 +21,7 @@ class CustomDeleteUserFormTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_validation_成功_isManager()
+    public function test_validation_成功_is_manager()
     {
         // Arrange（準備）
         $password = 'secure-password';
@@ -43,7 +39,7 @@ class CustomDeleteUserFormTest extends TestCase
             ->assertHasNoErrors(['password']);
     }
 
-    public function test_validation_失敗_isManager()
+    public function test_validation_失敗_is_manager()
     {
         // Arrange（準備）
         $password = 'secure-password';
@@ -66,8 +62,7 @@ class CustomDeleteUserFormTest extends TestCase
             ->assertHasErrors(['password']);
     }
 
-
-    public function test_deleteUser()
+    public function test_delete_user()
     {
         // Arrange（準備）
         $password = 'secure-password';

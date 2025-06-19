@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Livewire\Livewire;
 use App\Http\Livewire\GroupCreate;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Livewire;
+use Tests\TestCase;
 
 class GroupCreateTest extends TestCase
 {
@@ -23,7 +22,7 @@ class GroupCreateTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_storeGroup_画像あり()
+    public function test_store_group_画像あり()
     {
         // Arrange（準備）
         $user = User::factory()->create();
@@ -40,7 +39,6 @@ class GroupCreateTest extends TestCase
             ->call('storeGroup');
 
         $storedImage = $component->get('storedImage');
-
 
         // Assert（検証）
         // ストレージにファイルが保存されていることを確認
@@ -62,7 +60,7 @@ class GroupCreateTest extends TestCase
         ]);
     }
 
-    public function test_storeGroup_画像なし()
+    public function test_store_group_画像なし()
     {
         // Arrange（準備）
         $user = User::factory()->create();
@@ -93,7 +91,7 @@ class GroupCreateTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_storeGroup()
+    public function test_validation_成功_store_group()
     {
         // Arrange（準備）
         $user = User::factory()->create();
@@ -139,14 +137,14 @@ class GroupCreateTest extends TestCase
             ->assertHasNoErrors(['introduction' => 'max']);
     }
 
-    public function test_validation_失敗_storeGroup()
+    public function test_validation_失敗_store_group()
     {
         // Arrange（準備）
         $user = User::factory()->create();
         $this->actingAs($user);
 
         // Act（実行） & Assert（検証）
-        // group_imageのバリデーション        
+        // group_imageのバリデーション
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
         Livewire::test(GroupCreate::class)
             ->set('group_image', $notImage)

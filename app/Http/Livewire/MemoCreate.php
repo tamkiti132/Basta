@@ -3,10 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Group;
-use Livewire\Component;
 use App\Models\Memo;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class MemoCreate extends Component
@@ -30,16 +30,14 @@ class MemoCreate extends Component
 
     public $storedBookImage;
 
-
     public $rules = [];
-
 
     public function mount($group_id)
     {
         $this->previous_route = url()->previous();
 
         // $group_idに一致するidのグループに自分が所属していなかった場合、直前のページにリダイレクト
-        if (!(Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
+        if (! (Auth::user()->groupRoles()->where('group_id', $group_id)->exists())) {
             session()->flash('error', '対象のグループに所属していないため、アクセスできません');
             redirect($this->previous_route);
         }
@@ -74,10 +72,10 @@ class MemoCreate extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
     }
-
 
     public function store($type)
     {
@@ -87,7 +85,7 @@ class MemoCreate extends Component
             'type' => ['required', 'in:web,book'],
         ]);
 
-        if ($this->type === "web") {
+        if ($this->type === 'web') {
 
             $this->rules = [
                 'web_title' => ['required', 'string', 'max:50'],
@@ -95,7 +93,7 @@ class MemoCreate extends Component
                 'web_additionalMemo' => ['string', 'nullable'],
                 'url' => ['required', 'url'],
             ];
-        } elseif ($this->type === "book") {
+        } elseif ($this->type === 'book') {
             $this->rules = [
                 'book_title' => ['required', 'string', 'max:50'],
                 'book_shortMemo' => ['required', 'string', 'max:200'],
@@ -104,12 +102,10 @@ class MemoCreate extends Component
             ];
         }
 
-
         $this->validate();
 
-
-        if ($this->type === "web") {
-            //Webタイプのメモを保存する
+        if ($this->type === 'web') {
+            // Webタイプのメモを保存する
             $memo_data = [
                 'user_id' => Auth::id(),
                 'group_id' => session()->get('group_id'),
@@ -126,7 +122,7 @@ class MemoCreate extends Component
             $memo = Memo::create($memo_data);
             $memo->web_type_feature()->create($web_type_feature_data);
         } else {
-            //本タイプのメモを保存する
+            // 本タイプのメモを保存する
             $memo_data = [
                 'user_id' => Auth::id(),
                 'group_id' => session()->get('group_id'),
@@ -143,15 +139,13 @@ class MemoCreate extends Component
                 $this->storedBookImage = $this->book_image->store('book-image', 'public');
 
                 $memo->book_type_feature()->create([
-                    'book_photo_path' => basename($this->storedBookImage)
+                    'book_photo_path' => basename($this->storedBookImage),
                 ]);
             }
         }
 
-
         $this->emitTo('label-adder', 'memoCreated', $memo->id);
     }
-
 
     public function render()
     {

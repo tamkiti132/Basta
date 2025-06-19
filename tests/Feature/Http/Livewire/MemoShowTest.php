@@ -3,16 +3,14 @@
 namespace Tests\Feature\Http\Livewire;
 
 use App\Http\Livewire\MemoShow;
-use App\Models\Book_type_feature;
 use App\Models\Comment;
 use App\Models\Group;
 use App\Models\Memo;
 use App\Models\User;
 use App\Models\Web_type_feature;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class MemoShowTest extends TestCase
 {
@@ -26,7 +24,7 @@ class MemoShowTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_deleteMemo_web()
+    public function test_delete_memo_web()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -79,7 +77,7 @@ class MemoShowTest extends TestCase
         ]);
     }
 
-    public function test_deleteMemo_book()
+    public function test_delete_memo_book()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -119,7 +117,7 @@ class MemoShowTest extends TestCase
         ]);
     }
 
-    public function test_storeComment()
+    public function test_store_comment()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -167,7 +165,7 @@ class MemoShowTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_storeComment()
+    public function test_validation_成功_store_comment()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -206,7 +204,7 @@ class MemoShowTest extends TestCase
             ->assertHasNoErrors(['comment' => 'string']);
     }
 
-    public function test_validation_失敗_storeComment()
+    public function test_validation_失敗_store_comment()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -263,7 +261,7 @@ class MemoShowTest extends TestCase
         ]);
     }
 
-    public function test_deleteComment()
+    public function test_delete_comment()
     {
         // Arrange（準備）
         $user = User::factory()->create([

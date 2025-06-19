@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Label;
 use App\Models\Memo;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -30,7 +29,7 @@ class LabelSelectorTest extends TestCase
      *
      * @return void
      */
-    public function test_saveLabels()
+    public function test_save_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -80,7 +79,7 @@ class LabelSelectorTest extends TestCase
      *
      * @return void
      */
-    public function test_saveLabels_with_multiple_labels()
+    public function test_save_labels_with_multiple_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -149,7 +148,7 @@ class LabelSelectorTest extends TestCase
      *
      * @return void
      */
-    public function test_saveLabels_update_labels()
+    public function test_save_labels_update_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([
@@ -217,7 +216,7 @@ class LabelSelectorTest extends TestCase
      *
      * @return void
      */
-    public function test_saveLabels_remove_all_labels()
+    public function test_save_labels_remove_all_labels()
     {
         // Arrange（準備）
         $user = User::factory()->create([

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
@@ -507,7 +506,7 @@ class UserSeeder extends Seeder
                 'password' => $user['password'],
                 'nickname' => $user['nickname'],
                 'suspension_state' => $user['suspension_state'],
-                'username' => '@' . (string) Str::ulid(),
+                'username' => '@'.(string) Str::ulid(),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

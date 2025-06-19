@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class AdminUserTop extends Component
 {
@@ -19,10 +19,7 @@ class AdminUserTop extends Component
     public $show_users = true;
     public $show_suspension_users = false;
 
-
-
     public function mount() {}
-
 
     public function showMember()
     {
@@ -38,13 +35,11 @@ class AdminUserTop extends Component
         }
     }
 
-
     public function updatingSearch()
     {
         $this->resetPage('all_not_suspended_users_page');
         $this->resetPage('all_suspended_users_page');
     }
-
 
     public function deleteUser($user_id)
     {
@@ -76,17 +71,15 @@ class AdminUserTop extends Component
         $this->resetPage('all_suspended_users_page');
     }
 
-
-
     public function render()
     {
         // 全角スペースを半角スペースに変換
-        $search = str_replace("　", " ", $this->search);
+        $search = str_replace('　', ' ', $this->search);
 
         // 半角スペースで検索ワードを分解
         $keywords = explode(' ', $search);
 
-        //ユーザー
+        // ユーザー
         $this->all_not_suspended_users_data = User::where('suspension_state', 0)
             ->whereHas('roles', function ($query) {
                 $query->where('role', '=', 5);
@@ -94,16 +87,15 @@ class AdminUserTop extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
             ->orderBy('nickname')
             ->get();
 
-
-        //利用停止中ユーザー
+        // 利用停止中ユーザー
         $this->all_suspended_users_data = User::where('suspension_state', 1)
             ->whereHas('roles', function ($query) {
                 $query->where('role', '=', 5);
@@ -111,14 +103,13 @@ class AdminUserTop extends Component
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $query->where(function ($query) use ($keyword) {
-                        $query->where('users.nickname', 'like', '%' . $keyword . '%')
-                            ->orWhere('users.username', 'like', '%' . $keyword . '%');
+                        $query->where('users.nickname', 'like', '%'.$keyword.'%')
+                            ->orWhere('users.username', 'like', '%'.$keyword.'%');
                     });
                 }
             })
             ->orderBy('nickname')
             ->get();
-
 
         $perPage = 20;
 
@@ -126,17 +117,15 @@ class AdminUserTop extends Component
         $items = $this->all_not_suspended_users_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_not_suspended_users_data_paginated = new LengthAwarePaginator($items, count($this->all_not_suspended_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_not_suspended_users_page'
+            'pageName' => 'all_not_suspended_users_page',
         ]);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage('all_suspended_users_page');
         $items = $this->all_suspended_users_data->slice(($currentPage - 1) * $perPage, $perPage);
         $all_suspended_users_data_paginated = new LengthAwarePaginator($items, count($this->all_suspended_users_data), $perPage, $currentPage, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'all_suspended_users_page'
+            'pageName' => 'all_suspended_users_page',
         ]);
-
-
 
         return view(
             'livewire.admin-user-top',

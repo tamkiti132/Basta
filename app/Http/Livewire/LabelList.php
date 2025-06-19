@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Label;
+use Livewire\Component;
 
 class LabelList extends Component
 {
@@ -49,7 +49,6 @@ class LabelList extends Component
 
         $this->emit('filterByLabels', $this->selected_labels);
     }
-
 
     public function render()
     {

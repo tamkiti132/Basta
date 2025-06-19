@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\LabelEditor;
 use App\Models\Group;
 use App\Models\Label;
 
@@ -26,7 +25,6 @@ class LabelEditorMypage extends LabelEditor
         $this->loadLabels();
     }
 
-
     public function loadLabels()
     {
         $this->labels = Label::where('group_id', $this->group_id)->orderBy('name')->get();
@@ -45,13 +43,13 @@ class LabelEditorMypage extends LabelEditor
                 session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
                 $this->previous_route = url()->previous();
+
                 return redirect($this->previous_route);
             }
         }
 
         $this->showLabelEditModal = true;
     }
-
 
     public function setGroupId($group_id = null)
     {

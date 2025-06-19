@@ -27,7 +27,7 @@ class UserFactory extends Factory
     {
         return [
             'nickname' => substr(fake()->name(), 0, 13), // 最大13文字まで
-            'username' => '@' . (string) Str::ulid(),
+            'username' => '@'.(string) Str::ulid(),
             'email' => fake()->unique()->safeEmail(),
             // 'email_verified_at' => null,
             'password' => Hash::make('password'),

@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Livewire;
 use App\Http\Livewire\UserShow;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -26,7 +25,7 @@ class UserShowTest extends TestCase
     /**
      * 管理者権限のないユーザーを削除するテスト
      */
-    public function test_deleteUser_without_manager_role()
+    public function test_delete_user_without_manager_role()
     {
         // Arrange（準備）
         // 運営ユーザー（ユーザーを削除する側）
@@ -75,7 +74,7 @@ class UserShowTest extends TestCase
     /**
      * 管理者権限を持つユーザーを削除し、次の管理者を設定するテスト
      */
-    public function test_deleteUser_with_manager_role_and_next_manager()
+    public function test_delete_user_with_manager_role_and_next_manager()
     {
         // Arrange（準備）
         // 運営ユーザー（削除操作を行う側）
@@ -85,7 +84,7 @@ class UserShowTest extends TestCase
 
         $admin->groupRoles()->attach($admin, [
             'role' => 5,
-            'group_id' => null
+            'group_id' => null,
         ]);
 
         $this->actingAs($admin);
@@ -110,7 +109,7 @@ class UserShowTest extends TestCase
 
         // Act（実行）
         $component = Livewire::test(UserShow::class, [
-            'user_id' => $managerToDelete->id
+            'user_id' => $managerToDelete->id,
         ]);
 
         // 必要な情報を設定
@@ -143,7 +142,7 @@ class UserShowTest extends TestCase
      * 管理者権限を持つユーザーを削除し、グループも削除するテスト
      * （次の管理者を選択しない場合）
      */
-    public function test_deleteUser_with_manager_role_and_delete_group()
+    public function test_delete_user_with_manager_role_and_delete_group()
     {
         // Arrange（準備）
         // 運営ユーザー（削除操作を行う側）
@@ -153,7 +152,7 @@ class UserShowTest extends TestCase
 
         $admin->groupRoles()->attach($admin, [
             'role' => 5,
-            'group_id' => null
+            'group_id' => null,
         ]);
 
         $this->actingAs($admin);
@@ -177,7 +176,7 @@ class UserShowTest extends TestCase
 
         // Act（実行）
         $component = Livewire::test(UserShow::class, [
-            'user_id' => $managerToDelete->id
+            'user_id' => $managerToDelete->id,
         ]);
 
         // 必要な情報を設定（グループを削除するケース - 次の管理者IDを0に設定）
@@ -241,7 +240,7 @@ class UserShowTest extends TestCase
     /**
      * 利用停止中のユーザーの利用停止を解除するテスト
      */
-    public function test_liftSuspend()
+    public function test_lift_suspend()
     {
         // Arrange（準備）
         // 運営ユーザー（実行する側）

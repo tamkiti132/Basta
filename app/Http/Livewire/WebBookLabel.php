@@ -8,10 +8,7 @@ class WebBookLabel extends Component
 {
     public $selected_web_book_labels = ['web', 'book'];
 
-
-    public function mount()
-    {
-    }
+    public function mount() {}
 
     public function toggleLabel($labelType)
     {
@@ -23,7 +20,6 @@ class WebBookLabel extends Component
 
         $this->emit('filterByWebBookLabels', $this->selected_web_book_labels);
     }
-
 
     public function render()
     {

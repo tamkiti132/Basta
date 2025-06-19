@@ -3,11 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Group;
-use Livewire\Component;
 use App\Models\Label;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class LabelEditor extends Component
 {
@@ -22,9 +21,8 @@ class LabelEditor extends Component
 
     protected $listeners = [
         'deleteLabel' => 'deleteLabel',
-        'showLabelEditModal' => 'showLabelEditModal'
+        'showLabelEditModal' => 'showLabelEditModal',
     ];
-
 
     public function mount()
     {
@@ -32,7 +30,6 @@ class LabelEditor extends Component
 
         $this->group_id = session()->get('group_id');
     }
-
 
     public function loadLabels()
     {
@@ -103,6 +100,7 @@ class LabelEditor extends Component
             session()->flash('error', 'このグループは現在利用停止中のため、この機能は利用できません');
 
             $this->previous_route = url()->previous();
+
             return redirect($this->previous_route);
         }
 
@@ -125,8 +123,6 @@ class LabelEditor extends Component
         $this->emit('labelDeleted', $labelId);
         $this->emit('labelUpdated');
     }
-
-
 
     public function render()
     {

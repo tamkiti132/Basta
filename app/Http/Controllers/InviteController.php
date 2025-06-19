@@ -11,7 +11,7 @@ class InviteController extends Controller
     {
         $group = Group::find($group_id);
 
-        if (!$group) {
+        if (! $group) {
             return to_route('index')->with('error', '招待されたグループが見つかりません。');
         }
 
@@ -20,10 +20,10 @@ class InviteController extends Controller
             return to_route('index')->with('error', "グループ招待機能は、\n招待されたユーザーでログインした場合のみ実行できます。");
         }
 
-
         $group->userRoles()->syncWithoutDetaching([
-            $target_user_id => ['role' => 100]
+            $target_user_id => ['role' => 100],
         ]);
+
         return to_route('group.index', ['group_id' => $group_id])->with('success', '招待されたグループに参加しました。');
     }
 }

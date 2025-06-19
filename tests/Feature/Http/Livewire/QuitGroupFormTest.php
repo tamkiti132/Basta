@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Http\Livewire;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Group;
 use App\Http\Livewire\QuitGroupForm;
+use App\Models\Group;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Tests\TestCase;
 
 class QuitGroupFormTest extends TestCase
 {
@@ -23,7 +22,7 @@ class QuitGroupFormTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_quitGroup_メンバー権限が退会()
+    public function test_quit_group_メンバー権限が退会()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -64,7 +63,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_quitGroup_サブ管理者権限が退会()
+    public function test_quit_group_サブ管理者権限が退会()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -105,7 +104,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_quitGroup_管理者が退会_サブ管理者あり()
+    public function test_quit_group_管理者が退会_サブ管理者あり()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -148,7 +147,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_quitGroup_管理者が退会_サブ管理者なし()
+    public function test_quit_group_管理者が退会_サブ管理者なし()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -191,7 +190,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_quitGroup()
+    public function test_validation_成功_quit_group()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -228,7 +227,7 @@ class QuitGroupFormTest extends TestCase
             ->assertHasNoErrors(['password' => 'current_password']);
     }
 
-    public function test_validation_失敗_quitGroup()
+    public function test_validation_失敗_quit_group()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -276,7 +275,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_quitGroupForManager_サブ管理者を選択()
+    public function test_quit_group_for_manager_サブ管理者を選択()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -322,7 +321,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_quitGroupForManager_サブ管理者を選択しない()
+    public function test_quit_group_for_manager_サブ管理者を選択しない()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -362,7 +361,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_deleteGroup()
+    public function test_delete_group()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -406,7 +405,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_validation_失敗_deleteGroup()
+    public function test_validation_失敗_delete_group()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -445,7 +444,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_deleteGroup()
+    public function test_validation_成功_delete_group()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -481,7 +480,7 @@ class QuitGroupFormTest extends TestCase
             ->assertHasNoErrors(['password' => 'current_password']);
     }
 
-    public function test_quitGroupWhenNobodySubManager()
+    public function test_quit_group_when_nobody_sub_manager()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -525,7 +524,7 @@ class QuitGroupFormTest extends TestCase
         ]);
     }
 
-    public function test_validation_成功_quitGroupWhenNobodySubManager()
+    public function test_validation_成功_quit_group_when_nobody_sub_manager()
     {
         // Arrange（準備）
         // 管理者を追加
@@ -561,7 +560,7 @@ class QuitGroupFormTest extends TestCase
             ->assertHasNoErrors(['password' => 'current_password']);
     }
 
-    public function test_validation_失敗_quitGroupWhenNobodySubManager()
+    public function test_validation_失敗_quit_group_when_nobody_sub_manager()
     {
         // Arrange（準備）
         // 管理者を追加

@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Memo;
-use App\Http\Livewire\LabelAttached;
 
 class LabelAttachedMemoEdit extends LabelAttached
 {
@@ -15,7 +14,6 @@ class LabelAttachedMemoEdit extends LabelAttached
             'labelSelected' => 'loadLabels',
         ];
     }
-
 
     public function mount($memoId)
     {
