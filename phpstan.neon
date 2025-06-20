@@ -5,10 +5,11 @@ parameters:
 
     paths:
         - app/
+        - tests/
 
     level: 0
 
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
-#
+    excludePaths:
+        - tests/TestCase.php
+
 #    checkMissingIterableValueType: false
