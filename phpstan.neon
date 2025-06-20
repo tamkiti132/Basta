@@ -1,0 +1,15 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+        - tests/
+
+    level: 0
+
+    excludePaths:
+        - tests/TestCase.php
+
+#    checkMissingIterableValueType: false

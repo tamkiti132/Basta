@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Comment extends Model
 {
@@ -15,17 +17,17 @@ class Comment extends Model
         'comment',
     ];
 
-    public function memo()
+    public function memo(): BelongsTo
     {
         return $this->belongsTo(Memo::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function reports()
+    public function reports(): BelongsToMany
     {
         return $this->belongsToMany(
             Report::class,

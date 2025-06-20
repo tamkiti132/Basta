@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Group extends Model
 {
@@ -17,19 +20,19 @@ class Group extends Model
         'isTipEnabled',
     ];
 
-    public function userRoles()
+    public function userRoles(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'roles')->withPivot('role')->withTimestamps();
     }
 
     // グループの管理者ユーザーのデータだけを返す
-    public function managerUser()
+    public function managerUser(): BelongsToMany
     {
         return $this->userRoles()->wherePivot('role', 10);
     }
 
     // グループの管理者 and サブ管理者ユーザーのデータだけを返す
-    public function managerAndSubManagerUser($groupId)
+    public function managerAndSubManagerUser($groupId): BelongsToMany
     {
         return $this->userRoles()
             ->wherePivot('role', 10)
@@ -37,27 +40,27 @@ class Group extends Model
             ->wherePivot('group_id', $groupId);
     }
 
-    public function memos()
+    public function memos(): HasMany
     {
         return $this->hasMany(Memo::class);
     }
 
-    public function label()
+    public function label(): HasMany
     {
         return $this->HasMany(Label::class);
     }
 
-    public function comments()
+    public function comments(): HasManyThrough
     {
         return $this->hasManyThrough(Comment::class, Memo::class);
     }
 
-    public function blockedUser()
+    public function blockedUser(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'block_states', 'group_id', 'user_id');
     }
 
-    public function reports()
+    public function reports(): BelongsToMany
     {
         return $this->belongsToMany(
             Report::class,

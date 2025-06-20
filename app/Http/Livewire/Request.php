@@ -53,6 +53,13 @@ class Request extends Component
     {
         $this->request_type = $request_type;
 
+        // request_typeの事前バリデーション
+        if (! in_array($this->request_type, ['type_1', 'type_2', 'type_3', 'type_4'])) {
+            session()->flash('error', '不正なリクエストです。');
+
+            return redirect()->route('request');
+        }
+
         if ($this->request_type === 'type_1') {
 
             $this->rules = [

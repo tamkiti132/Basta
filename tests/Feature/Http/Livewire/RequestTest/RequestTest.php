@@ -160,4 +160,36 @@ class RequestTest extends TestCase
               $mail->hasSubject('その他お問い合わせ');
         });
     }
+
+    public function test_validation_成功_send_request_request_type()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'suspension_state' => 0,
+        ]);
+
+        $this->actingAs($user);
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(Request::class)
+            ->call('sendRequest', 'type_4')
+            ->assertSessionMissing('error');
+    }
+
+    public function test_validation_失敗_send_request_request_type()
+    {
+        // Arrange（準備）
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'suspension_state' => 0,
+        ]);
+
+        $this->actingAs($user);
+
+        // Act（実行） & Assert（検証）
+        Livewire::test(Request::class)
+            ->call('sendRequest', 'type_5')
+            ->assertSessionHas('error', '不正なリクエストです。');
+    }
 }
