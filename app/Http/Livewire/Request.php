@@ -106,6 +106,8 @@ class Request extends Component
 
         $this->validate();
 
+        $report_data = null;
+
         if ($this->request_type === 'type_1') {
 
             $report_data = [
