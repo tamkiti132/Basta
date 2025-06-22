@@ -158,7 +158,7 @@ class UserShow extends Component
         // 管理者であるグループがあるかどうかによる分岐
         if ($hasManagedGroup) {
             // 管理者権限のグループがある場合
-            $this->getManagedGroups($this->deleteTargetUserId);
+            $this->getManagedGroups();
         } else {
             // 管理者の権限のグループがない場合
             $this->deleteUser();
