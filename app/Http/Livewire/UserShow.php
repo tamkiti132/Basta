@@ -18,6 +18,7 @@ class UserShow extends Component
     use WithPagination;
 
     public $user_id;
+    public $user_data;
     public $group_id;
     public $report_reason;
     public $sortCriteria = 'report';
