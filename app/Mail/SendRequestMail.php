@@ -35,6 +35,8 @@ class SendRequestMail extends Mailable
      */
     public function envelope()
     {
+        $subject = null;
+
         if ($this->request_type === 'type_1') {
             $subject = 'サービスの不具合の報告';
         } elseif ($this->request_type === 'type_2') {
@@ -59,6 +61,8 @@ class SendRequestMail extends Mailable
      */
     public function content()
     {
+        $content = null;
+
         if ($this->request_type === 'type_1') {
             $content = new Content(
                 html: 'emails.request-mail-type1',

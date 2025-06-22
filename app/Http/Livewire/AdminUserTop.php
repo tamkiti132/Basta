@@ -18,6 +18,12 @@ class AdminUserTop extends Component
     // 各タブの表示状態を管理するプロパティ
     public $show_users = true;
     public $show_suspension_users = false;
+    public $show_group_reports = false;
+    public $show_members = false;
+
+    // 各タブのページネーションを管理するプロパティ
+    public $show_users_pagination = false;
+    public $show_suspension_users_pagination = false;
 
     public function mount() {}
 
