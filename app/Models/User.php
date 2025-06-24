@@ -11,6 +11,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int|null $userReportsCount 実行時に追加される動的プロパティ：ユーザー通報数
+ * @property int|null $memoReportsCount 実行時に追加される動的プロパティ：メモ通報数
+ * @property int|null $commentReportsCount 実行時に追加される動的プロパティ：コメント通報数
+ * @property int|null $allReportsCount 実行時に追加される動的プロパティ：全通報数
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
