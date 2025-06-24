@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -54,10 +55,8 @@ class RegisteredUserController extends Controller
 
     /**
      * Create a new registered user（運営権限のユーザーとして登録）.
-     *
-     * @return \Laravel\Fortify\Contracts\RegisterResponse
      */
-    public function storeAdmin(Request $request, CreatesNewUsers $creator)
+    public function storeAdmin(Request $request, CreatesNewUsers $creator): RedirectResponse
     {
         // 運営トップ権限ユーザーであることを確認（Gateで）
         if (! Gate::allows('admin-top', Auth::user())) {
