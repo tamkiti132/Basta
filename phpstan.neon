@@ -12,4 +12,15 @@ parameters:
     excludePaths:
         - tests/TestCase.php
 
+    ignoreErrors:
+        # テストでのEloquentファクトリの型推論エラーを無視
+        -
+            message: '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$\w+#'
+            paths:
+                - tests/**/*.php
+        -
+            message: '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model::\w+\(\)#'
+            paths:
+                - tests/**/*.php
+
 #    checkMissingIterableValueType: false
