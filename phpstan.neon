@@ -34,4 +34,10 @@ parameters:
             paths:
                 - app/Http/Controllers/Auth/LoginController.php
 
+        # Livewireテスト関連の型定義不備を無視
+        -
+            message: '#Access to an undefined property Livewire\\Testing\\TestableLivewire::\$state#'
+            paths:
+                - tests/**/*.php
+
 #    checkMissingIterableValueType: false
