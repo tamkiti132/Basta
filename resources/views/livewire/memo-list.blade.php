@@ -1,13 +1,13 @@
 <div>
     <x-slot name="header">
-        <div class="grid items-center grid-cols-2">
+        <div class="grid grid-cols-2 items-center">
             {{-- 左側 --}}
             <h2 class="font-semibold leading-tight text-gray-800">
                 グループトップページ
             </h2>
 
             {{-- 右側 --}}
-            <div class="flex items-center justify-end gap-5 sm:gap-20">
+            <div class="flex gap-5 justify-end items-center sm:gap-20">
                 <a class="font-semibold leading-tight text-gray-800" href="{{ route('group.memo_create.create', ['group_id' => $group_data['id']]) }}">
                     メモ投稿
                 </a>
@@ -16,7 +16,7 @@
                 <div>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="flex transition border-2 border-transparent focus:outline-none">
+                            <button class="flex border-2 border-transparent transition focus:outline-none">
                                 <i class="px-5 text-lg fas fa-ellipsis-v"></i>
                             </button>
                         </x-slot>
@@ -28,38 +28,38 @@
                                 @can('subManager-to-manager', $group_data)
                                 <button
                                     onclick="location.href='{{ route('group.group_edit', ['group_id' => $group_data['id']]) }}' "
-                                    class="block w-full p-2 text-left hover:bg-slate-100">
+                                    class="block p-2 w-full text-left hover:bg-slate-100">
                                     グループ編集
                                 </button>
                                 @endcan
 
                                 <button onclick="Livewire.emit('showModalReportGroup')"
-                                    class="block w-full p-2 text-left hover:bg-slate-100">
+                                    class="block p-2 w-full text-left hover:bg-slate-100">
                                     グループを通報
                                 </button>
 
                                 @can('member-to-manager', $group_data)
                                 <button onclick="Livewire.emit('showModal')"
-                                    class="block w-full p-2 text-left hover:bg-slate-100">
+                                    class="block p-2 w-full text-left hover:bg-slate-100">
                                     退会
                                 </button>
                                 @endcan
 
                                 @can('admin-higher')
-                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                <button type="button" class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', {{ $group_data->id }}) }">グループを削除</button>
                                 @endcan
 
                                 @can('admin-higher')
                                 <button x-show="!isSuspended" type="button"
-                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspendGroup') }">
                                     グループを利用停止
                                 </button>
 
 
                                 <button x-show="isSuspended" type="button"
-                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspendGroup') }">
                                     グループを利用停止解除
                                 </button>
@@ -82,7 +82,7 @@
 
 
     <div class="lg:grid lg:grid-cols-12">
-        <div class="w-full px-6 pt-12 mx-auto lg:col-start-3 lg:col-end-10 lg:px-8 max-w-7xl">
+        <div class="px-6 pt-12 mx-auto w-full max-w-7xl lg:col-start-3 lg:col-end-10 lg:px-8">
             <input type="text" wire:model.debounce.100ms="search" placeholder="タイトルかメモ概要のワードで検索"
                 class="w-64 text-sm rounded-xl lg:w-96">
         </div>
@@ -92,12 +92,12 @@
         {{-- ラベル一覧（左） --}}
         <div class="absolute z-20 col-span-2 lg:block lg:static">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
-            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg lg:hidden top-40 ">
-                <div class="w-6 h-1 mb-3 bg-white rounded-lg"></div>
+            <label for="drawer-toggle" class="inline-block left-0 top-40 p-2 bg-indigo-500 rounded-lg lg:hidden">
+                <div class="mb-3 w-6 h-1 bg-white rounded-lg"></div>
                 <div class="w-6 h-1 bg-white rounded-lg"></div>
             </label>
-            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block lg:block">
-                <div class="z-20 px-1 py-2 overflow-auto lg:static max-h-96 label-list-container">
+            <div class="hidden h-full bg-white rounded-r-2xl shadow-lg peer-checked:block lg:block">
+                <div class="overflow-auto z-20 px-1 py-2 max-h-96 lg:static label-list-container">
                     {{-- ラベル表示 --}}
                     <div class="lg:col-span-2">
                         @livewire('web-book-label')
@@ -107,7 +107,7 @@
                             @can('manager', $group_data)
                             <div>
                                 <button onclick="Livewire.emit('showLabelEditModal')"
-                                    class="flex items-center w-full gap-4 p-2 hover:bg-slate-100"><i
+                                    class="flex gap-4 items-center p-2 w-full hover:bg-slate-100"><i
                                         class="lg:text-xl fa-solid fa-pencil fa-fw"></i>
                                     <p class="text-xs lg:text-sm">ラベルを編集</p>
                                 </button>
@@ -122,37 +122,35 @@
             </div>
         </div>
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto text-xs sm:px-6 lg:col-span-8 max-w-7xl lg:px-8">
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+        <div class="mx-auto w-full max-w-7xl text-xs sm:px-6 lg:col-span-8 lg:px-8">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
 
                 @foreach ($all_memos_data_paginated as $memo_data)
-                {{-- @php
-                    dd($memo_data);
-                @endphp --}}
+
                 @if ($memo_data['type'] == 0 )
                 {{-- Webタイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:px-8">
                                     <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                         {{-- 左側 --}}
                                         <div class="xl:col-span-3">
-                                            <div class="flex items-center content-center">
+                                            <div class="flex content-center items-center">
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id]) }}' "
-                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
-                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -193,7 +191,7 @@
                                                 </button>
                                             </div>
                                             {{-- 『いいね』 『あとでよむ』 --}}
-                                            <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
+                                            <div class="grid grid-cols-2 gap-10 mt-5 ml-3 w-20">
                                                 <div class="w-20">
                                                     @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
@@ -226,13 +224,13 @@
                                             <div class="grid gap-10 px-10 pt-10 lg:px-0 lg:grid-cols-2 lg:gap-5">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-1 focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-1 focus:outline-none hover:bg-indigo-500"
                                                     onclick="window.open('{{ $memo_data->web_type_feature->url }}') ">リンクを開く</button>
                                             </div>
                                         </div>
@@ -258,26 +256,26 @@
                 {{-- 本タイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:px-8">
                                     <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                         {{-- 左側 --}}
                                         <div class="xl:col-span-3">
-                                            <div class="flex items-center content-center">
+                                            <div class="flex content-center items-center">
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
-                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data->user->id ]) }}' "
-                                                    class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -318,7 +316,7 @@
                                                 </button>
                                             </div>
                                             {{-- 『いいね』 『あとでよむ』 --}}
-                                            <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
+                                            <div class="grid grid-cols-2 gap-10 mt-5 ml-3 w-20">
                                                 <div class="w-20">
                                                     @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
@@ -352,7 +350,7 @@
                                             <div class="grid gap-10 px-10 mt-6 lg:gap-5 lg:px-0 lg:grid-cols-2">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-1 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-1 focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
@@ -362,7 +360,7 @@
                                         {{-- 右側 --}}
                                         <div class="grid grid-cols-5">
                                             <div class="col-span-5">
-                                                <div class="max-w-xs m-auto">
+                                                <div class="m-auto max-w-xs">
                                                     <div class="hidden text-right xl:block">
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
