@@ -29,8 +29,6 @@ class RegisteredUserControllerTest extends TestCase
         // Arrange（準備）
         if (! Features::enabled(Features::registration())) {
             $this->markTestSkipped('Registration support is not enabled.');
-
-            return;
         }
 
         // Act（実行）
@@ -62,8 +60,6 @@ class RegisteredUserControllerTest extends TestCase
         // Arrange（準備）
         if (! Features::enabled(Features::registration())) {
             $this->markTestSkipped('Registration support is not enabled.');
-
-            return;
         }
 
         // Act（実行）
@@ -89,8 +85,6 @@ class RegisteredUserControllerTest extends TestCase
         // Arrange（準備）
         if (! Features::enabled(Features::registration())) {
             $this->markTestSkipped('Registration support is not enabled.');
-
-            return;
         }
 
         // 運営トップ権限ユーザーを用意

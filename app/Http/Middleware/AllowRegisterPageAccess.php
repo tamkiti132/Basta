@@ -18,7 +18,7 @@ class AllowRegisterPageAccess
     public function handle(Request $request, Closure $next)
     {
         // ユーザーがログインしていないか、admin-top権限を持っている場合にアクセスを許可
-        if (! Auth::check() || (Auth::check() && Gate::allows('admin-top', Auth::user()))) {
+        if (! Auth::check() || Gate::allows('admin-top', Auth::user())) {
             return $next($request);
         }
 

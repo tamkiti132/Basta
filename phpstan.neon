@@ -7,7 +7,7 @@ parameters:
         - app/
         - tests/
 
-    level: 3
+    level: 4
 
     excludePaths:
         - tests/TestCase.php

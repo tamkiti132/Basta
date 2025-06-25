@@ -77,7 +77,6 @@ class MemoList extends Component
     {
         if ($label_id) {
             // $label_id の値のキーを検索
-            dd($label_id);
             $key = array_search($label_id, $this->selected_labels);
 
             // 値が見つかった場合、そのキーを使用して値を削除
