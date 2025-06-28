@@ -50,8 +50,7 @@ class SendRequestMail extends Mailable
         return new Envelope(
             subject: $subject,
             from: Auth::user()->email,
-            // PHPStan のエラー回避のため、配列で指定しました
-            to: ['basta.h.a.132@gmail.com'],
+            to: 'basta.h.a.132@gmail.com',
         );
     }
 
