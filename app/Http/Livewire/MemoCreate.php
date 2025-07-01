@@ -26,7 +26,8 @@ class MemoCreate extends Component
     public $book_title;
     public $book_shortMemo;
     public $book_additionalMemo;
-    public $book_image;
+    public $book_image_preview;
+    public $book_image_delete_flag = false;
 
     public $storedBookImage;
 
@@ -61,6 +62,21 @@ class MemoCreate extends Component
         $this->group_id = session()->get('group_id');
 
         $this->checkSuspensionGroup();
+    }
+
+    public function deleteBookImage()
+    {
+        $this->book_image_preview = null;
+
+        $this->book_image_delete_flag = true;
+    }
+
+    public function updatedBookImagePreview($value)
+    {
+        // $book_image_preview に新しい値がセットされたときに呼ばれる
+        if (! is_null($value)) {
+            $this->book_image_delete_flag = false;
+        }
     }
 
     public function checkSuspensionGroup()
@@ -98,7 +114,7 @@ class MemoCreate extends Component
                 'book_title' => ['required', 'string', 'max:50'],
                 'book_shortMemo' => ['required', 'string', 'max:200'],
                 'book_additionalMemo' => ['string', 'nullable'],
-                'book_image' => ['nullable', 'image', 'max:2048'],
+                'book_image_preview' => ['nullable', 'image', 'max:2048'],
             ];
         }
 
@@ -134,9 +150,9 @@ class MemoCreate extends Component
 
             $memo = Memo::create($memo_data);
 
-            if ($this->book_image) {
+            if ($this->book_image_preview) {
 
-                $this->storedBookImage = $this->book_image->store('book-image', 'public');
+                $this->storedBookImage = $this->book_image_preview->store('book-image', 'public');
 
                 $memo->book_type_feature()->create([
                     'book_photo_path' => basename($this->storedBookImage),

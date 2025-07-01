@@ -5,7 +5,7 @@
 }">
 
     {{-- このCSSの記述を書いた理由は、『本』のタブを選択した際（form_bookをtrueにした際）、
-        『本 の 場合 』の中のtextareaの高さが狭くなってしまう不具合の応急処置をするため --}}    
+        『本 の 場合 』の中のtextareaの高さが狭くなってしまう不具合の応急処置をするため --}}
     <style>
         #book_shortMemo {
             min-height: 160px; /* 開始時の最小高さ */
@@ -23,27 +23,27 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto text-sm max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl text-sm sm:px-6 lg:px-8">
 
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
 
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-16 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                    class="overflow-hidden relative px-4 pt-8 pb-16 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                     <div class="mb-10 border-b border-gray-400">
                                         {{-- Web / 本 切り替え --}}
                                         <div class="flex lg:w-1/2">
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="form_web = true; form_book = false"
                                                 x-bind:class="form_web ? 'border-b-4 border-blue-300' :'' ">
                                                 <i class="text-xl fas fa-globe"></i>
                                             </button>
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="form_web = false; form_book = true"
                                                 x-bind:class="form_book ? 'border-b-4 border-blue-300' :'' ">
                                                 <i class="text-xl fas fa-book-open"></i>
@@ -59,7 +59,7 @@
                                                 <div class="lg:col-span-3">
                                                     {{-- Webタイプのメモであることを示すデータ --}}
                                                     <input type="hidden" wire:model.defer="type" value="web">
-                                                    {{-- メモ情報 --}} 
+                                                    {{-- メモ情報 --}}
                                                     <div>
                                                         <div>
                                                             @error('web_title')
@@ -69,7 +69,7 @@
                                                         <label for="web_title" class="block">タイトル<span
                                                                 class="required">*</span></label>
                                                         <input id="web_title" type="text" wire:model.defer="web_title"
-                                                            class="w-full mb-3 rounded-lg lg:w-3/4">
+                                                            class="mb-3 w-full rounded-lg lg:w-3/4">
                                                     </div>
                                                     <div class="mt-3">
                                                         <div>
@@ -86,7 +86,7 @@
                                                     {{-- ラベル追加ボタン　（スマホ　・　タブレット　用の表示） --}}
                                                     <div class="block mt-3 lg:hidden">
                                                         <label for="select_label"
-                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
                                                         <input id="select_label" class="hidden"></input>
                                                     </div>
@@ -114,7 +114,7 @@
                                                     {{-- ラベル追加ボタン　（PC用　の表示） --}}
                                                     <div class="hidden mt-3 lg:block">
                                                         <label for="select_label"
-                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
                                                         <input id="select_label" class="hidden"></input>
                                                     </div>
@@ -136,7 +136,7 @@
                                             {{-- ボタン --}}
                                             <div class="mt-10 text-center">
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 sm:px-24 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 sm:px-24 focus:outline-none hover:bg-indigo-500"
                                                     wire:click="store('web')" type="button">メモ投稿</button>
                                             </div>
 
@@ -161,13 +161,13 @@
                                                         <label for="book_title" class="block">タイトル<span
                                                                 class="required">*</span></label>
                                                         <input id="book_title" type="text" wire:model.defer="book_title"
-                                                            class="w-full mb-3 rounded-lg lg:w-3/4">
+                                                            class="mb-3 w-full rounded-lg lg:w-3/4">
                                                     </div>
 
                                                     {{-- ラベル追加ボタン　（スマホ　・　タブレット　用の表示） --}}
                                                     <div class="block mt-3 lg:hidden">
                                                         <label for="select_label"
-                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
                                                         <input id="select_label" class="hidden"></input>
                                                     </div>
@@ -198,7 +198,7 @@
                                                     {{-- ラベル追加ボタン　（PC用　の表示） --}}
                                                     <div class="hidden mt-3 lg:block">
                                                         <label for="select_label"
-                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50"
+                                                            class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50"
                                                             x-on:click="modal_label_select = true">ラベルを追加</label>
                                                         <input id="select_label" class="hidden"></input>
                                                     </div>
@@ -206,23 +206,40 @@
                                                 {{-- 右側 --}}
                                                 <div class="grid grid-cols-5">
                                                     <div class="col-span-5">
-                                                        <div class="flex justify-center max-w-xs mx-auto mt-5">
-                                                            @if ($book_image?->isPreviewable())
-                                                            <img class="w-1/3 lg:w-3/4"
-                                                                src="{{ $book_image->temporaryUrl() }}">
-                                                            @else
-                                                            <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
-                                                            @endif
+                                                        <div class="m-auto max-w-xs">
+                                                            <div class="hidden text-right lg:block">
+                                                                <i class="text-xl fas fa-book-open"></i>
+                                                            </div>
+
+                                                            <div class="flex justify-center mt-5">
+                                                                @if ($book_image_preview?->isPreviewable())
+                                                                <img class="w-1/3 lg:w-3/4"
+                                                                    src="{{ $book_image_preview->temporaryUrl() }}">
+                                                                @elseif ($book_image_delete_flag)
+                                                                <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
+                                                                @else
+                                                                <img class="w-1/3 lg:w-3/4" src="/images/svg/default-book.svg">
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                        <div class="flex justify-center mt-3">
+                                                        <div class="mt-3">
                                                             <!-- TODO: バリデーションでエラーが起きた際の画像の復元は難しい問題なのであとでやる -->
-                                                            @error('book_image')
+                                                            @error('book_image_preview')
                                                             <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
                                                             @enderror
-                                                            <label for="book_image"
-                                                                class="px-2 py-1 text-xs font-bold text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                            <input id="book_image" class="hidden" type="file"
-                                                                wire:model.defer="book_image"></input>
+
+                                                            <div class="flex gap-2 justify-center lg:flex-col">
+                                                                <div class="text-center">
+                                                                    <label for="book_image_preview"
+                                                                        class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50">画像を選択</label>
+                                                                    <input id="book_image_preview" class="hidden" type="file"
+                                                                        wire:model.defer="book_image_preview"></input>
+                                                                </div>
+                                                                <div class="text-center">
+                                                                    <button wire:click="deleteBookImage" type="button"
+                                                                        class="px-6 py-1 text-xs font-bold text-gray-700 bg-white rounded-2xl border border-gray-300 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -235,9 +252,9 @@
                                             </div>
 
                                             {{-- ボタン --}}
-                                            <div class="mt-10 text-center ">
+                                            <div class="mt-10 text-center">
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 sm:px-24 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 sm:px-24 focus:outline-none hover:bg-indigo-500"
                                                     wire:click="store('book')" type="button">メモ投稿</button>
                                             </div>
                                         </form>
@@ -253,9 +270,9 @@
 
     {{-- ラベル追加モーダル --}}
     <div x-cloak x-show="modal_label_select"
-        class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
+        class="flex fixed top-0 left-0 z-30 justify-center items-center w-screen h-screen bg-black bg-opacity-40 border">
         <div x-cloak x-show=" modal_label_select"
-            class="fixed top-0 left-0 z-30 flex items-center justify-center w-screen h-screen border bg-opacity-40">
+            class="flex fixed top-0 left-0 z-30 justify-center items-center w-screen h-screen bg-opacity-40 border">
             <div x-on:click.away="modal_label_select = false"
                 class="flex flex-col w-full max-h-[80%] max-w-[80%] md:max-w-[40%] px-3 py-2 bg-white rounded-xl overflow-auto">
 
@@ -272,7 +289,7 @@
                 const selectElement = document.querySelector('select.max-w-xs');
                 const inputElements = document.querySelectorAll('input:not([name="_token"])');
                 const textareaElements = document.querySelectorAll('textarea');
-                
+
                 if (selectElement) {
                     selectElement.value = '';
                 }
@@ -287,7 +304,7 @@
                     textarea.value = '';
                 });
             }
-            
+
             window.addEventListener('load', resetFormElements);
     </script>
 
