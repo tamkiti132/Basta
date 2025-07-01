@@ -7,8 +7,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="px-6 mx-auto text-sm lg:text-base max-w-7xl lg:px-8">
-            <div class="py-12 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+        <div class="px-6 mx-auto max-w-7xl text-sm lg:text-base lg:px-8">
+            <div class="overflow-hidden py-12 bg-white shadow-xl sm:rounded-2xl">
                 <div class="mx-5 text-center lg:mx-auto lg:w-1/2">
                     {{-- 注意文 --}}
                     <div class="text-xs lg:text-sm">
@@ -30,11 +30,11 @@
                                 <option value="show_type_4">その他お問い合わせ</option>
                             </select>
 
-                            <ul class="w-auto mt-8">
+                            <ul class="mt-8 w-auto">
                                 {{-- サービスの不具合の報告 の場合 --}}
                                 <li class="w-full" x-show="selectedType === 'show_type_1'">
                                     <form id="form1" wire:submit.prevent='sendRequest'>
-                                        <div class="grid gap-8">                                            
+                                        <div class="grid gap-8">
                                             {{-- 件名（お問い合わせのタイトル） --}}
                                             <div>
                                                 @error('title_1')
@@ -43,7 +43,7 @@
                                                 <label for="title_1" class="block mb-2 text-left">件名（お問い合わせのタイトル）<span
                                                         class="required">*</span></label>
                                                 <input type="text" id="title_1" size="50" wire:model.defer="title_1"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 詳細 --}}
                                             <div>
@@ -52,7 +52,7 @@
                                                 @enderror
                                                 <label for="detail_1" class="block mb-2 text-left">詳細<span
                                                         class="required">*</span></label>
-                                                <textarea id="detail_1" rows="5" wire:model.defer="detail_1" class="w-full border border-gray-500 rounded-lg"></textarea>
+                                                <textarea id="detail_1" rows="5" wire:model.defer="detail_1" class="w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- ご利用環境 --}}
                                             <div>
@@ -80,7 +80,7 @@
                                                 <label for="additional_information"
                                                     class="block mb-2 text-left">ご利用環境の補足</label>
                                                 <textarea id="additional_information" cols="30" wire:model.defer="additional_information" rows="8"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- 参考URL --}}
                                             <div>
@@ -90,7 +90,7 @@
                                                 <label for="reference_url_1" class="block mb-2 text-left">参考URL</label>
                                                 <input type="url" id="reference_url_1" size="50"
                                                     wire:model.defer="reference_url_1"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 添付ファイル --}}
                                             <div>
@@ -98,10 +98,16 @@
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="mb-4 text-left">
-                                                    <label for="uploaded_photo_1" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input type="file" id="uploaded_photo_1" wire:model.defer="uploaded_photo_1" class="hidden" accept="image/*">                                                   
+                                                <div class="flex gap-4 items-center mb-4">
+                                                    <div class="text-left">
+                                                        <label for="uploaded_photo_1" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を選択</label>
+                                                        <input type="file" id="uploaded_photo_1" wire:model.defer="uploaded_photo_1" class="hidden" accept="image/*">
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <button type="button" wire:click="delete_photo(1)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                    </div>
                                                 </div>
+
                                                 @if ($uploaded_photo_1?->isPreviewable())
                                                     <img class="h-36 lg:h-auto"
                                                         src="{{ $uploaded_photo_1->temporaryUrl() }}">
@@ -110,11 +116,11 @@
                                         </div>
 
                                         {{-- ボタン --}}
-                                        <div class="mt-10 text-center ">
+                                        <div class="mt-10 text-center">
                                             <button
-                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                 wire:click="sendRequest('type_1')" type="button">送信</button>
-                                        </div>                                    
+                                        </div>
                                     </form>
                                 </li>
 
@@ -146,7 +152,7 @@
                                                 <label for="title_2" class="block mb-2 text-left">件名（お問い合わせのタイトル）<span
                                                         class="required">*</span></label>
                                                 <input type="text" id="title_2" size="50" wire:model.defer="title_2"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 詳細 --}}
                                             <div>
@@ -156,7 +162,7 @@
                                                 <label for="detail_2" class="block mb-2 text-left">詳細<span
                                                         class="required">*</span></label>
                                                 <textarea id="detail_2" cols="30" rows="8" wire:model.defer="detail_2"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- ご利用環境 --}}
                                             <div>
@@ -185,29 +191,34 @@
                                                 <label for="reference_url_2" class="block mb-2 text-left">参考URL</label>
                                                 <input type="url" id="reference_url_2" size="50"
                                                     wire:model.defer="reference_url_2"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 添付ファイル --}}
-                                            <div>                                                
+                                            <div>
                                                 @error('uploaded_photo_2')
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="mb-4 text-left">
-                                                    <label for="uploaded_photo_2" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input type="file" id="uploaded_photo_2" wire:model.defer="uploaded_photo_2" class="hidden" accept="image/*">
+                                                <div class="flex gap-4 items-center mb-4">
+                                                    <div class="text-left">
+                                                        <label for="uploaded_photo_2" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を選択</label>
+                                                        <input type="file" id="uploaded_photo_2" wire:model.defer="uploaded_photo_2" class="hidden" accept="image/*">
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <button type="button" wire:click="delete_photo(2)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                    </div>
                                                 </div>
                                                 @if ($uploaded_photo_2?->isPreviewable())
                                                     <img class="h-36 lg:h-auto"
                                                         src="{{ $uploaded_photo_2->temporaryUrl() }}">
                                                 @endif
                                             </div>
-                                        </div>                              
+                                        </div>
 
                                         {{-- ボタン --}}
                                         <div class="mt-10 text-center">
                                             <button
-                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                 wire:click="sendRequest('type_2')" type="button">送信</button>
                                         </div>
                                     </form>
@@ -225,7 +236,7 @@
                                                 <label for="title_3" class="block mb-2 text-left">件名（お問い合わせのタイトル）<span
                                                         class="required">*</span></label>
                                                 <input type="text" id="title_3" size="50" wire:model.defer="title_3"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 詳細 --}}
                                             <div>
@@ -235,7 +246,7 @@
                                                 <label for="detail_3" class="block mb-2 text-left">詳細<span
                                                         class="required">*</span></label>
                                                 <textarea id="detail_3" cols="30" rows="8" wire:model.defer="detail_3"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- 対象の脆弱性に関する技術的な説明 --}}
                                             <div>
@@ -245,7 +256,7 @@
                                                 <label for="explanation"
                                                     class="block mb-2 text-left">対象の脆弱性に関する技術的な説明</label>
                                                 <textarea id="explanation" cols="30" rows="8" wire:model.defer="explanation"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- 対象の脆弱性の再現手順 --}}
                                             <div>
@@ -255,7 +266,7 @@
                                                 <label for="steps_to_reproduce" class="block mb-2 text-left">対象の脆弱性の再現手順<span
                                                         class="required">*</span></label>
                                                 <textarea id="steps_to_reproduce" cols="30" rows="8" wire:model.defer="steps_to_reproduce"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- 対象の脆弱性の悪用方法 --}}
                                             <div>
@@ -264,7 +275,7 @@
                                                 @enderror
                                                 <label for="abuse_method" class="block mb-2 text-left">対象の脆弱性の悪用方法</label>
                                                 <textarea id="abuse_method" cols="30" rows="8" wire:model.defer="abuse_method"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- 対象の脆弱性の回避策 --}}
                                             <div>
@@ -273,7 +284,7 @@
                                                 @enderror
                                                 <label for="workaround" class="block mb-2 text-left">対象の脆弱性の回避策</label>
                                                 <textarea id="workaround" cols="30" rows="8" wire:model.defer="workaround"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- ご利用環境 --}}
                                             <div>
@@ -302,7 +313,7 @@
                                                 <label for="reference_url_3" class="block mb-2 text-left">参考URL</label>
                                                 <input type="url" id="reference_url_3" size="50"
                                                     wire:model.defer="reference_url_3"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 添付ファイル --}}
                                             <div>
@@ -310,9 +321,14 @@
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="mb-4 text-left">
-                                                    <label for="uploaded_photo_3" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input type="file" id="uploaded_photo_3" wire:model.defer="uploaded_photo_3" class="hidden" accept="image/*">
+                                                <div class="flex gap-4 items-center mb-4">
+                                                    <div class="text-left">
+                                                        <label for="uploaded_photo_3" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を選択</label>
+                                                        <input type="file" id="uploaded_photo_3" wire:model.defer="uploaded_photo_3" class="hidden" accept="image/*">
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <button type="button" wire:click="delete_photo(3)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                    </div>
                                                 </div>
                                                 @if ($uploaded_photo_3?->isPreviewable())
                                                     <img class="h-36 lg:h-auto"
@@ -324,7 +340,7 @@
                                         {{-- ボタン --}}
                                         <div class="mt-10 text-center">
                                             <button
-                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                class="px-24 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                 wire:click="sendRequest('type_3')" type="button">送信</button>
                                         </div>
                                     </form>
@@ -342,7 +358,7 @@
                                                 <label for="title_4" class="block mb-2 text-left">件名（お問い合わせのタイトル）<span
                                                         class="required">*</span></label>
                                                 <input type="text" id="title_4" size="50" wire:model.defer="title_4"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
                                             </div>
                                             {{-- 詳細 --}}
                                             <div>
@@ -352,7 +368,7 @@
                                                 <label for="detail_4" class="block mb-2 text-left">詳細<span
                                                         class="required">*</span></label>
                                                 <textarea id="detail_4" cols="30" rows="8" wire:model.defer="detail_4"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg"></textarea>
+                                                    class="py-2 w-full rounded-lg border border-gray-500"></textarea>
                                             </div>
                                             {{-- リクエスト種別 --}}
                                             <div>
@@ -381,18 +397,23 @@
                                                 <label for="reference_url_4" class="block mb-2 text-left">参考URL</label>
                                                 <input type="url" id="reference_url_4" size="50"
                                                     wire:model.defer="reference_url_4"
-                                                    class="w-full py-2 border border-gray-500 rounded-lg">
-                                            </div>                                       
+                                                    class="py-2 w-full rounded-lg border border-gray-500">
+                                            </div>
                                             {{-- 添付ファイル --}}
                                             <div>
                                                 @error('uploaded_photo_4')
                                                     <p class="text-xs text-left text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 <p class="block mb-2 text-left">添付画像</p>
-                                                <div class="mb-4 text-left">
-                                                    <label for="uploaded_photo_4" class="px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-gray-500 cursor-pointer rounded-2xl hover:bg-gray-50">画像を選択</label>
-                                                    <input type="file" id="uploaded_photo_4" wire:model.defer="uploaded_photo_4" class="hidden" accept="image/*">
-                                                </div>                                     
+                                                <div class="flex gap-4 items-center mb-4">
+                                                    <div class="text-left">
+                                                        <label for="uploaded_photo_4" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を選択</label>
+                                                        <input type="file" id="uploaded_photo_4" wire:model.defer="uploaded_photo_4" class="hidden" accept="image/*">
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <button type="button" wire:click="delete_photo(4)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                    </div>
+                                                </div>
                                                 @if ($uploaded_photo_4?->isPreviewable())
                                                     <img class="h-36 lg:h-auto"
                                                         src="{{ $uploaded_photo_4->temporaryUrl() }}">
@@ -404,7 +425,7 @@
                                         {{-- ボタン --}}
                                         <div class="mt-10 text-center">
                                             <button
-                                                class="px-24 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                class="px-24 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                 wire:click="sendRequest('type_4')" type="button">送信</button>
                                         </div>
                                     </form>
@@ -422,7 +443,7 @@
 
     <script>
 
-        //  ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理   
+        //  ページに①通常アクセス or ②「戻るボタン」でアクセス　した際、 １：input 　２：テキストエリア と ３：セレクトボックス をリセットするための処理
         function resetFormElements() {
             const container = document.querySelector('#request-input-container');
             const selectElements = container.querySelectorAll('select');
@@ -445,8 +466,8 @@
 
 
   {{-- このCSSの記述を書いた理由は、
-    x-showで表示されるtextareaの高さが狭くなってしまう不具合の応急処置をするため --}}    
-    <style>        
+    x-showで表示されるtextareaの高さが狭くなってしまう不具合の応急処置をするため --}}
+    <style>
         #detail_1, #detail_2, #detail_3, #detail_4 {
             min-height: 160px; /* 開始時の最小高さ */
         }
