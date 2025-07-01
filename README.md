@@ -125,15 +125,11 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 -   PHP 8.1.13
 -   Laravel 9.52.5
--   Livewire 2.12.3
--   Jetstream 3.0.2
--   Laravel Socialite（Google OAuth 2.0 API を使用）
 
 フロントエンド
 
 -   HTML
--   CSS
--   Tailwind CSS 3.3.1
+-   CSS（Tailwind CSS 3.3.1）
 -   Alpine.js 3.12.0
 -   JavaScript
 -   Vite 4.2.1
@@ -148,13 +144,44 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 -   開発環境: Apache 2.4.54（MAMP）
 -   本番環境: Apache 2.4.62
 
+環境構築
+-   MAMP
+
+バージョン管理
+-   Git, GitHub
+
+モバイル端末動作確認
+-   ngrok
+
 デザイン
 
 -   Draw\.io
 
-その他
+主なPHPライブラリ
 
--   PHPUnit, Git, GitHub
+>   認証系
+-   laravel/jetstream（v3.0.2）
+
+>   非同期処理/UI
+-   livewire/livewire（v2.12.3）
+
+>   デバッガー
+-   barryvdh/laravel-debugbar（v3.8.1）
+
+>   N+1検知
+-   beyondcode/laravel-query-detector（v2.1.0）
+
+>   ソーシャルログイン
+-   laravel/socialite（v5.16.0）
+
+>   Lintチェック
+-   larastan/larastan（v2.6.4）
+
+>   コードフォーマッター
+-   laravel/pint（v1.20.0）
+
+>   テスト
+-   phpunit/phpunit（v9.6.6）
 
 <br/>
 
