@@ -82,7 +82,7 @@ class MemoCreateTest extends TestCase
             ->set('book_title', '本のテストタイトル')
             ->set('book_shortMemo', '本のテストショートメモ')
             ->set('book_additionalMemo', '本のテスト追加メモ')
-            ->set('book_image', $book_image)
+            ->set('book_image_preview', $book_image)
             ->call('store', 'book');
 
         $storedBookImage = $component->get('storedBookImage');
@@ -312,7 +312,7 @@ class MemoCreateTest extends TestCase
             ->set('book_title', '本のテストタイトル')
             ->set('book_shortMemo', '本のテストショートメモ')
             ->set('book_additionalMemo', '本のテスト追加メモ')
-            ->set('book_image', $book_image)
+            ->set('book_image_preview', $book_image)
             ->call('store', 'book')
             ->assertHasNoErrors();
 
@@ -373,25 +373,25 @@ class MemoCreateTest extends TestCase
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->set('book_title', '本のテストタイトル')
             ->set('book_shortMemo', '本のテストショートメモ')
-            ->set('book_image', null)
+            ->set('book_image_preview', null)
             ->call('store', 'book')
-            ->assertHasNoErrors(['book_image' => 'nullable']);
+            ->assertHasNoErrors(['book_image_preview' => 'nullable']);
 
         $jpgImage = UploadedFile::fake()->image('test.jpg')->size(1024);
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->set('book_title', '本のテストタイトル')
             ->set('book_shortMemo', '本のテストショートメモ')
-            ->set('book_image', $jpgImage)
+            ->set('book_image_preview', $jpgImage)
             ->call('store', 'book')
-            ->assertHasNoErrors(['book_image' => 'image']);
+            ->assertHasNoErrors(['book_image_preview' => 'image']);
 
         $maxImage = UploadedFile::fake()->image('max.png')->size(2048);
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->set('book_title', '本のテストタイトル')
             ->set('book_shortMemo', '本のテストショートメモ')
-            ->set('book_image', $maxImage)
+            ->set('book_image_preview', $maxImage)
             ->call('store', 'book')
-            ->assertHasNoErrors(['book_image' => 'max']);
+            ->assertHasNoErrors(['book_image_preview' => 'max']);
     }
 
     public function test_validation_失敗_store_web()
@@ -512,17 +512,17 @@ class MemoCreateTest extends TestCase
         $notImage = UploadedFile::fake()->create('notImage.txt', 100);
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)
-            ->set('book_image', $notImage)
+            ->set('book_image_preview', $notImage)
             ->call('store', 'book')
-            ->assertHasErrors(['book_image' => 'image']);
+            ->assertHasErrors(['book_image_preview' => 'image']);
 
         // 2048KB以上の画像
         $book_image = UploadedFile::fake()->image('test.png')->size(2049);
         Livewire::test(MemoCreate::class, ['group_id' => $group->id])
             ->assertSet('group_id', $group->id)
-            ->set('book_image', $book_image)
+            ->set('book_image_preview', $book_image)
             ->call('store', 'book')
-            ->assertHasErrors(['book_image' => 'max']);
+            ->assertHasErrors(['book_image_preview' => 'max']);
 
         // データベースにメモが存在しないことを確認
         $this->assertDatabaseEmpty('memos');
