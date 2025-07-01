@@ -159,6 +159,19 @@ class Request extends Component
         return redirect()->route('request');
     }
 
+    public function cancel_photo($request_type)
+    {
+        if ($request_type === 1) {
+            $this->uploaded_photo_1 = null;
+        } elseif ($request_type === 2) {
+            $this->uploaded_photo_2 = null;
+        } elseif ($request_type === 3) {
+            $this->uploaded_photo_3 = null;
+        } elseif ($request_type === 4) {
+            $this->uploaded_photo_4 = null;
+        }
+    }
+
     public function render()
     {
         return view('livewire.request');
