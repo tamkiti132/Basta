@@ -104,7 +104,7 @@
                                                         <input type="file" id="uploaded_photo_1" wire:model.defer="uploaded_photo_1" class="hidden" accept="image/*">
                                                     </div>
                                                     <div class="text-left">
-                                                        <button type="button" wire:click="delete_photo(1)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                        <button type="button" wire:click="cancel_photo(1)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
                                                     </div>
                                                 </div>
 
@@ -205,7 +205,7 @@
                                                         <input type="file" id="uploaded_photo_2" wire:model.defer="uploaded_photo_2" class="hidden" accept="image/*">
                                                     </div>
                                                     <div class="text-left">
-                                                        <button type="button" wire:click="delete_photo(2)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                        <button type="button" wire:click="cancel_photo(2)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
                                                     </div>
                                                 </div>
                                                 @if ($uploaded_photo_2?->isPreviewable())
@@ -327,7 +327,7 @@
                                                         <input type="file" id="uploaded_photo_3" wire:model.defer="uploaded_photo_3" class="hidden" accept="image/*">
                                                     </div>
                                                     <div class="text-left">
-                                                        <button type="button" wire:click="delete_photo(3)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                        <button type="button" wire:click="cancel_photo(3)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
                                                     </div>
                                                 </div>
                                                 @if ($uploaded_photo_3?->isPreviewable())
@@ -411,7 +411,7 @@
                                                         <input type="file" id="uploaded_photo_4" wire:model.defer="uploaded_photo_4" class="hidden" accept="image/*">
                                                     </div>
                                                     <div class="text-left">
-                                                        <button type="button" wire:click="delete_photo(4)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
+                                                        <button type="button" wire:click="cancel_photo(4)" class="inline-block px-4 py-2 text-xs font-bold leading-none text-gray-700 bg-white rounded-2xl border border-gray-500 cursor-pointer hover:bg-gray-50">画像を削除</button>
                                                     </div>
                                                 </div>
                                                 @if ($uploaded_photo_4?->isPreviewable())

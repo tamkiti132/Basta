@@ -159,7 +159,7 @@ class Request extends Component
         return redirect()->route('request');
     }
 
-    public function delete_photo($request_type)
+    public function cancel_photo($request_type)
     {
         if ($request_type === 1) {
             $this->uploaded_photo_1 = null;
