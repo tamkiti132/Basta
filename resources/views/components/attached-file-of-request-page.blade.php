@@ -1,9 +1,9 @@
 <div>
     <div>
         <button type="button"
-            class="w-full py-2 text-center border border-gray-500 rounded-lg cursor-pointer file-add-button"
+            class="py-2 w-full text-center rounded-lg border border-gray-500 cursor-pointer file-add-button"
             data-target="file-list-{{ $uniqueId }}">ファイルを追加</button>
-        <div class="w-full mt-2 file-list" id="file-list-{{ $uniqueId }}"></div>
+        <div class="mt-2 w-full file-list" id="file-list-{{ $uniqueId }}"></div>
     </div>
 
 

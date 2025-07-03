@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="px-2 mx-auto sm:px-6 lg:px-8">
-        <div class="grid items-center grid-cols-6 md:grid-cols-3">
+        <div class="grid grid-cols-6 items-center md:grid-cols-3">
             {{-- 左側 --}}
             <div class="col-span-1 sm:flex">
                 <!-- Logo -->
@@ -9,7 +9,7 @@
                 {{-- 運営者の場合 --}}
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('admin.user_top') }}">
-                        <div class="w-16 p-2">
+                        <div class="p-2 w-16">
                             <x-application-mark class="block w-auto h-9" />
                         </div>
                     </a>
@@ -18,7 +18,7 @@
                 {{-- 運営者以外の場合 --}}
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('index') }}">
-                        <div class="w-16 p-2">
+                        <div class="p-2 w-16">
                             <x-application-mark class="block w-auto h-9" />
                         </div>
                     </a>
@@ -34,10 +34,10 @@
             </div>
 
             {{-- 右側 --}}
-            <div class="flex items-center justify-end col-span-5 gap-3 sm:gap-10 md:col-span-2">
+            <div class="flex col-span-5 gap-3 justify-end items-center sm:gap-10 md:col-span-2">
 
                 @can('admin-higher')
-                <div class="flex justify-end gap-5 sm:gap-20">
+                <div class="flex gap-5 justify-end sm:gap-20">
                     <div class="text-xs sm:text-sm">
                         <a href="{{ route('admin.user_top') }}">ユーザー一覧</a>
                     </div>
@@ -66,12 +66,12 @@
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button
-                                    class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                                    class="flex text-sm rounded-full border-2 border-transparent transition focus:outline-none focus:border-gray-300">
                                     @if (Auth::user()->profile_photo_path)
                                     <img class="object-cover w-8 h-8 rounded-full"
                                         src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                     @else
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full">
+                                    <div class="flex justify-center items-center w-8 h-8 rounded-full">
                                         <img src="{{ asset('images/svg/default-user.svg') }}" />
                                     </div>
                                     @endif
@@ -79,10 +79,10 @@
                                 @else
                                 <span class="inline-flex rounded-md">
                                     <button type="button"
-                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
+                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 bg-white rounded-md border border-transparent transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
                                         {{ Auth::user()->name }}
 
-                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        <svg class="-mr-0.5 ml-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -126,7 +126,7 @@
                 <!-- Hamburger -->
                 <div class="flex items-center -mr-2 sm:hidden">
                     <button @click="open = ! open"
-                        class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
+                        class="inline-flex justify-center items-center p-2 text-gray-400 rounded-md transition duration-150 ease-in-out hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
                         <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -159,7 +159,7 @@
                     <img class="object-cover w-10 h-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
                         alt="{{ Auth::user()->name }}" />
                     @else
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full">
+                    <div class="flex justify-center items-center w-10 h-10 rounded-full">
                         <img src="{{ asset('images/svg/default-user.svg') }}" />
                     </div>
                     @endif

@@ -8,33 +8,33 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto text-xs max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl text-xs sm:px-6 lg:px-8">
 
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
                 @if ($memo_data->type == 0)
                 {{-- メモセクション --}}
                 {{-- Webタイプの　場合 --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                     <div class="grid gap-10 lg:grid-cols-7 lg:gap-0">
                                         {{-- 左側 --}}
                                         <div class="lg:col-span-3">
-                                            <div class="flex items-center content-center">
+                                            <div class="flex content-center items-center">
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -71,7 +71,7 @@
                                                 </h1>
                                             </div>
                                             {{-- 『いいね』 『あとでよむ』 --}}
-                                            <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
+                                            <div class="grid grid-cols-2 gap-10 mt-5 ml-3 w-20">
                                                 <div class="w-20">
                                                     @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
@@ -101,17 +101,17 @@
 
                                             {{-- ボタン --}}
                                             <div
-                                                class="grid self-center w-3/4 gap-10 mt-6 md:grid-cols-2 lg:text-right">
+                                                class="grid gap-10 self-center mt-6 w-3/4 md:grid-cols-2 lg:text-right">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-3 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-3 focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'web'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
                                                 @endif
 
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-3 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-3 focus:outline-none hover:bg-indigo-500"
                                                     onclick="window.open('{{ $memo_data->web_type_feature->url }}') ">リンクを開く</button>
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-12 mt-4">
-                                        <div class="col-span-11 border-2 rounded-lg">
+                                        <div class="col-span-11 rounded-lg border-2">
                                             <p class="break-all">
                                                 @if ($memo_data->additionalMemo)
                                                 {!! nl2br(e($memo_data->additionalMemo)) !!}
@@ -136,11 +136,11 @@
                                         </div>
 
                                         <!-- 三点リーダー（モーダル） -->
-                                        <div class="flex items-end justify-end">
+                                        <div class="flex justify-end items-end">
                                             <x-dropdown align="right" width="48">
                                                 <x-slot name="trigger">
                                                     <button
-                                                        class="flex transition border-2 border-transparent focus:outline-none">
+                                                        class="flex border-2 border-transparent transition focus:outline-none">
                                                         <i class="text-xl fas fa-ellipsis-v"></i>
                                                     </button>
                                                 </x-slot>
@@ -149,14 +149,14 @@
                                                 <x-slot name="content">
                                                     <div class="flex flex-col px-4 text-gray-800">
                                                         <button onclick="Livewire.emit('showModalReportMemo')"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             メモを通報
                                                         </button>
 
                                                         @if (auth()->id() === $memo_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             メモを削除
                                                             </button>
                                                         @endif
@@ -194,25 +194,25 @@
                 {{-- 本タイプ　の場合 --}}
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                     <div class="grid gap-10 lg:grid-cols-7 lg:gap-0">
                                         {{-- 左側 --}}
                                         <div class="lg:col-span-3">
-                                            <div class="flex items-center content-center">
+                                            <div class="flex content-center items-center">
                                                 {{-- photo --}}
                                                 @if($memo_data->user->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"><img
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full"><img
                                                         class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $memo_data->user->profile_photo_path) }}" /></button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $memo_data->group_id ,'user_id' => $memo_data['user_id']]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -249,7 +249,7 @@
                                                 </h1>
                                             </div>
                                             {{-- 『いいね』 『あとでよむ』 --}}
-                                            <div class="grid w-20 grid-cols-2 gap-10 mt-5 ml-3">
+                                            <div class="grid grid-cols-2 gap-10 mt-5 ml-3 w-20">
                                                 <div class="w-20">
                                                     @livewire('good-button', ['memo' => $memo_data, 'isGood' => $goodMemoIds->contains($memo_data->id)], key('good-button-'.microtime(true)))
                                                 </div>
@@ -278,10 +278,10 @@
                                             </div>
 
                                             {{-- ボタン --}}
-                                            <div class="self-center w-3/4 mt-6 text-center lg:text-left">
+                                            <div class="self-center mt-6 w-3/4 text-center lg:text-left">
                                                 @if ($memo_data['user_id'] === Auth::id() )
                                                 <button
-                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 lg:px-5 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                    class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 lg:px-5 focus:outline-none hover:bg-indigo-500"
                                                     onclick="location.href='{{ route('group.memo_edit.edit', ['memo_id' => $memo_data['id'], 'type' => 'book'] ) }}' ">編集する</button>
                                                 @else
                                                 <div class=""></div>
@@ -291,7 +291,7 @@
                                         {{-- 右側 --}}
                                         <div class="grid grid-cols-5">
                                             <div class="col-span-5">
-                                                <div class="max-w-xs m-auto">
+                                                <div class="m-auto max-w-xs">
                                                     <div class="hidden text-right lg:block">
                                                         <i class="text-xl fas fa-book-open"></i>
                                                     </div>
@@ -306,7 +306,7 @@
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-12 mt-4">
-                                        <div class="col-span-11 border-2 rounded-lg">
+                                        <div class="col-span-11 rounded-lg border-2">
                                             <p class="break-all">
                                                 @if ($memo_data->additionalMemo)
                                                 {!! nl2br(e($memo_data->additionalMemo)) !!}
@@ -315,11 +315,11 @@
                                         </div>
 
                                         <!-- 三点リーダー（モーダル） -->
-                                        <div class="flex items-end justify-end">
+                                        <div class="flex justify-end items-end">
                                             <x-dropdown align="right" width="48">
                                                 <x-slot name="trigger">
                                                     <button
-                                                        class="flex transition border-2 border-transparent focus:outline-none">
+                                                        class="flex border-2 border-transparent transition focus:outline-none">
                                                         <i class="text-xl fas fa-ellipsis-v"></i>
                                                     </button>
                                                 </x-slot>
@@ -328,14 +328,14 @@
                                                 <x-slot name="content">
                                                     <div class="flex flex-col px-4 text-gray-800">
                                                         <button onclick="Livewire.emit('showModalReportMemo')"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             メモを通報
                                                         </button>
 
                                                         @if (auth()->id() === $memo_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteMemo', {{ $memo_data->id }}) }"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             メモを削除
                                                             </button>
                                                         @endif
@@ -383,20 +383,20 @@
                                 <div class="-m-4">
                                     <div class="p-4">
                                         <div
-                                            class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                                            class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                                             <div class="grid w-full sm:grid-cols-12">
                                                 {{-- 左側 --}}
-                                                <div class="flex items-center content-center sm:col-span-8">
+                                                <div class="flex content-center items-center sm:col-span-8">
                                                     {{-- photo --}}
                                                     @if($memo_report_data->contribute_user->profile_photo_path)
-                                                    <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    <button class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                         onclick="location.href='{{ route('admin.user_show',['user_id'=> $memo_report_data->contribute_user_id]) }}' ">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/'. $memo_report_data->contribute_user->profile_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button
-                                                        class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                        class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                         onclick="location.href='{{ route('admin.user_show',['user_id' => $memo_report_data->contribute_user_id]) }}' ">
                                                         <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                     </button>
@@ -464,20 +464,20 @@
                         <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                    class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                     <div class="w-max">
                                         {{-- 左側 --}}
-                                        <div class="flex items-center content-center">
+                                        <div class="flex content-center items-center">
                                             {{-- photo --}}
                                             @if($comment_data->user->profile_photo_path)
-                                            <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                            <button class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                 onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' ">
                                                 <img class="object-fill w-10 h-10 rounded-full"
                                                     src="{{ asset('storage/'. $comment_data->user->profile_photo_path) }}" />
                                             </button>
                                             @else
                                             <button
-                                                class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                 onclick="location.href='{{ route('group.member_show', ['group_id' => $comment_data->memo['group_id'] ,'user_id' => $comment_data['user_id']]) }}' ">
                                                 <img src="{{ asset('images/svg/default-user.svg') }}" />
                                             </button>
@@ -509,11 +509,11 @@
                                         </div>
 
                                         <!-- 三点リーダー（モーダル） -->
-                                        <div class="flex items-end justify-end">
+                                        <div class="flex justify-end items-end">
                                             <x-dropdown align="right" width="48">
                                                 <x-slot name="trigger">
                                                     <button
-                                                        class="flex transition border-2 border-transparent focus:outline-none">
+                                                        class="flex border-2 border-transparent transition focus:outline-none">
                                                         <i class="text-xl fas fa-ellipsis-v"></i>
                                                     </button>
                                                 </x-slot>
@@ -524,14 +524,14 @@
 
                                                         <button
                                                             onclick="Livewire.emit('showModalReportComment', {{ $comment_data->id }})"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             コメントを通報
                                                         </button>
 
                                                         @if (auth()->id() === $comment_data->user_id)
                                                             <button
                                                             onclick="if (confirm('本当に削除しますか？')) { @this.call('deleteComment', {{ $comment_data->id }}) }"
-                                                            class="block w-full p-2 text-left hover:bg-slate-100">
+                                                            class="block p-2 w-full text-left hover:bg-slate-100">
                                                             コメントを削除する
                                                             </button>
                                                         @endif
@@ -580,21 +580,21 @@
                                     <div class="-m-4">
                                         <div class="p-4">
                                             <div
-                                                class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                                                class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                                                 <div class="grid w-full sm:grid-cols-12">
                                                     {{-- 左側 --}}
-                                                    <div class="flex items-center content-center sm:col-span-8">
+                                                    <div class="flex content-center items-center sm:col-span-8">
                                                         {{-- photo --}}
                                                         @if($comment_report->contribute_user->profile_photo_path)
                                                         <button
-                                                            class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                            class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id'=> $comment_report->contribute_user_id]) }}' ">
                                                             <img class="object-fill w-10 h-10 rounded-full"
                                                                 src="{{ asset('storage/'. $comment_report->contribute_user->profile_photo_path) }}" />
                                                         </button>
                                                         @else
                                                         <button
-                                                            class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                            class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                             onclick="location.href='{{ route('admin.user_show',['user_id' => $comment_report->contribute_user_id]) }}' ">
                                                             <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                         </button>
@@ -669,12 +669,12 @@
                         <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="relative px-4 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                    class="overflow-hidden relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                     <div class="w-max">
                                         {{-- 左側 --}}
                                         <div class="flex items-center sm:items-start sm:content-center">
                                             {{-- photo --}}
-                                            <div class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                            <div class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                 @if (Auth::user()->profile_photo_path)
                                                 <img class="object-fill w-10 h-10 rounded-full"
                                                     src="{{ Auth::user()->profile_photo_url }}"
@@ -696,7 +696,7 @@
                                     <li class="mt-3 text-xs text-red-600">{{ $message }}</li>
                                     @enderror
                                     <form wire:submit.prevent="storeComment"
-                                        class="flex flex-col justify-center gap-10 mt-4 sm:gap-0 sm:grid sm:grid-cols-1">
+                                        class="flex flex-col gap-10 justify-center mt-4 sm:gap-0 sm:grid sm:grid-cols-1">
 
 
                                         <div class="flex justify-center sm:block sm:col-span-7">
@@ -705,7 +705,7 @@
                                         </div>
                                         <div class="flex justify-center text-right sm:block sm:col-span-5">
                                             <button
-                                                class="px-6 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                class="px-6 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                 type="submit">コメントする</button>
                                         </div>
                                     </form>

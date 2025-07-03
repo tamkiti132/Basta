@@ -10,26 +10,26 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6">
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
 
                 <section class="text-gray-600 body-font"
                     x-data="{modal_leave_group: false, currentUserId: null, actionUrl: ''}">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:gap-7 rounded-2xl">
+                                    class="grid gap-10 px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:gap-7">
                                     {{-- メンバー / ブロック中のメンバー --}}
                                     <div class="border-b border-gray-400">
                                         <div class="flex text-xs font-bold sm:text-base lg:w-1/2">
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="member = true; block_member= false"
                                                 x-bind:class="member ? 'border-b-4 border-blue-300' :'' ">
                                                 <p>メンバー</p>
                                             </button>
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="member = false; block_member= true"
                                                 x-bind:class="block_member ? 'border-b-4 border-blue-300' :'' ">
                                                 <p>ブロック中のメンバー</p>
@@ -47,14 +47,14 @@
                                                 @if($user_data->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img class="object-cover w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -73,7 +73,7 @@
                                             </div>
                                             {{-- 投稿数 ・ 権限 ・ 三点リーダー（モーダル） --}}
                                             <div
-                                                class="grid items-center grid-cols-3 text-center lg:text-left lg:col-span-3">
+                                                class="grid grid-cols-3 items-center text-center lg:text-left lg:col-span-3">
                                                 {{-- 投稿数 --}}
                                                 <div class="mt-3 lg:mt-0">
                                                     <p>{{ $user_data->memo_count }}<span class="ml-3">投稿</span></p>
@@ -118,11 +118,11 @@
                                                 @endif
                                                 <!-- 三点リーダー（モーダル） -->
                                                 @if(auth()->id() != $user_data->id)
-                                                <div class="flex items-end justify-end">
+                                                <div class="flex justify-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex text-sm transition border-2 border-transparent focus:outline-none">
+                                                                class="flex text-sm border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
@@ -158,14 +158,14 @@
                                                 @if($user_data->profile_photo_path)
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img class="object-cover w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
                                                     onclick="location.href='{{ route('group.member_show', ['group_id' => $group_data->id ,'user_id' => $user_data->id]) }}' "
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
                                                 @endif
@@ -184,7 +184,7 @@
                                             </div>
                                             {{-- 投稿数 ・ 権限 ・ 三点リーダー（モーダル） --}}
                                             <div
-                                                class="grid items-center grid-cols-3 text-center lg:text-left lg:col-span-3">
+                                                class="grid grid-cols-3 items-center text-center lg:text-left lg:col-span-3">
                                                 {{-- 投稿数 --}}
                                                 <div class="mt-3 lg:mt-0">
                                                     <p>{{ $user_data->memo_count }}<span class="ml-3">投稿</span></p>
@@ -224,11 +224,11 @@
                                                 </div>
                                                 <!-- 三点リーダー（モーダル） -->
                                                 @if(auth()->id() != $user_data->id)
-                                                <div class="flex items-end justify-end">
+                                                <div class="flex justify-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                class="flex border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>

@@ -42,7 +42,7 @@
                     </x-slot>
 
                     <x-slot name="description">
-                        
+
                     </x-slot>
 
                     <x-slot name="content">
@@ -52,7 +52,7 @@
 
                         <div class="mt-5">
                             <button
-                                class="px-6 py-2 text-sm font-bold text-white bg-gray-800 border-0 rounded-md focus:outline-none hover:bg-gray-700"
+                                class="px-6 py-2 text-sm font-bold text-white bg-gray-800 rounded-md border-0 focus:outline-none hover:bg-gray-700"
                                 onclick="location.href='{{ route('social_login_connect') }}' ">連携する</button>
                         </div>
                     </x-slot>
@@ -69,7 +69,7 @@
                     </x-slot>
 
                     <x-slot name="description">
-                        
+
                     </x-slot>
 
                     <x-slot name="content">
@@ -79,17 +79,17 @@
 
                         <div class="mt-5">
                             <button
-                                class="px-6 py-2 text-sm font-bold text-white bg-indigo-500 border-0 rounded-md focus:outline-none hover:bg-indigo-400"
+                                class="px-6 py-2 text-sm font-bold text-white bg-indigo-500 rounded-md border-0 focus:outline-none hover:bg-indigo-400"
                                 onclick="location.href='{{ route('creditcard') }}' ">編集する</button>
                         </div>
 
-                        
+
                     </x-slot>
                 </x-action-section>
             </div>
-            
+
             <x-section-border /> --}}
-            
+
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <div class="mt-10 sm:mt-0">
                 @livewire('custom-delete-user-form')

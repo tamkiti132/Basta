@@ -15,7 +15,7 @@
         .section-title { font-weight: bold; }
         .content { padding-left: 20px; word-break: break-all; width: 100%; box-sizing: border-box; }
         .content-wrapper { width: 100%; max-width: 600px; }
-        
+
         @media only screen and (max-width: 480px) {
             .container {
                 width: 92% !important;

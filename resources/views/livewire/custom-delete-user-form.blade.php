@@ -35,7 +35,7 @@
 
                     <x-input-error for="password" class="mt-2" />
 
-                    <x-input type="password" class="block w-3/4 mt-1" autocomplete="current-password"
+                    <x-input type="password" class="block mt-1 w-3/4" autocomplete="current-password"
                         placeholder="{{ __('Password') }}" x-ref="password" wire:model.defer="password"
                         wire:keydown.enter="isManager" />
 

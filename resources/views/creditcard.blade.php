@@ -7,14 +7,14 @@
 
   <div class="py-12">
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+      <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
 
         {{-- カード未登録 --}}
         <section class="text-gray-600 body-font">
           <div class="container px-5 mx-auto">
-            <div class="-m-4 ">
+            <div class="-m-4">
               <div class="p-4">
-                <div class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                <div class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                   {{-- クレジットカードが未登録です --}}
                   <div class="pb-4 mb-10 border-b border-gray-400">
                     <div class="text-lg font-bold text-center">
@@ -22,9 +22,9 @@
                     </div>
                   </div>
                   {{-- ボタン --}}
-                  <div class="text-center mb-7 ">
+                  <div class="mb-7 text-center">
                     <button
-                      class="px-6 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500">カードを登録する</button>
+                      class="px-6 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500">カードを登録する</button>
                   </div>
 
                 </div>
@@ -38,9 +38,9 @@
         {{-- カード情報表示（カード登録済み） --}}
         <section class="text-gray-600 body-font">
           <div class="container px-5 mx-auto">
-            <div class="-m-4 ">
+            <div class="-m-4">
               <div class="p-4">
-                <div class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                <div class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                   {{-- カード情報 --}}
                   <div class="pb-4 mb-10 border-b border-gray-400">
                     <div class="text-lg font-bold text-center">
@@ -81,7 +81,7 @@
                   <div class="mt-20 text-center sm:text-left">
                     <div class="mb-7">
                       <button
-                        class="px-6 py-3 text-lg font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500">カード情報の変更</button>
+                        class="px-6 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500">カード情報の変更</button>
                     </div>
                     <div class="mb-7">
                       <button class="font-bold text-red-600 hover:text-red-700">カード情報を削除</button>
@@ -99,9 +99,9 @@
         {{-- カード情報表示（登録） --}}
         <section class="text-gray-600 body-font">
           <div class="container px-5 mx-auto">
-            <div class="-m-4 ">
+            <div class="-m-4">
               <div class="p-4">
-                <div class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                <div class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                   {{-- カード情報 --}}
                   <div class="pb-4 mb-10 border-b border-gray-400">
                     <div class="text-lg font-bold text-center">
@@ -144,9 +144,9 @@
                     {{-- 右側 --}}
                     <div class="grid gap-10 pt-10 sm:items-end sm:justify-end sm:grid-cols-2 sm:pt-40">
                       <button
-                        class="px-6 py-3 text-lg font-bold border border-black rounded-2xl focus:outline-none hover:bg-gray-200">キャンセル</button>
+                        class="px-6 py-3 text-lg font-bold rounded-2xl border border-black focus:outline-none hover:bg-gray-200">キャンセル</button>
                       <button
-                        class="py-3 text-lg font-bold text-white bg-indigo-400 border-0 px-14 rounded-2xl focus:outline-none hover:bg-indigo-500">保存</button>
+                        class="px-14 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500">保存</button>
                     </div>
                   </div>
 
@@ -161,9 +161,9 @@
         {{-- カード情報表示（変更） --}}
         <section class="text-gray-600 body-font">
           <div class="container px-5 mx-auto">
-            <div class="-m-4 ">
+            <div class="-m-4">
               <div class="p-4">
-                <div class="relative px-8 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                <div class="overflow-hidden relative px-8 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                   {{-- カード情報 --}}
                   <div class="pb-4 mb-10 border-b border-gray-400">
                     <div class="text-lg font-bold text-center">
@@ -206,9 +206,9 @@
                     {{-- 右側 --}}
                     <div class="grid gap-10 pt-10 sm:items-end sm:justify-end sm:grid-cols-2 sm:pt-40">
                       <button
-                        class="px-6 py-3 text-lg font-bold border border-black rounded-2xl focus:outline-none hover:bg-gray-200">キャンセル</button>
+                        class="px-6 py-3 text-lg font-bold rounded-2xl border border-black focus:outline-none hover:bg-gray-200">キャンセル</button>
                       <button
-                        class="py-3 text-lg font-bold text-white bg-indigo-400 border-0 px-14 rounded-2xl focus:outline-none hover:bg-indigo-500">保存</button>
+                        class="px-14 py-3 text-lg font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500">保存</button>
                     </div>
                   </div>
 

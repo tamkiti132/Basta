@@ -15,7 +15,7 @@
         .section-title { font-weight: bold; }
         .content { padding-left: 20px; word-break: break-all; width: 100%; box-sizing: border-box; }
         .content-wrapper { width: 100%; max-width: 600px; }
-        
+
         @media only screen and (max-width: 480px) {
             .container {
                 width: 92% !important;
@@ -150,7 +150,7 @@
         </tr>
         @endif
 
-        {{-- 対象の脆弱性の再現手順 --}}        
+        {{-- 対象の脆弱性の再現手順 --}}
         <tr>
             <td>
                 <table class="section" width="100%" cellpadding="0" cellspacing="0">
@@ -266,7 +266,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>        
+        </tr>
         {{-- 参考 --}}
         @if($report_data['reference_url_3'])
         <tr>
