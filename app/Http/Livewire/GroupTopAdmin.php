@@ -18,10 +18,6 @@ class GroupTopAdmin extends Component
     public $sortCriteria = 'report';
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_groups = true;
-    public $show_suspension_groups = false;
-
     public function checkSuspension($skip = false)
     {
         // 指定のメソッドの最初でこのメソッドを呼び出すと、利用停止中ユーザーはそのメソッドを利用できない

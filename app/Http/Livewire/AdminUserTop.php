@@ -16,8 +16,6 @@ class AdminUserTop extends Component
     public $search = '';
 
     // 各タブの表示状態を管理するプロパティ
-    public $show_users = true;
-    public $show_suspension_users = false;
     public $show_group_reports = false;
     public $show_members = false;
 
@@ -31,14 +29,6 @@ class AdminUserTop extends Component
     {
         $this->show_group_reports = false;
         $this->show_members = true;
-
-        if ($this->show_users) {
-            $this->show_users_pagination = true;
-        }
-
-        if ($this->show_suspension_users) {
-            $this->show_suspension_users_pagination = true;
-        }
     }
 
     public function updatingSearch()

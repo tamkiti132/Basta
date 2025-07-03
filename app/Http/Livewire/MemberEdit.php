@@ -20,10 +20,6 @@ class MemberEdit extends Component
 
     public $is_manager = false;
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_members = true;
-    public $show_block_members = false;
-
     public function getListeners()
     {
         return [

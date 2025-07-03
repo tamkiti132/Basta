@@ -28,14 +28,6 @@ class GroupShowAdmin extends Component
     public $show_book = true;
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_group_reports = true;
-    public $show_members = false;
-    public $show_users = false;
-    public $show_users_pagination = false;
-    public $show_suspension_users = false;
-    public $show_suspension_users_pagination = false;
-
     public $isSuspended;
 
     public $deleteTargetUserId = 0;
@@ -73,20 +65,6 @@ class GroupShowAdmin extends Component
         }
 
         $this->dispatchBrowserEvent('load');
-    }
-
-    public function showMember()
-    {
-        $this->show_group_reports = false;
-        $this->show_members = true;
-
-        if ($this->show_users) {
-            $this->show_users_pagination = true;
-        }
-
-        if ($this->show_suspension_users) {
-            $this->show_suspension_users_pagination = true;
-        }
     }
 
     public function setReportReason($report_reason)

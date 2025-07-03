@@ -1,6 +1,6 @@
 <div x-data="{
-    member: @entangle('show_members'),
-    block_member: @entangle('show_block_members'),
+    member: true,
+    block_member: false,
 }">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">

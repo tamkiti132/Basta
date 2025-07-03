@@ -28,11 +28,6 @@ class UserShow extends Component
     public $selected_labels = [];
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_users = true;
-    public $show_memos = false;
-    public $show_comments = false;
-
     public $isSuspended;
 
     public $deleteTargetUserId = 0;

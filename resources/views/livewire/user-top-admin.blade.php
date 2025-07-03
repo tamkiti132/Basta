@@ -1,12 +1,10 @@
 <div x-data="{
-    user: @entangle('show_user'),
-    suspended_user: @entangle('show_suspended_user'),
+    user: true,
+    suspended_user: false,
     showNextManagerModal: @entangle('showNextManagerModal'),
     showModalNobodyMember: @entangle('showModalNobodyMember'),
 }">
-    {{-- <div class="fixed inset-0 z-40 bg-gray-100 bg-opacity-40">
-        <div class="absolute inset-0 m-auto w-10 h-10 bg-red-500"></div>
-    </div> --}}
+
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">
             ユーザー一覧

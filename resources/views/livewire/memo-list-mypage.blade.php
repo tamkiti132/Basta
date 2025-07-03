@@ -1,8 +1,10 @@
-<div x-data="{
-    my_memo: @entangle('show_my_memos'),
-    good_memo: @entangle('show_good_memos'),
-    later_read_memo: @entangle('show_later_read_memos')
-}">
+<div
+x-data="{
+    my_memo: true,
+    good_memo: false,
+    later_read_memo: false
+}"
+>
     <x-slot name="header">
         <div class="flex">
             <h2 class="font-semibold leading-tight text-gray-800">
@@ -80,19 +82,19 @@
                     <div class="flex text-xs font-bold lg:text-sm xl:w-1/2">
                         <button
                             class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
-                            type="button" x-on:click="my_memo = true; good_memo=false; later_read_memo=false"
+                            type="button" x-on:click="my_memo = true; good_memo=false; later_read_memo=false; $wire.$refresh()"
                             x-bind:class="my_memo ? 'border-b-4 border-blue-300' :'' ">
                             <p>自分が作成したメモ</p>
                         </button>
                         <button
                             class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
-                            type="button" x-on:click="my_memo = false; good_memo=true; later_read_memo=false"
+                            type="button" x-on:click="my_memo = false; good_memo=true; later_read_memo=false; $wire.$refresh()"
                             x-bind:class="good_memo ? 'border-b-4 border-blue-300' :'' ">
                             <p>いいねしたメモ</p>
                         </button>
                         <button
                             class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
-                            type="button" x-on:click="my_memo = false; good_memo=false; later_read_memo=true"
+                            type="button" x-on:click="my_memo = false; good_memo=false; later_read_memo=true; $wire.$refresh()"
                             x-bind:class="later_read_memo ? 'border-b-4 border-blue-300' :'' ">
                             <p>あとでよむしたメモ</p>
                         </button>
