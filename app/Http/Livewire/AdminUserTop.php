@@ -15,21 +15,9 @@ class AdminUserTop extends Component
     public $all_suspended_users_data;
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_group_reports = false;
-    public $show_members = false;
-
     // 各タブのページネーションを管理するプロパティ
     public $show_users_pagination = false;
     public $show_suspension_users_pagination = false;
-
-    public function mount() {}
-
-    public function showMember()
-    {
-        $this->show_group_reports = false;
-        $this->show_members = true;
-    }
 
     public function updatingSearch()
     {
