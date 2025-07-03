@@ -1,10 +1,10 @@
 <div x-data="{
-    group_report: @entangle('show_group_reports'),
-    member: @entangle('show_members'),
-    user: @entangle('show_users'),
-    suspension_user: @entangle('show_suspension_users'),
-    user_pagination: @entangle('show_users_pagination'),
-    suspension_user_pagination: @entangle('show_suspension_users_pagination'),
+    group_report: true,
+    member: false,
+    user: true,
+    suspension_user: false,
+    user_pagination: false,
+    suspension_user_pagination: false,
     showNextManagerModal: @entangle('showNextManagerModal'),
     showModalNobodyMember: @entangle('showModalNobodyMember'),
 }" wire:init="$refresh">
@@ -112,15 +112,15 @@
                 {{-- グループ通報情報 / メンバー 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
                     <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
-                        <button
+                        <button type="button"
                             class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
-                            type="button"
                             x-on:click="group_report = true; member=false; user_pagination = false; suspension_user_pagination = false"
                             x-bind:class="group_report ? 'border-b-4 border-blue-300' :'' ">
                             <p>グループ通報情報</p>
                         </button>
-                        <button wire:click="showMember"
+                        <button type="button"
                             class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
+                            x-on:click="member = true; group_report = false; user_pagination = true; suspension_user_pagination = false"
                             x-bind:class="member ? 'border-b-4 border-blue-300' :'' ">
                             <p>メンバー</p>
                         </button>

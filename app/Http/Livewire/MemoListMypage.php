@@ -25,11 +25,6 @@ class MemoListMypage extends Component
     public $selected_labels = [];
     public $search = '';
 
-    // 各タブの表示状態を管理するプロパティ
-    public $show_my_memos = true;
-    public $show_good_memos = false;
-    public $show_later_read_memos = false;
-
     protected $listeners = [
         'setGroupId',
         'filterByWebBookLabels',

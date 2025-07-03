@@ -1,6 +1,6 @@
 <div x-data="{
-    group: @entangle('show_groups'),
-    suspension_group: @entangle('show_suspension_groups'),
+    group: true,
+    suspension_group: false,
 }">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">

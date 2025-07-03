@@ -1,7 +1,7 @@
 <div x-data="{
-    user: @entangle('show_users'),
-    memo: @entangle('show_memos'),
-    comment: @entangle('show_comments'),
+    user: true,
+    memo: false,
+    comment: false,
     showNextManagerModal: @entangle('showNextManagerModal'),
     showModalNobodyMember: @entangle('showModalNobodyMember'),
 }" wire:init="$refresh">

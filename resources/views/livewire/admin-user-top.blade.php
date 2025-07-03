@@ -1,6 +1,6 @@
 <div x-data="{
-    user: @entangle('show_users'),
-    suspension_user: @entangle('show_suspension_users'),
+    user: true,
+    suspension_user: false,
 }">
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">

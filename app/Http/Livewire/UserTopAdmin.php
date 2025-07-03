@@ -21,9 +21,6 @@ class UserTopAdmin extends Component
     public $sortCriteria = 'report_all';
     public $search = '';
 
-    public $show_user = true;
-    public $show_suspended_user = false;
-
     public $deleteTargetUserId = 0;
     public $targetGroup;
     public $fragSubManagerOrMember = '';
