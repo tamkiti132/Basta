@@ -6,16 +6,16 @@
     showModalNobodyMember: @entangle('showModalNobodyMember'),
 }" wire:init="$refresh">
     <x-slot name="header">
-        <div class="grid items-center grid-cols-4 lg:grid-cols-2">
+        <div class="grid grid-cols-4 items-center lg:grid-cols-2">
             {{-- 左側 --}}
-            <div class="flex w-auto col-span-3 text-xs lg:col-span-1">
+            <div class="flex col-span-3 w-auto text-xs lg:col-span-1">
                 @if($user_data->profile_photo_path)
-                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10">
+                <div class="object-cover flex-shrink-0 mr-3 w-8 h-8 bg-center rounded-full lg:w-10 lg:h-10">
                     <img class="object-fill w-8 h-8 rounded-full lg:w-10 lg:h-10"
                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                 </div>
                 @else
-                <div class="flex-shrink-0 object-cover w-8 h-8 mr-3 bg-center rounded-full lg:w-10 lg:h-10">
+                <div class="object-cover flex-shrink-0 mr-3 w-8 h-8 bg-center rounded-full lg:w-10 lg:h-10">
                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                 </div>
                 @endif
@@ -24,18 +24,18 @@
                         class="overflow-hidden font-semibold leading-tight text-gray-800 whitespace-nowrap text-ellipsis">
                         {{ $user_data->nickname }}
                     </h2>
-                    <p class="ml-5 overflow-hidden text-xs text-gray-500 whitespace-nowrap text-ellipsis">
+                    <p class="overflow-hidden ml-5 text-xs text-gray-500 whitespace-nowrap text-ellipsis">
                         {{ $user_data->username }}
                     </p>
                 </div>
             </div>
             {{-- 右側 --}}
-            <div class="flex items-center justify-end">
+            <div class="flex justify-end items-center">
                 <!-- 三点リーダー（モーダル） -->
                 <div>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="flex transition border-2 border-transparent focus:outline-none">
+                            <button class="flex border-2 border-transparent transition focus:outline-none">
                                 <i class="px-5 text-xl fas fa-ellipsis-v"></i>
                             </button>
                         </x-slot>
@@ -45,19 +45,19 @@
                             <div class="flex flex-col text-gray-800" x-data="{ isSuspended: @entangle('isSuspended') }">
 
 
-                                <button type="button" class="block w-full p-2 text-left hover:bg-slate-100"
+                                <button type="button" class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('isManager', {{ $user_data->id }}) }">
                                     ユーザーを削除
                                 </button>
 
                                 <button x-show="!isSuspended" type="button"
-                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspend') }">
                                     ユーザーを利用停止
                                 </button>
 
                                 <button x-show="isSuspended" type="button"
-                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                     onclick="if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspend') }">
                                     ユーザーを利用停止解除
                                 </button>
@@ -70,7 +70,7 @@
         </div>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto max-w-7xl lg:flex-row lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
             <input type="text" wire:model.debounce.100ms="search" :placeholder="user ? 'ニックネームか本文のワードで検索' :
@@ -109,12 +109,12 @@
         <div class="absolute z-20 col-span-2 lg:block lg:static"
             x-bind:class="{ 'invisible pointer-events-none': !memo }">
             <input type="checkbox" id="drawer-toggle" class="sr-only peer" checked>
-            <label for="drawer-toggle" class="left-0 inline-block p-2 bg-indigo-500 rounded-lg lg:hidden top-40 ">
-                <div class="w-6 h-1 mb-3 bg-white rounded-lg"></div>
+            <label for="drawer-toggle" class="inline-block left-0 top-40 p-2 bg-indigo-500 rounded-lg lg:hidden">
+                <div class="mb-3 w-6 h-1 bg-white rounded-lg"></div>
                 <div class="w-6 h-1 bg-white rounded-lg"></div>
             </label>
-            <div class="hidden h-full bg-white shadow-lg rounded-r-2xl peer-checked:block lg:block">
-                <div class="z-20 px-1 py-2 overflow-auto max-h-96 label-list-container lg:static">
+            <div class="hidden h-full bg-white rounded-r-2xl shadow-lg peer-checked:block lg:block">
+                <div class="overflow-auto z-20 px-1 py-2 max-h-96 label-list-container lg:static">
                     {{-- ラベル表示 --}}
                     <div class="lg:col-span-2">
 
@@ -128,25 +128,25 @@
         </div>
 
         {{-- メインコンテンツ（中央） --}}
-        <div class="w-full mx-auto text-xs max-w-7xl sm:px-6 lg:px-8 lg:col-span-8">
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+        <div class="mx-auto w-full max-w-7xl text-xs sm:px-6 lg:px-8 lg:col-span-8">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
                 {{-- ユーザー通報情報 / メモ / コメント 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
                     <div class="flex text-xs font-bold lg:text-sm xl:w-1/2">
                         <button
-                            class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                            class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                             type="button" x-on:click="user = true; memo=false; comment=false"
                             x-bind:class="user ? 'border-b-4 border-blue-300' :'' ">
                             <p>ユーザー通報情報</p>
                         </button>
                         <button
-                            class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                            class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                             type="button" x-on:click="user = false; memo=true; comment=false"
                             x-bind:class="memo ? 'border-b-4 border-blue-300' :'' ">
                             <p>メモ</p>
                         </button>
                         <button
-                            class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                            class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                             type="button" x-on:click="user = false; memo=false; comment=true"
                             x-bind:class="comment ? 'border-b-4 border-blue-300' :'' ">
                             <p>コメント</p>
@@ -161,20 +161,20 @@
                             <div class="-m-4">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 overflow-hidden bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        class="overflow-hidden relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:px-8">
                                         <div class="grid w-full lg:grid-cols-12">
                                             {{-- 左側 --}}
-                                            <div class="flex items-center content-center lg:col-span-8">
+                                            <div class="flex content-center items-center lg:col-span-8">
                                                 {{-- photo --}}
                                                 @if($user_report_data->contribute_user->profile_photo_path)
-                                                <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                <button class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id'=> $user_report_data->contribute_user_id]) }}' ">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_report_data->contribute_user->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show',['user_id' => $user_report_data->contribute_user_id]) }}' ">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
@@ -239,11 +239,11 @@
                             <div class="-m-4">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:px-8">
                                         <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
                                             <div class="xl:col-span-3">
-                                                <div class="flex items-center content-center">
+                                                <div class="flex content-center items-center">
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
                                                         <div class="inline mt-1 ml-5 text-gray-500">
@@ -265,7 +265,7 @@
                                                     </button>
                                                 </div>
                                                 {{-- 『いいね』 『あとでよむ』 --}}
-                                                <div class="grid w-20 grid-cols-3 mt-5 ml-3 text-sm gap-14">
+                                                <div class="grid grid-cols-3 gap-14 mt-5 ml-3 w-20 text-sm">
                                                     <div class="w-20">
                                                         <div class="inline">
                                                             <i class="fa-solid fa-bell" style="color: #c6c253;"></i>
@@ -304,7 +304,7 @@
                                                 {{-- ボタン --}}
                                                 <div class="grid px-10 mt-10 text-center lg:px-0">
                                                     <button
-                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 border-0 rounded-2xl focus:outline-none hover:bg-indigo-500"
+                                                        class="px-10 py-3 text-sm font-bold text-white bg-indigo-400 rounded-2xl border-0 focus:outline-none hover:bg-indigo-500"
                                                         onclick="window.open('{{ $memo_data['url'] }}') ">リンクを開く</button>
                                                 </div>
                                             </div>
@@ -332,15 +332,15 @@
                             <div class="-m-4">
                                 <div class="p-4">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md lg:px-8 rounded-2xl">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:px-8">
                                         <div class="grid gap-10 xl:grid-cols-7 xl:gap-0">
                                             {{-- 左側 --}}
                                             <div class="xl:col-span-3">
-                                                <div class="flex items-center content-center">
+                                                <div class="flex content-center items-center">
                                                     {{-- メモ作成者情報 --}}
                                                     <div>
                                                         <div class="inline mt-1 ml-5 text-gray-500">
-                                                            <i class=" fa-regular fa-clock"></i>
+                                                            <i class="fa-regular fa-clock"></i>
                                                             <span>{{ $memo_data['created_at']->format('Y-m-d') }}</span>
                                                         </div>
                                                         <div class="inline mt-1 ml-5 text-gray-500">
@@ -358,7 +358,7 @@
                                                     </button>
                                                 </div>
                                                 {{-- 『いいね』 『あとでよむ』 --}}
-                                                <div class="grid w-20 grid-cols-3 mt-5 ml-3 gap-14">
+                                                <div class="grid grid-cols-3 gap-14 mt-5 ml-3 w-20">
                                                     <div class="w-20">
                                                         <div class="inline">
                                                             <i class="text-sm fa-solid fa-bell"
@@ -398,7 +398,7 @@
                                             {{-- 右側 --}}
                                             <div class="grid grid-cols-5">
                                                 <div class="col-span-5">
-                                                    <div class="max-w-xs m-auto">
+                                                    <div class="m-auto max-w-xs">
                                                         <div class="hidden text-right xl:block">
                                                             <i class="text-xl fas fa-book-open"></i>
                                                         </div>
@@ -431,10 +431,10 @@
                                 <div class="p-4 cursor-pointer"
                                     onclick="linkToMemoOfComment('{{ route('group.memo_show', ['memo_id' => $comment_data->memo->id, 'group_id' => $comment_data->memo->group_id] ) }}')  ">
                                     <div
-                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 shadow-md sm:px-8 rounded-2xl">
+                                        class="relative px-4 pt-8 pb-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md sm:px-8">
                                         <div class="w-max">
                                             {{-- 左側 --}}
-                                            <div class="items-center content-center">
+                                            <div class="content-center items-center">
                                                 {{-- コメント作成者情報 --}}
                                                 <div class="inline mt-1 ml-5 text-gray-500">
                                                     <i class="fa-regular fa-clock"></i>
@@ -456,7 +456,7 @@
                                             </script>
 
                                             <!-- 右側 -->
-                                            <div class="flex items-end justify-end">
+                                            <div class="flex justify-end items-end">
                                                 <i class="text-sm fa-solid fa-bell" style="color: #c6c253;"></i>
                                                 <span class="ml-1">{{ $comment_data->reports_count }}</span>
                                             </div>
@@ -490,8 +490,8 @@
 
     {{-- 次の管理者選択モーダル --}}
     <div x-cloak x-show="showNextManagerModal"
-        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+        class="flex fixed top-0 left-0 z-40 justify-center items-center w-screen h-screen bg-black bg-opacity-40 border">
+        <div class="flex flex-col justify-center px-3 py-2 w-full max-w-xl h-auto bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
             >
 
@@ -501,12 +501,12 @@
 
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
-                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <div class="object-cover mr-3 w-8 h-8 bg-center rounded-full">
                         <img class="object-fill w-8 h-8 rounded-full"
                             src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
                     </div>
                 @else
-                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                    <div class="object-cover mr-3 w-8 h-8 bg-blue-200 bg-center rounded-full"></div>
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
@@ -526,7 +526,7 @@
 
             <form wire:submit.prevent="selectNextManager" class="flex flex-col p-2">
 
-                <select class="w-full p-2 mb-4 border border-gray-300 rounded" required wire:model.defer="nextManagerId">
+                <select class="p-2 mb-4 w-full rounded border border-gray-300" required wire:model.defer="nextManagerId">
                     <option value="" disabled>次の管理者を選択してください</option>
                     @foreach ($targetGroup->userRoles as $user_data)
                     <option value="{{ $user_data->id }}" wire:key="user_role_option_{{ $user_data->id }}">
@@ -535,11 +535,11 @@
                     @endforeach
                 </select>
 
-                <div class="flex justify-end gap-4 pt-2">
-                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                <div class="flex gap-4 justify-end pt-2">
+                    <button type="button" class="px-1 py-2 w-28 border border-gray-300 hover:bg-slate-100"
                         x-on:click="$wire.closeModal">キャンセル</button>
                     <button type="submit"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">決定</button>
+                        class="px-1 py-2 w-28 text-red-500 border border-red-500 hover:bg-red-50">決定</button>
                 </div>
             </form>
             @endif
@@ -549,8 +549,8 @@
 
     {{-- メンバーがいない場合のモーダル --}}
     <div x-cloak x-show="showModalNobodyMember"
-        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+        class="flex fixed top-0 left-0 z-40 justify-center items-center w-screen h-screen bg-black bg-opacity-40 border">
+        <div class="flex flex-col justify-center px-3 py-2 w-full max-w-xl h-auto bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
             >
 
@@ -560,12 +560,12 @@
 
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
-                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <div class="object-cover mr-3 w-8 h-8 bg-center rounded-full">
                         <img class="object-fill w-8 h-8 rounded-full"
                             src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
                     </div>
                 @else
-                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                    <div class="object-cover mr-3 w-8 h-8 bg-blue-200 bg-center rounded-full"></div>
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
@@ -578,11 +578,11 @@
             </div>
 
             <div class="flex flex-col p-2">
-                <div class="flex justify-end gap-4 pt-2">
-                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                <div class="flex gap-4 justify-end pt-2">
+                    <button type="button" class="px-1 py-2 w-28 border border-gray-300 hover:bg-slate-100"
                         x-on:click="$wire.closeModal">キャンセル</button>
                     <button type="button"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50"
+                        class="px-1 py-2 w-28 text-red-500 border border-red-500 hover:bg-red-50"
                         x-on:click="$wire.addDeleteGroupFlag">削除</button>
                 </div>
             </div>

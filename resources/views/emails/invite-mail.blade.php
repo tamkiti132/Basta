@@ -12,13 +12,13 @@
         .container { width: 100%; max-width: 600px; justify-items: center;}
         .header { text-align: center; padding-bottom: 20px; }
         /* td { padding: 10px 20px; } */
-        
+
         @media only screen and (max-width: 480px) {
             .container {
                 width: 100% !important;
                 display: block !important;
                 box-sizing: border-box !important;
-            }            
+            }
             img {
                 width: 100% !important;
                 height: auto !important;

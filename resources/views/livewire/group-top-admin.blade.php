@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto max-w-7xl lg:flex-row lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
             <input type="text" wire:model.debounce.100ms="search" placeholder="グループ名かグループ紹介文のワードで検索"
@@ -26,19 +26,19 @@
 
     <div class="py-12">
 
-        <div class="w-full px-6 mx-auto max-w-7xl lg:px-8 lg:col-span-8">
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+        <div class="px-6 mx-auto w-full max-w-7xl lg:px-8 lg:col-span-8">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
                 {{-- グループ / 利用停止中グループ 選択--}}
                 <div class="mx-3 mb-10 border-b border-gray-400">
                     <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
                         <button
-                            class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                            class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                             type="button" x-on:click="group = true; suspension_group=false;"
                             x-bind:class="group ? 'border-b-4 border-blue-300' :'' ">
                             <p>グループ</p>
                         </button>
                         <button
-                            class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                            class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                             type="button" x-on:click="group = false; suspension_group=true;"
                             x-bind:class="suspension_group ? 'border-b-4 border-blue-300' :'' ">
                             <p>利用停止中グループ</p>
@@ -51,24 +51,24 @@
                     <section class="w-full text-gray-600 body-font">
                         <div class="px-5 mx-auto">
                             <div class="flex flex-wrap justify-center -m-4">
-                                <div class="w-full p-4">
-                                    <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                                <div class="p-4 w-full">
+                                    <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                                         <div class="grid gap-10 lg:grid-cols-2 lg:gap-0">
                                             {{-- 左側 --}}
                                             <div>
-                                                <div class="flex items-start content-center">
+                                                <div class="flex content-center items-start">
                                                     {{-- photo --}}
                                                     @if($group_data->group_photo_path)
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
+                                                        class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-blue-200 bg-center rounded-full">
                                                     </button>
                                                     @endif
                                                     {{-- end_photo --}}
@@ -82,7 +82,7 @@
                                                 </div>
                                                 <div class="mt-2 leading-none y-4">
                                                     <div
-                                                        class="grid items-center gap-2 pt-5 leading-none text-gray-700 lg:ml-3">
+                                                        class="grid gap-2 items-center pt-5 leading-none text-gray-700 lg:ml-3">
                                                         <p>
                                                             管理者　：
                                                         </p>
@@ -117,11 +117,11 @@
                                                     </p>
                                                 </div>
                                                 {{-- 右側 三点リーダー（モーダル） --}}
-                                                <div class="flex items-end content-end justify-end">
+                                                <div class="flex justify-end content-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                class="flex border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
@@ -131,7 +131,7 @@
                                                             <div class="flex flex-col text-gray-800">
 
                                                                 <button type="button"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="
                                                                         let groupId = {{ $group_data->id }};
                                                                         if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', groupId) }">
@@ -139,7 +139,7 @@
                                                                 </button>
 
                                                                 <button type="button"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="
                                                                         let groupId = {{ $group_data->id }};
                                                                         if (confirm('本当に利用停止にしますか？')) { @this.call('suspend', groupId) }">
@@ -167,24 +167,24 @@
                     <section class="w-full text-gray-600 body-font">
                         <div class="px-5 mx-auto">
                             <div class="flex flex-wrap justify-center -m-4">
-                                <div class="w-full p-4">
-                                    <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 shadow-md rounded-2xl">
+                                <div class="p-4 w-full">
+                                    <div class="relative px-8 py-8 bg-gray-100 bg-opacity-75 rounded-2xl shadow-md">
                                         <div class="grid gap-10 lg:grid-cols-2 lg:gap-0">
                                             {{-- 左側 --}}
                                             <div>
-                                                <div class="flex items-start content-center">
+                                                <div class="flex content-center items-start">
                                                     {{-- photo --}}
                                                     @if($group_data->group_photo_path)
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-center rounded-full">
+                                                        class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-center rounded-full">
                                                         <img class="object-fill w-10 h-10 rounded-full"
                                                             src="{{ asset('storage/group-image/'. $group_data->group_photo_path) }}" />
                                                     </button>
                                                     @else
                                                     <button type="button"
                                                         onclick="location.href='{{ route('admin.group_show', ['group_id' => $group_data->id]) }}' "
-                                                        class="flex-shrink-0 object-cover w-10 h-10 mr-3 bg-blue-200 bg-center rounded-full">
+                                                        class="object-cover flex-shrink-0 mr-3 w-10 h-10 bg-blue-200 bg-center rounded-full">
                                                     </button>
                                                     @endif
                                                     {{-- end_photo --}}
@@ -198,7 +198,7 @@
                                                 </div>
                                                 <div class="mt-2 leading-none y-4">
                                                     <div
-                                                        class="grid items-center gap-2 pt-5 leading-none text-gray-700 lg:ml-3">
+                                                        class="grid gap-2 items-center pt-5 leading-none text-gray-700 lg:ml-3">
                                                         <p>
                                                             管理者　：
                                                         </p>
@@ -233,11 +233,11 @@
                                                     </p>
                                                 </div>
                                                 {{-- 右側 三点リーダー（モーダル） --}}
-                                                <div class="flex items-end content-end justify-end">
+                                                <div class="flex justify-end content-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                class="flex border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
@@ -247,7 +247,7 @@
                                                             <div class="flex flex-col text-gray-800">
 
                                                                 <button type="button"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="
                                                                         let groupId = {{ $group_data->id }};
                                                                         if (confirm('本当に削除しますか？')) { @this.call('deleteGroup', groupId) }">
@@ -255,7 +255,7 @@
                                                                 </button>
 
                                                                 <button type="button"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="
                                                                         let groupId = {{ $group_data->id }};
                                                                         if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspend', groupId) }">

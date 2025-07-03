@@ -5,7 +5,7 @@
     showModalNobodyMember: @entangle('showModalNobodyMember'),
 }">
     {{-- <div class="fixed inset-0 z-40 bg-gray-100 bg-opacity-40">
-        <div class="absolute inset-0 w-10 h-10 m-auto bg-red-500"></div>
+        <div class="absolute inset-0 m-auto w-10 h-10 bg-red-500"></div>
     </div> --}}
     <x-slot name="header">
         <h2 class="font-semibold leading-tight text-gray-800">
@@ -13,7 +13,7 @@
         </h2>
     </x-slot>
 
-    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto lg:flex-row max-w-7xl lg:px-8">
+    <div class="flex flex-col-reverse gap-8 px-6 pt-12 mx-auto max-w-7xl lg:flex-row lg:px-8">
         <!-- 検索、絞り込み -->
         <div>
             <input type="text" wire:model.debounce.100ms="search" placeholder="ニックネームかユーザー名で検索"
@@ -34,25 +34,25 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl lg:px-6">
-            <div class="grid gap-10 py-24 overflow-hidden bg-white shadow-xl sm:rounded-2xl">
+            <div class="grid overflow-hidden gap-10 py-24 bg-white shadow-xl sm:rounded-2xl">
 
                 <section class="text-gray-600 body-font">
                     <div class="px-5 mx-auto">
-                        <div class="-m-4 ">
+                        <div class="-m-4">
                             <div class="p-4">
                                 <div
-                                    class="grid gap-10 px-8 pt-8 pb-8 text-xs bg-gray-100 bg-opacity-75 shadow-md lg:gap-7 rounded-2xl">
+                                    class="grid gap-10 px-8 pt-8 pb-8 text-xs bg-gray-100 bg-opacity-75 rounded-2xl shadow-md lg:gap-7">
                                     {{-- ユーザー / 利用停止中ユーザー --}}
                                     <div class="mb-2 border-b border-gray-400">
                                         <div class="flex text-xs font-bold lg:text-sm lg:w-1/2">
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="user = true; suspended_user = false"
                                                 x-bind:class="user ? 'border-b-4 border-blue-300' :'' ">
                                                 <p>ユーザー</p>
                                             </button>
                                             <button
-                                                class="w-1/2 text-center transition duration-700 ease-in-out rounded-t-xl hover:bg-blue-100"
+                                                class="w-1/2 text-center rounded-t-xl transition duration-700 ease-in-out hover:bg-blue-100"
                                                 type="button" x-on:click="user = false; suspended_user = true"
                                                 x-bind:class="suspended_user ? 'border-b-4 border-blue-300' :'' ">
                                                 <p>利用停止中ユーザー</p>
@@ -60,9 +60,9 @@
                                         </div>
                                     </div>
                                     {{-- 項目名 --}}
-                                    <div class="items-center hidden grid-cols-12 text-xs lg:grid">
+                                    <div class="hidden grid-cols-12 items-center text-xs lg:grid">
                                         {{-- プロフィール画像 ・ ニックネーム --}}
-                                        <div class="flex items-center col-span-3">
+                                        <div class="flex col-span-3 items-center">
                                             <p class="ml-12">ニックネーム</p>
                                         </div>
                                         {{-- ユーザーid --}}
@@ -101,14 +101,14 @@
                                             {{-- プロフィール画像 ・ ニックネーム --}}
                                             <div class="flex items-center lg:col-span-3">
                                                 @if($user_data->profile_photo_path)
-                                                <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                <button class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
@@ -153,11 +153,11 @@
                                                     </div>
                                                 </div>
                                                 <!-- 三点リーダー（モーダル） -->
-                                                <div class="flex items-end justify-end col-span-1">
+                                                <div class="flex col-span-1 justify-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                class="flex border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
@@ -166,11 +166,11 @@
                                                         <x-slot name="content">
                                                             <div class="flex flex-col px-4 text-gray-800">
                                                                 <button type="submit"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('isManager', {{ $user_data->id }}) }">ユーザーを削除</button>
 
                                                                 <button type="submit"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="if (confirm('本当に利用停止にしますか？')) { @this.call('suspendUser', {{ $user_data->id }}) }">ユーザーを利用停止</button>
                                                             </div>
                                                         </x-slot>
@@ -190,14 +190,14 @@
                                             {{-- プロフィール画像 ・ ニックネーム --}}
                                             <div class="flex items-center lg:col-span-3">
                                                 @if($user_data->profile_photo_path)
-                                                <button class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                <button class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     <img class="object-fill w-10 h-10 rounded-full"
                                                         src="{{ asset('storage/'. $user_data->profile_photo_path) }}" />
                                                 </button>
                                                 @else
                                                 <button
-                                                    class="object-cover w-10 h-10 mr-3 bg-center rounded-full"
+                                                    class="object-cover mr-3 w-10 h-10 bg-center rounded-full"
                                                     onclick="location.href='{{ route('admin.user_show', ['user_id' => $user_data->id]) }}' ">
                                                     <img src="{{ asset('images/svg/default-user.svg') }}" />
                                                 </button>
@@ -241,11 +241,11 @@
                                                     </div>
                                                 </div>
                                                 <!-- 三点リーダー（モーダル） -->
-                                                <div class="flex items-end justify-end col-span-1">
+                                                <div class="flex col-span-1 justify-end items-end">
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button
-                                                                class="flex transition border-2 border-transparent focus:outline-none">
+                                                                class="flex border-2 border-transparent transition focus:outline-none">
                                                                 <i class="text-lg fas fa-ellipsis-v"></i>
                                                             </button>
                                                         </x-slot>
@@ -254,11 +254,11 @@
                                                         <x-slot name="content">
                                                             <div class="flex flex-col text-gray-800">
                                                                 <button type="submit"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="if (confirm('本当に削除しますか？')) { @this.call('isManager', {{ $user_data->id }}) }">ユーザーを削除</button>
 
                                                                 <button type="submit"
-                                                                    class="block w-full p-2 text-left hover:bg-slate-100"
+                                                                    class="block p-2 w-full text-left hover:bg-slate-100"
                                                                     onclick="if (confirm('本当に利用停止解除しますか？')) { @this.call('liftSuspendUser', {{ $user_data->id }}) }">ユーザーを利用停止解除</button>
                                                             </div>
                                                         </x-slot>
@@ -293,8 +293,8 @@
 
     {{-- 次の管理者選択モーダル --}}
     <div x-cloak x-show="showNextManagerModal"
-        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+        class="flex fixed top-0 left-0 z-40 justify-center items-center w-screen h-screen bg-black bg-opacity-40 border">
+        <div class="flex flex-col justify-center px-3 py-2 w-full max-w-xl h-auto bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
             >
 
@@ -304,12 +304,12 @@
 
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
-                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <div class="object-cover mr-3 w-8 h-8 bg-center rounded-full">
                         <img class="object-fill w-8 h-8 rounded-full"
                             src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
                     </div>
                 @else
-                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                    <div class="object-cover mr-3 w-8 h-8 bg-blue-200 bg-center rounded-full"></div>
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
@@ -329,7 +329,7 @@
 
             <form wire:submit.prevent="selectNextManager" class="flex flex-col p-2">
 
-                <select class="w-full p-2 mb-4 border border-gray-300 rounded" required wire:model.defer="nextManagerId">
+                <select class="p-2 mb-4 w-full rounded border border-gray-300" required wire:model.defer="nextManagerId">
                     <option value="" disabled>次の管理者を選択してください</option>
                     @foreach ($targetGroup->userRoles as $user_data)
                     <option value="{{ $user_data->id }}" wire:key="user_role_option_{{ $user_data->id }}">
@@ -338,11 +338,11 @@
                     @endforeach
                 </select>
 
-                <div class="flex justify-end gap-4 pt-2">
-                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                <div class="flex gap-4 justify-end pt-2">
+                    <button type="button" class="px-1 py-2 w-28 border border-gray-300 hover:bg-slate-100"
                         x-on:click="$wire.closeModal">キャンセル</button>
                     <button type="submit"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50">決定</button>
+                        class="px-1 py-2 w-28 text-red-500 border border-red-500 hover:bg-red-50">決定</button>
                 </div>
             </form>
             @endif
@@ -352,8 +352,8 @@
 
     {{-- メンバーがいない場合のモーダル --}}
     <div x-cloak x-show="showModalNobodyMember"
-        class="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black border bg-opacity-40">
-        <div class="flex flex-col justify-center w-full h-auto max-w-xl px-3 py-2 bg-white rounded-xl"
+        class="flex fixed top-0 left-0 z-40 justify-center items-center w-screen h-screen bg-black bg-opacity-40 border">
+        <div class="flex flex-col justify-center px-3 py-2 w-full max-w-xl h-auto bg-white rounded-xl"
             x-on:click.away="$wire.closeModal"
             >
 
@@ -363,12 +363,12 @@
 
             <div class="flex flex-col items-center pb-2 mb-6">
                 @if($targetGroup->group_photo_path)
-                    <div class="object-cover w-8 h-8 mr-3 bg-center rounded-full">
+                    <div class="object-cover mr-3 w-8 h-8 bg-center rounded-full">
                         <img class="object-fill w-8 h-8 rounded-full"
                             src="{{ asset('storage/group-image/'. $targetGroup->group_photo_path) }}" />
                     </div>
                 @else
-                    <div class="object-cover w-8 h-8 mr-3 bg-blue-200 bg-center rounded-full"></div>
+                    <div class="object-cover mr-3 w-8 h-8 bg-blue-200 bg-center rounded-full"></div>
                 @endif
                 <p>{{ $targetGroup->name }}</p>
             </div>
@@ -381,11 +381,11 @@
             </div>
 
             <div class="flex flex-col p-2">
-                <div class="flex justify-end gap-4 pt-2">
-                    <button type="button" class="px-1 py-2 border border-gray-300 w-28 hover:bg-slate-100"
+                <div class="flex gap-4 justify-end pt-2">
+                    <button type="button" class="px-1 py-2 w-28 border border-gray-300 hover:bg-slate-100"
                         x-on:click="$wire.closeModal">キャンセル</button>
                     <button type="button"
-                        class="px-1 py-2 text-red-500 border border-red-500 w-28 hover:bg-red-50"
+                        class="px-1 py-2 w-28 text-red-500 border border-red-500 hover:bg-red-50"
                         x-on:click="$wire.addDeleteGroupFlag">削除</button>
                 </div>
             </div>

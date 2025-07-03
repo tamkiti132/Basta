@@ -58,14 +58,14 @@
         <!-- Name -->
         {{-- <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Name') }}" />
-            <x-input id="name" type="text" class="block w-full mt-1" wire:model.defer="state.name"
+            <x-input id="name" type="text" class="block mt-1 w-full" wire:model.defer="state.name"
                 autocomplete="name" />
             <x-input-error for="name" class="mt-2" />
         </div> --}}
 
         <div class="col-span-6 sm:col-span-4">
             <x-label for="nickname" value="ニックネーム" />
-            <x-input id="nickname" type="text" class="block w-full mt-1" wire:model.defer="state.nickname"
+            <x-input id="nickname" type="text" class="block mt-1 w-full" wire:model.defer="state.nickname"
                 autocomplete="nickname" />
             <x-input-error for="nickname" class="mt-2" />
         </div>
@@ -73,7 +73,7 @@
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />
-            <x-input id="email" type="email" class="block w-full mt-1" wire:model.defer="state.email"
+            <x-input id="email" type="email" class="block mt-1 w-full" wire:model.defer="state.email"
                 autocomplete="username" />
             <x-input-error for="email" class="mt-2" />
 
