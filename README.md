@@ -199,11 +199,14 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 <br/>
 
-## 開発ルール
-### Git & GitHub
+## ▫️ 開発ルール
+### 【ブランチの運用方法】
+- GitHub Flow
 
-#### ブランチの運用方法: GitHub Flow
-#### コミットメッセージの規約: Conventional Commits
+<br/>
+
+### 【コミットメッセージの規約】
+- Conventional Commits
 
 **フォーマット**
 ```
@@ -254,9 +257,7 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 ・perf: パフォーマンスを向上させるコード変更
     - 例：クエリの最適化
 ・revert: コミット取り消し（git revert）
-    - 例：コミット取り消し（git revert）
 ・test: テストの追加や修正
-    - 例：テストの追加や修正
 
 ポイント：
 - テストのみの追加・修正は『test』に分類。
@@ -274,8 +275,7 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 <br/>
 
 
-
-#### PRのdescriptionの規約: 
+### 【PRのdescriptionの規約】
 ```
 ## やったこと
 
@@ -304,7 +304,9 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 参考\
 [https://dev.classmethod.jp/articles/pull-request-template/](https://dev.classmethod.jp/articles/pull-request-template/)
 
-#### ブランチ名の命名規約: 
+<br/>
+
+### 【ブランチ名の命名規約】
 ```
 <型>/<概要>
 
@@ -315,16 +317,21 @@ Webページや本から学んだことなどをメモとして管理し、グ�
     - 単語をハイフンで繋げる
     - 必要に応じて、対象のファイルやページ名を含める
 
-### コードフォーマット
+<br/>
+
+### 【コードフォーマット】
 - 『.php』拡張子のファイル：laravel/pintのルールを、pint.jsonで少しカスタイズしたものを使用
 - コミットする前に、必ずこれを実行する
 
-### Lintチェック
+<br/>
+
+### 【Lintチェック】
 - 『.php』拡張子のファイル：phpstan.neonで定義（Larastanレベル5をカスタムしたもの）
 - コミットする前に、必ずこれを実行する
 
+<br/>
 
-### ディレクトリ構成
+### 【ディレクトリ構成】
 ```
 -  テストファイルの配置と名前：テスト対象のファイルと同じようなディレクトリ構造にして、ファイル名はテストしたいクラス名に Test.php を付加したファイル名とする
     - 例) app/Http/Livewire/MemoList.phpなら、tests/Feature/Http/Livewire/MemoListTest.php
