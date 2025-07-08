@@ -344,9 +344,7 @@ Webページや本から学んだことなどをメモとして管理し、グ�
         - tests/Feature/Http/Livewire/RequestTest/RequestValidationType4Test.php
 ```
 
-
-
-
+<br/>
 
 ## ▫️ ER図
 
