@@ -52,9 +52,24 @@ Webページや本から学んだことなどをメモとして管理し、グ�
 
 - [https://basta.x0.com](https://basta.x0.com)にアクセス（別タブで開いてください）
 
-### Step 1: アカウント作成 & ログイン
-- 『新規登録はこちら』をクリック
-- 必要事項を入力して登録
+### Step 1: アカウント作成 or ログイン
+
+**【ゲストユーザーアカウント情報】**
+
+ログインする際は、以下のアカウントでもお試しいただけます。
+
+- ゲストユーザー1\
+Email：basta.guestuser+1@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
+- ゲストユーザー2\
+Email：basta.guestuser+2@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
+- ゲストユーザー3\
+Email：basta.guestuser+3@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
 
 ### Step 2: グループ作成 / 入室
 - 『グループをつくる』をクリック
