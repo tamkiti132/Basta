@@ -32,7 +32,8 @@ class LoginController extends Controller
                 // セッションをクリアしてリダイレクト
                 session()->flush();
 
-                return redirect()->route('login')->with('error', 'このGoogleアカウントでの連携情報がありません');
+                return redirect()->route('login')
+                    ->with('error', "このGoogleアカウントでの連携情報がありません。\nプロフィール画面からソーシャルログイン設定をしてください。");
             }
         } catch (\Exception $e) {
             Log::error('Google login error: '.$e->getMessage());
