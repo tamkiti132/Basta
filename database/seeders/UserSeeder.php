@@ -498,6 +498,30 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'email' => 'basta.guestuser+1@gmail.com',
+                'password' => Hash::make('#LwDaL1@13X5CBt4biy'),
+                'nickname' => 'ゲストユーザー1',
+                'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'email' => 'basta.guestuser+2@gmail.com',
+                'password' => Hash::make('#LwDaL1@13X5CBt4biy'),
+                'nickname' => 'ゲストユーザー2',
+                'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'email' => 'basta.guestuser+3@gmail.com',
+                'password' => Hash::make('#LwDaL1@13X5CBt4biy'),
+                'nickname' => 'ゲストユーザー3',
+                'suspension_state' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
 
         foreach ($users as $user) {
