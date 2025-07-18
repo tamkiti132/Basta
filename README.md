@@ -1,4 +1,4 @@
-![ソーシャルログイン紐付け](https://github.com/user-attachments/assets/8bddea8d-05a6-4e44-97f6-e5179b3a5513)# ▫️ Basta
+# ▫️ Basta
 
 <p align="center" style="margin-bottom: 50px;">
     <img src="public/images/logo.png" alt="Logo" width="100">
