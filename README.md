@@ -1,4 +1,4 @@
-# ▫️ Basta
+![ソーシャルログイン紐付け](https://github.com/user-attachments/assets/8bddea8d-05a6-4e44-97f6-e5179b3a5513)# ▫️ Basta
 
 <p align="center" style="margin-bottom: 50px;">
     <img src="public/images/logo.png" alt="Logo" width="100">
@@ -297,32 +297,54 @@ $users_data->each(function ($user) use ($userReportCounts, $memoReportCounts, $c
 管理画面でのユーザー通報数表示において、\
 個別クエリから集約クエリへの変更により改善しました。
 
+<br/>
+
 ### 2. ユーザビリティ重視の設計
 #### Ajaxによるスムーズな操作体験
-![Ajax操作のGIF](gyazo_url)
+以下の画像内で行われている処理は全てAjaxです。
+<img src="https://github.com/user-attachments/assets/6b69e59a-bafb-4f4c-a5dd-3bed7352195c" width="1000">
 
-Livewireを活用し、いいね・コメント・ラベル絞り込みなどの操作で
-ページリロードを発生させず、快適な操作体験を実現しました。
-特に学習記録という継続的な作業において、ストレスのない操作感を重視...
+Livewireを活用し、ページリロードを発生させず、快適な操作体験を実現しました。\
+特に学習記録という継続的な作業において、ストレスのない操作感は重要だと思います。
+
+<br/>
 
 #### SNSログイン
-![SNSログイン操作のGIF](gyazo_url)
+ソーシャルアカウントとの紐付け
+<img src="https://github.com/user-attachments/assets/a32f85b8-ca15-4880-b994-e7e51dad3543" width="1000">
+
+↓
+
+ソーシャルログイン
+<img src="https://github.com/user-attachments/assets/3f846566-43cd-4b4e-a460-1d7f506fcf67" width="1000">
+
+
 
 プロフィール画面で、ご自身のGoogleアカウントと連携していただくことにより、\
 次回以降のログインが非常にスムーズになります。
 
+<br/>
+
 ### 3. 健全性・品質向上のためのユーザー・運営連携
 #### 【一般ユーザー側】
 **通報機能**
-![通報操作のGIF](gyazo_url)
+<img src="https://github.com/user-attachments/assets/c4639de0-0624-418e-8171-3d664b05d896" width="1000">
+
+<br/>
 
 **サービス自体の問題の報告やリクエスト、その他問い合わせができるフォーム**
-![リクエスト操作のGIF](gyazo_url)
+<img src="https://github.com/user-attachments/assets/fb5416f5-774d-4acc-b6b3-eeb106074ad1" width="1000">
+
+<br/>
 
 #### 【運営ユーザー側】
-**一般ユーザーの監視や利用停止、削除機能**
-![運営ユーザー側の操作のGIF](gyazo_url)
+**ユーザーの監視や利用停止、削除機能**
+<img src="https://github.com/user-attachments/assets/36a46dcb-7f4e-46ef-8589-838a386fe40d" width="1000">
 
+<br/>
+
+**グループの監視や利用停止、削除機能**
+<img src="https://github.com/user-attachments/assets/3fb8a8dd-200c-4ceb-995c-480ff4f3338e" width="1000">
 
 
 <br/>
