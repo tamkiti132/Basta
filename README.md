@@ -12,6 +12,24 @@
 
 <br/>
 
+**【ゲストユーザーアカウント情報】**
+
+ログインする際は、以下のアカウントでもお試しいただけます。
+
+- ゲストユーザー1\
+Email：basta.guestuser+1@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
+- ゲストユーザー2\
+Email：basta.guestuser+2@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
+- ゲストユーザー3\
+Email：basta.guestuser+3@gmail.com\
+Password：#LwDaL1@13X5CBt4biy
+
+<br/>
+
 ## ▫️ サービス概要
 
 Basta は、\
